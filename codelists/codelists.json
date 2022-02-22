@@ -1,3 +1,16 @@
 {
-  "files": {}
+  "files": {
+    "opensafely-ra-sle-psoriasis.csv": {
+      "id": "opensafely/ra-sle-psoriasis/2020-04-14",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ra-sle-psoriasis/2020-04-14/",
+      "downloaded_at": "2022-02-22 17:26:11.946190Z",
+      "sha": "51e59c80348f3b45f7ce323683a1df7cdb673c0e"
+    },
+    "opensafely-dmards.csv": {
+      "id": "opensafely/dmards/2020-06-23",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dmards/2020-06-23/",
+      "downloaded_at": "2022-02-22 17:26:12.161727Z",
+      "sha": "06aae624d5a02a69c9e9e518a6d64e0a8e74e66e"
+    }
+  }
 }
