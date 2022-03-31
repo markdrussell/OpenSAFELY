@@ -1,0 +1,583 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}29 Mar 2022, 15:31:27
+{txt}
+{com}. 
+. **Set Ado file path
+. adopath + "$projectdir/analysis/extra_ados"
+{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
+  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+  [3]              "{res}.{txt}"
+  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
+  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
+  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
+  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+
+{com}. 
+. **Use cleaned data from previous step
+. use "$projectdir/output/data/file_eia_all.dta", clear
+{txt}
+{com}. 
+. /*Tables=====================================================================================*/
+. *Table 1a - 
+. preserve
+{txt}
+{com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(age contn %3.0f \ ///
+>                  agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabetes bin %5.1f \ ///
+>                  hba1ccatmm cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  cancer bin %5.1f \ ///
+>                  chronic_resp_disease bin  %5.1f \ ///
+>                  chronic_liver_disease bin %5.1f \ ///
+>                  ckd cat %5.1f \ ///
+>                  egfr_cat_nomiss cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                             N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Age                             34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Age group                       34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Male                            34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Ethnicity                       34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Index of multiple deprivation   34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}BMI                             34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Smoking status                  34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hypertension                    34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Diabetes                        34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}HbA1c                           34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic cardiac disease         34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Stroke                          34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Cancer                          34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic respiratory disease     34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic liver disease           34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic kidney disease          34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}eGFR                            34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}End-stage renal failure         34,141   11,350   11,364   11,427     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c TRC}
+  {c |} {res}                                Total            RA               PsA              AxSpA            p-value {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}                                N=34,141         N=11,350         N=11,364         N=11,427                 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Age                             49 (19)          49 (19)          49 (19)          49 (19)           0.18   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Age group                                                                                            0.34   {txt}{c |}
+  {c |} {res}   18-39                        12,368 (36.2%)   4,094 (36.1%)    4,094 (36.0%)    4,180 (36.6%)            {txt}{c |}
+  {c |} {res}   40-49                        5,548 (16.3%)    1,835 (16.2%)    1,827 (16.1%)    1,886 (16.5%)            {txt}{c |}
+  {c |} {res}   50-59                        5,851 (17.1%)    1,940 (17.1%)    1,933 (17.0%)    1,978 (17.3%)            {txt}{c |}
+  {c |} {res}   60-69                        4,644 (13.6%)    1,576 (13.9%)    1,578 (13.9%)    1,490 (13.0%)            {txt}{c |}
+  {c |} {res}   70-79                        3,573 (10.5%)    1,159 (10.2%)    1,241 (10.9%)    1,173 (10.3%)            {txt}{c |}
+  {c |} {res}   80+                          2,157 (6.3%)     746 (6.6%)       691 (6.1%)       720 (6.3%)               {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Male                            16,684 (48.9%)   5,492 (48.4%)    5,537 (48.7%)    5,655 (49.5%)     0.23   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Ethnicity                                                                                            0.94   {txt}{c |}
+  {c |} {res}   White                        12,889 (37.8%)   4,267 (37.6%)    4,281 (37.7%)    4,341 (38.0%)            {txt}{c |}
+  {c |} {res}   Asian/Asian British          2,540 (7.4%)     842 (7.4%)       831 (7.3%)       867 (7.6%)               {txt}{c |}
+  {c |} {res}   Black                        2,546 (7.5%)     865 (7.6%)       847 (7.5%)       834 (7.3%)               {txt}{c |}
+  {c |} {res}   Mixed/Other                  7,663 (22.4%)    2,561 (22.6%)    2,556 (22.5%)    2,546 (22.3%)            {txt}{c |}
+  {c |} {res}                                8,503 (24.9%)    2,815 (24.8%)    2,849 (25.1%)    2,839 (24.8%)            {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Index of multiple deprivation                                                                        0.79   {txt}{c |}
+  {c |} {res}   1 least deprived             23,837 (69.8%)   7,973 (70.2%)    7,906 (69.6%)    7,958 (69.6%)            {txt}{c |}
+  {c |} {res}   4                            6,873 (20.1%)    2,242 (19.8%)    2,313 (20.4%)    2,318 (20.3%)            {txt}{c |}
+  {c |} {res}   5 most deprived              3,431 (10.0%)    1,135 (10.0%)    1,145 (10.1%)    1,151 (10.1%)            {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}BMI                                                                                                  0.15   {txt}{c |}
+  {c |} {res}   Underweight (<18.5)          78 (0.2%)        27 (0.2%)        21 (0.2%)        30 (0.3%)                {txt}{c |}
+  {c |} {res}   Normal (18.5-24.9)           212 (0.6%)       66 (0.6%)        79 (0.7%)        67 (0.6%)                {txt}{c |}
+  {c |} {res}   Overweight (25-29.9)         294 (0.9%)       93 (0.8%)        85 (0.7%)        116 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese I (30-34.9)            368 (1.1%)       116 (1.0%)       134 (1.2%)       118 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese II (35-39.9)           312 (0.9%)       119 (1.0%)       90 (0.8%)        103 (0.9%)               {txt}{c |}
+  {c |} {res}   Obese III (40+)              513 (1.5%)       175 (1.5%)       176 (1.5%)       162 (1.4%)               {txt}{c |}
+  {c |} {res}                                32,364 (94.8%)   10,754 (94.7%)   10,779 (94.9%)   10,831 (94.8%)           {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Smoking status                                                                                       0.87   {txt}{c |}
+  {c |} {res}   Never                        3,447 (10.1%)    1,136 (10.0%)    1,155 (10.2%)    1,156 (10.1%)            {txt}{c |}
+  {c |} {res}   Former                       1,683 (4.9%)     577 (5.1%)       559 (4.9%)       547 (4.8%)               {txt}{c |}
+  {c |} {res}   Current                      10,192 (29.9%)   3,373 (29.7%)    3,393 (29.9%)    3,426 (30.0%)            {txt}{c |}
+  {c |} {res}                                18,819 (55.1%)   6,264 (55.2%)    6,257 (55.1%)    6,298 (55.1%)            {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Hypertension                    6,791 (19.9%)    2,203 (19.4%)    2,368 (20.8%)    2,220 (19.4%)     0.008  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Diabetes                        6,765 (19.8%)    2,160 (19.0%)    2,340 (20.6%)    2,265 (19.8%)     0.013  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}HbA1c                                                                                                0.46   {txt}{c |}
+  {c |} {res}   HbA1c <58mmol/mol            1,512 (4.4%)     515 (4.5%)       518 (4.6%)       479 (4.2%)               {txt}{c |}
+  {c |} {res}   HbA1c >=58mmol/mol           262 (0.8%)       79 (0.7%)        94 (0.8%)        89 (0.8%)                {txt}{c |}
+  {c |} {res}                                32,367 (94.8%)   10,756 (94.8%)   10,752 (94.6%)   10,859 (95.0%)           {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic cardiac disease         6,829 (20.0%)    2,227 (19.6%)    2,271 (20.0%)    2,331 (20.4%)     0.34   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Stroke                          6,899 (20.2%)    2,301 (20.3%)    2,316 (20.4%)    2,282 (20.0%)     0.73   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Cancer                          16,651 (48.8%)   5,515 (48.6%)    5,575 (49.1%)    5,561 (48.7%)     0.75   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic respiratory disease     6,827 (20.0%)    2,247 (19.8%)    2,357 (20.7%)    2,223 (19.5%)     0.042  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic liver disease           6,773 (19.8%)    2,234 (19.7%)    2,249 (19.8%)    2,290 (20.0%)     0.79   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic kidney disease                                                                               0.85   {txt}{c |}
+  {c |} {res}   No CKD                       15,407 (45.1%)   5,120 (45.1%)    5,108 (44.9%)    5,179 (45.3%)            {txt}{c |}
+  {c |} {res}   CKD                          18,734 (54.9%)   6,230 (54.9%)    6,256 (55.1%)    6,248 (54.7%)            {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}eGFR                                                                                                 0.42   {txt}{c |}
+  {c |} {res}   >=60/missing                 19,203 (56.2%)   6,378 (56.2%)    6,355 (55.9%)    6,470 (56.6%)            {txt}{c |}
+  {c |} {res}   30-59                        8,864 (26.0%)    2,956 (26.0%)    2,929 (25.8%)    2,979 (26.1%)            {txt}{c |}
+  {c |} {res}   <30                          6,074 (17.8%)    2,016 (17.8%)    2,080 (18.3%)    1,978 (17.3%)            {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}End-stage renal failure         6,826 (20.0%)    2,280 (20.1%)    2,245 (19.8%)    2,301 (20.1%)     0.74   {txt}{c |}
+  {c BLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c BRC}
+Data are presented as mean (SD) for continuous measures, and n (%) for categorical measures.
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. /*
+> *Table 1b - by imid type 
+> table1_mc, by(joint) total(before) onecol iqrmiddle(",")  ///
+>         vars(agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f \ ///
+>                  standtnf bin %5.1f \ ///
+>                  standil6 bin %5.1f \ ///
+>                  standritux bin %5.1f \ ///
+>                  standil17 bin %5.1f \ ///
+>                  standjaki bin %5.1f \ ///
+>                  standvedolizumab bin %5.1f \ ///
+>                  standabatacept bin %5.1f )
+>                  
+> table1_mc, by(skin) total(before) onecol iqrmiddle(",")  ///
+>         vars(agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f \ ///
+>                  standtnf bin %5.1f \ ///
+>                  standil23 bin %5.1f \ ///
+>                  standil17 bin %5.1f \ ///
+>                  standabatacept bin %5.1f )
+>                  
+> table1_mc, by(bowel) total(before) onecol iqrmiddle(",") ///
+>         vars(agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f \ ///
+>                  standtnf bin %5.1f \ ///
+>                  standjaki bin %5.1f \ ///
+>                  standvedolizumab bin %5.1f  )  
+>         
+> *Table 2 - high cost drugs (v non-high cost) - single group contribution only
+> table1_mc, by(imiddrugcategory) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> keep if imid==1
+>                  
+> *2a IMID only: TNFi vs standard systemic
+> table1_mc, by(standtnf) total(before) onecol iqrmiddle(",") ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2b IMID only:  IL-12/23i vs standard systemic
+> table1_mc, by(standil23) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2c Psoriasis, PsA, AS only: IL-17i vs standard systemic
+> table1_mc, by(standil17) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2d IMID only: JAKi vs standard systemic 
+> table1_mc, by(standjaki) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2e IMID only: RTX vs standard systemic
+> table1_mc, by(standritux) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2f IMID only: IL6 vs standard systemic
+> table1_mc, by(standil6) total(before) onecol iqrmiddle(",")  ///
+>         vars(joint bin %5.1f \ ///
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2g IMID only: Infliximab vs standard systemic
+> table1_mc, by(standinflix) total(before) onecol iqrmiddle(",") ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2h IMID only: Vedolizumab vs standard systemic
+> table1_mc, by(standvedolizumab) total(before) onecol iqrmiddle(",") ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+> 
+> *2i IMID only: Abatacept vs standard systemic
+> table1_mc, by(standabatacept) total(before) onecol iqrmiddle(",") ///
+>         vars(joint bin %5.1f \ ///
+>                 psoriatic_arthritis bin %5.1f \ ///                     
+>                 rheumatoid_arthritis bin %5.1f \        ///  
+>                 ankylosing_spondylitis bin %5.1f \ ///  
+>                 skin bin %5.1f \ ///
+>                 psoriasis bin %5.1f \ ///
+>                 hidradenitis_suppurativa bin %5.1f \    ///
+>                 bowel bin %5.1f \ ///
+>                 ulcerative_colitis bin %5.1f    \ ///
+>                 crohns_disease bin %5.1f \ ///
+>                 ibd_uncla bin %5.1f \ ///       
+>                 agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  obese4cat cat %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  combined_cv_comorbid bin %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcat cat %5.1f \ ///
+>                  cancer cat %5.1f \ ///
+>                  ckd_egfr cat %5.1f \ ///
+>                  esrf bin %5.1f \ ///
+>                  chronic_respiratory_disease cat  %5.1f \ ///
+>                  chronic_liver_disease cat %5.1f \ ///
+>                  gp_consult_count contn %5.1f \ ///
+>                  steroidcat bin %5.1f \ ///
+>                  oral_prednisolone_3m_0m contn %5.1f )
+>                  
+> */               
+.                  
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}29 Mar 2022, 15:31:31
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

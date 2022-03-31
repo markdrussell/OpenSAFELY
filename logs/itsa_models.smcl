@@ -1,0 +1,455 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/workspace/logs/itsa_models.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}29 Mar 2022, 15:32:07
+{txt}
+{com}. 
+. **Set Ado file path
+. adopath + "$projectdir/analysis/extra_ados"
+{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
+  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+  [3]              "{res}.{txt}"
+  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
+  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
+  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
+  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+
+{com}. 
+. **Use cleaned data from previous step
+. use "$projectdir/output/data/file_eia_all.dta", clear
+{txt}
+{com}. 
+. set scheme plotplainblind
+{txt}
+{com}. 
+. /*ITSA models===========================================================================*/
+. 
+. **Delay from rheum referral to rheum appt (all diagnoses)
+. preserve
+{txt}
+{com}. asdoc tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_all.docx, replace) dec(0)
+{txt}(File /workspace/output/tables/diagnostic_delay_all.docx, replace already exists, option {bf:append} was assumed)
+
+Summary for variables: time_ref_rheum_appt
+{col 6}by categories of: __000000 (mo_year_diagn)
+
+{ralign 8:__000000} {...}
+{c |}         N       p50       p75       p25      mean        sd
+{hline 9}{c +}{hline 60}
+{ralign 8:710} {...}
+{c |}{...}
+ {res}       38       100       155        31  117.9737  93.23249
+{txt}{ralign 8:711} {...}
+{c |}{...}
+ {res}       47        99       168        39  115.7447  87.90891
+{txt}{ralign 8:712} {...}
+{c |}{...}
+ {res}       43       137       202        62  141.6279  96.09743
+{txt}{ralign 8:713} {...}
+{c |}{...}
+ {res}       50       134       197        38       132  96.66901
+{txt}{ralign 8:714} {...}
+{c |}{...}
+ {res}       72       128       223        55  151.5139   111.722
+{txt}{ralign 8:715} {...}
+{c |}{...}
+ {res}       76       124     234.5        46  146.5263   118.848
+{txt}{ralign 8:716} {...}
+{c |}{...}
+ {res}       81       195       275        98   195.037  122.7859
+{txt}{ralign 8:717} {...}
+{c |}{...}
+ {res}       83       169       287        74  194.7952  141.8414
+{txt}{ralign 8:718} {...}
+{c |}{...}
+ {res}      100     182.5     295.5      93.5    208.56  144.4598
+{txt}{ralign 8:719} {...}
+{c |}{...}
+ {res}       98       207       316       103  212.3673  133.6486
+{txt}{ralign 8:720} {...}
+{c |}{...}
+ {res}      100     191.5     324.5      97.5     222.9  150.0159
+{txt}{ralign 8:721} {...}
+{c |}{...}
+ {res}      106       193       301        88  212.8302  152.1312
+{txt}{ralign 8:722} {...}
+{c |}{...}
+ {res}      101       163       308        75  200.5149  151.5025
+{txt}{ralign 8:723} {...}
+{c |}{...}
+ {res}      112       186       341        65  214.6518  155.0606
+{txt}{ralign 8:724} {...}
+{c |}{...}
+ {res}      133       225       382       105  252.9398  169.6027
+{txt}{ralign 8:725} {...}
+{c |}{...}
+ {res}      130       197       331        98  235.1231   181.905
+{txt}{ralign 8:726} {...}
+{c |}{...}
+ {res}      148     209.5       379      95.5  257.4459  201.2143
+{txt}{ralign 8:727} {...}
+{c |}{...}
+ {res}      143       208       364       121  251.3007  180.1314
+{txt}{ralign 8:728} {...}
+{c |}{...}
+ {res}      154     229.5       403        89  262.1169  196.9402
+{txt}{ralign 8:729} {...}
+{c |}{...}
+ {res}      156     231.5     391.5        99  262.1987  189.3627
+{txt}{ralign 8:730} {...}
+{c |}{...}
+ {res}      174       242       389       105  278.6839  215.5247
+{txt}{ralign 8:731} {...}
+{c |}{...}
+ {res}      172     280.5       441       105  312.2616  234.5317
+{txt}{ralign 8:732} {...}
+{c |}{...}
+ {res}      162     225.5       399        99  273.4012  216.3893
+{txt}{ralign 8:733} {...}
+{c |}{...}
+ {res}      166     230.5       435        98  291.5904  239.2532
+{txt}{ralign 8:734} {...}
+{c |}{...}
+ {res}      174       264       441       125  310.4425  230.5063
+{txt}{ralign 8:735} {...}
+{c |}{...}
+ {res}      189       279       458       130  323.1587  240.9258
+{txt}{ralign 8:736} {...}
+{c |}{...}
+ {res}      206     274.5       462       116  313.9563  236.8816
+{txt}{ralign 8:737} {...}
+{c |}{...}
+ {res}      185       232       510        71  311.6162  274.5549
+{txt}{ralign 8:738} {...}
+{c |}{...}
+ {res}      197       248       445       121  298.7817  227.5652
+{txt}{ralign 8:739} {...}
+{c |}{...}
+ {res}      211       285       512       126  343.9336  263.6097
+{txt}{ralign 8:740} {...}
+{c |}{...}
+ {res}      206     249.5       495       123  327.7282  251.1218
+{txt}{ralign 8:741} {...}
+{c |}{...}
+ {res}      194     255.5       528       127  347.9278  286.6461
+{txt}{ralign 8:742} {...}
+{c |}{...}
+ {res}      203       289       496       172  358.0443  266.0972
+{txt}{ralign 8:743} {...}
+{c |}{...}
+ {res}      206       239       465        97  322.9612  282.0828
+{txt}{ralign 8:744} {...}
+{c |}{...}
+ {res}      222       309       575       115  386.7342  320.2995
+{txt}{ralign 8:745} {...}
+{c |}{...}
+ {res}      199       327       542       166  389.0201  287.7376
+{txt}{ralign 8:746} {...}
+{c |}{...}
+ {res}      212     357.5     571.5     166.5  401.6651  300.9262
+{txt}{ralign 8:747} {...}
+{c |}{...}
+ {res}       92       282     420.5     125.5  321.2609  252.3186
+{txt}{hline 9}{c +}{hline 60}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res}     5341       230       411       104  288.8774  237.8688
+{txt}{hline 9}{c BT}{hline 60}
+{res}Click to Open File:  {browse "/workspace/output/tables/diagnostic_delay_all.docx, replace"}
+{txt}
+{com}. keep if time_ref_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
+{txt}(28,800 observations deleted)
+
+{com}. collapse (p50) p50_diag_delay=time_ref_rheum_appt (p75) p75_diag_delay=time_ref_rheum_appt (p25) p25_diag_delay=time_ref_rheum_appt (mean) mean_diag_delay=time_ref_rheum_appt (sd) sd_diag_delay=time_ref_rheum_appt (count) n_diag_delay=time_ref_rheum_appt, by(mo_year_diagn)
+{txt}
+{com}. 
+. tsset mo_year_diagn
+{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
+{txt}{col 17}delta:  {res}1 month
+{txt}
+{com}. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_newey.gph", replace)) posttrend 
+
+
+{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
+{txt}{col 17}delta:  {res}1 month
+
+{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        37
+{txt}maximum lag: {res}6{col 49}{txt}F(  3,        33){col 67}= {res}    166.05
+{col 49}{txt}Prob > F{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Newey-West
+{col 1}_p50_diag_~y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}_t {c |}{col 14}{res}{space 2} 9.727273{col 26}{space 2} .6798534{col 37}{space 1}   14.31{col 46}{space 3}0.000{col 54}{space 4} 8.344101{col 67}{space 3} 11.11044
+{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2}-28.59958{col 26}{space 2} 8.012126{col 37}{space 1}   -3.57{col 46}{space 3}0.001{col 54}{space 4}-44.90037{col 67}{space 3}-12.29879
+{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2} -4.73958{col 26}{space 2} 1.078819{col 37}{space 1}   -4.39{col 46}{space 3}0.000{col 54}{space 4}-6.934455{col 67}{space 3}-2.544706
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}    101.5{col 26}{space 2} 3.732839{col 37}{space 1}   27.19{col 46}{space 3}0.000{col 54}{space 4} 93.90548{col 67}{space 3} 109.0945
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+
+{col 20} Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+{hline 13}{c TT}{hline 64}
+Linear Trend {c |}{col 21}Coef. {col 29}Std. Err.{col 44}t{col 49}{col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 1}     Treated{col 14}{c |}{res}{col 17} 4.987692{col 28} .7271399{col 38}    6.86{col 46}   0.000{col 58} 3.508315{col 70}  6.46707
+{txt}{hline 13}{c BT}{hline 64}
+{p 0 4 2}
+{txt}(note:  named style
+v.small not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_newey.gph not found)
+{res}{txt}(file /workspace/output/figures/ITSA_diagnostic_delay_newey.gph saved)
+
+{com}.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey.svg", as(svg) replace
+{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_newey.svg not found)
+(file /workspace/output/figures/ITSA_diagnostic_delay_newey.svg written in SVG format)
+
+{com}. actest, lag(18) 
+
+{txt}Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+{hline 41}{c TT}{hline 35}
+  H0: q=0 (serially uncorrelated){col 42}{c |}  H0: q=specified lag-1
+  HA: s.c. present at range specified{col 42}{c |}  HA: s.c. present at lag specified
+{hline 11}{c TT}{hline 29}{c +}{hline 5}{c TT}{hline 29}
+{col 5}lags{col 12}{c |}{col 19}chi2{col 29}df{col 36}p-val{col 42}{c |}{col 44}lag{col 48}{c |}{col 55}chi2{col 65}df{col 72}p-val
+{hline 11}{c +}{hline 29}{c +}{hline 5}{c +}{hline 29}
+{res}{col 2}  1{txt}{col 6}-{res}{col 7}  1{txt}{col 12}{c |}{res}{col 17}  0.335{col 30}1{col 35}0.5627{txt}{col 42}{c |}{res}{col 44}  1{txt}{col 48}{c |}{res}{col 53}  0.335{col 66}1{col 71}0.5627
+{col 2}  1{txt}{col 6}-{res}{col 7}  2{txt}{col 12}{c |}{res}{col 17}  1.082{col 30}2{col 35}0.5821{txt}{col 42}{c |}{res}{col 44}  2{txt}{col 48}{c |}{res}{col 53}  0.765{col 66}1{col 71}0.3818
+{col 2}  1{txt}{col 6}-{res}{col 7}  3{txt}{col 12}{c |}{res}{col 17}  1.143{col 30}3{col 35}0.7668{txt}{col 42}{c |}{res}{col 44}  3{txt}{col 48}{c |}{res}{col 53}  0.101{col 66}1{col 71}0.7511
+{col 2}  1{txt}{col 6}-{res}{col 7}  4{txt}{col 12}{c |}{res}{col 17}  1.179{col 30}4{col 35}0.8816{txt}{col 42}{c |}{res}{col 44}  4{txt}{col 48}{c |}{res}{col 53}  0.000{col 66}1{col 71}0.9979
+{col 2}  1{txt}{col 6}-{res}{col 7}  5{txt}{col 12}{c |}{res}{col 17}  1.181{col 30}5{col 35}0.9467{txt}{col 42}{c |}{res}{col 44}  5{txt}{col 48}{c |}{res}{col 53}  0.013{col 66}1{col 71}0.9102
+{col 2}  1{txt}{col 6}-{res}{col 7}  6{txt}{col 12}{c |}{res}{col 17}  2.331{col 30}6{col 35}0.8869{txt}{col 42}{c |}{res}{col 44}  6{txt}{col 48}{c |}{res}{col 53}  0.904{col 66}1{col 71}0.3418
+{col 2}  1{txt}{col 6}-{res}{col 7}  7{txt}{col 12}{c |}{res}{col 17}  2.350{col 30}7{col 35}0.9380{txt}{col 42}{c |}{res}{col 44}  7{txt}{col 48}{c |}{res}{col 53}  0.108{col 66}1{col 71}0.7423
+{col 2}  1{txt}{col 6}-{res}{col 7}  8{txt}{col 12}{c |}{res}{col 17}  4.307{col 30}8{col 35}0.8284{txt}{col 42}{c |}{res}{col 44}  8{txt}{col 48}{c |}{res}{col 53}  1.063{col 66}1{col 71}0.3026
+{col 2}  1{txt}{col 6}-{res}{col 7}  9{txt}{col 12}{c |}{res}{col 17} 13.317{col 30}9{col 35}0.1488{txt}{col 42}{c |}{res}{col 44}  9{txt}{col 48}{c |}{res}{col 53}  6.946{col 66}1{col 71}0.0084
+{col 2}  1{txt}{col 6}-{res}{col 7} 10{txt}{col 12}{c |}{res}{col 17} 14.037{col 30}10{col 35}0.1713{txt}{col 42}{c |}{res}{col 44} 10{txt}{col 48}{c |}{res}{col 53}  0.011{col 66}1{txt}*{res}{col 71}0.9182
+{col 2}  1{txt}{col 6}-{res}{col 7} 11{txt}{col 12}{c |}{res}{col 17} 14.037{col 30}11{col 35}0.2310{txt}{col 42}{c |}{res}{col 44} 11{txt}{col 48}{c |}{res}{col 53}  1.607{col 66}1{txt}*{res}{col 71}0.2049
+{col 2}  1{txt}{col 6}-{res}{col 7} 12{txt}{col 12}{c |}{res}{col 17} 15.098{col 30}12{col 35}0.2361{txt}{col 42}{c |}{res}{col 44} 12{txt}{col 48}{c |}{res}{col 53}  0.078{col 66}1{col 71}0.7799
+{col 2}  1{txt}{col 6}-{res}{col 7} 13{txt}{col 12}{c |}{res}{col 17} 18.503{col 30}13{col 35}0.1393{txt}{col 42}{c |}{res}{col 44} 13{txt}{col 48}{c |}{res}{col 53}  2.434{col 66}1{txt}*{res}{col 71}0.1187
+{col 2}  1{txt}{col 6}-{res}{col 7} 14{txt}{col 12}{c |}{res}{col 17} 20.462{col 30}14{col 35}0.1162{txt}{col 42}{c |}{res}{col 44} 14{txt}{col 48}{c |}{res}{col 53}  0.278{col 66}1{txt}*{res}{col 71}0.5981
+{col 2}  1{txt}{col 6}-{res}{col 7} 15{txt}{col 12}{c |}{res}{col 17} 20.537{col 30}15{col 35}0.1523{txt}{col 42}{c |}{res}{col 44} 15{txt}{col 48}{c |}{res}{col 53}  5.061{col 66}1{txt}*{res}{col 71}0.0245
+{col 2}  1{txt}{col 6}-{res}{col 7} 16{txt}{col 12}{c |}{res}{col 17} 21.402{col 30}16{col 35}0.1636{txt}{col 42}{c |}{res}{col 44} 16{txt}{col 48}{c |}{res}{col 53}  0.075{col 66}1{txt}*{res}{col 71}0.7840
+{col 2}  1{txt}{col 6}-{res}{col 7} 17{txt}{col 12}{c |}{res}{col 17} 24.946{col 30}17{col 35}0.0959{txt}{col 42}{c |}{res}{col 44} 17{txt}{col 48}{c |}{res}{col 53}  0.000{col 66}1{txt}*{res}{col 71}0.9997
+{col 2}  1{txt}{col 6}-{res}{col 7} 18{txt}{col 12}{c |}{res}{col 17} 26.728{col 30}18{col 35}0.0842{txt}{col 42}{c |}{res}{col 44} 18{txt}{col 48}{c |}{res}{col 53}  2.341{col 66}1{txt}*{res}{col 71}0.1260
+{txt}{hline 11}{c BT}{hline 29}{c BT}{hline 5}{c BT}{hline 29}
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+{com}. 
+. **Prais-Winsten 
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_prais.gph", replace)) posttrend 
+
+
+{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
+{txt}{col 17}delta:  {res}1 month
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.0876
+{txt}Iteration 2:  rho = {res}0.0908
+{txt}Iteration 3:  rho = {res}0.0909
+{txt}Iteration 4:  rho = {res}0.0910
+{txt}Iteration 5:  rho = {res}0.0910
+
+{txt}Prais-Winsten AR(1) regression -- iterated estimates
+
+Linear regression                               Number of obs     = {res}        37
+                                                {txt}F(3, 33)          =  {res}    87.33
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.8450
+                                                {txt}Root MSE          =    {res} 23.146
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Semirobust
+{col 1}_p50_diag_~y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}_t {c |}{col 14}{res}{space 2} 9.764898{col 26}{space 2} 1.103556{col 37}{space 1}    8.85{col 46}{space 3}0.000{col 54}{space 4} 7.519697{col 67}{space 3}  12.0101
+{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2}-29.50642{col 26}{space 2} 13.38599{col 37}{space 1}   -2.20{col 46}{space 3}0.035{col 54}{space 4}-56.74042{col 67}{space 3}-2.272406
+{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2} -4.71689{col 26}{space 2} 1.395184{col 37}{space 1}   -3.38{col 46}{space 3}0.002{col 54}{space 4}-7.555413{col 67}{space 3}-1.878367
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 101.3757{col 26}{space 2} 7.375567{col 37}{space 1}   13.74{col 46}{space 3}0.000{col 54}{space 4} 86.36998{col 67}{space 3} 116.3814
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .0909511
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}1.694634
+{txt}Durbin-Watson statistic (transformed) {res}1.837801
+
+
+{txt}{col 20} Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+{hline 13}{c TT}{hline 64}
+Linear Trend {c |}{col 21}Coef. {col 29}Std. Err.{col 44}t{col 49}{col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 1}     Treated{col 14}{c |}{res}{col 17} 5.048008{col 28} .8487425{col 38}    5.95{col 46}   0.000{col 58} 3.321228{col 70} 6.774787
+{txt}{hline 13}{c BT}{hline 64}
+{p 0 4 2}
+{txt}(note:  named style
+v.small not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_prais.gph not found)
+{res}{txt}(file /workspace/output/figures/ITSA_diagnostic_delay_prais.gph saved)
+
+{com}.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_prais.svg", as(svg) replace      
+{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_prais.svg not found)
+(file /workspace/output/figures/ITSA_diagnostic_delay_prais.svg written in SVG format)
+
+{com}. restore
+{txt}
+{com}. 
+. /*
+> **Time from last GP appt to rheum referral (all diagnoses)
+> preserve
+> keep if time_gp_rheum_ref_appt!=. //drop those with no last GP appt and/or rheum ref
+> collapse (p50) p50_ref_delay=time_gp_rheum_ref_appt (p75) p75_ref_delay=time_gp_rheum_ref_appt (p25) p25_ref_delay=time_gp_rheum_ref_appt (mean) mean_ref_delay=time_gp_rheum_ref_appt (sd) sd_ref_delay=time_gp_rheum_ref_appt (count) n_ref_delay=time_gp_rheum_ref_appt, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_ref_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to referral, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_referral_delay_newey.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_referral_delay_newey.svg", as(svg) replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_ref_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to referral, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_referral_delay_prais.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_referral_delay_prais.svg", as(svg) replace        
+> restore
+> 
+> **Delay from rheum appt to shared care csDMARD for RA patients (not including MTX high-cost drug) - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_csdmard!=. & ra_code==1 //drop those with no rheum appt and/or csDMARD prescription
+> collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_newey.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_ra.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_prais.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_ra.tif", replace      
+> restore
+> 
+> **Delay from rheum appt to shared care csDMARD for PsA patients (not including MTX high-cost drug) - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_csdmard!=. & psa_code==1 //drop those with no rheum appt and/or csDMARD prescription
+> collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_newey.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_psa.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_prais.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_psa.tif", replace     
+> restore
+> 
+> **Delay from rheum appt to shared care MTX for RA patients (not including MTX high-cost drug) - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_mtx!=. & ra_code==1 //drop those with no rheum appt and/or MTX prescription
+> collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_newey_ra.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_mtx_delay_newey_ra.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_prais_ra.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_mtx_delay_prais_ra.tif", replace  
+> restore
+> 
+> **Delay from rheum appt to shared care MTX for PsA patients (not including MTX high-cost drug) - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_mtx!=. & psa_code==1 //drop those with no rheum appt and/or mtx prescription
+> collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_newey_psa.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_mtx_delay_newey_psa.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_prais_psa.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_mtx_delay_prais_psa.tif", replace 
+> restore
+> 
+> **Delay from rheum appt to biologic for RA patients - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_biologic!=. & ra_code==1 //drop those with no rheum appt and/or biologic prescription
+> collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_ra.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_ra.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_ra.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_ra.tif", replace     
+> restore
+> 
+> **Delay from rheum appt to biologic for PsA patients - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_biologic!=. & psa_code==1 //drop those with no rheum appt and/or biologic prescription - may need to cut sooner to give sufficient time for DMARD
+> collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_psa.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_psa.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_psa.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_psa.tif", replace    
+> restore
+> 
+> **Delay from rheum appt to biologic for AxSpA patients - may need to cut sooner to give sufficient time for DMARD
+> preserve
+> keep if time_to_biologic!=. & anksp_code==1 //drop those with no rheum appt and/or biologic prescription - may need to cut sooner to give sufficient time for DMARD
+> collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_anksp.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_anksp.tif", replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_anksp.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_anksp.tif", replace  
+> restore
+> */
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/workspace/logs/itsa_models.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}29 Mar 2022, 15:32:09
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
