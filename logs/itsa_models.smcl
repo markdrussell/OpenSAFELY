@@ -1,20 +1,20 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/itsa_models.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/itsa_models.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}29 Mar 2022, 15:32:07
+ {txt}opened on:  {res}31 Mar 2022, 20:59:49
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
-  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
-  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
-  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
-  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
 
 {com}. 
 . **Use cleaned data from previous step
@@ -29,166 +29,172 @@
 . **Delay from rheum referral to rheum appt (all diagnoses)
 . preserve
 {txt}
-{com}. asdoc tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_all.docx, replace) dec(0)
-{txt}(File /workspace/output/tables/diagnostic_delay_all.docx, replace already exists, option {bf:append} was assumed)
+{com}. asdoc tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_all.doc) dec(0)
 
-Summary for variables: time_ref_rheum_appt
-{col 6}by categories of: __000000 (mo_year_diagn)
+{txt}Summary for variables: time_ref_rheum_appt
+Group variable: __000000 (mo_year_diagn)
 
 {ralign 8:__000000} {...}
-{c |}         N       p50       p75       p25      mean        sd
+{c |}         N       p50       p75       p25      Mean        SD
 {hline 9}{c +}{hline 60}
 {ralign 8:710} {...}
 {c |}{...}
- {res}       38       100       155        31  117.9737  93.23249
+ {res}       47       135       199        36  123.5532  87.34709
 {txt}{ralign 8:711} {...}
 {c |}{...}
- {res}       47        99       168        39  115.7447  87.90891
+ {res}       41       103       181        41  127.0976  98.04203
 {txt}{ralign 8:712} {...}
 {c |}{...}
- {res}       43       137       202        62  141.6279  96.09743
+ {res}       48     102.5       148      50.5  119.0833  91.05244
 {txt}{ralign 8:713} {...}
 {c |}{...}
- {res}       50       134       197        38       132  96.66901
+ {res}       62     121.5       256        59  161.6774  118.7022
 {txt}{ralign 8:714} {...}
 {c |}{...}
- {res}       72       128       223        55  151.5139   111.722
+ {res}       66       142       240        61  151.1212  107.2426
 {txt}{ralign 8:715} {...}
 {c |}{...}
- {res}       76       124     234.5        46  146.5263   118.848
+ {res}       76       151       268        84  177.1316  118.4591
 {txt}{ralign 8:716} {...}
 {c |}{...}
- {res}       81       195       275        98   195.037  122.7859
+ {res}       77       156       251        72  177.7532  121.6361
 {txt}{ralign 8:717} {...}
 {c |}{...}
- {res}       83       169       287        74  194.7952  141.8414
+ {res}       73       138       242        73  174.1233  134.4351
 {txt}{ralign 8:718} {...}
 {c |}{...}
- {res}      100     182.5     295.5      93.5    208.56  144.4598
+ {res}       85       181       316        87  210.0588  145.8846
 {txt}{ralign 8:719} {...}
 {c |}{...}
- {res}       98       207       316       103  212.3673  133.6486
+ {res}       99       134       249        54  164.2525  129.8743
 {txt}{ralign 8:720} {...}
 {c |}{...}
- {res}      100     191.5     324.5      97.5     222.9  150.0159
+ {res}      105       164       305        71  191.7524  153.1806
 {txt}{ralign 8:721} {...}
 {c |}{...}
- {res}      106       193       301        88  212.8302  152.1312
+ {res}      117       199       362       114  244.4872  168.6321
 {txt}{ralign 8:722} {...}
 {c |}{...}
- {res}      101       163       308        75  200.5149  151.5025
+ {res}      105       157       301        72  209.1619   168.002
 {txt}{ralign 8:723} {...}
 {c |}{...}
- {res}      112       186       341        65  214.6518  155.0606
+ {res}      120     212.5       348        82   233.075   169.867
 {txt}{ralign 8:724} {...}
 {c |}{...}
- {res}      133       225       382       105  252.9398  169.6027
+ {res}      133       200       388        90  248.0977  182.7807
 {txt}{ralign 8:725} {...}
 {c |}{...}
- {res}      130       197       331        98  235.1231   181.905
+ {res}      119       190       302        84  228.5126  182.2595
 {txt}{ralign 8:726} {...}
 {c |}{...}
- {res}      148     209.5       379      95.5  257.4459  201.2143
+ {res}      133       195       412        86  258.9173  197.0702
 {txt}{ralign 8:727} {...}
 {c |}{...}
- {res}      143       208       364       121  251.3007  180.1314
+ {res}      159       207       371       103   253.805  188.9781
 {txt}{ralign 8:728} {...}
 {c |}{...}
- {res}      154     229.5       403        89  262.1169  196.9402
+ {res}      149       225       378        98  254.6779  189.7593
 {txt}{ralign 8:729} {...}
 {c |}{...}
- {res}      156     231.5     391.5        99  262.1987  189.3627
+ {res}      159       229       442       106  282.3899  213.1138
 {txt}{ralign 8:730} {...}
 {c |}{...}
- {res}      174       242       389       105  278.6839  215.5247
+ {res}      187       249       404       121  283.4171  202.2649
 {txt}{ralign 8:731} {...}
 {c |}{...}
- {res}      172     280.5       441       105  312.2616  234.5317
+ {res}      185       267       385       122  285.9189  202.8678
 {txt}{ralign 8:732} {...}
 {c |}{...}
- {res}      162     225.5       399        99  273.4012  216.3893
+ {res}      183       250       397       116  292.2623  216.6389
 {txt}{ralign 8:733} {...}
 {c |}{...}
- {res}      166     230.5       435        98  291.5904  239.2532
+ {res}      158     214.5       440        92  287.9304  232.1612
 {txt}{ralign 8:734} {...}
 {c |}{...}
- {res}      174       264       441       125  310.4425  230.5063
+ {res}      180     243.5     445.5       113  299.6778  235.7466
 {txt}{ralign 8:735} {...}
 {c |}{...}
- {res}      189       279       458       130  323.1587  240.9258
+ {res}      185       223       432       110  298.4595  242.5463
 {txt}{ralign 8:736} {...}
 {c |}{...}
- {res}      206     274.5       462       116  313.9563  236.8816
+ {res}      176     269.5       470       114  320.2727  251.4221
 {txt}{ralign 8:737} {...}
 {c |}{...}
- {res}      185       232       510        71  311.6162  274.5549
+ {res}      198       271       493       130  331.2576  249.4472
 {txt}{ralign 8:738} {...}
 {c |}{...}
- {res}      197       248       445       121  298.7817  227.5652
+ {res}      193       268       467       107  315.4145  245.6319
 {txt}{ralign 8:739} {...}
 {c |}{...}
- {res}      211       285       512       126  343.9336  263.6097
+ {res}      214     310.5       536       141  362.1869  272.1433
 {txt}{ralign 8:740} {...}
 {c |}{...}
- {res}      206     249.5       495       123  327.7282  251.1218
+ {res}      219       288       536       146  351.0091  259.2501
 {txt}{ralign 8:741} {...}
 {c |}{...}
- {res}      194     255.5       528       127  347.9278  286.6461
+ {res}      234     276.5       495       133  345.7735  271.3238
 {txt}{ralign 8:742} {...}
 {c |}{...}
- {res}      203       289       496       172  358.0443  266.0972
+ {res}      218     245.5       530       119  332.2202  272.3735
 {txt}{ralign 8:743} {...}
 {c |}{...}
- {res}      206       239       465        97  322.9612  282.0828
+ {res}      213       315       516       140  357.9061   266.304
 {txt}{ralign 8:744} {...}
 {c |}{...}
- {res}      222       309       575       115  386.7342  320.2995
+ {res}      230       347       507       159  388.7087   294.572
 {txt}{ralign 8:745} {...}
 {c |}{...}
- {res}      199       327       542       166  389.0201  287.7376
+ {res}      206     292.5       571       120   375.432  310.2694
 {txt}{ralign 8:746} {...}
 {c |}{...}
- {res}      212     357.5     571.5     166.5  401.6651  300.9262
+ {res}      224       301     515.5       142  363.2455  290.7751
 {txt}{ralign 8:747} {...}
 {c |}{...}
- {res}       92       282     420.5     125.5  321.2609  252.3186
+ {res}       98       328       602       172  402.4592  305.9209
 {txt}{hline 9}{c +}{hline 60}
 {ralign 8:Total} {...}
 {c |}{...}
- {res}     5341       230       411       104  288.8774  237.8688
+ {res}     5474       230       417       104  291.4805  239.1462
 {txt}{hline 9}{c BT}{hline 60}
-{res}Click to Open File:  {browse "/workspace/output/tables/diagnostic_delay_all.docx, replace"}
+{res}{txt}{p 0 4 2}
+(file {bf}
+C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_all.doc{rm}
+not found)
+{p_end}
+{res}Click to Open File:  {browse "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_all.doc"}
 {txt}
 {com}. keep if time_ref_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
-{txt}(28,800 observations deleted)
+{txt}(28,789 observations deleted)
 
 {com}. collapse (p50) p50_diag_delay=time_ref_rheum_appt (p75) p75_diag_delay=time_ref_rheum_appt (p25) p25_diag_delay=time_ref_rheum_appt (mean) mean_diag_delay=time_ref_rheum_appt (sd) sd_diag_delay=time_ref_rheum_appt (count) n_diag_delay=time_ref_rheum_appt, by(mo_year_diagn)
-{txt}
+{res}{txt}
 {com}. 
 . tsset mo_year_diagn
-{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
-{txt}{col 17}delta:  {res}1 month
+{res}
+{p 0 15 2}{txt:Time variable: }{res:mo_year_diagn}{txt:, }{res:{bind:2019m3}}{txt: to }{res:{bind:2022m4}}{p_end}
+{txt}{col 9}Delta: {res}1 month
 {txt}
 {com}. 
 . **Newey Standard Errors with 6 lags
 . itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_newey.gph", replace)) posttrend 
 
 
-{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
-{txt}{col 17}delta:  {res}1 month
+{res}
+{p 0 15 2}{txt:Time variable: }{res:mo_year_diagn}{txt:, }{res:{bind:2019m3}}{txt: to }{res:{bind:2022m4}}{p_end}
+{txt}{col 9}Delta: {res}1 month
 
-{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        37
-{txt}maximum lag: {res}6{col 49}{txt}F(  3,        33){col 67}= {res}    166.05
+{txt}Regression with Newey–West standard errors{col 49}Number of obs{col 67}= {res}        37
+{txt}Maximum lag = {res}6{col 49}{txt}F(  3,        33){col 67}= {res}    524.20
 {col 49}{txt}Prob > F{col 67}= {res}    0.0000
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}  Newey-West
-{col 1}_p50_diag_~y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{col 14}{c |}{col 26}  Newey–West
+{col 1}_p50_diag_~y{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 10}_t {c |}{col 14}{res}{space 2} 9.727273{col 26}{space 2} .6798534{col 37}{space 1}   14.31{col 46}{space 3}0.000{col 54}{space 4} 8.344101{col 67}{space 3} 11.11044
-{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2}-28.59958{col 26}{space 2} 8.012126{col 37}{space 1}   -3.57{col 46}{space 3}0.001{col 54}{space 4}-44.90037{col 67}{space 3}-12.29879
-{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2} -4.73958{col 26}{space 2} 1.078819{col 37}{space 1}   -4.39{col 46}{space 3}0.000{col 54}{space 4}-6.934455{col 67}{space 3}-2.544706
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}    101.5{col 26}{space 2} 3.732839{col 37}{space 1}   27.19{col 46}{space 3}0.000{col 54}{space 4} 93.90548{col 67}{space 3} 109.0945
+{space 10}_t {c |}{col 14}{res}{space 2} 6.167832{col 26}{space 2} .8483443{col 37}{space 1}    7.27{col 46}{space 3}0.000{col 54}{space 4} 4.441863{col 67}{space 3} 7.893802
+{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2} 1.123193{col 26}{space 2} 8.229109{col 37}{space 1}    0.14{col 46}{space 3}0.892{col 54}{space 4}-15.61906{col 67}{space 3} 17.86544
+{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2}-.7720629{col 26}{space 2}   .86012{col 37}{space 1}   -0.90{col 46}{space 3}0.376{col 54}{space 4} -2.52199{col 67}{space 3} .9778643
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 109.9936{col 26}{space 2} 5.218067{col 37}{space 1}   21.08{col 46}{space 3}0.000{col 54}{space 4} 99.37735{col 67}{space 3} 120.6098
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 
 
@@ -198,19 +204,23 @@ Treated: _b[_t]+_b[_x_t2020m3]
 {hline 13}{c TT}{hline 64}
 Linear Trend {c |}{col 21}Coef. {col 29}Std. Err.{col 44}t{col 49}{col 59}[95% Conf. Interval]
 {hline 13}{c +}{hline 64}
-{col 1}     Treated{col 14}{c |}{res}{col 17} 4.987692{col 28} .7271399{col 38}    6.86{col 46}   0.000{col 58} 3.508315{col 70}  6.46707
+{col 1}     Treated{col 14}{c |}{res}{col 17} 5.395769{col 28}  .335468{col 38}   16.08{col 46}   0.000{col 58} 4.713254{col 70} 6.078284
 {txt}{hline 13}{c BT}{hline 64}
 {p 0 4 2}
 {txt}(note:  named style
 v.small not found in class
 gsize,  default attributes used)
 {p_end}
-{res}{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_newey.gph not found)
-{res}{txt}(file /workspace/output/figures/ITSA_diagnostic_delay_newey.gph saved)
+{res}{txt}file {bf:C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.gph} saved
 
 {com}.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey.svg", as(svg) replace
-{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_newey.svg not found)
-(file /workspace/output/figures/ITSA_diagnostic_delay_newey.svg written in SVG format)
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.svg{rm}
+saved as
+SVG
+format
+{p_end}
 
 {com}. actest, lag(18) 
 
@@ -223,24 +233,24 @@ gsize,  default attributes used)
 {hline 11}{c TT}{hline 29}{c +}{hline 5}{c TT}{hline 29}
 {col 5}lags{col 12}{c |}{col 19}chi2{col 29}df{col 36}p-val{col 42}{c |}{col 44}lag{col 48}{c |}{col 55}chi2{col 65}df{col 72}p-val
 {hline 11}{c +}{hline 29}{c +}{hline 5}{c +}{hline 29}
-{res}{col 2}  1{txt}{col 6}-{res}{col 7}  1{txt}{col 12}{c |}{res}{col 17}  0.335{col 30}1{col 35}0.5627{txt}{col 42}{c |}{res}{col 44}  1{txt}{col 48}{c |}{res}{col 53}  0.335{col 66}1{col 71}0.5627
-{col 2}  1{txt}{col 6}-{res}{col 7}  2{txt}{col 12}{c |}{res}{col 17}  1.082{col 30}2{col 35}0.5821{txt}{col 42}{c |}{res}{col 44}  2{txt}{col 48}{c |}{res}{col 53}  0.765{col 66}1{col 71}0.3818
-{col 2}  1{txt}{col 6}-{res}{col 7}  3{txt}{col 12}{c |}{res}{col 17}  1.143{col 30}3{col 35}0.7668{txt}{col 42}{c |}{res}{col 44}  3{txt}{col 48}{c |}{res}{col 53}  0.101{col 66}1{col 71}0.7511
-{col 2}  1{txt}{col 6}-{res}{col 7}  4{txt}{col 12}{c |}{res}{col 17}  1.179{col 30}4{col 35}0.8816{txt}{col 42}{c |}{res}{col 44}  4{txt}{col 48}{c |}{res}{col 53}  0.000{col 66}1{col 71}0.9979
-{col 2}  1{txt}{col 6}-{res}{col 7}  5{txt}{col 12}{c |}{res}{col 17}  1.181{col 30}5{col 35}0.9467{txt}{col 42}{c |}{res}{col 44}  5{txt}{col 48}{c |}{res}{col 53}  0.013{col 66}1{col 71}0.9102
-{col 2}  1{txt}{col 6}-{res}{col 7}  6{txt}{col 12}{c |}{res}{col 17}  2.331{col 30}6{col 35}0.8869{txt}{col 42}{c |}{res}{col 44}  6{txt}{col 48}{c |}{res}{col 53}  0.904{col 66}1{col 71}0.3418
-{col 2}  1{txt}{col 6}-{res}{col 7}  7{txt}{col 12}{c |}{res}{col 17}  2.350{col 30}7{col 35}0.9380{txt}{col 42}{c |}{res}{col 44}  7{txt}{col 48}{c |}{res}{col 53}  0.108{col 66}1{col 71}0.7423
-{col 2}  1{txt}{col 6}-{res}{col 7}  8{txt}{col 12}{c |}{res}{col 17}  4.307{col 30}8{col 35}0.8284{txt}{col 42}{c |}{res}{col 44}  8{txt}{col 48}{c |}{res}{col 53}  1.063{col 66}1{col 71}0.3026
-{col 2}  1{txt}{col 6}-{res}{col 7}  9{txt}{col 12}{c |}{res}{col 17} 13.317{col 30}9{col 35}0.1488{txt}{col 42}{c |}{res}{col 44}  9{txt}{col 48}{c |}{res}{col 53}  6.946{col 66}1{col 71}0.0084
-{col 2}  1{txt}{col 6}-{res}{col 7} 10{txt}{col 12}{c |}{res}{col 17} 14.037{col 30}10{col 35}0.1713{txt}{col 42}{c |}{res}{col 44} 10{txt}{col 48}{c |}{res}{col 53}  0.011{col 66}1{txt}*{res}{col 71}0.9182
-{col 2}  1{txt}{col 6}-{res}{col 7} 11{txt}{col 12}{c |}{res}{col 17} 14.037{col 30}11{col 35}0.2310{txt}{col 42}{c |}{res}{col 44} 11{txt}{col 48}{c |}{res}{col 53}  1.607{col 66}1{txt}*{res}{col 71}0.2049
-{col 2}  1{txt}{col 6}-{res}{col 7} 12{txt}{col 12}{c |}{res}{col 17} 15.098{col 30}12{col 35}0.2361{txt}{col 42}{c |}{res}{col 44} 12{txt}{col 48}{c |}{res}{col 53}  0.078{col 66}1{col 71}0.7799
-{col 2}  1{txt}{col 6}-{res}{col 7} 13{txt}{col 12}{c |}{res}{col 17} 18.503{col 30}13{col 35}0.1393{txt}{col 42}{c |}{res}{col 44} 13{txt}{col 48}{c |}{res}{col 53}  2.434{col 66}1{txt}*{res}{col 71}0.1187
-{col 2}  1{txt}{col 6}-{res}{col 7} 14{txt}{col 12}{c |}{res}{col 17} 20.462{col 30}14{col 35}0.1162{txt}{col 42}{c |}{res}{col 44} 14{txt}{col 48}{c |}{res}{col 53}  0.278{col 66}1{txt}*{res}{col 71}0.5981
-{col 2}  1{txt}{col 6}-{res}{col 7} 15{txt}{col 12}{c |}{res}{col 17} 20.537{col 30}15{col 35}0.1523{txt}{col 42}{c |}{res}{col 44} 15{txt}{col 48}{c |}{res}{col 53}  5.061{col 66}1{txt}*{res}{col 71}0.0245
-{col 2}  1{txt}{col 6}-{res}{col 7} 16{txt}{col 12}{c |}{res}{col 17} 21.402{col 30}16{col 35}0.1636{txt}{col 42}{c |}{res}{col 44} 16{txt}{col 48}{c |}{res}{col 53}  0.075{col 66}1{txt}*{res}{col 71}0.7840
-{col 2}  1{txt}{col 6}-{res}{col 7} 17{txt}{col 12}{c |}{res}{col 17} 24.946{col 30}17{col 35}0.0959{txt}{col 42}{c |}{res}{col 44} 17{txt}{col 48}{c |}{res}{col 53}  0.000{col 66}1{txt}*{res}{col 71}0.9997
-{col 2}  1{txt}{col 6}-{res}{col 7} 18{txt}{col 12}{c |}{res}{col 17} 26.728{col 30}18{col 35}0.0842{txt}{col 42}{c |}{res}{col 44} 18{txt}{col 48}{c |}{res}{col 53}  2.341{col 66}1{txt}*{res}{col 71}0.1260
+{res}{col 2}  1{txt}{col 6}-{res}{col 7}  1{txt}{col 12}{c |}{res}{col 17}  0.128{col 30}1{col 35}0.7203{txt}{col 42}{c |}{res}{col 44}  1{txt}{col 48}{c |}{res}{col 53}  0.128{col 66}1{col 71}0.7203
+{col 2}  1{txt}{col 6}-{res}{col 7}  2{txt}{col 12}{c |}{res}{col 17}  2.954{col 30}2{col 35}0.2283{txt}{col 42}{c |}{res}{col 44}  2{txt}{col 48}{c |}{res}{col 53}  2.693{col 66}1{col 71}0.1008
+{col 2}  1{txt}{col 6}-{res}{col 7}  3{txt}{col 12}{c |}{res}{col 17}  3.771{col 30}3{col 35}0.2873{txt}{col 42}{c |}{res}{col 44}  3{txt}{col 48}{c |}{res}{col 53}  0.498{col 66}1{col 71}0.4805
+{col 2}  1{txt}{col 6}-{res}{col 7}  4{txt}{col 12}{c |}{res}{col 17}  7.600{col 30}4{col 35}0.1074{txt}{col 42}{c |}{res}{col 44}  4{txt}{col 48}{c |}{res}{col 53}  1.637{col 66}1{col 71}0.2007
+{col 2}  1{txt}{col 6}-{res}{col 7}  5{txt}{col 12}{c |}{res}{col 17}  7.967{col 30}5{col 35}0.1581{txt}{col 42}{c |}{res}{col 44}  5{txt}{col 48}{c |}{res}{col 53}  0.085{col 66}1{col 71}0.7704
+{col 2}  1{txt}{col 6}-{res}{col 7}  6{txt}{col 12}{c |}{res}{col 17} 13.408{col 30}6{col 35}0.0370{txt}{col 42}{c |}{res}{col 44}  6{txt}{col 48}{c |}{res}{col 53}  0.701{col 66}1{txt}*{res}{col 71}0.4026
+{col 2}  1{txt}{col 6}-{res}{col 7}  7{txt}{col 12}{c |}{res}{col 17} 13.562{col 30}7{col 35}0.0595{txt}{col 42}{c |}{res}{col 44}  7{txt}{col 48}{c |}{res}{col 53}  1.270{col 66}1{col 71}0.2597
+{col 2}  1{txt}{col 6}-{res}{col 7}  8{txt}{col 12}{c |}{res}{col 17} 13.794{col 30}8{col 35}0.0873{txt}{col 42}{c |}{res}{col 44}  8{txt}{col 48}{c |}{res}{col 53}  2.840{col 66}1{txt}*{res}{col 71}0.0919
+{col 2}  1{txt}{col 6}-{res}{col 7}  9{txt}{col 12}{c |}{res}{col 17} 13.811{col 30}9{col 35}0.1292{txt}{col 42}{c |}{res}{col 44}  9{txt}{col 48}{c |}{res}{col 53}  0.052{col 66}1{col 71}0.8200
+{col 2}  1{txt}{col 6}-{res}{col 7} 10{txt}{col 12}{c |}{res}{col 17} 14.711{col 30}10{col 35}0.1430{txt}{col 42}{c |}{res}{col 44} 10{txt}{col 48}{c |}{res}{col 53}  0.374{col 66}1{col 71}0.5411
+{col 2}  1{txt}{col 6}-{res}{col 7} 11{txt}{col 12}{c |}{res}{col 17} 15.524{col 30}11{col 35}0.1597{txt}{col 42}{c |}{res}{col 44} 11{txt}{col 48}{c |}{res}{col 53}  0.972{col 66}1{col 71}0.3242
+{col 2}  1{txt}{col 6}-{res}{col 7} 12{txt}{col 12}{c |}{res}{col 17} 19.705{col 30}12{col 35}0.0729{txt}{col 42}{c |}{res}{col 44} 12{txt}{col 48}{c |}{res}{col 53}  1.416{col 66}1{txt}*{res}{col 71}0.2340
+{col 2}  1{txt}{col 6}-{res}{col 7} 13{txt}{col 12}{c |}{res}{col 17} 20.157{col 30}13{col 35}0.0914{txt}{col 42}{c |}{res}{col 44} 13{txt}{col 48}{c |}{res}{col 53}  2.429{col 66}1{txt}*{res}{col 71}0.1191
+{col 2}  1{txt}{col 6}-{res}{col 7} 14{txt}{col 12}{c |}{res}{col 17} 21.012{col 30}14{col 35}0.1013{txt}{col 42}{c |}{res}{col 44} 14{txt}{col 48}{c |}{res}{col 53}  0.016{col 66}1{txt}*{res}{col 71}0.9005
+{col 2}  1{txt}{col 6}-{res}{col 7} 15{txt}{col 12}{c |}{res}{col 17} 22.529{col 30}15{col 35}0.0947{txt}{col 42}{c |}{res}{col 44} 15{txt}{col 48}{c |}{res}{col 53}  0.003{col 66}1{col 71}0.9554
+{col 2}  1{txt}{col 6}-{res}{col 7} 16{txt}{col 12}{c |}{res}{col 17} 22.627{col 30}16{col 35}0.1241{txt}{col 42}{c |}{res}{col 44} 16{txt}{col 48}{c |}{res}{col 53}  2.539{col 66}1{col 71}0.1111
+{col 2}  1{txt}{col 6}-{res}{col 7} 17{txt}{col 12}{c |}{res}{col 17} 23.146{col 30}17{col 35}0.1445{txt}{col 42}{c |}{res}{col 44} 17{txt}{col 48}{c |}{res}{col 53}  1.683{col 66}1{txt}*{res}{col 71}0.1945
+{col 2}  1{txt}{col 6}-{res}{col 7} 18{txt}{col 12}{c |}{res}{col 17} 23.608{col 30}18{col 35}0.1683{txt}{col 42}{c |}{res}{col 44} 18{txt}{col 48}{c |}{res}{col 53}  0.230{col 66}1{col 71}0.6315
 {txt}{hline 11}{c BT}{hline 29}{c BT}{hline 5}{c BT}{hline 29}
   Test allows predetermined regressors/instruments
   Test requires conditional homoskedasticity
@@ -251,37 +261,38 @@ gsize,  default attributes used)
 . itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_prais.gph", replace)) posttrend 
 
 
-{res}{txt}{col 9}time variable:  {res}{col 25}mo_year_diagn, 2019m3 to 2022m4
-{txt}{col 17}delta:  {res}1 month
+{res}
+{p 0 15 2}{txt:Time variable: }{res:mo_year_diagn}{txt:, }{res:{bind:2019m3}}{txt: to }{res:{bind:2022m4}}{p_end}
+{txt}{col 9}Delta: {res}1 month
 
-{txt}Iteration 0:  rho = {res}0.0000
-{txt}Iteration 1:  rho = {res}0.0876
-{txt}Iteration 2:  rho = {res}0.0908
-{txt}Iteration 3:  rho = {res}0.0909
-{txt}Iteration 4:  rho = {res}0.0910
-{txt}Iteration 5:  rho = {res}0.0910
+{txt}Iteration 0:   rho = {res}0.0000
+{txt}Iteration 1:   rho = {res}-0.0581
+{txt}Iteration 2:   rho = {res}-0.0610
+{txt}Iteration 3:   rho = {res}-0.0611
+{txt}Iteration 4:   rho = {res}-0.0611
+{txt}Iteration 5:   rho = {res}-0.0611
 
-{txt}Prais-Winsten AR(1) regression -- iterated estimates
+{txt}Prais–Winsten AR(1) regression with iterated estimates
 
 Linear regression                               Number of obs     = {res}        37
-                                                {txt}F(3, 33)          =  {res}    87.33
+                                                {txt}F(3, 33)          =  {res}   105.09
                                                 {txt}Prob > F          = {res}    0.0000
-                                                {txt}R-squared         = {res}    0.8450
-                                                {txt}Root MSE          =    {res} 23.146
+                                                {txt}R-squared         = {res}    0.9095
+                                                {txt}Root MSE          =    {res} 21.462
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}  Semirobust
-{col 1}_p50_diag_~y{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{col 1}_p50_diag_~y{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 10}_t {c |}{col 14}{res}{space 2} 9.764898{col 26}{space 2} 1.103556{col 37}{space 1}    8.85{col 46}{space 3}0.000{col 54}{space 4} 7.519697{col 67}{space 3}  12.0101
-{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2}-29.50642{col 26}{space 2} 13.38599{col 37}{space 1}   -2.20{col 46}{space 3}0.035{col 54}{space 4}-56.74042{col 67}{space 3}-2.272406
-{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2} -4.71689{col 26}{space 2} 1.395184{col 37}{space 1}   -3.38{col 46}{space 3}0.002{col 54}{space 4}-7.555413{col 67}{space 3}-1.878367
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 101.3757{col 26}{space 2} 7.375567{col 37}{space 1}   13.74{col 46}{space 3}0.000{col 54}{space 4} 86.36998{col 67}{space 3} 116.3814
+{space 10}_t {c |}{col 14}{res}{space 2} 6.119718{col 26}{space 2} 1.669302{col 37}{space 1}    3.67{col 46}{space 3}0.001{col 54}{space 4} 2.723498{col 67}{space 3} 9.515938
+{txt}{space 4}_x2020m3 {c |}{col 14}{res}{space 2} 2.147561{col 26}{space 2} 14.44332{col 37}{space 1}    0.15{col 46}{space 3}0.883{col 54}{space 4} -27.2376{col 67}{space 3} 31.53272
+{txt}{space 2}_x_t2020m3 {c |}{col 14}{res}{space 2}-.7425619{col 26}{space 2} 1.780084{col 37}{space 1}   -0.42{col 46}{space 3}0.679{col 54}{space 4} -4.36417{col 67}{space 3} 2.879047
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 109.9103{col 26}{space 2} 9.838117{col 37}{space 1}   11.17{col 46}{space 3}0.000{col 54}{space 4} 89.89453{col 67}{space 3} 129.9261
 {txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-         rho {c |}  {res} .0909511
+         rho {c |}  {res}-.0611349
 {txt}{hline 13}{c BT}{hline 64}
-Durbin-Watson statistic (original)    {res}1.694634
-{txt}Durbin-Watson statistic (transformed) {res}1.837801
+Durbin–Watson statistic (original)    = {res}2.062984
+{txt}Durbin–Watson statistic (transformed) = {res}1.979265
 
 
 {txt}{col 20} Postintervention Linear Trend: 2020m3
@@ -290,19 +301,23 @@ Treated: _b[_t]+_b[_x_t2020m3]
 {hline 13}{c TT}{hline 64}
 Linear Trend {c |}{col 21}Coef. {col 29}Std. Err.{col 44}t{col 49}{col 59}[95% Conf. Interval]
 {hline 13}{c +}{hline 64}
-{col 1}     Treated{col 14}{c |}{res}{col 17} 5.048008{col 28} .8487425{col 38}    5.95{col 46}   0.000{col 58} 3.321228{col 70} 6.774787
+{col 1}     Treated{col 14}{c |}{res}{col 17} 5.377156{col 28} .6206129{col 38}    8.66{col 46}   0.000{col 58}  4.11451{col 70} 6.639803
 {txt}{hline 13}{c BT}{hline 64}
 {p 0 4 2}
 {txt}(note:  named style
 v.small not found in class
 gsize,  default attributes used)
 {p_end}
-{res}{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_prais.gph not found)
-{res}{txt}(file /workspace/output/figures/ITSA_diagnostic_delay_prais.gph saved)
+{res}{txt}file {bf:C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.gph} saved
 
 {com}.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_prais.svg", as(svg) replace      
-{txt}(note: file /workspace/output/figures/ITSA_diagnostic_delay_prais.svg not found)
-(file /workspace/output/figures/ITSA_diagnostic_delay_prais.svg written in SVG format)
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.svg{rm}
+saved as
+SVG
+format
+{p_end}
 
 {com}. restore
 {txt}
@@ -447,9 +462,9 @@ gsize,  default attributes used)
 . 
 . log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/itsa_models.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/itsa_models.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}29 Mar 2022, 15:32:09
+ {txt}closed on:  {res}31 Mar 2022, 21:00:11
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

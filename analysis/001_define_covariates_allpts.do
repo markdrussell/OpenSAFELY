@@ -16,8 +16,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github JG Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github JG Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -443,7 +443,7 @@ lab var esrf "End-stage renal failure"
 lab var chronic_liver_disease "Chronic liver disease"
 lab var chronic_cardiac_disease "Chronic cardiac disease"
 
-save "$projectdir/output/data/file_eia_allpts.dta", replace	
+save `c(pwd)'/output/data/file_eia_allpts.dta, replace	
 
 log close
 

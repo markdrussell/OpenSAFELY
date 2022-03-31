@@ -16,8 +16,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github JG Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github JG Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -878,80 +878,6 @@ lab var esrf "End-stage renal failure"
 lab var chronic_liver_disease "Chronic liver disease"
 lab var chronic_cardiac_disease "Chronic cardiac disease"
 
-save "$projectdir/output/data/file_eia_all.dta", replace	
+save `c(pwd)'/output/data/file_eia_all.dta, replace	
 
 log close
-
-/* To be adapted still.....
-
-/* Outcome and Survival time ==================================================*/
-
-/*  Cohort entry and censor dates  */
-
-* Date of cohort entry, 1 Mar 2020
-gen enter_date = date("$indexdate", "DMY")
-format enter_date %td
-
-/*   Outcomes   */
-
-* Outcomes: itu admission, ONS-covid death, hospital admission   
-
-* Add half-day buffer if outcome on indexdate
-replace died_ons_date=died_ons_date+0.5 if died_ons_date==enter_date
-replace icu_admitted_date=icu_admitted_date+0.5 if icu_admitted_date==enter_date
-replace hospital_admission_date=hospital_admission_date+0.5 if hospital_admission_date==enter_date
-
-* Date of Covid death in ONS
-gen died_ons_date_covid = died_ons_date if died_ons_covid_flag_any == 1
-
-* Date of non-COVID death in ONS 
-* If missing date of death resulting died_date will also be missing
-gen died_ons_date_noncovid = died_ons_date if died_ons_covid_flag_any != 1 
-
-*date of COVID hospital admission ** issue we have is how we define a hospital admission as a COVID one. 
-gen hosp_admit_diff = hospital_admission_date - first_pos_test_sgss_date
-replace hosp_admit_diff =. if hosp_admit_diff <-5
-gen hosp_admit_date_covid = hospital_admission_date if hosp_admit_diff <28 
-gen hosp_admit_covid =1 if hosp_admit_date_covid !=.
-
-*date of COVID ITU admission ** issue we have is how we define an ITU admission as a COVID one. 
-gen icu_admit_date_covid = icu_admitted_date if hosp_admit_covid ==1 
-gen icu_or_death_covid_date = icu_admit_date_covid
-replace icu_or_death_covid_date = died_ons_date_covid if icu_admit_date_covid ==.
-gen icu_or_death_covid =1 if icu_or_death_covid_date !=.
-
-//it is possible to be in the ICU / died cohort, but NOT in hospital cohort IF a patient dies from COVID in community
-
-* sensitivity analysis extra variables - COVID hospital admission ** excluding 28 day cut off
-gen hosp_admit_date_covid_sens = hospital_admission_date if hosp_admit_diff !=. 
-gen hosp_admit_covid_sens =1 if hosp_admit_date_covid_sens !=.
-
-gen icu_admit_date_covid_sens = icu_admitted_date if hosp_admit_covid ==1 
-gen icu_covid_sens =1 if icu_admit_date_covid_sens !=.
-
-
-format died_ons_date_covid died_ons_date_noncovid icu_admit_date_covid icu_or_death_covid_date hosp_admit_date_covid hosp_admit_date_covid_sens icu_admit_date_covid_sens %td
-
-
-/* CENSORING */
-/* SET FU DATES===============================================================*/ 
-* Censoring dates for each outcome (largely, last date outcome data available, minus a lag window based on previous graphs)
-*death
-tw histogram died_ons_date, discrete width(2) frequency ytitle(Number of ONS deaths) xtitle(Date) scheme(meta) saving(out_death_freq, replace)
-graph export "output/figures/out_death_freq.pdf", as(pdf) replace
-graph close
-/* erase out_death_freq.pdf
-summ died_ons_date, format */
-*gen onscoviddeathcensor_date = r(max)-7
-
-
-
-foreach var in imid joint skin bowel imiddrugcategory standtnf standtnf3m tnfmono standil6 standil17 standil23 standjaki standritux standinflix standvedolizumab standabatacept {
-	preserve
-	drop if `var' ==.
-	save $projectdir/output/data/file_`var', replace	
-	restore
-}
-
-log close
-*/

@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/workspace/logs/cleaning_dataset.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}29 Mar 2022, 15:30:34
+ {txt}opened on:  {res}31 Mar 2022, 20:12:13
 {txt}
 {com}. 
 . **Set Ado file path
@@ -379,15 +379,15 @@ variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {com}. 
 . **Keep patients with first EIA code in GP record if code was after 1st March 2019
 . keep if eia_code_date>=date("$start_date", "DMY") & eia_code_date!=. 
-{txt}(25,762 observations deleted)
+{txt}(26,199 observations deleted)
 
 {com}. tab eia_code
 
    {txt}eia_code {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     73,238      100.00      100.00
+          1 {c |}{res}     72,801      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,238      100.00
+      Total {c |}{res}     72,801      100.00
 {txt}
 {com}. 
 . **Month/Year of diagnosis
@@ -404,31 +404,31 @@ variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {com}. 
 . *Include only most recent EIA sub-diagnosis
 . replace ra_code =0 if psa_code_date >= ra_code_date & psa_code_date !=.
-{txt}(35,758 real changes made)
+{txt}(35,653 real changes made)
 
 {com}. replace ra_code =0 if anksp_code_date >= ra_code_date & anksp_code_date !=.
-{txt}(12,238 real changes made)
+{txt}(12,157 real changes made)
 
 {com}. replace psa_code =0 if ra_code_date >= psa_code_date & ra_code_date !=.
-{txt}(36,064 real changes made)
+{txt}(35,752 real changes made)
 
 {com}. replace psa_code =0 if anksp_code_date >= psa_code_date & anksp_code_date !=.
-{txt}(12,197 real changes made)
+{txt}(12,159 real changes made)
 
 {com}. replace anksp_code =0 if psa_code_date >= anksp_code_date & psa_code_date !=.
-{txt}(35,880 real changes made)
+{txt}(35,646 real changes made)
 
 {com}. replace anksp_code =0 if ra_code_date >= anksp_code_date & ra_code_date !=.
-{txt}(12,202 real changes made)
+{txt}(12,153 real changes made)
 
 {com}. gen eia_diagnosis=1 if ra_code==1
-{txt}(48,735 missing values generated)
+{txt}(48,529 missing values generated)
 
 {com}. replace eia_diagnosis=2 if psa_code==1
-{txt}(24,250 real changes made)
+{txt}(24,167 real changes made)
 
 {com}. replace eia_diagnosis=3 if anksp_code==1
-{txt}(24,421 real changes made)
+{txt}(24,298 real changes made)
 
 {com}. lab define eia_diagnosis 1 "RA" 2 "PsA" 3 "AxSpA", modify
 {txt}
@@ -439,11 +439,11 @@ variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}eia_diagnos {c |}
          is {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         RA {c |}{res}     24,503       33.49       33.49
-{txt}        PsA {c |}{res}     24,250       33.14       66.63
-{txt}      AxSpA {c |}{res}     24,421       33.37      100.00
+         RA {c |}{res}     24,272       33.37       33.37
+{txt}        PsA {c |}{res}     24,167       33.23       66.59
+{txt}      AxSpA {c |}{res}     24,298       33.41      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. drop if eia_diagnosis==.
 {txt}(64 observations deleted)
@@ -456,18 +456,18 @@ variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 
  {txt}rheum_appt {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,282        9.95        9.95
-{txt}          1 {c |}{res}     65,892       90.05      100.00
+          0 {c |}{res}      7,241        9.96        9.96
+{txt}          1 {c |}{res}     65,496       90.04      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. tab rheum_appt if rheum_appt_date<eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt before EIA code 
 
  {txt}rheum_appt {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     40,680      100.00      100.00
+          1 {c |}{res}     40,387      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     40,680      100.00
+      Total {c |}{res}     40,387      100.00
 {txt}
 {com}. 
 . **Rheumatology referrals
@@ -477,10 +477,10 @@ variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 eum_prerheu {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,254        9.91        9.91
-{txt}          1 {c |}{res}     65,920       90.09      100.00
+          0 {c |}{res}      7,294       10.03       10.03
+{txt}          1 {c |}{res}     65,443       89.97      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. tab referral_rheum_prerheum if rheum_appt!=0  //last rheum referral in the year before rheumatology outpatient if rheum appt date present
 
@@ -488,10 +488,10 @@ eum_prerheu {c |}
 eum_prerheu {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      6,539        9.92        9.92
-{txt}          1 {c |}{res}     59,353       90.08      100.00
+          0 {c |}{res}      6,608       10.09       10.09
+{txt}          1 {c |}{res}     58,888       89.91      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     65,892      100.00
+      Total {c |}{res}     65,496      100.00
 {txt}
 {com}. tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date
 
@@ -499,25 +499,25 @@ eum_prerheu {c |}
 eum_prerheu {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     29,582      100.00      100.00
+          1 {c |}{res}     29,348      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     29,582      100.00
+      Total {c |}{res}     29,348      100.00
 {txt}
 {com}. tab referral_rheum_precode //last rheum referral in the year before EIA code (could use if rheum appt missing)
 
 {txt}referral_rh {c |}
 eum_precode {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,295        9.97        9.97
-{txt}          1 {c |}{res}     65,879       90.03      100.00
+          0 {c |}{res}      7,258        9.98        9.98
+{txt}          1 {c |}{res}     65,479       90.02      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. gen referral_rheum_comb_date = referral_rheum_prerheum_date if referral_rheum_prerheum_date!=.
-{txt}(7,254 missing values generated)
+{txt}(7,294 missing values generated)
 
 {com}. replace referral_rheum_comb_date = referral_rheum_precode_date if referral_rheum_prerheum_date==. & referral_rheum_precode_date!=.
-{txt}(6,564 real changes made)
+{txt}(6,573 real changes made)
 
 {com}. format %td referral_rheum_comb_date
 {txt}
@@ -528,65 +528,65 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {txt}last_gp_ref {c |}
       rheum {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,284        9.95        9.95
-{txt}          1 {c |}{res}     65,890       90.05      100.00
+          0 {c |}{res}      7,386       10.15       10.15
+{txt}          1 {c |}{res}     65,351       89.85      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. gen all_appts=1 if last_gp_refrheum==1 & referral_rheum_prerheum==1 & rheum_appt==1 & eia_code==1 & last_gp_refrheum_date<referral_rheum_prerheum_date & referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_code_date 
-{txt}(70,337 missing values generated)
+{txt}(69,934 missing values generated)
 
 {com}. recode all_appts .=0
-{txt}(all_appts: 70337 changes made)
+{txt}(all_appts: 69934 changes made)
 
 {com}. tab all_appts //KEY - proportion who had a last gp appt, then rheum ref, then rheum appt, then EIA code 
 
   {txt}all_appts {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     70,337       96.12       96.12
-{txt}          1 {c |}{res}      2,837        3.88      100.00
+          0 {c |}{res}     69,934       96.15       96.15
+{txt}          1 {c |}{res}      2,803        3.85      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. tab last_gp_refcode     if referral_rheum_precode!=0 //last GP appointment before rheum ref if present (pre-eia code ref)
 
 {txt}last_gp_ref {c |}
        code {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      6,610       10.03       10.03
-{txt}          1 {c |}{res}     59,269       89.97      100.00
+          0 {c |}{res}      6,584       10.06       10.06
+{txt}          1 {c |}{res}     58,895       89.94      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     65,879      100.00
+      Total {c |}{res}     65,479      100.00
 {txt}
 {com}. tab last_gp_prerheum if rheum_appt!=0 //last GP appointment before rheum appt (if present)
 
 {txt}last_gp_pre {c |}
       rheum {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      6,576        9.98        9.98
-{txt}          1 {c |}{res}     59,316       90.02      100.00
+          0 {c |}{res}      6,522        9.96        9.96
+{txt}          1 {c |}{res}     58,974       90.04      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     65,892      100.00
+      Total {c |}{res}     65,496      100.00
 {txt}
 {com}. tab last_gp_precode //last GP appointment before EIA code
 
 {txt}last_gp_pre {c |}
        code {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,245        9.90        9.90
-{txt}          1 {c |}{res}     65,929       90.10      100.00
+          0 {c |}{res}      7,278       10.01       10.01
+{txt}          1 {c |}{res}     65,459       89.99      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. 
 . **For sensitivity analyses for those without rheum_appt, replace diagnosis date as EIA code date if rheum appt pre-code is missing or after
 . gen eia_diagnosis_date_nomiss=rheum_appt_date if rheum_appt_date!=.
-{txt}(7,282 missing values generated)
+{txt}(7,241 missing values generated)
 
 {com}. format %td eia_diagnosis_date_nomiss
 {txt}
 {com}. replace eia_diagnosis_date_nomiss=eia_code_date if (rheum_appt_date==. | rheum_appt_date>eia_code_date) & eia_code_date!=.
-{txt}(32,460 real changes made)
+{txt}(32,299 real changes made)
 
 {com}. gen eia_diagnosis_nomiss=1 if eia_diagnosis_date_nomiss!=.
 {txt}
@@ -598,28 +598,28 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {txt}eia_diagnos {c |}
   is_nomiss {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     73,174      100.00      100.00
+          1 {c |}{res}     72,737      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. 
 . *Define drugs and dates=====================================================*/
 . 
 . **csDMARDs (not including high cost MTX; wouldn't be shared care)
 . gen csdmard=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | sulfasalazine==1
-{txt}(43,132 missing values generated)
+{txt}(42,872 missing values generated)
 
 {com}. recode csdmard .=0 
-{txt}(csdmard: 43132 changes made)
+{txt}(csdmard: 42872 changes made)
 
 {com}. tab csdmard 
 
     {txt}csdmard {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     43,132       58.94       58.94
-{txt}          1 {c |}{res}     30,042       41.06      100.00
+          0 {c |}{res}     42,872       58.94       58.94
+{txt}          1 {c |}{res}     29,865       41.06      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. bys eia_diagnosis: tab csdmard
 
@@ -628,48 +628,48 @@ eum_precode {c |}      Freq.     Percent        Cum.
 
     csdmard {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,408       58.80       58.80
-{txt}          1 {c |}{res}     10,095       41.20      100.00
+          0 {c |}{res}     14,332       59.05       59.05
+{txt}          1 {c |}{res}      9,940       40.95      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,503      100.00
+      Total {c |}{res}     24,272      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
     csdmard {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,299       58.96       58.96
-{txt}          1 {c |}{res}      9,951       41.04      100.00
+          0 {c |}{res}     14,173       58.65       58.65
+{txt}          1 {c |}{res}      9,994       41.35      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,250      100.00
+      Total {c |}{res}     24,167      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
     csdmard {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,425       59.07       59.07
-{txt}          1 {c |}{res}      9,996       40.93      100.00
+          0 {c |}{res}     14,367       59.13       59.13
+{txt}          1 {c |}{res}      9,931       40.87      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,421      100.00
+      Total {c |}{res}     24,298      100.00
 
 {txt}
 {com}. 
 . **csDMARDs (including high cost MTX)
 . gen csdmard_hcd=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1 | sulfasalazine==1
-{txt}(38,874 missing values generated)
+{txt}(38,546 missing values generated)
 
 {com}. recode csdmard_hcd .=0 
-{txt}(csdmard_hcd: 38874 changes made)
+{txt}(csdmard_hcd: 38546 changes made)
 
 {com}. tab csdmard_hcd
 
 {txt}csdmard_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     38,874       53.13       53.13
-{txt}          1 {c |}{res}     34,300       46.87      100.00
+          0 {c |}{res}     38,546       52.99       52.99
+{txt}          1 {c |}{res}     34,191       47.01      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. bys eia_diagnosis: tab csdmard_hcd 
 
@@ -678,62 +678,62 @@ eum_precode {c |}      Freq.     Percent        Cum.
 
 csdmard_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,987       53.00       53.00
-{txt}          1 {c |}{res}     11,516       47.00      100.00
+          0 {c |}{res}     12,872       53.03       53.03
+{txt}          1 {c |}{res}     11,400       46.97      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,503      100.00
+      Total {c |}{res}     24,272      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
 csdmard_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,911       53.24       53.24
-{txt}          1 {c |}{res}     11,339       46.76      100.00
+          0 {c |}{res}     12,733       52.69       52.69
+{txt}          1 {c |}{res}     11,434       47.31      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,250      100.00
+      Total {c |}{res}     24,167      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
 csdmard_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,976       53.13       53.13
-{txt}          1 {c |}{res}     11,445       46.87      100.00
+          0 {c |}{res}     12,941       53.26       53.26
+{txt}          1 {c |}{res}     11,357       46.74      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,421      100.00
+      Total {c |}{res}     24,298      100.00
 
 {txt}
 {com}. 
 . **Date of first csDMARD script (not including high cost MTX prescriptions)
 . gen csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date)
-{txt}(43,132 missing values generated)
+{txt}(42,872 missing values generated)
 
 {com}. format %td csdmard_date
 {txt}
 {com}. 
 . **Date of first csDMARD script (including high cost MTX prescriptions)
 . gen csdmard_hcd_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date, sulfasalazine_date)
-{txt}(38,874 missing values generated)
+{txt}(38,546 missing values generated)
 
 {com}. format %td csdmard_hcd_date
 {txt}
 {com}. 
 . **Biologic use
 . gen biologic=1 if abatacept==1 | adalimumab==1 | baricitinib==1 | certolizumab==1 | etanercept==1 | golimumab==1 | guselkumab==1 | infliximab==1 | ixekizumab==1 | rituximab==1 | sarilumab==1 | secukinumab==1 | tocilizumab==1 | tofacitinib==1 | upadacitinib==1 | ustekinumab==1 
-{txt}(13,406 missing values generated)
+{txt}(13,417 missing values generated)
 
 {com}. recode biologic .=0
-{txt}(biologic: 13406 changes made)
+{txt}(biologic: 13417 changes made)
 
 {com}. tab biologic 
 
    {txt}biologic {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,406       18.32       18.32
-{txt}          1 {c |}{res}     59,768       81.68      100.00
+          0 {c |}{res}     13,417       18.45       18.45
+{txt}          1 {c |}{res}     59,320       81.55      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     73,174      100.00
+      Total {c |}{res}     72,737      100.00
 {txt}
 {com}. bys eia_diagnosis: tab biologic 
 
@@ -742,36 +742,36 @@ csdmard_hcd {c |}      Freq.     Percent        Cum.
 
    biologic {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,465       18.22       18.22
-{txt}          1 {c |}{res}     20,038       81.78      100.00
+          0 {c |}{res}      4,495       18.52       18.52
+{txt}          1 {c |}{res}     19,777       81.48      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,503      100.00
+      Total {c |}{res}     24,272      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
    biologic {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,431       18.27       18.27
-{txt}          1 {c |}{res}     19,819       81.73      100.00
+          0 {c |}{res}      4,458       18.45       18.45
+{txt}          1 {c |}{res}     19,709       81.55      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,250      100.00
+      Total {c |}{res}     24,167      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
    biologic {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,510       18.47       18.47
-{txt}          1 {c |}{res}     19,911       81.53      100.00
+          0 {c |}{res}      4,464       18.37       18.37
+{txt}          1 {c |}{res}     19,834       81.63      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     24,421      100.00
+      Total {c |}{res}     24,298      100.00
 
 {txt}
 {com}. 
 . **Date of first biologic script
 . gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certolizumab_date, etanercept_date, golimumab_date, guselkumab_date, infliximab_date, ixekizumab_date, rituximab_date, sarilumab_date, secukinumab_date, tocilizumab_date, tofacitinib_date, upadacitinib_date, ustekinumab_date)
-{txt}(13,406 missing values generated)
+{txt}(13,417 missing values generated)
 
 {com}. format %td biologic_date
 {txt}
@@ -782,35 +782,35 @@ csdmard_hcd {c |}      Freq.     Percent        Cum.
 
     {txt}csdmard {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     10,932      100.00      100.00
+          1 {c |}{res}     10,791      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,932      100.00
+      Total {c |}{res}     10,791      100.00
 {txt}
 {com}. drop if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
-{txt}(10,932 observations deleted)
+{txt}(10,791 observations deleted)
 
 {com}. tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 
    {txt}biologic {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}     18,925      100.00      100.00
+          1 {c |}{res}     18,902      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     18,925      100.00
+      Total {c |}{res}     18,902      100.00
 {txt}
 {com}. drop if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
-{txt}(18,925 observations deleted)
+{txt}(18,902 observations deleted)
 
 {com}. 
 . *Number of EIA diagnoses in 1-year time windows=========================================*/
 . 
 . gen diagnosis_year=1 if eia_code_date>=td(01mar2019) & eia_code_date<td(01mar2020)
-{txt}(29,284 missing values generated)
+{txt}(29,361 missing values generated)
 
 {com}. replace diagnosis_year=2 if eia_code_date>=td(01mar2020) & eia_code_date<td(01mar2021)
-{txt}(13,666 real changes made)
+{txt}(13,870 real changes made)
 
 {com}. replace diagnosis_year=3 if eia_code_date>=td(01mar2021) & eia_code_date<td(01mar2022)
-{txt}(13,949 real changes made)
+{txt}(13,717 real changes made)
 
 {com}. lab define diagnosis_year 1 "March 2019-March 2020" 2 "March 2020-March 2021" 3 "March 2021-March 2022", modify
 {txt}
@@ -822,11 +822,11 @@ csdmard_hcd {c |}      Freq.     Percent        Cum.
 
     {txt}Year of diagnosis {c |}      Freq.     Percent        Cum.
 {hline 22}{c +}{hline 35}
-March 2019-March 2020 {c |}{res}     14,033       33.69       33.69
-{txt}March 2020-March 2021 {c |}{res}     13,666       32.81       66.51
-{txt}March 2021-March 2022 {c |}{res}     13,949       33.49      100.00
+March 2019-March 2020 {c |}{res}     13,683       33.15       33.15
+{txt}March 2020-March 2021 {c |}{res}     13,870       33.61       66.76
+{txt}March 2021-March 2022 {c |}{res}     13,717       33.24      100.00
 {txt}{hline 22}{c +}{hline 35}
-                Total {c |}{res}     41,648      100.00
+                Total {c |}{res}     41,270      100.00
 {txt}
 {com}. bys eia_diagnosis: tab diagnosis_year
 
@@ -835,33 +835,33 @@ March 2019-March 2020 {c |}{res}     14,033       33.69       33.69
 
     Year of diagnosis {c |}      Freq.     Percent        Cum.
 {hline 22}{c +}{hline 35}
-March 2019-March 2020 {c |}{res}      4,708       33.91       33.91
-{txt}March 2020-March 2021 {c |}{res}      4,540       32.70       66.62
-{txt}March 2021-March 2022 {c |}{res}      4,634       33.38      100.00
+March 2019-March 2020 {c |}{res}      4,603       33.28       33.28
+{txt}March 2020-March 2021 {c |}{res}      4,644       33.57       66.85
+{txt}March 2021-March 2022 {c |}{res}      4,585       33.15      100.00
 {txt}{hline 22}{c +}{hline 35}
-                Total {c |}{res}     13,882      100.00
+                Total {c |}{res}     13,832      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
     Year of diagnosis {c |}      Freq.     Percent        Cum.
 {hline 22}{c +}{hline 35}
-March 2019-March 2020 {c |}{res}      4,729       34.14       34.14
-{txt}March 2020-March 2021 {c |}{res}      4,481       32.35       66.48
-{txt}March 2021-March 2022 {c |}{res}      4,643       33.52      100.00
+March 2019-March 2020 {c |}{res}      4,476       32.86       32.86
+{txt}March 2020-March 2021 {c |}{res}      4,608       33.83       66.70
+{txt}March 2021-March 2022 {c |}{res}      4,536       33.30      100.00
 {txt}{hline 22}{c +}{hline 35}
-                Total {c |}{res}     13,853      100.00
+                Total {c |}{res}     13,620      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
     Year of diagnosis {c |}      Freq.     Percent        Cum.
 {hline 22}{c +}{hline 35}
-March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
-{txt}March 2020-March 2021 {c |}{res}      4,645       33.39       66.42
-{txt}March 2021-March 2022 {c |}{res}      4,672       33.58      100.00
+March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
+{txt}March 2020-March 2021 {c |}{res}      4,618       33.42       66.74
+{txt}March 2021-March 2022 {c |}{res}      4,596       33.26      100.00
 {txt}{hline 22}{c +}{hline 35}
-                Total {c |}{res}     13,913      100.00
+                Total {c |}{res}     13,818      100.00
 
 {txt}
 {com}. 
@@ -869,7 +869,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 . 
 . **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct time order) //Note - referral could be coded before GP appt?
 . gen time_gp_rheum_ref_appt = (referral_rheum_prerheum_date - last_gp_refrheum_date) if referral_rheum_prerheum_date!=. & last_gp_refrheum_date!=. & rheum_appt_date!=. & referral_rheum_prerheum_date>last_gp_refrheum_date & referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_code_date
-{txt}(42,144 missing values generated)
+{txt}(41,907 missing values generated)
 
 {com}. tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients
 
@@ -878,7 +878,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
- {res}     1173  239.1714       180        73       362
+ {res}     1137  237.4785       179        81       347
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75)
@@ -891,7 +891,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
- {res}      384    243.25       192      66.5       358
+ {res}      376  240.2553     176.5      69.5     347.5
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -902,7 +902,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
- {res}      381  228.4777       164        69       349
+ {res}      386  235.5078     178.5        82       344
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -913,13 +913,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
- {res}      408  245.3186     185.5      81.5       370
+ {res}      375  236.7227       180        86       353
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from last GP to rheum ref before eia code (sensitivity analysis; includes those with no rheum appt)
 . gen time_gp_rheum_ref_code = (referral_rheum_precode_date - last_gp_refcode_date) if referral_rheum_precode_date!=. & last_gp_refcode_date!=. & referral_rheum_precode_date>last_gp_refcode_date & referral_rheum_precode_date<eia_code_date
-{txt}(35,789 missing values generated)
+{txt}(35,671 missing values generated)
 
 {com}. tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
 
@@ -928,7 +928,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
- {res}     7528  370.4036     304.5       140       545
+ {res}     7373  381.7057       322       144       564
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
@@ -941,7 +941,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
- {res}     2482  367.9492       306       138       538
+ {res}     2514   391.004       332       152       577
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -952,7 +952,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
- {res}     2504  373.6785     307.5       140       551
+ {res}     2451  383.5753       328       148       560
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -963,16 +963,16 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
- {res}     2542   369.574       300       142       546
+ {res}     2408  370.0951     310.5       132     539.5
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from last GP to rheum ref (combined - sensitivity analysis; includes those with no rheum appt)
 . gen time_gp_rheum_ref_comb = time_gp_rheum_ref_appt 
-{txt}(42,144 missing values generated)
+{txt}(41,907 missing values generated)
 
 {com}. replace time_gp_rheum_ref_comb = time_gp_rheum_ref_code if time_gp_rheum_ref_appt==. & time_gp_rheum_ref_code!=.
-{txt}(7,247 real changes made)
+{txt}(7,103 real changes made)
 
 {com}. tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 
@@ -981,7 +981,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
- {res}     8420  350.9515       283     125.5       518
+ {res}     8240  360.2211       297       130     528.5
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
@@ -994,7 +994,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
- {res}     2777  350.6503       286       125       516
+ {res}     2807  368.4613       301       136       545
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1005,7 +1005,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
- {res}     2795  352.9474       283       125       528
+ {res}     2740   361.542       302       135       526
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1016,13 +1016,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
- {res}     2848  349.2865       279       126     508.5
+ {res}     2693  350.2882       287       120       510
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from last GP pre-rheum appt to first rheum appt (sensitivity analysis; includes those with no rheum ref)
 . gen time_gp_rheum_appt = (rheum_appt_date - last_gp_prerheum_date) if rheum_appt_date!=. & last_gp_prerheum_date!=. & rheum_appt_date>last_gp_prerheum_date & rheum_appt_date<eia_code_date
-{txt}(36,444 missing values generated)
+{txt}(36,187 missing values generated)
 
 {com}. tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 
@@ -1031,7 +1031,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
- {res}     6873  285.8379       227       102       410
+ {res}     6857  292.3805       234       107       419
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
@@ -1044,7 +1044,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
- {res}     2254  285.3035       231        98       413
+ {res}     2343  287.0854       230       108       409
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1055,7 +1055,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
- {res}     2328  283.5769       226        99     410.5
+ {res}     2221  302.4777       249       112       435
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1066,13 +1066,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
- {res}     2291  288.6613       227       107       407
+ {res}     2293  288.0109       226       102       407
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from last GP pre-code to EIA code (sensitivity analysis; includes those with no rheum ref and/or no rheum appt)
 . gen time_gp_eia_code = (eia_code_date - last_gp_precode_date) if eia_code_date!=. & last_gp_precode_date!=. & eia_code_date>last_gp_precode_date
-{txt}(19,172 missing values generated)
+{txt}(19,029 missing values generated)
 
 {com}. tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
 
@@ -1081,7 +1081,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
- {res}    24145  518.9004       467       227       766
+ {res}    24015  523.9135       474       232       776
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
@@ -1094,7 +1094,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
- {res}     8029  518.1316       463       227       766
+ {res}     7981   527.856       480       235       779
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1105,7 +1105,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
- {res}     8081  519.3837       467       231       762
+ {res}     7984  520.9415       469       229       774
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1116,16 +1116,16 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
- {res}     8035  519.1823       471       224       769
+ {res}     8050  522.9524       474       232       775
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from last GP to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
 . gen time_gp_eia_diag = time_gp_rheum_appt
-{txt}(36,444 missing values generated)
+{txt}(36,187 missing values generated)
 
 {com}. replace time_gp_eia_diag = time_gp_eia_code if time_gp_rheum_appt==. & time_gp_eia_code!=.
-{txt}(19,794 real changes made)
+{txt}(19,651 real changes made)
 
 {com}. tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
 
@@ -1134,7 +1134,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
- {res}    26667  452.3486       382       176       673
+ {res}    26508  454.9023       386       177       677
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
@@ -1147,7 +1147,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
- {res}     8871   454.495       384       176       676
+ {res}     8837  456.1464       385       177       680
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1158,7 +1158,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
- {res}     8930  450.7746       382       176       668
+ {res}     8790  455.4611       387       179       676
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1169,13 +1169,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
- {res}     8866  451.7864       380       176       672
+ {res}     8881  453.1111       385       176       672
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from rheum ref to rheum appt (i.e. if appts are present and in correct time order)
 . gen time_ref_rheum_appt = (rheum_appt_date - referral_rheum_prerheum_date) if rheum_appt_date!=. & referral_rheum_prerheum_date!=. & referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_code_date
-{txt}(36,583 missing values generated)
+{txt}(36,434 missing values generated)
 
 {com}. tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 
@@ -1184,7 +1184,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
- {res}     6734  288.1524       228       102       414
+ {res}     6610   287.488       230       102       409
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
@@ -1197,7 +1197,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
- {res}     2226  286.3073     225.5       102       408
+ {res}     2243  287.3923       227       102       410
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1208,7 +1208,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
- {res}     2205  299.2313       243       104       434
+ {res}     2190   291.547     235.5       103       409
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1219,13 +1219,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
- {res}     2303  279.3283       219       101       402
+ {res}     2177  283.5034       226       101       408
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from rheum ref to EIA code (sensitivity analysis; includes those with no rheum appt)
 . gen time_ref_rheum_eia = (eia_code_date - referral_rheum_precode_date) if eia_code_date!=. & referral_rheum_precode_date!=. & referral_rheum_precode_date<eia_code_date  
-{txt}(19,212 missing values generated)
+{txt}(19,201 missing values generated)
 
 {com}. tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
 
@@ -1234,7 +1234,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
- {res}    24105  519.6585       467       233       767
+ {res}    23843  521.1205       468       234       765
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
@@ -1247,7 +1247,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
- {res}     8066  524.7202       476       237       774
+ {res}     7992  519.3574       461       227       774
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1258,7 +1258,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
- {res}     8018  516.1151       462       234       759
+ {res}     7918  521.1128       473       240       755
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1269,16 +1269,16 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
- {res}     8021  518.1103       463       230       764
+ {res}     7933  522.9043       470       236       769
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from rheum ref to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
 . gen time_ref_rheum_eia_comb = time_ref_rheum_appt
-{txt}(36,583 missing values generated)
+{txt}(36,434 missing values generated)
 
 {com}. replace time_ref_rheum_eia_comb = time_ref_rheum_eia if time_ref_rheum_appt==. & time_ref_rheum_eia!=.
-{txt}(19,878 real changes made)
+{txt}(19,644 real changes made)
 
 {com}. tabstat time_ref_rheum_eia_comb, stats (n mean p50 p25 p75)
 
@@ -1287,7 +1287,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
- {res}    26612  455.1353       384       178     679.5
+ {res}    26254    454.64       385       179       671
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_ref_rheum_eia_comb, stats (n mean p50 p25 p75)
@@ -1300,7 +1300,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
- {res}     8924   460.103       388       179       690
+ {res}     8834  453.3844       380       175       675
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1311,7 +1311,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
- {res}     8822  457.3474       389       182       676
+ {res}     8687  455.0972       386       183       667
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1322,13 +1322,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
- {res}     8866   447.934       376       174       669
+ {res}     8733  455.4554       388       179       669
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time from rheum appt to EIA code (i.e. if appts are present and in correct time order)
 . gen time_rheum_eia_code = (eia_code_date - rheum_appt_date) if eia_code_date!=. & rheum_appt_date!=. & rheum_appt_date<eia_code_date 
-{txt}(13,958 missing values generated)
+{txt}(13,987 missing values generated)
 
 {com}. tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) 
 
@@ -1337,7 +1337,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
- {res}    29359  602.9302       575       312       875
+ {res}    29057  602.1917       572       314       870
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) 
@@ -1350,7 +1350,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
- {res}     9713  604.9759       579       312       881
+ {res}     9836  602.7728       576       307       872
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1361,7 +1361,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
- {res}     9814  599.9176       571       312       865
+ {res}     9558  606.2578     578.5       321       876
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -1372,7 +1372,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
- {res}     9832  603.9165       575       313       879
+ {res}     9663  597.5784       561       313       860
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
@@ -1381,7 +1381,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 . 
 . **Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (assumes rheum appt present; not including high cost MTX prescriptions)
 . gen time_to_csdmard=(csdmard_date-rheum_appt_date) if csdmard==1 & rheum_appt_date!=. & csdmard_date>rheum_appt_date 
-{txt}(30,694 missing values generated)
+{txt}(30,715 missing values generated)
 
 {com}. tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 
@@ -1390,13 +1390,13 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_cs~d} {...}
 {c |}{...}
- {res}     4275  558.9808       519       286       804
+ {res}     4100  567.7107       532       293       815
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
 . gen time_to_csdmard_hcd=(csdmard_hcd_date-rheum_appt_date) if csdmard_hcd==1 & rheum_appt_date!=. & csdmard_hcd_date>rheum_appt_date 
-{txt}(29,095 missing values generated)
+{txt}(29,085 missing values generated)
 
 {com}. tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
 
@@ -1405,7 +1405,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~cd} {...}
 {c |}{...}
- {res}     4786  555.6084       513       285       797
+ {res}     4652  559.9693     519.5       285     803.5
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
@@ -1417,7 +1417,7 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~rd} {...}
 {c |}{...}
- {res}     4100  563.2641     518.5       285     821.5
+ {res}     4078    564.77       524       289       820
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. tab csdmard if rheum_appt_date!=. & csdmard_date<rheum_appt_date & psa_code==1 
@@ -1432,144 +1432,144 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~cd} {...}
 {c |}{...}
- {res}     4648  555.8681       510       278     805.5
+ {res}     4626  554.7315     513.5       277       808
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. tab csdmard_hcd if rheum_appt_date!=. & csdmard_hcd_date<rheum_appt_date & psa_code==1  
 
 {txt}csdmard_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}        234      100.00      100.00
+          1 {c |}{res}        217      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        234      100.00
+      Total {c |}{res}        217      100.00
 {txt}
 {com}. 
 . **csDMARD time categories for RA patients (not including high cost MTX prescriptions)
 . gen csdmard_6w=1 if time_to_csdmard<=42 & time_to_csdmard!=. 
-{txt}(42,920 missing values generated)
+{txt}(42,678 missing values generated)
 
 {com}. recode csdmard_6w .=0
-{txt}(csdmard_6w: 42920 changes made)
+{txt}(csdmard_6w: 42678 changes made)
 
 {com}. tab csdmard_6w if ra_code==1
 
  {txt}csdmard_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,307       99.19       99.19
-{txt}          1 {c |}{res}        117        0.81      100.00
+          0 {c |}{res}     14,327       99.08       99.08
+{txt}          1 {c |}{res}        133        0.92      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_3m=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
-{txt}(42,433 missing values generated)
+{txt}(42,220 missing values generated)
 
 {com}. recode csdmard_3m .=0
-{txt}(csdmard_3m: 42433 changes made)
+{txt}(csdmard_3m: 42220 changes made)
 
 {com}. tab csdmard_3m if ra_code==1
 
  {txt}csdmard_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,136       98.00       98.00
-{txt}          1 {c |}{res}        288        2.00      100.00
+          0 {c |}{res}     14,184       98.09       98.09
+{txt}          1 {c |}{res}        276        1.91      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
-{txt}(41,410 missing values generated)
+{txt}(41,237 missing values generated)
 
 {com}. recode csdmard_6m .=0
-{txt}(csdmard_6m: 41410 changes made)
+{txt}(csdmard_6m: 41237 changes made)
 
 {com}. tab csdmard_6m if ra_code==1
 
  {txt}csdmard_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,794       95.63       95.63
-{txt}          1 {c |}{res}        630        4.37      100.00
+          0 {c |}{res}     13,865       95.89       95.89
+{txt}          1 {c |}{res}        595        4.11      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_12m=1 if time_to_csdmard<=365 & time_to_csdmard!=. 
-{txt}(38,989 missing values generated)
+{txt}(38,978 missing values generated)
 
 {com}. recode csdmard_12m .=0
-{txt}(csdmard_12m: 38989 changes made)
+{txt}(csdmard_12m: 38978 changes made)
 
 {com}. tab csdmard_12m if ra_code==1
 
 {txt}csdmard_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,976       89.96       89.96
-{txt}          1 {c |}{res}      1,448       10.04      100.00
+          0 {c |}{res}     13,147       90.92       90.92
+{txt}          1 {c |}{res}      1,313        9.08      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. 
 . **csDMARD time categories for RA patients (including high cost MTX prescriptions)
 . gen csdmard_hcd_6w=1 if time_to_csdmard_hcd<=42 & time_to_csdmard_hcd!=.
-{txt}(42,849 missing values generated)
+{txt}(42,617 missing values generated)
 
 {com}. recode csdmard_hcd_6w .=0
-{txt}(csdmard_hcd_6w: 42849 changes made)
+{txt}(csdmard_hcd_6w: 42617 changes made)
 
 {com}. tab csdmard_hcd_6w if ra_code==1
 
 {txt}csdmard_hcd {c |}
         _6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,282       99.02       99.02
-{txt}          1 {c |}{res}        142        0.98      100.00
+          0 {c |}{res}     14,307       98.94       98.94
+{txt}          1 {c |}{res}        153        1.06      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=.
-{txt}(42,306 missing values generated)
+{txt}(42,070 missing values generated)
 
 {com}. recode csdmard_hcd_3m .=0
-{txt}(csdmard_hcd_3m: 42306 changes made)
+{txt}(csdmard_hcd_3m: 42070 changes made)
 
 {com}. tab csdmard_hcd_3m if ra_code==1
 
 {txt}csdmard_hcd {c |}
         _3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,090       97.68       97.68
-{txt}          1 {c |}{res}        334        2.32      100.00
+          0 {c |}{res}     14,134       97.75       97.75
+{txt}          1 {c |}{res}        326        2.25      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=.
-{txt}(41,129 missing values generated)
+{txt}(40,913 missing values generated)
 
 {com}. recode csdmard_hcd_6m .=0
-{txt}(csdmard_hcd_6m: 41129 changes made)
+{txt}(csdmard_hcd_6m: 40913 changes made)
 
 {com}. tab csdmard_hcd_6m if ra_code==1
 
 {txt}csdmard_hcd {c |}
         _6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,714       95.08       95.08
-{txt}          1 {c |}{res}        710        4.92      100.00
+          0 {c |}{res}     13,770       95.23       95.23
+{txt}          1 {c |}{res}        690        4.77      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=.
-{txt}(38,350 missing values generated)
+{txt}(38,276 missing values generated)
 
 {com}. recode csdmard_hcd_12m .=0
-{txt}(csdmard_hcd_12m: 38350 changes made)
+{txt}(csdmard_hcd_12m: 38276 changes made)
 
 {com}. tab csdmard_hcd_12m if ra_code==1
 
 {txt}csdmard_hcd {c |}
        _12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,784       88.63       88.63
-{txt}          1 {c |}{res}      1,640       11.37      100.00
+          0 {c |}{res}     12,908       89.27       89.27
+{txt}          1 {c |}{res}      1,552       10.73      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. 
 . **csDMARD time categories for PsA patients (not including high cost MTX prescriptions)
@@ -1577,37 +1577,37 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 
  {txt}csdmard_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,310       99.12       99.12
-{txt}          1 {c |}{res}        127        0.88      100.00
+          0 {c |}{res}     14,093       99.18       99.18
+{txt}          1 {c |}{res}        116        0.82      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_3m if psa_code==1
 
  {txt}csdmard_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,154       98.04       98.04
-{txt}          1 {c |}{res}        283        1.96      100.00
+          0 {c |}{res}     13,921       97.97       97.97
+{txt}          1 {c |}{res}        288        2.03      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_6m if psa_code==1
 
  {txt}csdmard_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,831       95.80       95.80
-{txt}          1 {c |}{res}        606        4.20      100.00
+          0 {c |}{res}     13,610       95.78       95.78
+{txt}          1 {c |}{res}        599        4.22      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_12m if psa_code==1
 
 {txt}csdmard_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,036       90.30       90.30
-{txt}          1 {c |}{res}      1,401        9.70      100.00
+          0 {c |}{res}     12,843       90.39       90.39
+{txt}          1 {c |}{res}      1,366        9.61      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **csDMARD time categories for PsA patients (including high cost MTX prescriptions)
@@ -1616,58 +1616,58 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 {txt}csdmard_hcd {c |}
         _6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,294       99.01       99.01
-{txt}          1 {c |}{res}        143        0.99      100.00
+          0 {c |}{res}     14,073       99.04       99.04
+{txt}          1 {c |}{res}        136        0.96      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_hcd_3m if psa_code==1
 
 {txt}csdmard_hcd {c |}
         _3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,122       97.82       97.82
-{txt}          1 {c |}{res}        315        2.18      100.00
+          0 {c |}{res}     13,867       97.59       97.59
+{txt}          1 {c |}{res}        342        2.41      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_hcd_6m if psa_code==1
 
 {txt}csdmard_hcd {c |}
         _6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,734       95.13       95.13
-{txt}          1 {c |}{res}        703        4.87      100.00
+          0 {c |}{res}     13,489       94.93       94.93
+{txt}          1 {c |}{res}        720        5.07      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab csdmard_hcd_12m if psa_code==1
 
 {txt}csdmard_hcd {c |}
        _12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,815       88.76       88.76
-{txt}          1 {c |}{res}      1,622       11.24      100.00
+          0 {c |}{res}     12,611       88.75       88.75
+{txt}          1 {c |}{res}      1,598       11.25      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **What was first shared care csDMARD (not including high cost MTX prescriptions)
 . gen first_csD=""
-{txt}(43,317 missing values generated)
+{txt}(43,044 missing values generated)
 
 {com}. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date sulfasalazine_date {c -(}
 {txt}  2{com}.         replace first_csD="`var'" if csdmard_date==`var' & csdmard_date!=.
 {txt}  3{com}.         {c )-}
 {txt}variable {bf}first_csD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
-{txt}(3,136 real changes made)
-(3,114 real changes made)
-(3,165 real changes made)
-(3,100 real changes made)
-(3,083 real changes made)
+{txt}(3,109 real changes made)
+(3,130 real changes made)
+(3,046 real changes made)
+(3,015 real changes made)
+(3,106 real changes made)
 
 {com}. gen first_csDMARD = substr(first_csD, 1, length(first_csD) - 5) if first_csD!=""
-{txt}(27,726 missing values generated)
+{txt}(27,640 missing values generated)
 
 {com}. drop first_csD
 {txt}
@@ -1675,45 +1675,45 @@ March 2019-March 2020 {c |}{res}      4,596       33.03       33.03
 
      {txt}first_csDMARD {c |}      Freq.     Percent        Cum.
 {hline 19}{c +}{hline 35}
-hydroxychloroquine {c |}{res}      1,016       19.36       19.36
-{txt}       leflunomide {c |}{res}      1,017       19.38       38.74
-{txt}      methotrexate {c |}{res}      1,062       20.24       58.97
-{txt}  methotrexate_inj {c |}{res}      1,110       21.15       80.13
-{txt}     sulfasalazine {c |}{res}      1,043       19.87      100.00
+hydroxychloroquine {c |}{res}      1,009       19.81       19.81
+{txt}       leflunomide {c |}{res}      1,068       20.97       40.77
+{txt}      methotrexate {c |}{res}      1,011       19.85       60.62
+{txt}  methotrexate_inj {c |}{res}        968       19.00       79.62
+{txt}     sulfasalazine {c |}{res}      1,038       20.38      100.00
 {txt}{hline 19}{c +}{hline 35}
-             Total {c |}{res}      5,248      100.00
+             Total {c |}{res}      5,094      100.00
 {txt}
 {com}. tab first_csDMARD if psa_code==1 //for PsA patients
 
      {txt}first_csDMARD {c |}      Freq.     Percent        Cum.
 {hline 19}{c +}{hline 35}
-hydroxychloroquine {c |}{res}      1,040       20.38       20.38
-{txt}       leflunomide {c |}{res}      1,023       20.04       40.42
-{txt}      methotrexate {c |}{res}      1,054       20.65       61.07
-{txt}  methotrexate_inj {c |}{res}        958       18.77       79.84
-{txt}     sulfasalazine {c |}{res}      1,029       20.16      100.00
+hydroxychloroquine {c |}{res}      1,048       20.50       20.50
+{txt}       leflunomide {c |}{res}      1,018       19.91       40.41
+{txt}      methotrexate {c |}{res}      1,015       19.86       60.27
+{txt}  methotrexate_inj {c |}{res}      1,027       20.09       80.36
+{txt}     sulfasalazine {c |}{res}      1,004       19.64      100.00
 {txt}{hline 19}{c +}{hline 35}
-             Total {c |}{res}      5,104      100.00
+             Total {c |}{res}      5,112      100.00
 {txt}
 {com}. 
 . 
 . **What was first csDMARD (including high cost MTX prescriptions)
 . gen first_csD_hcd=""
-{txt}(43,317 missing values generated)
+{txt}(43,044 missing values generated)
 
 {com}. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {c -(}
 {txt}  2{com}.         replace first_csD_hcd="`var'" if csdmard_hcd_date==`var' & csdmard_hcd_date!=.
 {txt}  3{com}.         {c )-}
 {txt}variable {bf}first_csD_hcd{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
-{txt}(2,964 real changes made)
-(2,963 real changes made)
-(2,990 real changes made)
-(2,932 real changes made)
-(3,548 real changes made)
-(2,927 real changes made)
+{txt}(2,950 real changes made)
+(2,953 real changes made)
+(2,892 real changes made)
+(2,843 real changes made)
+(3,551 real changes made)
+(2,968 real changes made)
 
 {com}. gen first_csDMARD_hcd = substr(first_csD_hcd, 1, length(first_csD_hcd) - 5) if first_csD_hcd!=""
-{txt}(25,001 missing values generated)
+{txt}(24,890 missing values generated)
 
 {com}. drop first_csD_hcd
 {txt}
@@ -1721,98 +1721,98 @@ hydroxychloroquine {c |}{res}      1,040       20.38       20.38
 
  {txt}first_csDMARD_hcd {c |}      Freq.     Percent        Cum.
 {hline 19}{c +}{hline 35}
-hydroxychloroquine {c |}{res}        962       15.69       15.69
-{txt}       leflunomide {c |}{res}        971       15.83       31.52
-{txt}      methotrexate {c |}{res}      1,007       16.42       47.95
-{txt}  methotrexate_hcd {c |}{res}      1,147       18.71       66.65
-{txt}  methotrexate_inj {c |}{res}      1,053       17.17       83.82
-{txt}     sulfasalazine {c |}{res}        992       16.18      100.00
+hydroxychloroquine {c |}{res}        960       15.95       15.95
+{txt}       leflunomide {c |}{res}      1,007       16.73       32.67
+{txt}      methotrexate {c |}{res}        953       15.83       48.50
+{txt}  methotrexate_hcd {c |}{res}      1,192       19.80       68.31
+{txt}  methotrexate_inj {c |}{res}        921       15.30       83.60
+{txt}     sulfasalazine {c |}{res}        987       16.40      100.00
 {txt}{hline 19}{c +}{hline 35}
-             Total {c |}{res}      6,132      100.00
+             Total {c |}{res}      6,020      100.00
 {txt}
 {com}. tab first_csDMARD_hcd if psa_code==1 //for PsA patients
 
  {txt}first_csDMARD_hcd {c |}      Freq.     Percent        Cum.
 {hline 19}{c +}{hline 35}
-hydroxychloroquine {c |}{res}        985       16.34       16.34
-{txt}       leflunomide {c |}{res}        970       16.09       32.43
-{txt}      methotrexate {c |}{res}        979       16.24       48.67
-{txt}  methotrexate_hcd {c |}{res}      1,217       20.19       68.86
-{txt}  methotrexate_inj {c |}{res}        908       15.06       83.93
-{txt}     sulfasalazine {c |}{res}        969       16.07      100.00
+hydroxychloroquine {c |}{res}        987       16.40       16.40
+{txt}       leflunomide {c |}{res}        958       15.92       32.33
+{txt}      methotrexate {c |}{res}        971       16.14       48.46
+{txt}  methotrexate_hcd {c |}{res}      1,168       19.41       67.87
+{txt}  methotrexate_inj {c |}{res}        972       16.15       84.03
+{txt}     sulfasalazine {c |}{res}        961       15.97      100.00
 {txt}{hline 19}{c +}{hline 35}
-             Total {c |}{res}      6,028      100.00
+             Total {c |}{res}      6,017      100.00
 {txt}
 {com}.  
 . **Methotrexate use (not including high cost MTX prescriptions)
 . gen mtx=1 if methotrexate==1 | methotrexate_inj==1
-{txt}(36,153 missing values generated)
+{txt}(36,057 missing values generated)
 
 {com}. recode mtx .=0 
-{txt}(mtx: 36153 changes made)
+{txt}(mtx: 36057 changes made)
 
 {com}. tab mtx if ra_code==1 //for RA patients
 
         {txt}mtx {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     11,953       82.87       82.87
-{txt}          1 {c |}{res}      2,471       17.13      100.00
+          0 {c |}{res}     12,180       84.23       84.23
+{txt}          1 {c |}{res}      2,280       15.77      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. tab mtx if psa_code==1 //for PsA patients
 
         {txt}mtx {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,125       83.99       83.99
-{txt}          1 {c |}{res}      2,312       16.01      100.00
+          0 {c |}{res}     11,867       83.52       83.52
+{txt}          1 {c |}{res}      2,342       16.48      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **Methotrexate use (including high cost MTX prescriptions)
 . gen mtx_hcd=1 if methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1
-{txt}(32,590 missing values generated)
+{txt}(32,486 missing values generated)
 
 {com}. recode mtx_hcd .=0 
-{txt}(mtx_hcd: 32590 changes made)
+{txt}(mtx_hcd: 32486 changes made)
 
 {com}. tab mtx_hcd if ra_code==1 //for RA patients
 
     {txt}mtx_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,801       74.88       74.88
-{txt}          1 {c |}{res}      3,623       25.12      100.00
+          0 {c |}{res}     10,979       75.93       75.93
+{txt}          1 {c |}{res}      3,481       24.07      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. tab mtx_hcd if psa_code==1 //for PsA patients
 
     {txt}mtx_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,904       75.53       75.53
-{txt}          1 {c |}{res}      3,533       24.47      100.00
+          0 {c |}{res}     10,682       75.18       75.18
+{txt}          1 {c |}{res}      3,527       24.82      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **Date of first methotrexate script (not including high cost MTX prescriptions)
 . gen mtx_date=min(methotrexate_date, methotrexate_inj_date)
-{txt}(36,153 missing values generated)
+{txt}(36,057 missing values generated)
 
 {com}. format %td mtx_date
 {txt}
 {com}. 
 . **Date of first methotrexate script (including high cost MTX prescriptions)
 . gen mtx_hcd_date=min(methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date)
-{txt}(32,590 missing values generated)
+{txt}(32,486 missing values generated)
 
 {com}. format %td mtx_hcd_date
 {txt}
 {com}. 
 . **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
 . gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & mtx_date>rheum_appt_date 
-{txt}(37,507 missing values generated)
+{txt}(37,483 missing values generated)
 
 {com}. tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
 
@@ -1821,13 +1821,13 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mtx} {...}
 {c |}{...}
- {res}     2008  586.2714       556       318       822
+ {res}     1832  591.2347     563.5       321     851.5
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **Time to first methotrexate script for RA patients (including high cost MTX prescriptions)
 . gen time_to_mtx_hcd=(mtx_hcd_date-rheum_appt_date) if mtx_hcd==1 & rheum_appt_date!=. & mtx_hcd_date>rheum_appt_date 
-{txt}(35,222 missing values generated)
+{txt}(35,187 missing values generated)
 
 {com}. tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75)
 
@@ -1836,7 +1836,7 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mt~d} {...}
 {c |}{...}
- {res}     2746   585.528       557       318       826
+ {res}     2611  581.2827       549       312       839
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
@@ -1848,7 +1848,7 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mtx} {...}
 {c |}{...}
- {res}     1863  587.8964       560       301       857
+ {res}     1842  587.2117     548.5       304       868
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. tab mtx if rheum_appt_date!=. & mtx_date<rheum_appt_date & psa_code==1 //how many patients had precriptions pre-rheum appt
@@ -1863,140 +1863,140 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mt~d} {...}
 {c |}{...}
- {res}     2644  581.2591       549       296       848
+ {res}     2618  574.7983     532.5       288       850
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. tab mtx_hcd if rheum_appt_date!=. & mtx_hcd_date<rheum_appt_date & psa_code==1 //how many patients had precriptions pre-rheum appt
 
     {txt}mtx_hcd {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          1 {c |}{res}        234      100.00      100.00
+          1 {c |}{res}        217      100.00      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        234      100.00
+      Total {c |}{res}        217      100.00
 {txt}
 {com}. 
 . **Methotrexate time categories for RA patients (not including high-cost MTX) //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
 . gen mtx_6w=1 if time_to_mtx<=42 & time_to_mtx!=.
-{txt}(43,161 missing values generated)
+{txt}(42,888 missing values generated)
 
 {com}. recode mtx_6w .=0
-{txt}(mtx_6w: 43161 changes made)
+{txt}(mtx_6w: 42888 changes made)
 
 {com}. tab mtx_6w if ra_code==1
 
      {txt}mtx_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,372       99.64       99.64
-{txt}          1 {c |}{res}         52        0.36      100.00
+          0 {c |}{res}     14,406       99.63       99.63
+{txt}          1 {c |}{res}         54        0.37      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=.
-{txt}(42,960 missing values generated)
+{txt}(42,695 missing values generated)
 
 {com}. recode mtx_3m .=0
-{txt}(mtx_3m: 42960 changes made)
+{txt}(mtx_3m: 42695 changes made)
 
 {com}. tab mtx_3m if ra_code==1
 
      {txt}mtx_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,310       99.21       99.21
-{txt}          1 {c |}{res}        114        0.79      100.00
+          0 {c |}{res}     14,350       99.24       99.24
+{txt}          1 {c |}{res}        110        0.76      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=.
-{txt}(42,531 missing values generated)
+{txt}(42,301 missing values generated)
 
 {com}. recode mtx_6m .=0
-{txt}(mtx_6m: 42531 changes made)
+{txt}(mtx_6m: 42301 changes made)
 
 {com}. tab mtx_6m if ra_code==1
 
      {txt}mtx_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,169       98.23       98.23
-{txt}          1 {c |}{res}        255        1.77      100.00
+          0 {c |}{res}     14,226       98.38       98.38
+{txt}          1 {c |}{res}        234        1.62      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_12m=1 if time_to_mtx<=365 & time_to_mtx!=.
-{txt}(41,534 missing values generated)
+{txt}(41,336 missing values generated)
 
 {com}. recode mtx_12m .=0
-{txt}(mtx_12m: 41534 changes made)
+{txt}(mtx_12m: 41336 changes made)
 
 {com}. tab mtx_12m if ra_code==1
 
     {txt}mtx_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,823       95.83       95.83
-{txt}          1 {c |}{res}        601        4.17      100.00
+          0 {c |}{res}     13,919       96.26       96.26
+{txt}          1 {c |}{res}        541        3.74      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. 
 . **Methotrexate time categories for RA patients (including high-cost MTX)
 . gen mtx_hcd_6w=1 if time_to_mtx_hcd<=42 & time_to_mtx_hcd!=.
-{txt}(43,081 missing values generated)
+{txt}(42,820 missing values generated)
 
 {com}. recode mtx_hcd_6w .=0
-{txt}(mtx_hcd_6w: 43081 changes made)
+{txt}(mtx_hcd_6w: 42820 changes made)
 
 {com}. tab mtx_hcd_6w if ra_code==1
 
  {txt}mtx_hcd_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,343       99.44       99.44
-{txt}          1 {c |}{res}         81        0.56      100.00
+          0 {c |}{res}     14,383       99.47       99.47
+{txt}          1 {c |}{res}         77        0.53      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=.
-{txt}(42,812 missing values generated)
+{txt}(42,528 missing values generated)
 
 {com}. recode mtx_hcd_3m .=0
-{txt}(mtx_hcd_3m: 42812 changes made)
+{txt}(mtx_hcd_3m: 42528 changes made)
 
 {com}. tab mtx_hcd_3m if ra_code==1
 
  {txt}mtx_hcd_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,255       98.83       98.83
-{txt}          1 {c |}{res}        169        1.17      100.00
+          0 {c |}{res}     14,292       98.84       98.84
+{txt}          1 {c |}{res}        168        1.16      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=.
-{txt}(42,195 missing values generated)
+{txt}(41,933 missing values generated)
 
 {com}. recode mtx_hcd_6m .=0
-{txt}(mtx_hcd_6m: 42195 changes made)
+{txt}(mtx_hcd_6m: 41933 changes made)
 
 {com}. tab mtx_hcd_6m if ra_code==1
 
  {txt}mtx_hcd_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,064       97.50       97.50
-{txt}          1 {c |}{res}        360        2.50      100.00
+          0 {c |}{res}     14,116       97.62       97.62
+{txt}          1 {c |}{res}        344        2.38      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=.
-{txt}(40,753 missing values generated)
+{txt}(40,509 missing values generated)
 
 {com}. recode mtx_hcd_12m .=0
-{txt}(mtx_hcd_12m: 40753 changes made)
+{txt}(mtx_hcd_12m: 40509 changes made)
 
 {com}. tab mtx_hcd_12m if ra_code==1
 
 {txt}mtx_hcd_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,586       94.19       94.19
-{txt}          1 {c |}{res}        838        5.81      100.00
+          0 {c |}{res}     13,642       94.34       94.34
+{txt}          1 {c |}{res}        818        5.66      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 {txt}
 {com}. 
 . **Methotrexate time categories for PsA patients (not including high-cost MTX)
@@ -2004,37 +2004,37 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 
      {txt}mtx_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,387       99.65       99.65
-{txt}          1 {c |}{res}         50        0.35      100.00
+          0 {c |}{res}     14,158       99.64       99.64
+{txt}          1 {c |}{res}         51        0.36      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_3m if psa_code==1
 
      {txt}mtx_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,321       99.20       99.20
-{txt}          1 {c |}{res}        116        0.80      100.00
+          0 {c |}{res}     14,081       99.10       99.10
+{txt}          1 {c |}{res}        128        0.90      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_6m if psa_code==1
 
      {txt}mtx_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,182       98.23       98.23
-{txt}          1 {c |}{res}        255        1.77      100.00
+          0 {c |}{res}     13,956       98.22       98.22
+{txt}          1 {c |}{res}        253        1.78      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_12m if psa_code==1
 
     {txt}mtx_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,852       95.95       95.95
-{txt}          1 {c |}{res}        585        4.05      100.00
+          0 {c |}{res}     13,627       95.90       95.90
+{txt}          1 {c |}{res}        582        4.10      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **Methotrexate time categories for PsA patients (including high-cost MTX)
@@ -2042,42 +2042,42 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 
  {txt}mtx_hcd_6w {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,370       99.54       99.54
-{txt}          1 {c |}{res}         67        0.46      100.00
+          0 {c |}{res}     14,137       99.49       99.49
+{txt}          1 {c |}{res}         72        0.51      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_hcd_3m if psa_code==1
 
  {txt}mtx_hcd_3m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,282       98.93       98.93
-{txt}          1 {c |}{res}        155        1.07      100.00
+          0 {c |}{res}     14,022       98.68       98.68
+{txt}          1 {c |}{res}        187        1.32      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_hcd_6m if psa_code==1
 
  {txt}mtx_hcd_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     14,072       97.47       97.47
-{txt}          1 {c |}{res}        365        2.53      100.00
+          0 {c |}{res}     13,821       97.27       97.27
+{txt}          1 {c |}{res}        388        2.73      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. tab mtx_hcd_12m if psa_code==1
 
 {txt}mtx_hcd_12m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     13,584       94.09       94.09
-{txt}          1 {c |}{res}        853        5.91      100.00
+          0 {c |}{res}     13,349       93.95       93.95
+{txt}          1 {c |}{res}        860        6.05      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 {txt}
 {com}. 
 . **Time to first biologic script, whereby first rheum appt is classed as diagnosis date (assumes rheum appt present)
 . gen time_to_biologic=(biologic_date-rheum_appt_date) if biologic==1 & rheum_appt_date!=. & biologic_date>rheum_appt_date 
-{txt}(17,474 missing values generated)
+{txt}(17,366 missing values generated)
 
 {com}. tabstat time_to_biologic, stats (n mean p50 p25 p75) //for all EIA patients
 
@@ -2086,7 +2086,7 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
- {res}    25843  459.9462       401       205       661
+ {res}    25678  458.3088       402       202       663
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. bys eia_diagnosis: tabstat time_to_biologic, stats (n mean p50 p25 p75) 
@@ -2099,7 +2099,7 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
- {res}     8581  458.5984       401       203       659
+ {res}     8640  459.9323       402       203       663
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -2110,7 +2110,7 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
- {res}     8613    458.87       400       205       657
+ {res}     8447  458.7528       402       202       668
 {txt}{hline 13}{c BT}{hline 50}
 
 {hline}
@@ -2121,40 +2121,40 @@ hydroxychloroquine {c |}{res}        985       16.34       16.34
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
- {res}     8649  462.3552       402       207       671
+ {res}     8591  456.2394       401       202       659
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
 . **What was first biologic
 . gen first_bio=""
-{txt}(43,317 missing values generated)
+{txt}(43,044 missing values generated)
 
 {com}. foreach var of varlist abatacept_date adalimumab_date baricitinib_date certolizumab_date etanercept_date golimumab_date guselkumab_date infliximab_date ixekizumab_date rituximab_date sarilumab_date secukinumab_date tocilizumab_date tofacitinib_date upadacitinib_date ustekinumab_date {c -(}
 {txt}  2{com}.         replace first_bio="`var'" if biologic_date==`var' & biologic_date!=.
 {txt}  3{com}.         {c )-}
 {txt}variable {bf}first_bio{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str14{sf}
-{txt}(2,037 real changes made)
+{txt}(2,027 real changes made)
 variable {bf}first_bio{sf} was {bf}{res}str14{sf}{txt} now {bf}{res}str15{sf}
-{txt}(1,978 real changes made)
+{txt}(1,962 real changes made)
 variable {bf}first_bio{sf} was {bf}{res}str15{sf}{txt} now {bf}{res}str16{sf}
-{txt}(2,030 real changes made)
+{txt}(2,097 real changes made)
 variable {bf}first_bio{sf} was {bf}{res}str16{sf}{txt} now {bf}{res}str17{sf}
-{txt}(1,979 real changes made)
-(2,010 real changes made)
-(2,042 real changes made)
-(2,079 real changes made)
-(2,032 real changes made)
-(2,108 real changes made)
+{txt}(1,983 real changes made)
+(2,035 real changes made)
 (2,056 real changes made)
-(1,984 real changes made)
-(1,999 real changes made)
+(2,075 real changes made)
+(2,054 real changes made)
+(2,010 real changes made)
+(1,965 real changes made)
+(1,991 real changes made)
+(2,045 real changes made)
 (1,986 real changes made)
-(2,067 real changes made)
-(2,059 real changes made)
-(2,050 real changes made)
+(2,023 real changes made)
+(2,063 real changes made)
+(1,913 real changes made)
 
 {com}. gen first_biologic = substr(first_bio, 1, length(first_bio) - 5)        
-{txt}(11,498 missing values generated)
+{txt}(11,445 missing values generated)
 
 {com}. drop first_bio
 {txt}
@@ -2163,24 +2163,24 @@ variable {bf}first_bio{sf} was {bf}{res}str16{sf}{txt} now {bf}{res}str17{sf}
 {txt}first_biolog {c |}
           ic {c |}      Freq.     Percent        Cum.
 {hline 13}{c +}{hline 35}
-   abatacept {c |}{res}      1,960        6.16        6.16
-{txt}  adalimumab {c |}{res}      1,903        5.98       12.14
-{txt} baricitinib {c |}{res}      1,958        6.15       18.29
-{txt}certolizumab {c |}{res}      1,906        5.99       24.28
-{txt}  etanercept {c |}{res}      1,956        6.15       30.43
-{txt}   golimumab {c |}{res}      1,987        6.24       36.68
-{txt}  guselkumab {c |}{res}      2,016        6.34       43.01
-{txt}  infliximab {c |}{res}      1,985        6.24       49.25
-{txt}  ixekizumab {c |}{res}      2,059        6.47       55.72
-{txt}   rituximab {c |}{res}      2,021        6.35       62.07
-{txt}   sarilumab {c |}{res}      1,962        6.17       68.24
-{txt} secukinumab {c |}{res}      1,973        6.20       74.44
-{txt} tocilizumab {c |}{res}      1,972        6.20       80.64
-{txt} tofacitinib {c |}{res}      2,055        6.46       87.10
-{txt}upadacitinib {c |}{res}      2,056        6.46       93.56
-{txt} ustekinumab {c |}{res}      2,050        6.44      100.00
+   abatacept {c |}{res}      1,946        6.16        6.16
+{txt}  adalimumab {c |}{res}      1,895        6.00       12.16
+{txt} baricitinib {c |}{res}      2,026        6.41       18.57
+{txt}certolizumab {c |}{res}      1,914        6.06       24.62
+{txt}  etanercept {c |}{res}      1,962        6.21       30.83
+{txt}   golimumab {c |}{res}      2,008        6.35       37.19
+{txt}  guselkumab {c |}{res}      2,016        6.38       43.57
+{txt}  infliximab {c |}{res}      2,006        6.35       49.92
+{txt}  ixekizumab {c |}{res}      1,967        6.22       56.14
+{txt}   rituximab {c |}{res}      1,930        6.11       62.25
+{txt}   sarilumab {c |}{res}      1,953        6.18       68.43
+{txt} secukinumab {c |}{res}      2,020        6.39       74.82
+{txt} tocilizumab {c |}{res}      1,973        6.24       81.07
+{txt} tofacitinib {c |}{res}      2,014        6.37       87.44
+{txt}upadacitinib {c |}{res}      2,056        6.51       93.95
+{txt} ustekinumab {c |}{res}      1,913        6.05      100.00
 {txt}{hline 13}{c +}{hline 35}
-       Total {c |}{res}     31,819      100.00
+       Total {c |}{res}     31,599      100.00
 {txt}
 {com}. bys eia_diagnosis: tab first_biologic 
 
@@ -2190,24 +2190,24 @@ variable {bf}first_bio{sf} was {bf}{res}str16{sf}{txt} now {bf}{res}str17{sf}
 first_biolog {c |}
           ic {c |}      Freq.     Percent        Cum.
 {hline 13}{c +}{hline 35}
-   abatacept {c |}{res}        661        6.24        6.24
-{txt}  adalimumab {c |}{res}        644        6.08       12.31
-{txt} baricitinib {c |}{res}        697        6.58       18.89
-{txt}certolizumab {c |}{res}        654        6.17       25.06
-{txt}  etanercept {c |}{res}        658        6.21       31.27
-{txt}   golimumab {c |}{res}        684        6.45       37.72
-{txt}  guselkumab {c |}{res}        667        6.29       44.02
-{txt}  infliximab {c |}{res}        661        6.24       50.25
-{txt}  ixekizumab {c |}{res}        680        6.42       56.67
-{txt}   rituximab {c |}{res}        672        6.34       63.01
-{txt}   sarilumab {c |}{res}        658        6.21       69.22
-{txt} secukinumab {c |}{res}        666        6.28       75.50
-{txt} tocilizumab {c |}{res}        626        5.91       81.41
-{txt} tofacitinib {c |}{res}        623        5.88       87.29
-{txt}upadacitinib {c |}{res}        690        6.51       93.80
-{txt} ustekinumab {c |}{res}        657        6.20      100.00
+   abatacept {c |}{res}        660        6.23        6.23
+{txt}  adalimumab {c |}{res}        618        5.83       12.06
+{txt} baricitinib {c |}{res}        660        6.23       18.28
+{txt}certolizumab {c |}{res}        655        6.18       24.46
+{txt}  etanercept {c |}{res}        628        5.92       30.39
+{txt}   golimumab {c |}{res}        685        6.46       36.85
+{txt}  guselkumab {c |}{res}        664        6.26       43.11
+{txt}  infliximab {c |}{res}        693        6.54       49.65
+{txt}  ixekizumab {c |}{res}        666        6.28       55.93
+{txt}   rituximab {c |}{res}        624        5.89       61.82
+{txt}   sarilumab {c |}{res}        647        6.10       67.92
+{txt} secukinumab {c |}{res}        683        6.44       74.37
+{txt} tocilizumab {c |}{res}        673        6.35       80.72
+{txt} tofacitinib {c |}{res}        689        6.50       87.22
+{txt}upadacitinib {c |}{res}        704        6.64       93.86
+{txt} ustekinumab {c |}{res}        651        6.14      100.00
 {txt}{hline 13}{c +}{hline 35}
-       Total {c |}{res}     10,598      100.00
+       Total {c |}{res}     10,600      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
@@ -2215,24 +2215,24 @@ first_biolog {c |}
 first_biolog {c |}
           ic {c |}      Freq.     Percent        Cum.
 {hline 13}{c +}{hline 35}
-   abatacept {c |}{res}        664        6.25        6.25
-{txt}  adalimumab {c |}{res}        648        6.10       12.34
-{txt} baricitinib {c |}{res}        641        6.03       18.37
-{txt}certolizumab {c |}{res}        616        5.79       24.17
-{txt}  etanercept {c |}{res}        676        6.36       30.52
-{txt}   golimumab {c |}{res}        646        6.08       36.60
-{txt}  guselkumab {c |}{res}        652        6.13       42.73
-{txt}  infliximab {c |}{res}        633        5.95       48.69
-{txt}  ixekizumab {c |}{res}        676        6.36       55.05
-{txt}   rituximab {c |}{res}        671        6.31       61.36
-{txt}   sarilumab {c |}{res}        647        6.09       67.44
-{txt} secukinumab {c |}{res}        673        6.33       73.77
-{txt} tocilizumab {c |}{res}        688        6.47       80.25
-{txt} tofacitinib {c |}{res}        716        6.74       86.98
-{txt}upadacitinib {c |}{res}        691        6.50       93.48
-{txt} ustekinumab {c |}{res}        693        6.52      100.00
+   abatacept {c |}{res}        638        6.12        6.12
+{txt}  adalimumab {c |}{res}        652        6.26       12.38
+{txt} baricitinib {c |}{res}        686        6.58       18.96
+{txt}certolizumab {c |}{res}        644        6.18       25.14
+{txt}  etanercept {c |}{res}        680        6.52       31.66
+{txt}   golimumab {c |}{res}        681        6.53       38.19
+{txt}  guselkumab {c |}{res}        653        6.26       44.46
+{txt}  infliximab {c |}{res}        667        6.40       50.86
+{txt}  ixekizumab {c |}{res}        655        6.28       57.14
+{txt}   rituximab {c |}{res}        658        6.31       63.46
+{txt}   sarilumab {c |}{res}        632        6.06       69.52
+{txt} secukinumab {c |}{res}        650        6.24       75.76
+{txt} tocilizumab {c |}{res}        624        5.99       81.74
+{txt} tofacitinib {c |}{res}        651        6.25       87.99
+{txt}upadacitinib {c |}{res}        634        6.08       94.07
+{txt} ustekinumab {c |}{res}        618        5.93      100.00
 {txt}{hline 13}{c +}{hline 35}
-       Total {c |}{res}     10,631      100.00
+       Total {c |}{res}     10,423      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
@@ -2240,42 +2240,42 @@ first_biolog {c |}
 first_biolog {c |}
           ic {c |}      Freq.     Percent        Cum.
 {hline 13}{c +}{hline 35}
-   abatacept {c |}{res}        635        6.00        6.00
-{txt}  adalimumab {c |}{res}        611        5.77       11.77
-{txt} baricitinib {c |}{res}        620        5.85       17.62
-{txt}certolizumab {c |}{res}        636        6.01       23.63
-{txt}  etanercept {c |}{res}        622        5.87       29.50
-{txt}   golimumab {c |}{res}        657        6.20       35.70
-{txt}  guselkumab {c |}{res}        697        6.58       42.29
-{txt}  infliximab {c |}{res}        691        6.53       48.81
-{txt}  ixekizumab {c |}{res}        703        6.64       55.45
-{txt}   rituximab {c |}{res}        678        6.40       61.85
-{txt}   sarilumab {c |}{res}        657        6.20       68.05
-{txt} secukinumab {c |}{res}        634        5.99       74.04
-{txt} tocilizumab {c |}{res}        658        6.21       80.25
-{txt} tofacitinib {c |}{res}        716        6.76       87.02
-{txt}upadacitinib {c |}{res}        675        6.37       93.39
-{txt} ustekinumab {c |}{res}        700        6.61      100.00
+   abatacept {c |}{res}        648        6.13        6.13
+{txt}  adalimumab {c |}{res}        625        5.91       12.04
+{txt} baricitinib {c |}{res}        680        6.43       18.47
+{txt}certolizumab {c |}{res}        615        5.82       24.28
+{txt}  etanercept {c |}{res}        654        6.18       30.47
+{txt}   golimumab {c |}{res}        642        6.07       36.54
+{txt}  guselkumab {c |}{res}        699        6.61       43.14
+{txt}  infliximab {c |}{res}        646        6.11       49.25
+{txt}  ixekizumab {c |}{res}        646        6.11       55.36
+{txt}   rituximab {c |}{res}        648        6.13       61.49
+{txt}   sarilumab {c |}{res}        674        6.37       67.86
+{txt} secukinumab {c |}{res}        687        6.50       74.36
+{txt} tocilizumab {c |}{res}        676        6.39       80.75
+{txt} tofacitinib {c |}{res}        674        6.37       87.12
+{txt}upadacitinib {c |}{res}        718        6.79       93.91
+{txt} ustekinumab {c |}{res}        644        6.09      100.00
 {txt}{hline 13}{c +}{hline 35}
-       Total {c |}{res}     10,590      100.00
+       Total {c |}{res}     10,576      100.00
 
 {txt}
 {com}. 
 . **Biologic time categories (for all patients)
 . gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=.
-{txt}(37,696 missing values generated)
+{txt}(37,316 missing values generated)
 
 {com}. recode biologic_6m .=0
-{txt}(biologic_6m: 37696 changes made)
+{txt}(biologic_6m: 37316 changes made)
 
 {com}. tab biologic_6m //for all EIA patients
 
 {txt}biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     37,696       87.02       87.02
-{txt}          1 {c |}{res}      5,621       12.98      100.00
+          0 {c |}{res}     37,316       86.69       86.69
+{txt}          1 {c |}{res}      5,728       13.31      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     43,317      100.00
+      Total {c |}{res}     43,044      100.00
 {txt}
 {com}. bys eia_diagnosis: tab biologic_6m 
 
@@ -2284,47 +2284,47 @@ first_biolog {c |}
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,519       86.79       86.79
-{txt}          1 {c |}{res}      1,905       13.21      100.00
+          0 {c |}{res}     12,541       86.73       86.73
+{txt}          1 {c |}{res}      1,919       13.27      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,568       87.05       87.05
-{txt}          1 {c |}{res}      1,869       12.95      100.00
+          0 {c |}{res}     12,330       86.78       86.78
+{txt}          1 {c |}{res}      1,879       13.22      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,609       87.22       87.22
-{txt}          1 {c |}{res}      1,847       12.78      100.00
+          0 {c |}{res}     12,445       86.57       86.57
+{txt}          1 {c |}{res}      1,930       13.43      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,456      100.00
+      Total {c |}{res}     14,375      100.00
 
 {txt}
 {com}. gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=.
-{txt}(31,570 missing values generated)
+{txt}(31,312 missing values generated)
 
 {com}. recode biologic_12m .=0
-{txt}(biologic_12m: 31570 changes made)
+{txt}(biologic_12m: 31312 changes made)
 
 {com}. tab biologic_12m //for all EIA patients
 
 {txt}biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     31,570       72.88       72.88
-{txt}          1 {c |}{res}     11,747       27.12      100.00
+          0 {c |}{res}     31,312       72.74       72.74
+{txt}          1 {c |}{res}     11,732       27.26      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     43,317      100.00
+      Total {c |}{res}     43,044      100.00
 {txt}
 {com}. bys eia_diagnosis: tab biologic_12m 
 
@@ -2334,10 +2334,10 @@ biologic_6m {c |}      Freq.     Percent        Cum.
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,533       73.02       73.02
-{txt}          1 {c |}{res}      3,891       26.98      100.00
+          0 {c |}{res}     10,547       72.94       72.94
+{txt}          1 {c |}{res}      3,913       27.06      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,424      100.00
+      Total {c |}{res}     14,460      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
@@ -2345,10 +2345,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,508       72.79       72.79
-{txt}          1 {c |}{res}      3,929       27.21      100.00
+          0 {c |}{res}     10,374       73.01       73.01
+{txt}          1 {c |}{res}      3,835       26.99      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,437      100.00
+      Total {c |}{res}     14,209      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
@@ -2356,10 +2356,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,529       72.83       72.83
-{txt}          1 {c |}{res}      3,927       27.17      100.00
+          0 {c |}{res}     10,391       72.29       72.29
+{txt}          1 {c |}{res}      3,984       27.71      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,456      100.00
+      Total {c |}{res}     14,375      100.00
 
 {txt}
 {com}. 
@@ -2371,40 +2371,40 @@ biologic_12 {c |}
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,216       87.05       87.05
-{txt}          1 {c |}{res}      1,817       12.95      100.00
+          0 {c |}{res}     11,877       86.80       86.80
+{txt}          1 {c |}{res}      1,806       13.20      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,033      100.00
+      Total {c |}{res}     13,683      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     11,908       87.14       87.14
-{txt}          1 {c |}{res}      1,758       12.86      100.00
+          0 {c |}{res}     11,976       86.34       86.34
+{txt}          1 {c |}{res}      1,894       13.66      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     13,666      100.00
+      Total {c |}{res}     13,870      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     12,150       87.10       87.10
-{txt}          1 {c |}{res}      1,799       12.90      100.00
+          0 {c |}{res}     11,913       86.85       86.85
+{txt}          1 {c |}{res}      1,804       13.15      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     13,949      100.00
+      Total {c |}{res}     13,717      100.00
 
 {txt}{hline}
 -> diagnosis_year = .
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      1,422       85.20       85.20
-{txt}          1 {c |}{res}        247       14.80      100.00
+          0 {c |}{res}      1,550       87.37       87.37
+{txt}          1 {c |}{res}        224       12.63      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      1,669      100.00
+      Total {c |}{res}      1,774      100.00
 
 {txt}
 {com}. bys diagnosis_year eia_diagnosis: tab biologic_6m //for each diagnosis
@@ -2414,120 +2414,120 @@ biologic_6m {c |}      Freq.     Percent        Cum.
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,097       87.02       87.02
-{txt}          1 {c |}{res}        611       12.98      100.00
+          0 {c |}{res}      3,975       86.36       86.36
+{txt}          1 {c |}{res}        628       13.64      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,708      100.00
+      Total {c |}{res}      4,603      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = PsA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,114       87.00       87.00
-{txt}          1 {c |}{res}        615       13.00      100.00
+          0 {c |}{res}      3,926       87.71       87.71
+{txt}          1 {c |}{res}        550       12.29      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,729      100.00
+      Total {c |}{res}      4,476      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = AxSpA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,005       87.14       87.14
-{txt}          1 {c |}{res}        591       12.86      100.00
+          0 {c |}{res}      3,976       86.36       86.36
+{txt}          1 {c |}{res}        628       13.64      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,596      100.00
+      Total {c |}{res}      4,604      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = RA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,924       86.43       86.43
-{txt}          1 {c |}{res}        616       13.57      100.00
+          0 {c |}{res}      3,991       85.94       85.94
+{txt}          1 {c |}{res}        653       14.06      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,540      100.00
+      Total {c |}{res}      4,644      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = PsA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,928       87.66       87.66
-{txt}          1 {c |}{res}        553       12.34      100.00
+          0 {c |}{res}      3,977       86.31       86.31
+{txt}          1 {c |}{res}        631       13.69      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,481      100.00
+      Total {c |}{res}      4,608      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = AxSpA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,056       87.32       87.32
-{txt}          1 {c |}{res}        589       12.68      100.00
+          0 {c |}{res}      4,008       86.79       86.79
+{txt}          1 {c |}{res}        610       13.21      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,645      100.00
+      Total {c |}{res}      4,618      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = RA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,032       87.01       87.01
-{txt}          1 {c |}{res}        602       12.99      100.00
+          0 {c |}{res}      4,013       87.52       87.52
+{txt}          1 {c |}{res}        572       12.48      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,634      100.00
+      Total {c |}{res}      4,585      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = PsA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,027       86.73       86.73
-{txt}          1 {c |}{res}        616       13.27      100.00
+          0 {c |}{res}      3,921       86.44       86.44
+{txt}          1 {c |}{res}        615       13.56      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,643      100.00
+      Total {c |}{res}      4,536      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = AxSpA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      4,091       87.56       87.56
-{txt}          1 {c |}{res}        581       12.44      100.00
+          0 {c |}{res}      3,979       86.58       86.58
+{txt}          1 {c |}{res}        617       13.42      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,672      100.00
+      Total {c |}{res}      4,596      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = RA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        466       85.98       85.98
-{txt}          1 {c |}{res}         76       14.02      100.00
+          0 {c |}{res}        562       89.49       89.49
+{txt}          1 {c |}{res}         66       10.51      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        542      100.00
+      Total {c |}{res}        628      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = PsA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        499       85.45       85.45
-{txt}          1 {c |}{res}         85       14.55      100.00
+          0 {c |}{res}        506       85.91       85.91
+{txt}          1 {c |}{res}         83       14.09      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        584      100.00
+      Total {c |}{res}        589      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = AxSpA
 
 biologic_6m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        457       84.16       84.16
-{txt}          1 {c |}{res}         86       15.84      100.00
+          0 {c |}{res}        482       86.54       86.54
+{txt}          1 {c |}{res}         75       13.46      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        543      100.00
+      Total {c |}{res}        557      100.00
 
 {txt}
 {com}. bys diagnosis_year: tab biologic_12m //for all EIA patients
@@ -2538,10 +2538,10 @@ biologic_6m {c |}      Freq.     Percent        Cum.
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,239       72.96       72.96
-{txt}          1 {c |}{res}      3,794       27.04      100.00
+          0 {c |}{res}      9,996       73.05       73.05
+{txt}          1 {c |}{res}      3,687       26.95      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     14,033      100.00
+      Total {c |}{res}     13,683      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021
@@ -2549,10 +2549,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,954       72.84       72.84
-{txt}          1 {c |}{res}      3,712       27.16      100.00
+          0 {c |}{res}     10,037       72.36       72.36
+{txt}          1 {c |}{res}      3,833       27.64      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     13,666      100.00
+      Total {c |}{res}     13,870      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022
@@ -2560,10 +2560,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,198       73.11       73.11
-{txt}          1 {c |}{res}      3,751       26.89      100.00
+          0 {c |}{res}      9,954       72.57       72.57
+{txt}          1 {c |}{res}      3,763       27.43      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     13,949      100.00
+      Total {c |}{res}     13,717      100.00
 
 {txt}{hline}
 -> diagnosis_year = .
@@ -2571,10 +2571,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      1,179       70.64       70.64
-{txt}          1 {c |}{res}        490       29.36      100.00
+          0 {c |}{res}      1,325       74.69       74.69
+{txt}          1 {c |}{res}        449       25.31      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      1,669      100.00
+      Total {c |}{res}      1,774      100.00
 
 {txt}
 {com}. bys diagnosis_year eia_diagnosis: tab biologic_12m //for each diagnosis
@@ -2585,10 +2585,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,462       73.53       73.53
-{txt}          1 {c |}{res}      1,246       26.47      100.00
+          0 {c |}{res}      3,357       72.93       72.93
+{txt}          1 {c |}{res}      1,246       27.07      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,708      100.00
+      Total {c |}{res}      4,603      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = PsA
@@ -2596,10 +2596,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,451       72.98       72.98
-{txt}          1 {c |}{res}      1,278       27.02      100.00
+          0 {c |}{res}      3,322       74.22       74.22
+{txt}          1 {c |}{res}      1,154       25.78      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,729      100.00
+      Total {c |}{res}      4,476      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = AxSpA
@@ -2607,10 +2607,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,326       72.37       72.37
-{txt}          1 {c |}{res}      1,270       27.63      100.00
+          0 {c |}{res}      3,317       72.05       72.05
+{txt}          1 {c |}{res}      1,287       27.95      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,596      100.00
+      Total {c |}{res}      4,604      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = RA
@@ -2618,10 +2618,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,273       72.09       72.09
-{txt}          1 {c |}{res}      1,267       27.91      100.00
+          0 {c |}{res}      3,346       72.05       72.05
+{txt}          1 {c |}{res}      1,298       27.95      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,540      100.00
+      Total {c |}{res}      4,644      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = PsA
@@ -2629,10 +2629,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,270       72.97       72.97
-{txt}          1 {c |}{res}      1,211       27.03      100.00
+          0 {c |}{res}      3,345       72.59       72.59
+{txt}          1 {c |}{res}      1,263       27.41      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,481      100.00
+      Total {c |}{res}      4,608      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2020-March 2021, eia_diagnosis = AxSpA
@@ -2640,10 +2640,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,411       73.43       73.43
-{txt}          1 {c |}{res}      1,234       26.57      100.00
+          0 {c |}{res}      3,346       72.46       72.46
+{txt}          1 {c |}{res}      1,272       27.54      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,645      100.00
+      Total {c |}{res}      4,618      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = RA
@@ -2651,10 +2651,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,404       73.46       73.46
-{txt}          1 {c |}{res}      1,230       26.54      100.00
+          0 {c |}{res}      3,362       73.33       73.33
+{txt}          1 {c |}{res}      1,223       26.67      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,634      100.00
+      Total {c |}{res}      4,585      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = PsA
@@ -2662,10 +2662,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,379       72.78       72.78
-{txt}          1 {c |}{res}      1,264       27.22      100.00
+          0 {c |}{res}      3,271       72.11       72.11
+{txt}          1 {c |}{res}      1,265       27.89      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,643      100.00
+      Total {c |}{res}      4,536      100.00
 
 {txt}{hline}
 -> diagnosis_year = March 2021-March 2022, eia_diagnosis = AxSpA
@@ -2673,10 +2673,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      3,415       73.10       73.10
-{txt}          1 {c |}{res}      1,257       26.90      100.00
+          0 {c |}{res}      3,321       72.26       72.26
+{txt}          1 {c |}{res}      1,275       27.74      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}      4,672      100.00
+      Total {c |}{res}      4,596      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = RA
@@ -2684,10 +2684,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        394       72.69       72.69
-{txt}          1 {c |}{res}        148       27.31      100.00
+          0 {c |}{res}        482       76.75       76.75
+{txt}          1 {c |}{res}        146       23.25      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        542      100.00
+      Total {c |}{res}        628      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = PsA
@@ -2695,10 +2695,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        408       69.86       69.86
-{txt}          1 {c |}{res}        176       30.14      100.00
+          0 {c |}{res}        436       74.02       74.02
+{txt}          1 {c |}{res}        153       25.98      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        584      100.00
+      Total {c |}{res}        589      100.00
 
 {txt}{hline}
 -> diagnosis_year = ., eia_diagnosis = AxSpA
@@ -2706,10 +2706,10 @@ biologic_12 {c |}
 biologic_12 {c |}
           m {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        377       69.43       69.43
-{txt}          1 {c |}{res}        166       30.57      100.00
+          0 {c |}{res}        407       73.07       73.07
+{txt}          1 {c |}{res}        150       26.93      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        543      100.00
+      Total {c |}{res}        557      100.00
 
 {txt}
 {com}. 
@@ -2718,33 +2718,33 @@ biologic_12 {c |}
 . **Demographics
 . ***Sex
 . gen male = 1 if sex == "M"
-{txt}(22,076 missing values generated)
+{txt}(21,917 missing values generated)
 
 {com}. replace male = 0 if sex == "F"
-{txt}(22,076 real changes made)
+{txt}(21,917 real changes made)
 
 {com}. lab var male "Male"
 {txt}
 {com}. 
 . ***Ethnicity
 . replace ethnicity = .u if ethnicity == .
-{txt}(10,750 real changes made, 10,750 to missing)
+{txt}(10,663 real changes made, 10,663 to missing)
 
 {com}. ****rearrange in order of prevalence
 . recode ethnicity 2=6 /* mixed to 6 */
-{txt}(ethnicity: 6452 changes made)
+{txt}(ethnicity: 6458 changes made)
 
 {com}. recode ethnicity 3=2 /* south asian to 2 */
-{txt}(ethnicity: 3236 changes made)
+{txt}(ethnicity: 3182 changes made)
 
 {com}. recode ethnicity 4=3 /* black to 3 */
-{txt}(ethnicity: 3294 changes made)
+{txt}(ethnicity: 3144 changes made)
 
 {com}. recode ethnicity 6=4 /* mixed to 4 */
-{txt}(ethnicity: 6452 changes made)
+{txt}(ethnicity: 6458 changes made)
 
 {com}. recode ethnicity 5=4 /* other to 4 */
-{txt}(ethnicity: 3325 changes made)
+{txt}(ethnicity: 3312 changes made)
 
 {com}. 
 . label define ethnicity  1 "White"                                       ///
@@ -2762,10 +2762,10 @@ biologic_12 {c |}
 . rename stp stp_old
 {res}{txt}
 {com}. bysort stp_old: gen stp = 1 if _n==1
-{txt}(43,315 missing values generated)
+{txt}(43,042 missing values generated)
 
 {com}. replace stp = sum(stp) //
-{txt}(43,316 real changes made)
+{txt}(43,043 real changes made)
 
 {com}. drop stp_old
 {txt}
@@ -2778,7 +2778,7 @@ biologic_12 {c |}
 {txt}
 {com}. *Add one to create groups 1-5 
 . replace imd = imd + 1
-{txt}(43,317 real changes made)
+{txt}(43,044 real changes made)
 
 {com}. *-1 is missing, should be excluded from population 
 . replace imd = .u if imd_o == -1
@@ -2788,7 +2788,7 @@ biologic_12 {c |}
 {txt}
 {com}. *Reverse the order (so high is more deprived)
 . recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
-{txt}(imd: 43317 changes made)
+{txt}(imd: 43044 changes made)
 
 {com}. label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 {txt}
@@ -2801,7 +2801,7 @@ biologic_12 {c |}
 . *Nb. works if ages 18 and over
 . *Create categorised age
 . drop if age<18 & age !=.
-{txt}(9,176 observations deleted)
+{txt}(9,138 observations deleted)
 
 {com}. drop if age>109 & age !=.
 {txt}(0 observations deleted)
@@ -2818,7 +2818,7 @@ biologic_12 {c |}
 >                60/69.9999 = 4 ///
 >                    70/79.9999 = 5 ///
 >                    80/max = 6, gen(agegroup) 
-{txt}(34141 differences between age and agegroup)
+{txt}(33906 differences between age and agegroup)
 
 {com}. 
 . label define agegroup   1 "18-39" ///
@@ -2837,7 +2837,7 @@ biologic_12 {c |}
 . *Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
-{txt}(34141 differences between age and age70)
+{txt}(33906 differences between age and age70)
 
 {com}. 
 . *Create restricted cubic splines for age
@@ -2847,24 +2847,24 @@ biologic_12 {c |}
 . ***Body Mass Index
 . *Recode strange values 
 . replace bmi_value = . if bmi_value == 0 
-{txt}(13,694 real changes made, 13,694 to missing)
+{txt}(13,456 real changes made, 13,456 to missing)
 
 {com}. replace bmi_value = . if !inrange(bmi_value, 10, 80)
-{txt}(136 real changes made, 136 to missing)
+{txt}(146 real changes made, 146 to missing)
 
 {com}. 
 . *Restrict to within 10 years of EIA diagnosis date and aged>16 
 . gen bmi_time = (eia_code_date - bmi_date)/365.25
-{txt}(13,694 missing values generated)
+{txt}(13,456 missing values generated)
 
 {com}. gen bmi_age = age - bmi_time
-{txt}(13,694 missing values generated)
+{txt}(13,456 missing values generated)
 
 {com}. replace bmi_value = . if bmi_age < 16 
-{txt}(14,636 real changes made, 14,636 to missing)
+{txt}(14,578 real changes made, 14,578 to missing)
 
 {com}. replace bmi_value = . if bmi_time > 10 & bmi_time != . 
-{txt}(3,898 real changes made, 3,898 to missing)
+{txt}(3,836 real changes made, 3,836 to missing)
 
 {com}. 
 . *Set to missing if no date, and vice versa 
@@ -2872,39 +2872,39 @@ biologic_12 {c |}
 {txt}(0 real changes made)
 
 {com}. replace bmi_date = . if bmi_value == . 
-{txt}(18,670 real changes made, 18,670 to missing)
+{txt}(18,560 real changes made, 18,560 to missing)
 
 {com}. replace bmi_time = . if bmi_value == . 
-{txt}(18,670 real changes made, 18,670 to missing)
+{txt}(18,560 real changes made, 18,560 to missing)
 
 {com}. replace bmi_age = . if bmi_value == . 
-{txt}(18,670 real changes made, 18,670 to missing)
+{txt}(18,560 real changes made, 18,560 to missing)
 
 {com}. 
 . *Create BMI categories
 . gen     bmicat = .
-{txt}(34,141 missing values generated)
+{txt}(33,906 missing values generated)
 
 {com}. recode  bmicat . = 1 if bmi_value < 18.5
-{txt}(bmicat: 78 changes made)
+{txt}(bmicat: 91 changes made)
 
 {com}. recode  bmicat . = 2 if bmi_value < 25
-{txt}(bmicat: 212 changes made)
+{txt}(bmicat: 180 changes made)
 
 {com}. recode  bmicat . = 3 if bmi_value < 30
-{txt}(bmicat: 294 changes made)
+{txt}(bmicat: 274 changes made)
 
 {com}. recode  bmicat . = 4 if bmi_value < 35
-{txt}(bmicat: 368 changes made)
+{txt}(bmicat: 370 changes made)
 
 {com}. recode  bmicat . = 5 if bmi_value < 40
-{txt}(bmicat: 312 changes made)
+{txt}(bmicat: 398 changes made)
 
 {com}. recode  bmicat . = 6 if bmi_value < .
-{txt}(bmicat: 513 changes made)
+{txt}(bmicat: 577 changes made)
 
 {com}. replace bmicat = .u if bmi_value >= .
-{txt}(32,364 real changes made, 32,364 to missing)
+{txt}(32,016 real changes made, 32,016 to missing)
 
 {com}. 
 . label define bmicat 1 "Underweight (<18.5)"     ///
@@ -2923,7 +2923,7 @@ biologic_12 {c |}
 {com}. 
 . *Create less granular categorisation
 . recode bmicat 1/3 .u = 1 4 = 2 5 = 3 6 = 4, gen(obese4cat)
-{txt}(34063 differences between bmicat and obese4cat)
+{txt}(33815 differences between bmicat and obese4cat)
 
 {com}. 
 . label define obese4cat  1 "No record of obesity"        ///
@@ -2942,19 +2942,19 @@ biologic_12 {c |}
 {txt}
 {com}. 
 . gen     smoke = 1  if smoking_status == "N"
-{txt}(30,694 missing values generated)
+{txt}(30,463 missing values generated)
 
 {com}. replace smoke = 2  if smoking_status == "E"
-{txt}(1,683 real changes made)
+{txt}(1,592 real changes made)
 
 {com}. replace smoke = 3  if smoking_status == "S"
-{txt}(10,192 real changes made)
+{txt}(10,180 real changes made)
 
 {com}. replace smoke = .u if smoking_status == "M"
-{txt}(1,695 real changes made, 1,695 to missing)
+{txt}(1,673 real changes made, 1,673 to missing)
 
 {com}. replace smoke = .u if smoking_status == "" 
-{txt}(17,124 real changes made, 17,124 to missing)
+{txt}(17,018 real changes made, 17,018 to missing)
 
 {com}. 
 . label values smoke smoke
@@ -2966,7 +2966,7 @@ biologic_12 {c |}
 {com}. 
 . *Create non-missing 3-category variable for current smoking (assumes missing smoking is never smoking)
 . recode smoke .u = 1, gen(smoke_nomiss)
-{txt}(18819 differences between smoke and smoke_nomiss)
+{txt}(18691 differences between smoke and smoke_nomiss)
 
 {com}. order smoke_nomiss, after(smoke)
 {txt}
@@ -2977,7 +2977,7 @@ biologic_12 {c |}
 . ***eGFR
 . *Set implausible creatinine values to missing (Note: zero changed to missing)
 . replace creatinine_value = . if !inrange(creatinine_value, 20, 3000) 
-{txt}(8,622 real changes made, 8,622 to missing)
+{txt}(8,479 real changes made, 8,479 to missing)
 
 {com}. 
 . *Remove creatinine dates if no measurements, and vice versa 
@@ -2985,89 +2985,89 @@ biologic_12 {c |}
 {txt}(0 real changes made)
 
 {com}. replace creatinine_date = . if creatinine_value == . 
-{txt}(6,945 real changes made, 6,945 to missing)
+{txt}(6,816 real changes made, 6,816 to missing)
 
 {com}. replace creatinine = . if creatinine_value == .
-{txt}(8,622 real changes made, 8,622 to missing)
+{txt}(8,479 real changes made, 8,479 to missing)
 
 {com}. recode creatinine .=0
-{txt}(creatinine: 8622 changes made)
+{txt}(creatinine: 8479 changes made)
 
 {com}. 
 . *Divide by 88.4 (to convert umol/l to mg/dl) 
 . gen SCr_adj = creatinine_value/88.4
-{txt}(8,622 missing values generated)
+{txt}(8,479 missing values generated)
 
 {com}. 
 . gen min = .
-{txt}(34,141 missing values generated)
+{txt}(33,906 missing values generated)
 
 {com}. replace min = SCr_adj/0.7 if male==0
-{txt}(13,084 real changes made)
+{txt}(12,881 real changes made)
 
 {com}. replace min = SCr_adj/0.9 if male==1
-{txt}(12,435 real changes made)
+{txt}(12,546 real changes made)
 
 {com}. replace min = min^-0.329  if male==0
-{txt}(13,084 real changes made)
+{txt}(12,881 real changes made)
 
 {com}. replace min = min^-0.411  if male==1
-{txt}(12,435 real changes made)
+{txt}(12,546 real changes made)
 
 {com}. replace min = 1 if min<1
-{txt}(19,896 real changes made)
+{txt}(19,852 real changes made)
 
 {com}. 
 . gen max=.
-{txt}(34,141 missing values generated)
+{txt}(33,906 missing values generated)
 
 {com}. replace max=SCr_adj/0.7 if male==0
-{txt}(13,084 real changes made)
+{txt}(12,881 real changes made)
 
 {com}. replace max=SCr_adj/0.9 if male==1
-{txt}(12,435 real changes made)
+{txt}(12,546 real changes made)
 
 {com}. replace max=max^-1.209
-{txt}(25,519 real changes made)
+{txt}(25,427 real changes made)
 
 {com}. replace max=1 if max>1
-{txt}(14,245 real changes made)
+{txt}(14,054 real changes made)
 
 {com}. 
 . gen egfr=min*max*141
-{txt}(8,622 missing values generated)
+{txt}(8,479 missing values generated)
 
 {com}. replace egfr=egfr*(0.993^age)
-{txt}(25,519 real changes made)
+{txt}(25,427 real changes made)
 
 {com}. replace egfr=egfr*1.018 if male==0
-{txt}(13,084 real changes made)
+{txt}(12,881 real changes made)
 
 {com}. label var egfr "egfr calculated using CKD-EPI formula with no ethnicity"
 {txt}
 {com}. 
 . *Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-{txt}(8622 missing values generated)
+{txt}(8479 missing values generated)
 
 {com}. recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-{txt}(25519 differences between egfr_cat_all and ckd_egfr)
+{txt}(25427 differences between egfr_cat_all and ckd_egfr)
 
 {com}. 
 . gen egfr_cat = .
-{txt}(34,141 missing values generated)
+{txt}(33,906 missing values generated)
 
 {com}. recode egfr_cat . = 3 if egfr < 30
-{txt}(egfr_cat: 6074 changes made)
+{txt}(egfr_cat: 6087 changes made)
 
 {com}. recode egfr_cat . = 2 if egfr < 60
-{txt}(egfr_cat: 8864 changes made)
+{txt}(egfr_cat: 8833 changes made)
 
 {com}. recode egfr_cat . = 1 if egfr < .
-{txt}(egfr_cat: 10581 changes made)
+{txt}(egfr_cat: 10507 changes made)
 
 {com}. replace egfr_cat = .u if egfr >= .
-{txt}(8,622 real changes made, 8,622 to missing)
+{txt}(8,479 real changes made, 8,479 to missing)
 
 {com}. 
 . label define egfr_cat   1 ">=60"                ///
@@ -3083,10 +3083,10 @@ biologic_12 {c |}
 {com}. 
 . *If missing eGFR, assume normal
 . gen egfr_cat_nomiss = egfr_cat
-{txt}(8,622 missing values generated)
+{txt}(8,479 missing values generated)
 
 {com}. replace egfr_cat_nomiss = 1 if egfr_cat == .u
-{txt}(8,622 real changes made)
+{txt}(8,479 real changes made)
 
 {com}. 
 . label define egfr_cat_nomiss    1 ">=60/missing"        ///
@@ -3099,7 +3099,7 @@ biologic_12 {c |}
 {txt}
 {com}. 
 . gen egfr_date = creatinine_date
-{txt}(8,622 missing values generated)
+{txt}(8,479 missing values generated)
 
 {com}. format egfr_date %td
 {txt}
@@ -3109,10 +3109,10 @@ biologic_12 {c |}
 . gen ckd = 0
 {txt}
 {com}. replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-{txt}(14,938 real changes made)
+{txt}(14,920 real changes made)
 
 {com}. replace ckd = 1 if esrf == 1
-{txt}(3,796 real changes made)
+{txt}(3,851 real changes made)
 
 {com}. 
 . label define ckd 0 "No CKD" 1 "CKD"
@@ -3124,13 +3124,13 @@ biologic_12 {c |}
 {com}. 
 . *Create date (most recent measure prior to index)
 . gen temp1_ckd_date = creatinine_date if ckd_egfr >=1
-{txt}(19,203 missing values generated)
+{txt}(18,986 missing values generated)
 
 {com}. gen temp2_ckd_date = esrf_date if esrf == 1
-{txt}(27,315 missing values generated)
+{txt}(27,055 missing values generated)
 
 {com}. gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
-{txt}(15,407 missing values generated)
+{txt}(15,135 missing values generated)
 
 {com}. format ckd_date %td 
 {txt}
@@ -3141,34 +3141,34 @@ biologic_12 {c |}
 . ***HbA1c
 . *Set zero or negative to missing
 . replace hba1c_percentage   = . if hba1c_percentage <= 0
-{txt}(1,936 real changes made, 1,936 to missing)
+{txt}(1,849 real changes made, 1,849 to missing)
 
 {com}. replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
-{txt}(2,531 real changes made, 2,531 to missing)
+{txt}(2,557 real changes made, 2,557 to missing)
 
 {com}. 
 . *Change implausible values to missing
 . replace hba1c_percentage   = . if !inrange(hba1c_percentage, 1, 20)
-{txt}(506 real changes made, 506 to missing)
+{txt}(538 real changes made, 538 to missing)
 
 {com}. replace hba1c_mmol_per_mol = . if !inrange(hba1c_mmol_per_mol, 10, 200)
-{txt}(1,413 real changes made, 1,413 to missing)
+{txt}(1,473 real changes made, 1,473 to missing)
 
 {com}. 
 . *Set most recent values of >24 months prior to EIA diagnosis date to missing
 . replace hba1c_percentage   = . if (eia_code_date - hba1c_percentage_date) > 24*30 & hba1c_percentage_date != .
-{txt}(30,786 real changes made, 30,786 to missing)
+{txt}(30,668 real changes made, 30,668 to missing)
 
 {com}. replace hba1c_mmol_per_mol = . if (eia_code_date - hba1c_mmol_per_mol_date) > 24*30 & hba1c_mmol_per_mol_date != .
-{txt}(29,309 real changes made, 29,309 to missing)
+{txt}(29,014 real changes made, 29,014 to missing)
 
 {com}. 
 . *Clean up dates
 . replace hba1c_percentage_date = . if hba1c_percentage == .
-{txt}(31,487 real changes made, 31,487 to missing)
+{txt}(31,424 real changes made, 31,424 to missing)
 
 {com}. replace hba1c_mmol_per_mol_date = . if hba1c_mmol_per_mol == .
-{txt}(31,511 real changes made, 31,511 to missing)
+{txt}(31,241 real changes made, 31,241 to missing)
 
 {com}. 
 . *Express  HbA1c as percentage
@@ -3177,14 +3177,14 @@ biologic_12 {c |}
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
 {hline 13}{c +}{hline 57}
-hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
-{txt}hba1c_mmol~l {c |}{res}        888    42.21298    16.96238   11.01753   98.48809
+hba1c_per~ge {c |}{res}        851    5.083083     1.86481   1.001462   10.96054
+{txt}hba1c_mmol~l {c |}{res}        862     41.6382    17.46777   10.43492   90.53609
 {txt}
 {com}. gen     hba1c_pct = hba1c_percentage 
-{txt}(33,228 missing values generated)
+{txt}(33,055 missing values generated)
 
 {com}. replace hba1c_pct = (hba1c_mmol_per_mol/10.929)+2.15 if hba1c_mmol_per_mol<. 
-{txt}(888 real changes made)
+{txt}(862 real changes made)
 
 {com}. 
 . *Valid % range between 0-20  
@@ -3192,25 +3192,25 @@ hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
 {txt}(0 real changes made)
 
 {com}. replace hba1c_pct = round(hba1c_pct, 0.1)
-{txt}(1,774 real changes made)
+{txt}(1,693 real changes made)
 
 {com}. 
 . *Categorise HbA1c and diabetes
 . *Group hba1c pct
 . gen     hba1ccat = 0 if hba1c_pct <  6.5
-{txt}(32,905 missing values generated)
+{txt}(32,731 missing values generated)
 
 {com}. replace hba1ccat = 1 if hba1c_pct >= 6.5  & hba1c_pct < 7.5
-{txt}(274 real changes made)
+{txt}(265 real changes made)
 
 {com}. replace hba1ccat = 2 if hba1c_pct >= 7.5  & hba1c_pct < 8
-{txt}(106 real changes made)
+{txt}(88 real changes made)
 
 {com}. replace hba1ccat = 3 if hba1c_pct >= 8    & hba1c_pct < 9
-{txt}(96 real changes made)
+{txt}(111 real changes made)
 
 {com}. replace hba1ccat = 4 if hba1c_pct >= 9    & hba1c_pct !=.
-{txt}(62 real changes made)
+{txt}(54 real changes made)
 
 {com}. label define hba1ccat 0 "<6.5%" 1">=6.5-7.4" 2">=7.5-7.9" 3">=8-8.9" 4">=9"
 {txt}
@@ -3219,21 +3219,21 @@ hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
 {com}. 
 . *Express all values as mmol
 . gen hba1c_mmol = hba1c_mmol_per_mol
-{txt}(33,253 missing values generated)
+{txt}(33,044 missing values generated)
 
 {com}. replace hba1c_mmol = (hba1c_percentage*10.929)-23.5 if hba1c_percentage<. & hba1c_mmol==.
-{txt}(886 real changes made)
+{txt}(831 real changes made)
 
 {com}. 
 . *Group hba1c mmol
 . gen     hba1ccatmm = 0 if hba1c_mmol < 58
-{txt}(32,629 missing values generated)
+{txt}(32,466 missing values generated)
 
 {com}. replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_pct !=.
-{txt}(262 real changes made)
+{txt}(253 real changes made)
 
 {com}. replace hba1ccatmm =.u if hba1ccatmm==. 
-{txt}(32,367 real changes made, 32,367 to missing)
+{txt}(32,213 real changes made, 32,213 to missing)
 
 {com}. label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Missing"
 {txt}
@@ -3244,16 +3244,16 @@ hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
 {com}. 
 . *Create diabetes, split by control/not (assumes missing = no diabetes)
 . gen     diabcat = 1 if diabetes==0
-{txt}(6,765 missing values generated)
+{txt}(6,780 missing values generated)
 
 {com}. replace diabcat = 2 if diabetes==1 & inlist(hba1ccat, 0, 1)
-{txt}(290 real changes made)
+{txt}(304 real changes made)
 
 {com}. replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-{txt}(41 real changes made)
+{txt}(48 real changes made)
 
 {com}. replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
-{txt}(6,434 real changes made)
+{txt}(6,428 real changes made)
 
 {com}. 
 . label define diabcat    1 "No diabetes"                         ///
@@ -3268,17 +3268,17 @@ hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
 . gen cancer =0
 {txt}
 {com}. replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
-{txt}(16,651 real changes made)
+{txt}(16,566 real changes made)
 
 {com}. lab var cancer "Cancer"
 {txt}
 {com}. 
 . *Create other comorbid variables
 . gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
-{txt}(21,799 missing values generated)
+{txt}(21,650 missing values generated)
 
 {com}. recode combined_cv_comorbid .=0
-{txt}(combined_cv_comorbid: 21799 changes made)
+{txt}(combined_cv_comorbid: 21650 changes made)
 
 {com}. 
 . *Delete unneeded variables
@@ -3303,16 +3303,20 @@ hba1c_per~ge {c |}{res}        913    5.130533    1.873388   1.006273   12.06478
 {com}. lab var chronic_cardiac_disease "Chronic cardiac disease"
 {txt}
 {com}. 
-. save "$projectdir/output/data/file_eia_all.dta", replace        
+. save `c(pwd)'/output/data/file_eia_all.dta, replace     
 {txt}(note: file /workspace/output/data/file_eia_all.dta not found)
-file /workspace/output/data/file_eia_all.dta saved
+{err}{p 0 4 2}
+file /workspace/output/data/file_eia_all.dta
+could not be opened
+{p_end}
+{txt}{search r(603), local:r(603);}
+
+end of do-file
+{search r(603), local:r(603);}
+
+end of do-file
+
+{search r(603), local:r(603);}
+
 
 {com}. 
-. log close
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/cleaning_dataset.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res}29 Mar 2022, 15:30:42
-{txt}{.-}
-{smcl}
-{txt}{sf}{ul off}
