@@ -878,6 +878,6 @@ lab var esrf "End-stage renal failure"
 lab var chronic_liver_disease "Chronic liver disease"
 lab var chronic_cardiac_disease "Chronic cardiac disease"
 
-save `c(pwd)'/output/data/file_eia_all.dta, replace	
+save "$projectdir/output/data/file_eia_all.dta", replace	
 
 log close

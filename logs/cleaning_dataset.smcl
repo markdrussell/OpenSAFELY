@@ -1,20 +1,20 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/cleaning_dataset.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/cleaning_dataset.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}31 Mar 2022, 20:12:13
+ {txt}opened on:  {res} 1 Apr 2022, 16:30:32
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
-  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
-  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
-  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
-  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
 
 {com}. 
 . **Set index dates ===========================================================*/
@@ -72,87 +72,87 @@
 {txt} 15{com}.         
 .         format `var'_date %td
 {txt} 16{com}. {c )-}
-{txt}variable {bf}hba1c_mmol_per_mol_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+{txt}variable {bf}{res}hba1c_mmol_per_mol_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}hba1c_percentage_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}hba1c_percentage_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}creatinine_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}creatinine_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}bmi_date_measured{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(40,000 real changes made)
 (40,000 missing values generated)
-variable {bf}abatacept{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}abatacept{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}adalimumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}adalimumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}baricitinib{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}baricitinib{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}certolizumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}certolizumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}etanercept{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}etanercept{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}golimumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}golimumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}guselkumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}guselkumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}infliximab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}infliximab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}ixekizumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}ixekizumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}methotrexate_hcd{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}methotrexate_hcd{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}rituximab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}rituximab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}sarilumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}sarilumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}secukinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}secukinumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}tocilizumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}tocilizumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}tofacitinib{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}tofacitinib{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}upadacitinib{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}upadacitinib{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
-variable {bf}ustekinumab{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}ustekinumab{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(90,000 real changes made)
 (90,000 missing values generated)
@@ -537,7 +537,7 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {txt}(69,934 missing values generated)
 
 {com}. recode all_appts .=0
-{txt}(all_appts: 69934 changes made)
+{txt}(69934 changes made to {bf:all_appts})
 
 {com}. tab all_appts //KEY - proportion who had a last gp appt, then rheum ref, then rheum appt, then EIA code 
 
@@ -591,7 +591,7 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {com}. gen eia_diagnosis_nomiss=1 if eia_diagnosis_date_nomiss!=.
 {txt}
 {com}. recode eia_diagnosis_nomiss .=0
-{txt}(eia_diagnosis_nomiss: 0 changes made)
+{txt}(0 changes made to {bf:eia_diagnosis_nomiss})
 
 {com}. tab eia_diagnosis_nomiss
 
@@ -610,7 +610,7 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {txt}(42,872 missing values generated)
 
 {com}. recode csdmard .=0 
-{txt}(csdmard: 42872 changes made)
+{txt}(42872 changes made to {bf:csdmard})
 
 {com}. tab csdmard 
 
@@ -660,7 +660,7 @@ eum_precode {c |}      Freq.     Percent        Cum.
 {txt}(38,546 missing values generated)
 
 {com}. recode csdmard_hcd .=0 
-{txt}(csdmard_hcd: 38546 changes made)
+{txt}(38546 changes made to {bf:csdmard_hcd})
 
 {com}. tab csdmard_hcd
 
@@ -724,7 +724,7 @@ csdmard_hcd {c |}      Freq.     Percent        Cum.
 {txt}(13,417 missing values generated)
 
 {com}. recode biologic .=0
-{txt}(biologic: 13417 changes made)
+{txt}(13417 changes made to {bf:biologic})
 
 {com}. tab biologic 
 
@@ -873,8 +873,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
@@ -886,8 +886,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
@@ -897,8 +897,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
@@ -908,8 +908,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~t} {...}
 {c |}{...}
@@ -923,8 +923,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
@@ -936,8 +936,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
@@ -947,8 +947,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
@@ -958,8 +958,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~e} {...}
 {c |}{...}
@@ -976,8 +976,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
@@ -989,8 +989,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
@@ -1000,8 +1000,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
@@ -1011,8 +1011,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_rh~b} {...}
 {c |}{...}
@@ -1026,8 +1026,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
@@ -1039,8 +1039,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
@@ -1050,8 +1050,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
@@ -1061,8 +1061,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_~m_appt} {...}
 {c |}{...}
@@ -1076,8 +1076,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
@@ -1089,8 +1089,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
@@ -1100,8 +1100,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
@@ -1111,8 +1111,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~e} {...}
 {c |}{...}
@@ -1129,8 +1129,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
@@ -1142,8 +1142,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
@@ -1153,8 +1153,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
@@ -1164,8 +1164,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_gp_ei~g} {...}
 {c |}{...}
@@ -1179,8 +1179,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
@@ -1192,8 +1192,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
@@ -1203,8 +1203,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
@@ -1214,8 +1214,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~t} {...}
 {c |}{...}
@@ -1229,8 +1229,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
@@ -1242,8 +1242,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
@@ -1253,8 +1253,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
@@ -1264,8 +1264,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~a} {...}
 {c |}{...}
@@ -1282,8 +1282,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_ref_rheum_eia_comb, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
@@ -1295,8 +1295,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
@@ -1306,8 +1306,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
@@ -1317,8 +1317,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_ref_r~b} {...}
 {c |}{...}
@@ -1332,8 +1332,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) 
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
@@ -1345,8 +1345,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
@@ -1356,8 +1356,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
@@ -1367,8 +1367,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_rheum~e} {...}
 {c |}{...}
@@ -1385,8 +1385,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_cs~d} {...}
 {c |}{...}
@@ -1400,8 +1400,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 
 {com}. tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~cd} {...}
 {c |}{...}
@@ -1412,8 +1412,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 . **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
 . tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~rd} {...}
 {c |}{...}
@@ -1427,8 +1427,8 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 . **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
 . tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) 
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_c~cd} {...}
 {c |}{...}
@@ -1449,7 +1449,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(42,678 missing values generated)
 
 {com}. recode csdmard_6w .=0
-{txt}(csdmard_6w: 42678 changes made)
+{txt}(42678 changes made to {bf:csdmard_6w})
 
 {com}. tab csdmard_6w if ra_code==1
 
@@ -1464,7 +1464,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(42,220 missing values generated)
 
 {com}. recode csdmard_3m .=0
-{txt}(csdmard_3m: 42220 changes made)
+{txt}(42220 changes made to {bf:csdmard_3m})
 
 {com}. tab csdmard_3m if ra_code==1
 
@@ -1479,7 +1479,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(41,237 missing values generated)
 
 {com}. recode csdmard_6m .=0
-{txt}(csdmard_6m: 41237 changes made)
+{txt}(41237 changes made to {bf:csdmard_6m})
 
 {com}. tab csdmard_6m if ra_code==1
 
@@ -1494,7 +1494,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(38,978 missing values generated)
 
 {com}. recode csdmard_12m .=0
-{txt}(csdmard_12m: 38978 changes made)
+{txt}(38978 changes made to {bf:csdmard_12m})
 
 {com}. tab csdmard_12m if ra_code==1
 
@@ -1511,7 +1511,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(42,617 missing values generated)
 
 {com}. recode csdmard_hcd_6w .=0
-{txt}(csdmard_hcd_6w: 42617 changes made)
+{txt}(42617 changes made to {bf:csdmard_hcd_6w})
 
 {com}. tab csdmard_hcd_6w if ra_code==1
 
@@ -1527,7 +1527,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(42,070 missing values generated)
 
 {com}. recode csdmard_hcd_3m .=0
-{txt}(csdmard_hcd_3m: 42070 changes made)
+{txt}(42070 changes made to {bf:csdmard_hcd_3m})
 
 {com}. tab csdmard_hcd_3m if ra_code==1
 
@@ -1543,7 +1543,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(40,913 missing values generated)
 
 {com}. recode csdmard_hcd_6m .=0
-{txt}(csdmard_hcd_6m: 40913 changes made)
+{txt}(40913 changes made to {bf:csdmard_hcd_6m})
 
 {com}. tab csdmard_hcd_6m if ra_code==1
 
@@ -1559,7 +1559,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {txt}(38,276 missing values generated)
 
 {com}. recode csdmard_hcd_12m .=0
-{txt}(csdmard_hcd_12m: 38276 changes made)
+{txt}(38276 changes made to {bf:csdmard_hcd_12m})
 
 {com}. tab csdmard_hcd_12m if ra_code==1
 
@@ -1659,7 +1659,7 @@ March 2019-March 2020 {c |}{res}      4,604       33.32       33.32
 {com}. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date sulfasalazine_date {c -(}
 {txt}  2{com}.         replace first_csD="`var'" if csdmard_date==`var' & csdmard_date!=.
 {txt}  3{com}.         {c )-}
-{txt}variable {bf}first_csD{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
+{txt}variable {bf}{res}first_csD{sf}{txt} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
 {txt}(3,109 real changes made)
 (3,130 real changes made)
 (3,046 real changes made)
@@ -1704,7 +1704,7 @@ hydroxychloroquine {c |}{res}      1,048       20.50       20.50
 {com}. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {c -(}
 {txt}  2{com}.         replace first_csD_hcd="`var'" if csdmard_hcd_date==`var' & csdmard_hcd_date!=.
 {txt}  3{com}.         {c )-}
-{txt}variable {bf}first_csD_hcd{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
+{txt}variable {bf}{res}first_csD_hcd{sf}{txt} was {bf}{res}str1{sf}{txt} now {bf}{res}str23{sf}
 {txt}(2,950 real changes made)
 (2,953 real changes made)
 (2,892 real changes made)
@@ -1749,7 +1749,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(36,057 missing values generated)
 
 {com}. recode mtx .=0 
-{txt}(mtx: 36057 changes made)
+{txt}(36057 changes made to {bf:mtx})
 
 {com}. tab mtx if ra_code==1 //for RA patients
 
@@ -1775,7 +1775,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(32,486 missing values generated)
 
 {com}. recode mtx_hcd .=0 
-{txt}(mtx_hcd: 32486 changes made)
+{txt}(32486 changes made to {bf:mtx_hcd})
 
 {com}. tab mtx_hcd if ra_code==1 //for RA patients
 
@@ -1816,8 +1816,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 
 {com}. tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mtx} {...}
 {c |}{...}
@@ -1831,8 +1831,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 
 {com}. tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mt~d} {...}
 {c |}{...}
@@ -1843,8 +1843,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 . **Time to first methotrexate script for PsA patients (not including high cost MTX prescriptions)
 . tabstat time_to_mtx if psa_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mtx} {...}
 {c |}{...}
@@ -1858,8 +1858,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 . **Time to first methotrexate script for PsA patients (including high cost MTX prescriptions)
 . tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75)
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_mt~d} {...}
 {c |}{...}
@@ -1880,7 +1880,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(42,888 missing values generated)
 
 {com}. recode mtx_6w .=0
-{txt}(mtx_6w: 42888 changes made)
+{txt}(42888 changes made to {bf:mtx_6w})
 
 {com}. tab mtx_6w if ra_code==1
 
@@ -1895,7 +1895,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(42,695 missing values generated)
 
 {com}. recode mtx_3m .=0
-{txt}(mtx_3m: 42695 changes made)
+{txt}(42695 changes made to {bf:mtx_3m})
 
 {com}. tab mtx_3m if ra_code==1
 
@@ -1910,7 +1910,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(42,301 missing values generated)
 
 {com}. recode mtx_6m .=0
-{txt}(mtx_6m: 42301 changes made)
+{txt}(42301 changes made to {bf:mtx_6m})
 
 {com}. tab mtx_6m if ra_code==1
 
@@ -1925,7 +1925,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(41,336 missing values generated)
 
 {com}. recode mtx_12m .=0
-{txt}(mtx_12m: 41336 changes made)
+{txt}(41336 changes made to {bf:mtx_12m})
 
 {com}. tab mtx_12m if ra_code==1
 
@@ -1942,7 +1942,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(42,820 missing values generated)
 
 {com}. recode mtx_hcd_6w .=0
-{txt}(mtx_hcd_6w: 42820 changes made)
+{txt}(42820 changes made to {bf:mtx_hcd_6w})
 
 {com}. tab mtx_hcd_6w if ra_code==1
 
@@ -1957,7 +1957,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(42,528 missing values generated)
 
 {com}. recode mtx_hcd_3m .=0
-{txt}(mtx_hcd_3m: 42528 changes made)
+{txt}(42528 changes made to {bf:mtx_hcd_3m})
 
 {com}. tab mtx_hcd_3m if ra_code==1
 
@@ -1972,7 +1972,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(41,933 missing values generated)
 
 {com}. recode mtx_hcd_6m .=0
-{txt}(mtx_hcd_6m: 41933 changes made)
+{txt}(41933 changes made to {bf:mtx_hcd_6m})
 
 {com}. tab mtx_hcd_6m if ra_code==1
 
@@ -1987,7 +1987,7 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}(40,509 missing values generated)
 
 {com}. recode mtx_hcd_12m .=0
-{txt}(mtx_hcd_12m: 40509 changes made)
+{txt}(40509 changes made to {bf:mtx_hcd_12m})
 
 {com}. tab mtx_hcd_12m if ra_code==1
 
@@ -2081,8 +2081,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 
 {com}. tabstat time_to_biologic, stats (n mean p50 p25 p75) //for all EIA patients
 
-{txt}{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
@@ -2094,8 +2094,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {txt}{hline}
 -> eia_diagnosis = RA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
@@ -2105,8 +2105,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {hline}
 -> eia_diagnosis = PsA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
@@ -2116,8 +2116,8 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {hline}
 -> eia_diagnosis = AxSpA
 
-{ralign 12:variable} {...}
-{c |}         N      mean       p50       p25       p75
+{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
 {hline 13}{c +}{hline 50}
 {ralign 12:time_to_bi~c} {...}
 {c |}{...}
@@ -2132,13 +2132,13 @@ hydroxychloroquine {c |}{res}        987       16.40       16.40
 {com}. foreach var of varlist abatacept_date adalimumab_date baricitinib_date certolizumab_date etanercept_date golimumab_date guselkumab_date infliximab_date ixekizumab_date rituximab_date sarilumab_date secukinumab_date tocilizumab_date tofacitinib_date upadacitinib_date ustekinumab_date {c -(}
 {txt}  2{com}.         replace first_bio="`var'" if biologic_date==`var' & biologic_date!=.
 {txt}  3{com}.         {c )-}
-{txt}variable {bf}first_bio{sf} was {bf}{res}str1{sf}{txt} now {bf}{res}str14{sf}
+{txt}variable {bf}{res}first_bio{sf}{txt} was {bf}{res}str1{sf}{txt} now {bf}{res}str14{sf}
 {txt}(2,027 real changes made)
-variable {bf}first_bio{sf} was {bf}{res}str14{sf}{txt} now {bf}{res}str15{sf}
+variable {bf}{res}first_bio{sf}{txt} was {bf}{res}str14{sf}{txt} now {bf}{res}str15{sf}
 {txt}(1,962 real changes made)
-variable {bf}first_bio{sf} was {bf}{res}str15{sf}{txt} now {bf}{res}str16{sf}
+variable {bf}{res}first_bio{sf}{txt} was {bf}{res}str15{sf}{txt} now {bf}{res}str16{sf}
 {txt}(2,097 real changes made)
-variable {bf}first_bio{sf} was {bf}{res}str16{sf}{txt} now {bf}{res}str17{sf}
+variable {bf}{res}first_bio{sf}{txt} was {bf}{res}str16{sf}{txt} now {bf}{res}str17{sf}
 {txt}(1,983 real changes made)
 (2,035 real changes made)
 (2,056 real changes made)
@@ -2266,7 +2266,7 @@ first_biolog {c |}
 {txt}(37,316 missing values generated)
 
 {com}. recode biologic_6m .=0
-{txt}(biologic_6m: 37316 changes made)
+{txt}(37316 changes made to {bf:biologic_6m})
 
 {com}. tab biologic_6m //for all EIA patients
 
@@ -2314,7 +2314,7 @@ biologic_6m {c |}      Freq.     Percent        Cum.
 {txt}(31,312 missing values generated)
 
 {com}. recode biologic_12m .=0
-{txt}(biologic_12m: 31312 changes made)
+{txt}(31312 changes made to {bf:biologic_12m})
 
 {com}. tab biologic_12m //for all EIA patients
 
@@ -2732,19 +2732,19 @@ biologic_12 {c |}
 
 {com}. ****rearrange in order of prevalence
 . recode ethnicity 2=6 /* mixed to 6 */
-{txt}(ethnicity: 6458 changes made)
+{txt}(6458 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 3=2 /* south asian to 2 */
-{txt}(ethnicity: 3182 changes made)
+{txt}(3182 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 4=3 /* black to 3 */
-{txt}(ethnicity: 3144 changes made)
+{txt}(3144 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 6=4 /* mixed to 4 */
-{txt}(ethnicity: 6458 changes made)
+{txt}(6458 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 5=4 /* other to 4 */
-{txt}(ethnicity: 3312 changes made)
+{txt}(3312 changes made to {bf:ethnicity})
 
 {com}. 
 . label define ethnicity  1 "White"                                       ///
@@ -2788,7 +2788,7 @@ biologic_12 {c |}
 {txt}
 {com}. *Reverse the order (so high is more deprived)
 . recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
-{txt}(imd: 43044 changes made)
+{txt}(43044 changes made to {bf:imd})
 
 {com}. label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 {txt}
@@ -2818,7 +2818,7 @@ biologic_12 {c |}
 >                60/69.9999 = 4 ///
 >                    70/79.9999 = 5 ///
 >                    80/max = 6, gen(agegroup) 
-{txt}(33906 differences between age and agegroup)
+{txt}(33906 differences between {bf:age} and {bf:agegroup})
 
 {com}. 
 . label define agegroup   1 "18-39" ///
@@ -2837,7 +2837,7 @@ biologic_12 {c |}
 . *Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
-{txt}(33906 differences between age and age70)
+{txt}(33906 differences between {bf:age} and {bf:age70})
 
 {com}. 
 . *Create restricted cubic splines for age
@@ -2886,22 +2886,22 @@ biologic_12 {c |}
 {txt}(33,906 missing values generated)
 
 {com}. recode  bmicat . = 1 if bmi_value < 18.5
-{txt}(bmicat: 91 changes made)
+{txt}(91 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 2 if bmi_value < 25
-{txt}(bmicat: 180 changes made)
+{txt}(180 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 3 if bmi_value < 30
-{txt}(bmicat: 274 changes made)
+{txt}(274 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 4 if bmi_value < 35
-{txt}(bmicat: 370 changes made)
+{txt}(370 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 5 if bmi_value < 40
-{txt}(bmicat: 398 changes made)
+{txt}(398 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 6 if bmi_value < .
-{txt}(bmicat: 577 changes made)
+{txt}(577 changes made to {bf:bmicat})
 
 {com}. replace bmicat = .u if bmi_value >= .
 {txt}(32,016 real changes made, 32,016 to missing)
@@ -2923,7 +2923,7 @@ biologic_12 {c |}
 {com}. 
 . *Create less granular categorisation
 . recode bmicat 1/3 .u = 1 4 = 2 5 = 3 6 = 4, gen(obese4cat)
-{txt}(33815 differences between bmicat and obese4cat)
+{txt}(33815 differences between {bf:bmicat} and {bf:obese4cat})
 
 {com}. 
 . label define obese4cat  1 "No record of obesity"        ///
@@ -2966,7 +2966,7 @@ biologic_12 {c |}
 {com}. 
 . *Create non-missing 3-category variable for current smoking (assumes missing smoking is never smoking)
 . recode smoke .u = 1, gen(smoke_nomiss)
-{txt}(18691 differences between smoke and smoke_nomiss)
+{txt}(18691 differences between {bf:smoke} and {bf:smoke_nomiss})
 
 {com}. order smoke_nomiss, after(smoke)
 {txt}
@@ -2991,7 +2991,7 @@ biologic_12 {c |}
 {txt}(8,479 real changes made, 8,479 to missing)
 
 {com}. recode creatinine .=0
-{txt}(creatinine: 8479 changes made)
+{txt}(8479 changes made to {bf:creatinine})
 
 {com}. 
 . *Divide by 88.4 (to convert umol/l to mg/dl) 
@@ -3048,23 +3048,23 @@ biologic_12 {c |}
 {com}. 
 . *Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-{txt}(8479 missing values generated)
+{txt}(8,479 missing values generated)
 
 {com}. recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-{txt}(25427 differences between egfr_cat_all and ckd_egfr)
+{txt}(25427 differences between {bf:egfr_cat_all} and {bf:ckd_egfr})
 
 {com}. 
 . gen egfr_cat = .
 {txt}(33,906 missing values generated)
 
 {com}. recode egfr_cat . = 3 if egfr < 30
-{txt}(egfr_cat: 6087 changes made)
+{txt}(6087 changes made to {bf:egfr_cat})
 
 {com}. recode egfr_cat . = 2 if egfr < 60
-{txt}(egfr_cat: 8833 changes made)
+{txt}(8833 changes made to {bf:egfr_cat})
 
 {com}. recode egfr_cat . = 1 if egfr < .
-{txt}(egfr_cat: 10507 changes made)
+{txt}(10507 changes made to {bf:egfr_cat})
 
 {com}. replace egfr_cat = .u if egfr >= .
 {txt}(8,479 real changes made, 8,479 to missing)
@@ -3175,7 +3175,7 @@ biologic_12 {c |}
 . *Express all values as perecentage 
 . noi summ hba1c_percentage hba1c_mmol_per_mol 
 
-{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
 hba1c_per~ge {c |}{res}        851    5.083083     1.86481   1.001462   10.96054
 {txt}hba1c_mmol~l {c |}{res}        862     41.6382    17.46777   10.43492   90.53609
@@ -3278,7 +3278,7 @@ hba1c_per~ge {c |}{res}        851    5.083083     1.86481   1.001462   10.96054
 {txt}(21,650 missing values generated)
 
 {com}. recode combined_cv_comorbid .=0
-{txt}(combined_cv_comorbid: 21650 changes made)
+{txt}(21650 changes made to {bf:combined_cv_comorbid})
 
 {com}. 
 . *Delete unneeded variables
@@ -3303,20 +3303,19 @@ hba1c_per~ge {c |}{res}        851    5.083083     1.86481   1.001462   10.96054
 {com}. lab var chronic_cardiac_disease "Chronic cardiac disease"
 {txt}
 {com}. 
-. save `c(pwd)'/output/data/file_eia_all.dta, replace     
-{txt}(note: file /workspace/output/data/file_eia_all.dta not found)
-{err}{p 0 4 2}
-file /workspace/output/data/file_eia_all.dta
-could not be opened
+. save "$projectdir/output/data/file_eia_all.dta", replace        
+{txt}{p 0 4 2}
+file {bf}
+C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/data/file_eia_all.dta{rm}
+saved
 {p_end}
-{txt}{search r(603), local:r(603);}
-
-end of do-file
-{search r(603), local:r(603);}
-
-end of do-file
-
-{search r(603), local:r(603);}
-
 
 {com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/cleaning_dataset.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 1 Apr 2022, 16:30:37
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
