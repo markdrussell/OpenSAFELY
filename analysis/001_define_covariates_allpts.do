@@ -16,16 +16,14 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
 global logdir "$projectdir/logs"
 di "$logdir"
 
-import delimited `c(pwd)'/output/input_allpts.csv, clear
-*import delimited "$projectdir/output/input_allpts.csv", clear
+import delimited "$projectdir/output/input_allpts.csv", clear
 
 **Open a log file
 cap log close
@@ -164,6 +162,9 @@ rename stp stp_old
 bysort stp_old: gen stp = 1 if _n==1
 replace stp = sum(stp) //
 drop stp_old
+
+***Regions
+encode region, gen(nuts_region)
 
 ***IMD
 *Group into 5 groups
@@ -443,7 +444,7 @@ lab var esrf "End-stage renal failure"
 lab var chronic_liver_disease "Chronic liver disease"
 lab var chronic_cardiac_disease "Chronic cardiac disease"
 
-save "$projectdir/output/data/file_eia_allpts.dta", replace	
+save "$projectdir/output/data/file_eia_allpts", replace	
 
 log close
 

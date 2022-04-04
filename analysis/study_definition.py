@@ -110,10 +110,22 @@ study = StudyDefinition(
             (sex = "M" OR sex = "F")
             """,
             has_follow_up=patients.registered_with_one_practice_between(
-                "eia_code_date - 1 year", "eia_code_date + 6 months"        
+                "eia_code_date - 1 year", "eia_code_date"        
             ),
         ),
     
+    has_6m_follow_up=patients.registered_with_one_practice_between(
+            start_date="eia_code_date - 1 year", 
+            end_date="eia_code_date + 6 months",
+            return_expectations={"incidence": 0.95}       
+    ),
+
+    has_12m_follow_up=patients.registered_with_one_practice_between(
+            start_date="eia_code_date - 1 year", 
+            end_date="eia_code_date + 1 year",
+            return_expectations={"incidence": 0.90}       
+    ),
+
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
     age=patients.age_as_of(
         "eia_code_date",
@@ -154,6 +166,25 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {"ratios": {"STP1": 0.5, "STP2": 0.5}},
         },
+    ),
+    region=patients.registered_practice_as_of(
+        "eia_code_date",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+            "ratios": {
+                "North East": 0.1,
+                "North West": 0.1,
+                "Yorkshire and the Humber": 0.1,
+                "East Midlands": 0.1,
+                "West Midlands": 0.1,
+                "East of England": 0.1,
+                "London": 0.2,
+                "South East": 0.2,
+                },
+            },
+        },    
     ),
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/52
     imd=patients.address_as_of(

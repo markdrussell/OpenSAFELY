@@ -57,3 +57,61 @@ actions:
         figure2:  output/figures/ITSA_diagnostic_delay_newey.svg
         figure3:  output/figures/ITSA_diagnostic_delay_prais.gph  
         figure4:  output/figures/ITSA_diagnostic_delay_prais.svg
+        figure5:  output/figures/ITSA_diagnostic_delay_newey_2cuts.gph
+        figure6:  output/figures/ITSA_diagnostic_delay_newey_2cuts.svg
+        figure7:  output/figures/ITSA_diagnostic_delay_prais_2cuts.gph  
+        figure8:  output/figures/ITSA_diagnostic_delay_prais_2cuts.svg
+        figure9:  output/figures/ITSA_diagnostic_delay_GP_newey.gph
+        figure10:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
+        figure11:  output/figures/ITSA_diagnostic_delay_GP_prais.gph  
+        figure12:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
+        figure13:  output/figures/ITSA_diagnostic_delay_GPref_newey.gph
+        figure14:  output/figures/ITSA_diagnostic_delay_GPref_newey.svg
+        figure15:  output/figures/ITSA_diagnostic_delay_GPref_prais.gph  
+        figure16:  output/figures/ITSA_diagnostic_delay_GPref_prais.svg
+        figure17:  output/figures/ITSA_csDMARD_delay_newey_ra.gph
+        figure18:  output/figures/ITSA_csDMARD_delay_newey_ra.svg
+        figure19:  output/figures/ITSA_csDMARD_delay_prais_ra.gph
+        figure20:  output/figures/ITSA_csDMARD_delay_prais_ra.svg
+        figure21:  output/figures/ITSA_csDMARD_delay_newey_psa.gph  
+        figure22:  output/figures/ITSA_csDMARD_delay_newey_psa.svg    
+        figure23:  output/figures/ITSA_csDMARD_delay_prais_psa.gph
+        figure24:  output/figures/ITSA_csDMARD_delay_prais_psa.svg
+        figure25:  output/figures/ITSA_mtx_delay_newey_ra.gph
+        figure26:  output/figures/ITSA_mtx_delay_newey_ra.svg
+        figure27:  output/figures/ITSA_mtx_delay_prais_ra.gph
+        figure28:  output/figures/ITSA_mtx_delay_prais_ra.svg
+        figure29:  output/figures/ITSA_mtx_delay_newey_psa.gph  
+        figure30:  output/figures/ITSA_mtx_delay_newey_psa.svg    
+        figure31:  output/figures/ITSA_mtx_delay_prais_psa.gph
+        figure32:  output/figures/ITSA_mtx_delay_prais_psa.svg
+        figure33:  output/figures/ITSA_biologic_delay_newey_all.gph
+        figure34:  output/figures/ITSA_biologic_delay_newey_all.svg
+        figure35:  output/figures/ITSA_biologic_delay_prais_all.gph
+        figure36:  output/figures/ITSA_biologic_delay_prais_all.svg
+        figure37:  output/figures/ITSA_biologic_delay_newey_ra.gph  
+        figure38:  output/figures/ITSA_biologic_delay_newey_ra.svg    
+        figure39:  output/figures/ITSA_biologic_delay_prais_ra.gph
+        figure40:  output/figures/ITSA_biologic_delay_prais_ra.svg
+        figure41:  output/figures/ITSA_biologic_delay_newey_psa.gph
+        figure42:  output/figures/ITSA_biologic_delay_newey_psa.svg
+        figure43:  output/figures/ITSA_biologic_delay_prais_psa.gph
+        figure44:  output/figures/ITSA_biologic_delay_prais_psa.svg
+        figure45:  output/figures/ITSA_biologic_delay_newey_anksp.gph  
+        figure46:  output/figures/ITSA_biologic_delay_newey_anksp.svg    
+        figure47:  output/figures/ITSA_biologic_delay_prais_anksp.gph
+        figure48:  output/figures/ITSA_biologic_delay_prais_anksp.svg           
+        doc1: output/tables/diagnostic_delay_ref_rheum_appt.doc
+        doc2: output/tables/diagnostic_delay_GP_rheum_appt.doc
+        doc3: output/tables/diagnostic_delay_GPref_rheum_appt.doc
+        doc4: output/tables/csDMARD_delay_RA.doc
+        doc5: output/tables/csDMARD_delay_PsA.doc
+        doc6: output/tables/MTX_delay_RA.doc
+        doc7: output/tables/MTX_delay_PsA.doc
+        doc8: output/tables/Biol_delay_all.doc
+        doc9: output/tables/Biol_delay_ra.doc
+        doc10: output/tables/Biol_delay_PsA.doc
+        doc11: output/tables/Biol_delay_anksp.doc
+  
+
+

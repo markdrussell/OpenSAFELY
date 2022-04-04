@@ -1,20 +1,20 @@
 {smcl}
-{com}{sf}{ul off}{txt}{.-}
+{txt}{sf}{ul off}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables.smcl
+       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 1 Apr 2022, 16:31:39
+ {txt}opened on:  {res} 4 Apr 2022, 15:45:44
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
-  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
+{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
+  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
-  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
-  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
-  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
+  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
+  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
+  [7]              "{res}/workspace/analysis/extra_ados{txt}"
 
 {com}. 
 . **Use cleaned data from previous step
@@ -49,117 +49,117 @@
   {c TLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
   {c |} {res}factor                             N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Age                             33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Age                             32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Age group                       33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Age group                       32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Male                            33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Male                            32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Ethnicity                       33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Ethnicity                       32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Index of multiple deprivation   33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Index of multiple deprivation   32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}BMI                             33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}BMI                             32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Smoking status                  33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Smoking status                  32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Hypertension                    33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Hypertension                    32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Diabetes                        33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Diabetes                        32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}HbA1c                           33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}HbA1c                           32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic cardiac disease         33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic cardiac disease         32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Stroke                          33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Stroke                          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Cancer                          33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Cancer                          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic respiratory disease     33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic respiratory disease     32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic liver disease           33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic liver disease           32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic kidney disease          33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic kidney disease          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}eGFR                            33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}eGFR                            32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}End-stage renal failure         33,906   11,433   11,200   11,273     0     0     0     0 {txt}{c |}
+  {c |} {res}End-stage renal failure         32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
   {c BLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
    N_ ... #records used below,   m_ ... #records not used
  
   {c TLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c TRC}
   {c |} {res}                                Total            RA               PsA              AxSpA            p-value {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}                                N=33,906         N=11,433         N=11,200         N=11,273                 {txt}{c |}
+  {c |} {res}                                N=32,365         N=10,704         N=10,742         N=10,919                 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Age                             49 (19)          49 (19)          49 (19)          49 (19)           0.31   {txt}{c |}
+  {c |} {res}Age                             49 (19)          49 (19)          49 (19)          49 (19)           0.60   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Age group                                                                                            0.47   {txt}{c |}
-  {c |} {res}   18-39                        12,235 (36.1%)   4,133 (36.1%)    4,084 (36.5%)    4,018 (35.6%)            {txt}{c |}
-  {c |} {res}   40-49                        5,636 (16.6%)    1,917 (16.8%)    1,874 (16.7%)    1,845 (16.4%)            {txt}{c |}
-  {c |} {res}   50-59                        5,751 (17.0%)    1,988 (17.4%)    1,823 (16.3%)    1,940 (17.2%)            {txt}{c |}
-  {c |} {res}   60-69                        4,561 (13.5%)    1,495 (13.1%)    1,518 (13.6%)    1,548 (13.7%)            {txt}{c |}
-  {c |} {res}   70-79                        3,575 (10.5%)    1,199 (10.5%)    1,186 (10.6%)    1,190 (10.6%)            {txt}{c |}
-  {c |} {res}   80+                          2,148 (6.3%)     701 (6.1%)       715 (6.4%)       732 (6.5%)               {txt}{c |}
+  {c |} {res}Age group                                                                                            0.99   {txt}{c |}
+  {c |} {res}   18-39                        11,831 (36.6%)   3,934 (36.8%)    3,902 (36.3%)    3,995 (36.6%)            {txt}{c |}
+  {c |} {res}   40-49                        5,303 (16.4%)    1,746 (16.3%)    1,770 (16.5%)    1,787 (16.4%)            {txt}{c |}
+  {c |} {res}   50-59                        5,510 (17.0%)    1,821 (17.0%)    1,833 (17.1%)    1,856 (17.0%)            {txt}{c |}
+  {c |} {res}   60-69                        4,395 (13.6%)    1,473 (13.8%)    1,442 (13.4%)    1,480 (13.6%)            {txt}{c |}
+  {c |} {res}   70-79                        3,387 (10.5%)    1,115 (10.4%)    1,129 (10.5%)    1,143 (10.5%)            {txt}{c |}
+  {c |} {res}   80+                          1,939 (6.0%)     615 (5.7%)       666 (6.2%)       658 (6.0%)               {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Male                            16,600 (49.0%)   5,565 (48.7%)    5,486 (49.0%)    5,549 (49.2%)     0.71   {txt}{c |}
+  {c |} {res}Male                            15,812 (48.9%)   5,258 (49.1%)    5,225 (48.6%)    5,329 (48.8%)     0.77   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Ethnicity                                                                                            0.45   {txt}{c |}
-  {c |} {res}   White                        12,847 (37.9%)   4,388 (38.4%)    4,251 (38.0%)    4,208 (37.3%)            {txt}{c |}
-  {c |} {res}   Asian/Asian British          2,494 (7.4%)     837 (7.3%)       792 (7.1%)       865 (7.7%)               {txt}{c |}
-  {c |} {res}   Black                        2,478 (7.3%)     836 (7.3%)       791 (7.1%)       851 (7.5%)               {txt}{c |}
-  {c |} {res}   Mixed/Other                  7,682 (22.7%)    2,600 (22.7%)    2,546 (22.7%)    2,536 (22.5%)            {txt}{c |}
-  {c |} {res}                                8,405 (24.8%)    2,772 (24.2%)    2,820 (25.2%)    2,813 (25.0%)            {txt}{c |}
+  {c |} {res}Ethnicity                                                                                            0.076  {txt}{c |}
+  {c |} {res}   White                        12,126 (37.5%)   4,051 (37.8%)    4,055 (37.7%)    4,020 (36.8%)            {txt}{c |}
+  {c |} {res}   Asian/Asian British          2,479 (7.7%)     795 (7.4%)       845 (7.9%)       839 (7.7%)               {txt}{c |}
+  {c |} {res}   Black                        2,407 (7.4%)     804 (7.5%)       750 (7.0%)       853 (7.8%)               {txt}{c |}
+  {c |} {res}   Mixed/Other                  7,212 (22.3%)    2,317 (21.6%)    2,402 (22.4%)    2,493 (22.8%)            {txt}{c |}
+  {c |} {res}                                8,141 (25.2%)    2,737 (25.6%)    2,690 (25.0%)    2,714 (24.9%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Index of multiple deprivation                                                                        0.65   {txt}{c |}
-  {c |} {res}   1 least deprived             23,679 (69.8%)   7,986 (69.9%)    7,834 (69.9%)    7,859 (69.7%)            {txt}{c |}
-  {c |} {res}   4                            6,722 (19.8%)    2,255 (19.7%)    2,246 (20.1%)    2,221 (19.7%)            {txt}{c |}
-  {c |} {res}   5 most deprived              3,505 (10.3%)    1,192 (10.4%)    1,120 (10.0%)    1,193 (10.6%)            {txt}{c |}
+  {c |} {res}Index of multiple deprivation                                                                        0.46   {txt}{c |}
+  {c |} {res}   1 least deprived             22,671 (70.0%)   7,518 (70.2%)    7,457 (69.4%)    7,696 (70.5%)            {txt}{c |}
+  {c |} {res}   4                            6,436 (19.9%)    2,109 (19.7%)    2,173 (20.2%)    2,154 (19.7%)            {txt}{c |}
+  {c |} {res}   5 most deprived              3,258 (10.1%)    1,077 (10.1%)    1,112 (10.4%)    1,069 (9.8%)             {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}BMI                                                                                                  0.85   {txt}{c |}
-  {c |} {res}   Underweight (<18.5)          91 (0.3%)        32 (0.3%)        25 (0.2%)        34 (0.3%)                {txt}{c |}
-  {c |} {res}   Normal (18.5-24.9)           180 (0.5%)       62 (0.5%)        60 (0.5%)        58 (0.5%)                {txt}{c |}
-  {c |} {res}   Overweight (25-29.9)         274 (0.8%)       95 (0.8%)        95 (0.8%)        84 (0.7%)                {txt}{c |}
-  {c |} {res}   Obese I (30-34.9)            370 (1.1%)       132 (1.2%)       109 (1.0%)       129 (1.1%)               {txt}{c |}
-  {c |} {res}   Obese II (35-39.9)           398 (1.2%)       145 (1.3%)       126 (1.1%)       127 (1.1%)               {txt}{c |}
-  {c |} {res}   Obese III (40+)              577 (1.7%)       214 (1.9%)       165 (1.5%)       198 (1.8%)               {txt}{c |}
-  {c |} {res}                                32,016 (94.4%)   10,753 (94.1%)   10,620 (94.8%)   10,643 (94.4%)           {txt}{c |}
+  {c |} {res}BMI                                                                                                  0.21   {txt}{c |}
+  {c |} {res}   Underweight (<18.5)          66 (0.2%)        21 (0.2%)        17 (0.2%)        28 (0.3%)                {txt}{c |}
+  {c |} {res}   Normal (18.5-24.9)           186 (0.6%)       58 (0.5%)        69 (0.6%)        59 (0.5%)                {txt}{c |}
+  {c |} {res}   Overweight (25-29.9)         278 (0.9%)       112 (1.0%)       76 (0.7%)        90 (0.8%)                {txt}{c |}
+  {c |} {res}   Obese I (30-34.9)            321 (1.0%)       105 (1.0%)       111 (1.0%)       105 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese II (35-39.9)           327 (1.0%)       114 (1.1%)       115 (1.1%)       98 (0.9%)                {txt}{c |}
+  {c |} {res}   Obese III (40+)              590 (1.8%)       191 (1.8%)       210 (2.0%)       189 (1.7%)               {txt}{c |}
+  {c |} {res}                                30,597 (94.5%)   10,103 (94.4%)   10,144 (94.4%)   10,350 (94.8%)           {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Smoking status                                                                                       0.036  {txt}{c |}
-  {c |} {res}   Never                        3,443 (10.2%)    1,118 (9.8%)     1,176 (10.5%)    1,149 (10.2%)            {txt}{c |}
-  {c |} {res}   Former                       1,592 (4.7%)     588 (5.1%)       498 (4.4%)       506 (4.5%)               {txt}{c |}
-  {c |} {res}   Current                      10,180 (30.0%)   3,432 (30.0%)    3,356 (30.0%)    3,392 (30.1%)            {txt}{c |}
-  {c |} {res}                                18,691 (55.1%)   6,295 (55.1%)    6,170 (55.1%)    6,226 (55.2%)            {txt}{c |}
+  {c |} {res}Smoking status                                                                                       0.24   {txt}{c |}
+  {c |} {res}   Never                        3,219 (9.9%)     1,067 (10.0%)    1,027 (9.6%)     1,125 (10.3%)            {txt}{c |}
+  {c |} {res}   Former                       1,577 (4.9%)     508 (4.7%)       550 (5.1%)       519 (4.8%)               {txt}{c |}
+  {c |} {res}   Current                      9,758 (30.1%)    3,257 (30.4%)    3,238 (30.1%)    3,263 (29.9%)            {txt}{c |}
+  {c |} {res}                                17,811 (55.0%)   5,872 (54.9%)    5,927 (55.2%)    6,012 (55.1%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Hypertension                    6,872 (20.3%)    2,343 (20.5%)    2,242 (20.0%)    2,287 (20.3%)     0.67   {txt}{c |}
+  {c |} {res}Hypertension                    6,348 (19.6%)    2,038 (19.0%)    2,142 (19.9%)    2,168 (19.9%)     0.19   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Diabetes                        6,780 (20.0%)    2,324 (20.3%)    2,254 (20.1%)    2,202 (19.5%)     0.30   {txt}{c |}
+  {c |} {res}Diabetes                        6,423 (19.8%)    2,099 (19.6%)    2,174 (20.2%)    2,150 (19.7%)     0.45   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}HbA1c                                                                                                0.55   {txt}{c |}
-  {c |} {res}   HbA1c <58mmol/mol            1,440 (4.2%)     480 (4.2%)       465 (4.2%)       495 (4.4%)               {txt}{c |}
-  {c |} {res}   HbA1c >=58mmol/mol           253 (0.7%)       92 (0.8%)        74 (0.7%)        87 (0.8%)                {txt}{c |}
-  {c |} {res}                                32,213 (95.0%)   10,861 (95.0%)   10,661 (95.2%)   10,691 (94.8%)           {txt}{c |}
+  {c |} {res}HbA1c                                                                                                0.63   {txt}{c |}
+  {c |} {res}   HbA1c <58mmol/mol            1,419 (4.4%)     477 (4.5%)       476 (4.4%)       466 (4.3%)               {txt}{c |}
+  {c |} {res}   HbA1c >=58mmol/mol           256 (0.8%)       82 (0.8%)        82 (0.8%)        92 (0.8%)                {txt}{c |}
+  {c |} {res}                                30,690 (94.8%)   10,145 (94.8%)   10,184 (94.8%)   10,361 (94.9%)           {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic cardiac disease         6,837 (20.2%)    2,310 (20.2%)    2,267 (20.2%)    2,260 (20.0%)     0.93   {txt}{c |}
+  {c |} {res}Chronic cardiac disease         6,439 (19.9%)    2,157 (20.2%)    2,095 (19.5%)    2,187 (20.0%)     0.45   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Stroke                          6,758 (19.9%)    2,317 (20.3%)    2,217 (19.8%)    2,224 (19.7%)     0.54   {txt}{c |}
+  {c |} {res}Stroke                          6,519 (20.1%)    2,144 (20.0%)    2,176 (20.3%)    2,199 (20.1%)     0.92   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Cancer                          16,566 (48.9%)   5,642 (49.3%)    5,418 (48.4%)    5,506 (48.8%)     0.34   {txt}{c |}
+  {c |} {res}Cancer                          15,590 (48.2%)   5,171 (48.3%)    5,138 (47.8%)    5,281 (48.4%)     0.69   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic respiratory disease     6,723 (19.8%)    2,264 (19.8%)    2,217 (19.8%)    2,242 (19.9%)     0.98   {txt}{c |}
+  {c |} {res}Chronic respiratory disease     6,448 (19.9%)    2,153 (20.1%)    2,125 (19.8%)    2,170 (19.9%)     0.82   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic liver disease           6,773 (20.0%)    2,309 (20.2%)    2,250 (20.1%)    2,214 (19.6%)     0.54   {txt}{c |}
+  {c |} {res}Chronic liver disease           6,492 (20.1%)    2,121 (19.8%)    2,147 (20.0%)    2,224 (20.4%)     0.58   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic kidney disease                                                                               0.64   {txt}{c |}
-  {c |} {res}   No CKD                       15,135 (44.6%)   5,134 (44.9%)    4,961 (44.3%)    5,040 (44.7%)            {txt}{c |}
-  {c |} {res}   CKD                          18,771 (55.4%)   6,299 (55.1%)    6,239 (55.7%)    6,233 (55.3%)            {txt}{c |}
+  {c |} {res}Chronic kidney disease                                                                               0.66   {txt}{c |}
+  {c |} {res}   No CKD                       14,369 (44.4%)   4,787 (44.7%)    4,738 (44.1%)    4,844 (44.4%)            {txt}{c |}
+  {c |} {res}   CKD                          17,996 (55.6%)   5,917 (55.3%)    6,004 (55.9%)    6,075 (55.6%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}eGFR                                                                                                 0.56   {txt}{c |}
-  {c |} {res}   >=60/missing                 18,986 (56.0%)   6,421 (56.2%)    6,207 (55.4%)    6,358 (56.4%)            {txt}{c |}
-  {c |} {res}   30-59                        8,833 (26.1%)    2,947 (25.8%)    2,958 (26.4%)    2,928 (26.0%)            {txt}{c |}
-  {c |} {res}   <30                          6,087 (18.0%)    2,065 (18.1%)    2,035 (18.2%)    1,987 (17.6%)            {txt}{c |}
+  {c |} {res}eGFR                                                                                                 0.97   {txt}{c |}
+  {c |} {res}   >=60/missing                 18,053 (55.8%)   5,988 (55.9%)    5,971 (55.6%)    6,094 (55.8%)            {txt}{c |}
+  {c |} {res}   30-59                        8,589 (26.5%)    2,843 (26.6%)    2,860 (26.6%)    2,886 (26.4%)            {txt}{c |}
+  {c |} {res}   <30                          5,723 (17.7%)    1,873 (17.5%)    1,911 (17.8%)    1,939 (17.8%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}End-stage renal failure         6,851 (20.2%)    2,302 (20.1%)    2,227 (19.9%)    2,322 (20.6%)     0.40   {txt}{c |}
+  {c |} {res}End-stage renal failure         6,619 (20.5%)    2,178 (20.3%)    2,255 (21.0%)    2,186 (20.0%)     0.20   {txt}{c |}
   {c BLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c BRC}
 Data are presented as mean (SD) for continuous measures, and n (%) for categorical measures.
  
@@ -575,9 +575,9 @@ Data are presented as mean (SD) for continuous measures, and n (%) for categoric
 .                  
 . log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables.smcl
+       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 1 Apr 2022, 16:31:48
+ {txt}closed on:  {res} 4 Apr 2022, 15:45:48
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
