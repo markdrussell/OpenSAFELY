@@ -71,7 +71,7 @@ def medication_counts_and_dates(var_name, med_codelist_file, high_cost):
         with_med_func=patients.with_high_cost_drugs
         high_cost=True
     else:
-        if ("medication" in med_codelist_file):
+        if ("hydroxychloroquine" in med_codelist_file):
             column_name="snomed_id"
         else:
             column_name="dmd_id"
@@ -357,7 +357,7 @@ study = StudyDefinition(
     ),
 
     # Medications
-    **medication_counts_and_dates("hydroxychloroquine", "opensafely-hydroxychloroquine-medication", False),
+    **medication_counts_and_dates("hydroxychloroquine", "opensafely-hydroxychloroquine", False),
     **medication_counts_and_dates("leflunomide", "opensafely-leflunomide-dmd", False),
     **medication_counts_and_dates("methotrexate", "opensafely-methotrexate-oral", False),
     **medication_counts_and_dates("methotrexate_inj", "opensafely-methotrexate-injectable", False),

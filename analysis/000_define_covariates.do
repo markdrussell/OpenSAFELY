@@ -22,8 +22,7 @@ global projectdir `c(pwd)'
 
 global logdir "$projectdir/logs"
 
-import delimited `c(pwd)'/output/input.csv, clear
-*import delimited "$projectdir/output/input.csv", clear
+import delimited "$projectdir/output/input.csv", clear
 
 **Open a log file
 cap log close

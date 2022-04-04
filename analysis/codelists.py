@@ -99,6 +99,6 @@ organ_transplant_codes = codelist_from_csv(
 )
 
 referral_rheumatology = codelist_from_csv(
-    "codelists/user-markdrusell-referral-rheumatology.csv", system = "snomed", column = "code")
+    "codelists/user-markdrussell-referral-rheumatology.csv", system = "snomed", column = "code")
 
 # Medications now handled through function in study_defintion.py
