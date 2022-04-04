@@ -19,10 +19,8 @@ USER-INSTALLED ADO:
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
-di "$projectdir"
 
 global logdir "$projectdir/logs"
-di "$logdir"
 
 import delimited `c(pwd)'/output/input.csv, clear
 *import delimited "$projectdir/output/input.csv", clear
@@ -30,6 +28,9 @@ import delimited `c(pwd)'/output/input.csv, clear
 **Open a log file
 cap log close
 log using "$logdir/cleaning_dataset.smcl", replace
+
+di "$projectdir"
+di "$logdir"
 
 **Set Ado file path
 adopath + "$projectdir/analysis/extra_ados"
