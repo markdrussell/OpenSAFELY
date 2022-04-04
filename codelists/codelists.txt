@@ -1,4 +1,7 @@
-user/mark-yates/axial-spondyloarthritis/3da730d4
+user/markdrussell/psoriatic-arthritis/5f11d9a4
+user/markdrussell/axial-spondyloarthritis/1130c00f
+user/markdrussell/new-rheumatoid-arthritis/78214cd9
+user/markdrussell/referral-rheumatology/2a403344
 opensafely/cancer-excluding-lung-and-haematological/2020-04-15
 opensafely/chronic-cardiac-disease/2020-04-08
 opensafely/chronic-liver-disease/2020-06-02

@@ -4,13 +4,6 @@ from cohortextractor import (
     codelist,
 )
 
-# OUTCOME CODELISTS
-covid_identification = codelist_from_csv(
-    "codelists/opensafely-covid-identification.csv",
-    system="icd10",
-    column="icd10_code",
-)
-
 # DEMOGRAPHIC CODELIST
 ethnicity_codes = codelist_from_csv(
     "codelists/opensafely-ethnicity.csv",
@@ -27,50 +20,23 @@ clear_smoking_codes = codelist_from_csv(
     category_column="Category",
 )
 
-unclear_smoking_codes = codelist_from_csv(
-    "codelists/opensafely-smoking-unclear.csv",
-    system="ctv3",
-    column="CTV3Code",
-    category_column="Category",
-)
-
 # CLINICAL CONDITIONS CODELISTS
 ankylosing_spondylitis_codes = codelist_from_csv(
-    "codelists/crossimid-ankylosing-spondylitis.csv", system="ctv3", column="CTV3ID",
+    "codelists/user-markdrussell-axial-spondyloarthritis.csv", system="snomed", column="code",
 )
 
 psoriatic_arthritis_codes = codelist_from_csv(
-    "codelists/crossimid-psoriatic-arthritis.csv", system="ctv3", column="CTV3ID",
+    "codelists/user-markdrussell-psoriatic-arthritis.csv", system="snomed", column="code",
 )
 
 rheumatoid_arthritis_codes = codelist_from_csv(
-    "codelists/opensafely-rheumatoid-arthritis.csv", system="ctv3", column="CTV3ID",
+    "codelists/user-markdrussell-new-rheumatoid-arthritis.csv", system="snomed", column="code",
 )
 
 eia_diagnosis_codes = combine_codelists(
     ankylosing_spondylitis_codes,
     psoriatic_arthritis_codes,
     rheumatoid_arthritis_codes
-)
-
-crohns_disease_codes = codelist_from_csv(
-    "codelists/opensafely-crohns-disease.csv", system="ctv3", column="code",
-)
-
-ulcerative_colitis_codes = codelist_from_csv(
-    "codelists/opensafely-ulcerative-colitis.csv", system="ctv3", column="code",
-)
-
-inflammatory_bowel_disease_unclassified_codes = codelist_from_csv(
-    "codelists/opensafely-inflammatory-bowel-disease-unclassified.csv", system="ctv3", column="code",
-)
-
-psoriasis_codes = codelist_from_csv(
-    "codelists/opensafely-psoriasis.csv", system="ctv3", column="code",
-)
-
-hidradenitis_suppurativa_codes = codelist_from_csv(
-    "codelists/opensafely-hidradenitis-suppurativa.csv", system="ctv3", column="CTV3ID",
 )
 
 chronic_cardiac_disease_codes = codelist_from_csv(
@@ -133,6 +99,6 @@ organ_transplant_codes = codelist_from_csv(
 )
 
 referral_rheumatology = codelist_from_csv(
-    "codelists/opensafely-referral-rheumatology.csv", system = "snomed", column = "code")
+    "codelists/user-markdrusell-referral-rheumatology.csv", system = "snomed", column = "code")
 
 # Medications now handled through function in study_defintion.py

@@ -10,6 +10,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_allpts.csv
+                  
+  generate_study_population:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition
+    outputs:
+      highly_sensitive:
+        cohort: output/input.csv
   
   create_cohorts_allpts:
     run: stata-mp:latest analysis/001_define_covariates_allpts.do
@@ -19,19 +25,6 @@ actions:
         log1: logs/cleaning_dataset_allpts.smcl 
         data1: output/data/file_eia_allpts.dta        
 
-  run_baseline_tables_allpts:
-    run: stata-mp:latest analysis/101_baseline_characteristics_allpts.do
-    needs: [create_cohorts_allpts]
-    outputs:
-      moderately_sensitive:
-        log1: logs/descriptive_tables_allpts.smcl 
-          
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition
-    outputs:
-      highly_sensitive:
-        cohort: output/input.csv
-
   create_cohorts:
     run: stata-mp:latest analysis/000_define_covariates.do
     needs: [generate_study_population]
@@ -39,6 +32,13 @@ actions:
       highly_sensitive:
         log1: logs/cleaning_dataset.smcl 
         data1: output/data/file_eia_all.dta
+
+  run_baseline_tables_allpts:
+    run: stata-mp:latest analysis/101_baseline_characteristics_allpts.do
+    needs: [create_cohorts_allpts]
+    outputs:
+      moderately_sensitive:
+        log1: logs/descriptive_tables_allpts.smcl         
 
   run_baseline_tables:
     run: stata-mp:latest analysis/100_baseline_characteristics.do
