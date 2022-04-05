@@ -31,7 +31,7 @@ adopath + "$projectdir/analysis/extra_ados"
 use "$projectdir/output/data/file_eia_allpts.dta", clear
 
 /*Tables=====================================================================================*/
-*Table 1a - 
+*Baseline table
 preserve
 table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 	vars(age contn %3.0f \ ///

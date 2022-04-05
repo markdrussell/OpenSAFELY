@@ -1,20 +1,20 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/descriptive_tables_allpts.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables_allpts.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 15:45:59
+ {txt}opened on:  {res} 5 Apr 2022, 12:31:45
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
-  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
-  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
-  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
-  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
 
 {com}. 
 . **Use cleaned data from previous step
@@ -167,11 +167,7 @@ Data are presented as mean (SD) for continuous measures, and n (%) for categoric
 {com}. restore
 {txt}
 {com}.                  
-. log close
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/descriptive_tables_allpts.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 Apr 2022, 15:46:01
-{txt}{.-}
-{smcl}
-{txt}{sf}{ul off}
+. 
+{txt}end of do-file
+
+{com}. exit, clear

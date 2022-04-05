@@ -16,7 +16,7 @@ def first_code_in_period(dx_codelist):
         include_day=True,
         return_expectations={
             "incidence": 0.99,
-            "date": {"earliest": "2018-01-01", "latest": end_date},
+            "date": {"earliest": "2018-03-01", "latest": end_date},
         },
     )
 
@@ -104,8 +104,8 @@ study = StudyDefinition(
     population=patients.satisfying(
             """
             eia_code_date AND
-            has_follow_up AND
             (eia_code_date >= 2018-03-01) AND
+            has_follow_up AND
             (age >=18 AND age <= 110) AND
             (sex = "M" OR sex = "F")
             """,

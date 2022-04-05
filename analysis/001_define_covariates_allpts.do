@@ -404,7 +404,7 @@ replace hba1c_mmol = (hba1c_percentage*10.929)-23.5 if hba1c_percentage<. & hba1
 
 *Group hba1c mmol
 gen 	hba1ccatmm = 0 if hba1c_mmol < 58
-replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_pct !=.
+replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_mmol !=.
 replace hba1ccatmm =.u if hba1ccatmm==. 
 label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Missing"
 label values hba1ccatmm hba1ccatmm

@@ -1,20 +1,20 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 15:45:44
+ {txt}opened on:  {res} 5 Apr 2022, 15:39:32
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
-  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
-  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
-  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
-  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
 
 {com}. 
 . **Use cleaned data from previous step
@@ -22,7 +22,7 @@
 {txt}
 {com}. 
 . /*Tables=====================================================================================*/
-. *Table 1a - 
+. *Baseline table by eia diagnosis
 . preserve
 {txt}
 {com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -49,117 +49,117 @@
   {c TLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
   {c |} {res}factor                             N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Age                             32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Age                             34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Age group                       32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Age group                       34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Male                            32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Male                            34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Ethnicity                       32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Ethnicity                       34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Index of multiple deprivation   32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Index of multiple deprivation   34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}BMI                             32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}BMI                             34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Smoking status                  32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Smoking status                  34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Hypertension                    32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Hypertension                    34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Diabetes                        32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Diabetes                        34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}HbA1c                           32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}HbA1c                           34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic cardiac disease         32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic cardiac disease         34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Stroke                          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Stroke                          34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Cancer                          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Cancer                          34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic respiratory disease     32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic respiratory disease     34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic liver disease           32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic liver disease           34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}Chronic kidney disease          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}Chronic kidney disease          34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}eGFR                            32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}eGFR                            34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
-  {c |} {res}End-stage renal failure         32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c |} {res}End-stage renal failure         34,096   11,315   11,288   11,493     0     0     0     0 {txt}{c |}
   {c BLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
    N_ ... #records used below,   m_ ... #records not used
  
   {c TLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c TRC}
   {c |} {res}                                Total            RA               PsA              AxSpA            p-value {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}                                N=32,365         N=10,704         N=10,742         N=10,919                 {txt}{c |}
+  {c |} {res}                                N=34,096         N=11,315         N=11,288         N=11,493                 {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Age                             49 (19)          49 (19)          49 (19)          49 (19)           0.60   {txt}{c |}
+  {c |} {res}Age                             49 (19)          49 (19)          49 (19)          49 (19)           0.48   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
   {c |} {res}Age group                                                                                            0.99   {txt}{c |}
-  {c |} {res}   18-39                        11,831 (36.6%)   3,934 (36.8%)    3,902 (36.3%)    3,995 (36.6%)            {txt}{c |}
-  {c |} {res}   40-49                        5,303 (16.4%)    1,746 (16.3%)    1,770 (16.5%)    1,787 (16.4%)            {txt}{c |}
-  {c |} {res}   50-59                        5,510 (17.0%)    1,821 (17.0%)    1,833 (17.1%)    1,856 (17.0%)            {txt}{c |}
-  {c |} {res}   60-69                        4,395 (13.6%)    1,473 (13.8%)    1,442 (13.4%)    1,480 (13.6%)            {txt}{c |}
-  {c |} {res}   70-79                        3,387 (10.5%)    1,115 (10.4%)    1,129 (10.5%)    1,143 (10.5%)            {txt}{c |}
-  {c |} {res}   80+                          1,939 (6.0%)     615 (5.7%)       666 (6.2%)       658 (6.0%)               {txt}{c |}
+  {c |} {res}   18-39                        12,471 (36.6%)   4,165 (36.8%)    4,096 (36.3%)    4,210 (36.6%)            {txt}{c |}
+  {c |} {res}   40-49                        5,579 (16.4%)    1,845 (16.3%)    1,865 (16.5%)    1,869 (16.3%)            {txt}{c |}
+  {c |} {res}   50-59                        5,811 (17.0%)    1,923 (17.0%)    1,918 (17.0%)    1,970 (17.1%)            {txt}{c |}
+  {c |} {res}   60-69                        4,614 (13.5%)    1,545 (13.7%)    1,520 (13.5%)    1,549 (13.5%)            {txt}{c |}
+  {c |} {res}   70-79                        3,573 (10.5%)    1,179 (10.4%)    1,189 (10.5%)    1,205 (10.5%)            {txt}{c |}
+  {c |} {res}   80+                          2,048 (6.0%)     658 (5.8%)       700 (6.2%)       690 (6.0%)               {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Male                            15,812 (48.9%)   5,258 (49.1%)    5,225 (48.6%)    5,329 (48.8%)     0.77   {txt}{c |}
+  {c |} {res}Male                            16,671 (48.9%)   5,572 (49.2%)    5,490 (48.6%)    5,609 (48.8%)     0.64   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Ethnicity                                                                                            0.076  {txt}{c |}
-  {c |} {res}   White                        12,126 (37.5%)   4,051 (37.8%)    4,055 (37.7%)    4,020 (36.8%)            {txt}{c |}
-  {c |} {res}   Asian/Asian British          2,479 (7.7%)     795 (7.4%)       845 (7.9%)       839 (7.7%)               {txt}{c |}
-  {c |} {res}   Black                        2,407 (7.4%)     804 (7.5%)       750 (7.0%)       853 (7.8%)               {txt}{c |}
-  {c |} {res}   Mixed/Other                  7,212 (22.3%)    2,317 (21.6%)    2,402 (22.4%)    2,493 (22.8%)            {txt}{c |}
-  {c |} {res}                                8,141 (25.2%)    2,737 (25.6%)    2,690 (25.0%)    2,714 (24.9%)            {txt}{c |}
+  {c |} {res}Ethnicity                                                                                            0.089  {txt}{c |}
+  {c |} {res}   White                        12,755 (37.4%)   4,261 (37.7%)    4,254 (37.7%)    4,240 (36.9%)            {txt}{c |}
+  {c |} {res}   Asian/Asian British          2,622 (7.7%)     842 (7.4%)       889 (7.9%)       891 (7.8%)               {txt}{c |}
+  {c |} {res}   Black                        2,509 (7.4%)     841 (7.4%)       778 (6.9%)       890 (7.7%)               {txt}{c |}
+  {c |} {res}   Mixed/Other                  7,593 (22.3%)    2,451 (21.7%)    2,523 (22.4%)    2,619 (22.8%)            {txt}{c |}
+  {c |} {res}                                8,617 (25.3%)    2,920 (25.8%)    2,844 (25.2%)    2,853 (24.8%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Index of multiple deprivation                                                                        0.46   {txt}{c |}
-  {c |} {res}   1 least deprived             22,671 (70.0%)   7,518 (70.2%)    7,457 (69.4%)    7,696 (70.5%)            {txt}{c |}
-  {c |} {res}   4                            6,436 (19.9%)    2,109 (19.7%)    2,173 (20.2%)    2,154 (19.7%)            {txt}{c |}
-  {c |} {res}   5 most deprived              3,258 (10.1%)    1,077 (10.1%)    1,112 (10.4%)    1,069 (9.8%)             {txt}{c |}
+  {c |} {res}Index of multiple deprivation                                                                        0.31   {txt}{c |}
+  {c |} {res}   1 least deprived             23,868 (70.0%)   7,948 (70.2%)    7,819 (69.3%)    8,101 (70.5%)            {txt}{c |}
+  {c |} {res}   4                            6,793 (19.9%)    2,244 (19.8%)    2,293 (20.3%)    2,256 (19.6%)            {txt}{c |}
+  {c |} {res}   5 most deprived              3,435 (10.1%)    1,123 (9.9%)     1,176 (10.4%)    1,136 (9.9%)             {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}BMI                                                                                                  0.21   {txt}{c |}
-  {c |} {res}   Underweight (<18.5)          66 (0.2%)        21 (0.2%)        17 (0.2%)        28 (0.3%)                {txt}{c |}
-  {c |} {res}   Normal (18.5-24.9)           186 (0.6%)       58 (0.5%)        69 (0.6%)        59 (0.5%)                {txt}{c |}
-  {c |} {res}   Overweight (25-29.9)         278 (0.9%)       112 (1.0%)       76 (0.7%)        90 (0.8%)                {txt}{c |}
-  {c |} {res}   Obese I (30-34.9)            321 (1.0%)       105 (1.0%)       111 (1.0%)       105 (1.0%)               {txt}{c |}
-  {c |} {res}   Obese II (35-39.9)           327 (1.0%)       114 (1.1%)       115 (1.1%)       98 (0.9%)                {txt}{c |}
-  {c |} {res}   Obese III (40+)              590 (1.8%)       191 (1.8%)       210 (2.0%)       189 (1.7%)               {txt}{c |}
-  {c |} {res}                                30,597 (94.5%)   10,103 (94.4%)   10,144 (94.4%)   10,350 (94.8%)           {txt}{c |}
+  {c |} {res}BMI                                                                                                  0.27   {txt}{c |}
+  {c |} {res}   Underweight (<18.5)          68 (0.2%)        21 (0.2%)        18 (0.2%)        29 (0.3%)                {txt}{c |}
+  {c |} {res}   Normal (18.5-24.9)           200 (0.6%)       64 (0.6%)        70 (0.6%)        66 (0.6%)                {txt}{c |}
+  {c |} {res}   Overweight (25-29.9)         292 (0.9%)       117 (1.0%)       81 (0.7%)        94 (0.8%)                {txt}{c |}
+  {c |} {res}   Obese I (30-34.9)            338 (1.0%)       110 (1.0%)       118 (1.0%)       110 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese II (35-39.9)           347 (1.0%)       121 (1.1%)       124 (1.1%)       102 (0.9%)               {txt}{c |}
+  {c |} {res}   Obese III (40+)              629 (1.8%)       209 (1.8%)       220 (1.9%)       200 (1.7%)               {txt}{c |}
+  {c |} {res}                                32,222 (94.5%)   10,673 (94.3%)   10,657 (94.4%)   10,892 (94.8%)           {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Smoking status                                                                                       0.24   {txt}{c |}
-  {c |} {res}   Never                        3,219 (9.9%)     1,067 (10.0%)    1,027 (9.6%)     1,125 (10.3%)            {txt}{c |}
-  {c |} {res}   Former                       1,577 (4.9%)     508 (4.7%)       550 (5.1%)       519 (4.8%)               {txt}{c |}
-  {c |} {res}   Current                      9,758 (30.1%)    3,257 (30.4%)    3,238 (30.1%)    3,263 (29.9%)            {txt}{c |}
-  {c |} {res}                                17,811 (55.0%)   5,872 (54.9%)    5,927 (55.2%)    6,012 (55.1%)            {txt}{c |}
+  {c |} {res}Smoking status                                                                                       0.28   {txt}{c |}
+  {c |} {res}   Never                        3,403 (10.0%)    1,138 (10.1%)    1,079 (9.6%)     1,186 (10.3%)            {txt}{c |}
+  {c |} {res}   Former                       1,663 (4.9%)     542 (4.8%)       574 (5.1%)       547 (4.8%)               {txt}{c |}
+  {c |} {res}   Current                      10,298 (30.2%)   3,440 (30.4%)    3,414 (30.2%)    3,444 (30.0%)            {txt}{c |}
+  {c |} {res}                                18,732 (54.9%)   6,195 (54.8%)    6,221 (55.1%)    6,316 (55.0%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Hypertension                    6,348 (19.6%)    2,038 (19.0%)    2,142 (19.9%)    2,168 (19.9%)     0.19   {txt}{c |}
+  {c |} {res}Hypertension                    6,695 (19.6%)    2,152 (19.0%)    2,250 (19.9%)    2,293 (20.0%)     0.13   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Diabetes                        6,423 (19.8%)    2,099 (19.6%)    2,174 (20.2%)    2,150 (19.7%)     0.45   {txt}{c |}
+  {c |} {res}Diabetes                        6,777 (19.9%)    2,236 (19.8%)    2,267 (20.1%)    2,274 (19.8%)     0.80   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}HbA1c                                                                                                0.63   {txt}{c |}
-  {c |} {res}   HbA1c <58mmol/mol            1,419 (4.4%)     477 (4.5%)       476 (4.4%)       466 (4.3%)               {txt}{c |}
-  {c |} {res}   HbA1c >=58mmol/mol           256 (0.8%)       82 (0.8%)        82 (0.8%)        92 (0.8%)                {txt}{c |}
-  {c |} {res}                                30,690 (94.8%)   10,145 (94.8%)   10,184 (94.8%)   10,361 (94.9%)           {txt}{c |}
+  {c |} {res}HbA1c                                                                                                0.57   {txt}{c |}
+  {c |} {res}   HbA1c <58mmol/mol            1,516 (4.4%)     515 (4.6%)       503 (4.5%)       498 (4.3%)               {txt}{c |}
+  {c |} {res}   HbA1c >=58mmol/mol           272 (0.8%)       90 (0.8%)        84 (0.7%)        98 (0.9%)                {txt}{c |}
+  {c |} {res}                                32,308 (94.8%)   10,710 (94.7%)   10,701 (94.8%)   10,897 (94.8%)           {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic cardiac disease         6,439 (19.9%)    2,157 (20.2%)    2,095 (19.5%)    2,187 (20.0%)     0.45   {txt}{c |}
+  {c |} {res}Chronic cardiac disease         6,802 (19.9%)    2,269 (20.1%)    2,211 (19.6%)    2,322 (20.2%)     0.48   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Stroke                          6,519 (20.1%)    2,144 (20.0%)    2,176 (20.3%)    2,199 (20.1%)     0.92   {txt}{c |}
+  {c |} {res}Stroke                          6,870 (20.1%)    2,263 (20.0%)    2,287 (20.3%)    2,320 (20.2%)     0.88   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Cancer                          15,590 (48.2%)   5,171 (48.3%)    5,138 (47.8%)    5,281 (48.4%)     0.69   {txt}{c |}
+  {c |} {res}Cancer                          16,409 (48.1%)   5,450 (48.2%)    5,407 (47.9%)    5,552 (48.3%)     0.82   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic respiratory disease     6,448 (19.9%)    2,153 (20.1%)    2,125 (19.8%)    2,170 (19.9%)     0.82   {txt}{c |}
+  {c |} {res}Chronic respiratory disease     6,800 (19.9%)    2,296 (20.3%)    2,218 (19.6%)    2,286 (19.9%)     0.47   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic liver disease           6,492 (20.1%)    2,121 (19.8%)    2,147 (20.0%)    2,224 (20.4%)     0.58   {txt}{c |}
+  {c |} {res}Chronic liver disease           6,825 (20.0%)    2,248 (19.9%)    2,251 (19.9%)    2,326 (20.2%)     0.76   {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}Chronic kidney disease                                                                               0.66   {txt}{c |}
-  {c |} {res}   No CKD                       14,369 (44.4%)   4,787 (44.7%)    4,738 (44.1%)    4,844 (44.4%)            {txt}{c |}
-  {c |} {res}   CKD                          17,996 (55.6%)   5,917 (55.3%)    6,004 (55.9%)    6,075 (55.6%)            {txt}{c |}
+  {c |} {res}Chronic kidney disease                                                                               0.70   {txt}{c |}
+  {c |} {res}   No CKD                       15,162 (44.5%)   5,056 (44.7%)    4,984 (44.2%)    5,122 (44.6%)            {txt}{c |}
+  {c |} {res}   CKD                          18,934 (55.5%)   6,259 (55.3%)    6,304 (55.8%)    6,371 (55.4%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}eGFR                                                                                                 0.97   {txt}{c |}
-  {c |} {res}   >=60/missing                 18,053 (55.8%)   5,988 (55.9%)    5,971 (55.6%)    6,094 (55.8%)            {txt}{c |}
-  {c |} {res}   30-59                        8,589 (26.5%)    2,843 (26.6%)    2,860 (26.6%)    2,886 (26.4%)            {txt}{c |}
-  {c |} {res}   <30                          5,723 (17.7%)    1,873 (17.5%)    1,911 (17.8%)    1,939 (17.8%)            {txt}{c |}
+  {c |} {res}eGFR                                                                                                 0.95   {txt}{c |}
+  {c |} {res}   >=60/missing                 19,038 (55.8%)   6,326 (55.9%)    6,275 (55.6%)    6,437 (56.0%)            {txt}{c |}
+  {c |} {res}   30-59                        9,058 (26.6%)    3,016 (26.7%)    3,011 (26.7%)    3,031 (26.4%)            {txt}{c |}
+  {c |} {res}   <30                          6,000 (17.6%)    1,973 (17.4%)    2,002 (17.7%)    2,025 (17.6%)            {txt}{c |}
   {c LT}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
-  {c |} {res}End-stage renal failure         6,619 (20.5%)    2,178 (20.3%)    2,255 (21.0%)    2,186 (20.0%)     0.20   {txt}{c |}
+  {c |} {res}End-stage renal failure         6,940 (20.4%)    2,291 (20.2%)    2,357 (20.9%)    2,292 (19.9%)     0.20   {txt}{c |}
   {c BLC}{hline 31}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c BRC}
 Data are presented as mean (SD) for continuous measures, and n (%) for categorical measures.
  
@@ -167,417 +167,1076 @@ Data are presented as mean (SD) for continuous measures, and n (%) for categoric
 {com}. restore
 {txt}
 {com}. 
-. /*
-> *Table 1b - by imid type 
-> table1_mc, by(joint) total(before) onecol iqrmiddle(",")  ///
->         vars(agegroup cat %5.1f \ ///
+. *Baseline table by year of diagnosis
+. preserve
+{txt}
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(age contn %3.0f \ ///
+>                  agegroup cat %5.1f \ ///
 >                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
 >                  ethnicity cat %5.1f \ ///
 >                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f \ ///
->                  standtnf bin %5.1f \ ///
->                  standil6 bin %5.1f \ ///
->                  standritux bin %5.1f \ ///
->                  standil17 bin %5.1f \ ///
->                  standjaki bin %5.1f \ ///
->                  standvedolizumab bin %5.1f \ ///
->                  standabatacept bin %5.1f )
->                  
-> table1_mc, by(skin) total(before) onecol iqrmiddle(",")  ///
->         vars(agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
 >                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
 >                  smoke cat %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabetes bin %5.1f \ ///
+>                  hba1ccatmm cat %5.1f \ ///
 >                  chronic_cardiac_disease bin %5.1f \ /// 
 >                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
+>                  cancer bin %5.1f \ ///
+>                  chronic_resp_disease bin  %5.1f \ ///
+>                  chronic_liver_disease bin %5.1f \ ///
+>                  ckd cat %5.1f \ ///
+>                  egfr_cat_nomiss cat %5.1f \ ///
 >                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f \ ///
->                  standtnf bin %5.1f \ ///
->                  standil23 bin %5.1f \ ///
->                  standil17 bin %5.1f \ ///
->                  standabatacept bin %5.1f )
->                  
-> table1_mc, by(bowel) total(before) onecol iqrmiddle(",") ///
->         vars(agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f \ ///
->                  standtnf bin %5.1f \ ///
->                  standjaki bin %5.1f \ ///
->                  standvedolizumab bin %5.1f  )  
->         
-> *Table 2 - high cost drugs (v non-high cost) - single group contribution only
-> table1_mc, by(imiddrugcategory) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> keep if imid==1
->                  
-> *2a IMID only: TNFi vs standard systemic
-> table1_mc, by(standtnf) total(before) onecol iqrmiddle(",") ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2b IMID only:  IL-12/23i vs standard systemic
-> table1_mc, by(standil23) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2c Psoriasis, PsA, AS only: IL-17i vs standard systemic
-> table1_mc, by(standil17) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2d IMID only: JAKi vs standard systemic 
-> table1_mc, by(standjaki) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2e IMID only: RTX vs standard systemic
-> table1_mc, by(standritux) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2f IMID only: IL6 vs standard systemic
-> table1_mc, by(standil6) total(before) onecol iqrmiddle(",")  ///
->         vars(joint bin %5.1f \ ///
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2g IMID only: Infliximab vs standard systemic
-> table1_mc, by(standinflix) total(before) onecol iqrmiddle(",") ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2h IMID only: Vedolizumab vs standard systemic
-> table1_mc, by(standvedolizumab) total(before) onecol iqrmiddle(",") ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
-> 
-> *2i IMID only: Abatacept vs standard systemic
-> table1_mc, by(standabatacept) total(before) onecol iqrmiddle(",") ///
->         vars(joint bin %5.1f \ ///
->                 psoriatic_arthritis bin %5.1f \ ///                     
->                 rheumatoid_arthritis bin %5.1f \        ///  
->                 ankylosing_spondylitis bin %5.1f \ ///  
->                 skin bin %5.1f \ ///
->                 psoriasis bin %5.1f \ ///
->                 hidradenitis_suppurativa bin %5.1f \    ///
->                 bowel bin %5.1f \ ///
->                 ulcerative_colitis bin %5.1f    \ ///
->                 crohns_disease bin %5.1f \ ///
->                 ibd_uncla bin %5.1f \ ///       
->                 agegroup cat %5.1f \ ///
->                  male bin %5.1f \ ///
->                  bmicat cat %5.1f \ ///
->                  obese4cat cat %5.1f \ ///
->                  ethnicity cat %5.1f \ ///
->                  imd cat %5.1f \ ///
->                  smoke cat %5.1f \ ///
->                  chronic_cardiac_disease bin %5.1f \ /// 
->                  stroke bin %5.1f \ ///
->                  combined_cv_comorbid bin %5.1f \ ///
->                  hypertension bin %5.1f \ ///
->                  diabcat cat %5.1f \ ///
->                  cancer cat %5.1f \ ///
->                  ckd_egfr cat %5.1f \ ///
->                  esrf bin %5.1f \ ///
->                  chronic_respiratory_disease cat  %5.1f \ ///
->                  chronic_liver_disease cat %5.1f \ ///
->                  gp_consult_count contn %5.1f \ ///
->                  steroidcat bin %5.1f \ ///
->                  oral_prednisolone_3m_0m contn %5.1f )
->                  
-> */               
-.                  
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                             N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Age                             32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Age group                       32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Male                            32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Ethnicity                       32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Index of multiple deprivation   32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}BMI                             32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Smoking status                  32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hypertension                    32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Diabetes                        32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}HbA1c                           32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic cardiac disease         32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Stroke                          32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Cancer                          32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic respiratory disease     32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic liver disease           32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic kidney disease          32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}eGFR                            32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}End-stage renal failure         32,644   10,917   10,897   10,830     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                Total            March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                N=32,644         N=10,917                N=10,897                N=10,830                        {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Age                             49 (19)          48 (19)                 49 (19)                 49 (19)                  0.20   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Age group                                                                                                                 0.31   {txt}{c |}
+  {c |} {res}   18-39                        11,934 (36.6%)   4,002 (36.7%)           4,042 (37.1%)           3,890 (35.9%)                   {txt}{c |}
+  {c |} {res}   40-49                        5,340 (16.4%)    1,801 (16.5%)           1,734 (15.9%)           1,805 (16.7%)                   {txt}{c |}
+  {c |} {res}   50-59                        5,537 (17.0%)    1,887 (17.3%)           1,810 (16.6%)           1,840 (17.0%)                   {txt}{c |}
+  {c |} {res}   60-69                        4,434 (13.6%)    1,493 (13.7%)           1,483 (13.6%)           1,458 (13.5%)                   {txt}{c |}
+  {c |} {res}   70-79                        3,444 (10.6%)    1,104 (10.1%)           1,184 (10.9%)           1,156 (10.7%)                   {txt}{c |}
+  {c |} {res}   80+                          1,955 (6.0%)     630 (5.8%)              644 (5.9%)              681 (6.3%)                      {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Male                            16,005 (49.0%)   5,329 (48.8%)           5,391 (49.5%)           5,285 (48.8%)            0.53   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Ethnicity                                                                                                                 0.89   {txt}{c |}
+  {c |} {res}   White                        12,215 (37.4%)   4,141 (37.9%)           4,053 (37.2%)           4,021 (37.1%)                   {txt}{c |}
+  {c |} {res}   Asian/Asian British          2,510 (7.7%)     845 (7.7%)              824 (7.6%)              841 (7.8%)                      {txt}{c |}
+  {c |} {res}   Black                        2,411 (7.4%)     797 (7.3%)              832 (7.6%)              782 (7.2%)                      {txt}{c |}
+  {c |} {res}   Mixed/Other                  7,272 (22.3%)    2,441 (22.4%)           2,415 (22.2%)           2,416 (22.3%)                   {txt}{c |}
+  {c |} {res}                                8,236 (25.2%)    2,693 (24.7%)           2,773 (25.4%)           2,770 (25.6%)                   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Index of multiple deprivation                                                                                             0.69   {txt}{c |}
+  {c |} {res}   1 least deprived             22,880 (70.1%)   7,596 (69.6%)           7,676 (70.4%)           7,608 (70.2%)                   {txt}{c |}
+  {c |} {res}   4                            6,481 (19.9%)    2,200 (20.2%)           2,135 (19.6%)           2,146 (19.8%)                   {txt}{c |}
+  {c |} {res}   5 most deprived              3,283 (10.1%)    1,121 (10.3%)           1,086 (10.0%)           1,076 (9.9%)                    {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}BMI                                                                                                                       0.33   {txt}{c |}
+  {c |} {res}   Underweight (<18.5)          64 (0.2%)        26 (0.2%)               23 (0.2%)               15 (0.1%)                       {txt}{c |}
+  {c |} {res}   Normal (18.5-24.9)           193 (0.6%)       63 (0.6%)               76 (0.7%)               54 (0.5%)                       {txt}{c |}
+  {c |} {res}   Overweight (25-29.9)         281 (0.9%)       112 (1.0%)              88 (0.8%)               81 (0.7%)                       {txt}{c |}
+  {c |} {res}   Obese I (30-34.9)            326 (1.0%)       125 (1.1%)              98 (0.9%)               103 (1.0%)                      {txt}{c |}
+  {c |} {res}   Obese II (35-39.9)           337 (1.0%)       115 (1.1%)              109 (1.0%)              113 (1.0%)                      {txt}{c |}
+  {c |} {res}   Obese III (40+)              606 (1.9%)       243 (2.2%)              186 (1.7%)              177 (1.6%)                      {txt}{c |}
+  {c |} {res}                                30,837 (94.5%)   10,233 (93.7%)          10,317 (94.7%)          10,287 (95.0%)                  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Smoking status                                                                                                            0.87   {txt}{c |}
+  {c |} {res}   Never                        3,249 (10.0%)    1,119 (10.3%)           1,062 (9.7%)            1,068 (9.9%)                    {txt}{c |}
+  {c |} {res}   Former                       1,590 (4.9%)     534 (4.9%)              534 (4.9%)              522 (4.8%)                      {txt}{c |}
+  {c |} {res}   Current                      9,841 (30.1%)    3,296 (30.2%)           3,305 (30.3%)           3,240 (29.9%)                   {txt}{c |}
+  {c |} {res}                                17,964 (55.0%)   5,968 (54.7%)           5,996 (55.0%)           6,000 (55.4%)                   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hypertension                    6,401 (19.6%)    2,153 (19.7%)           2,155 (19.8%)           2,093 (19.3%)            0.66   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Diabetes                        6,514 (20.0%)    2,203 (20.2%)           2,162 (19.8%)           2,149 (19.8%)            0.77   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}HbA1c                                                                                                                     0.96   {txt}{c |}
+  {c |} {res}   HbA1c <58mmol/mol            1,485 (4.5%)     634 (5.8%)              495 (4.5%)              356 (3.3%)                      {txt}{c |}
+  {c |} {res}   HbA1c >=58mmol/mol           266 (0.8%)       116 (1.1%)              88 (0.8%)               62 (0.6%)                       {txt}{c |}
+  {c |} {res}                                30,893 (94.6%)   10,167 (93.1%)          10,314 (94.6%)          10,412 (96.1%)                  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic cardiac disease         6,510 (19.9%)    2,201 (20.2%)           2,202 (20.2%)           2,107 (19.5%)            0.30   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Stroke                          6,582 (20.2%)    2,121 (19.4%)           2,226 (20.4%)           2,235 (20.6%)            0.059  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Cancer                          15,704 (48.1%)   5,135 (47.0%)           5,253 (48.2%)           5,316 (49.1%)            0.010  {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic respiratory disease     6,522 (20.0%)    2,169 (19.9%)           2,158 (19.8%)           2,195 (20.3%)            0.65   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic liver disease           6,530 (20.0%)    2,178 (20.0%)           2,143 (19.7%)           2,209 (20.4%)            0.40   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic kidney disease                                                                                                    0.33   {txt}{c |}
+  {c |} {res}   No CKD                       14,473 (44.3%)   4,853 (44.5%)           4,878 (44.8%)           4,742 (43.8%)                   {txt}{c |}
+  {c |} {res}   CKD                          18,171 (55.7%)   6,064 (55.5%)           6,019 (55.2%)           6,088 (56.2%)                   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}eGFR                                                                                                                      0.13   {txt}{c |}
+  {c |} {res}   >=60/missing                 18,191 (55.7%)   6,114 (56.0%)           6,149 (56.4%)           5,928 (54.7%)                   {txt}{c |}
+  {c |} {res}   30-59                        8,703 (26.7%)    2,875 (26.3%)           2,868 (26.3%)           2,960 (27.3%)                   {txt}{c |}
+  {c |} {res}   <30                          5,750 (17.6%)    1,928 (17.7%)           1,880 (17.3%)           1,942 (17.9%)                   {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}End-stage renal failure         6,674 (20.4%)    2,280 (20.9%)           2,186 (20.1%)           2,208 (20.4%)            0.31   {txt}{c |}
+  {c BLC}{hline 31}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as mean (SD) for continuous measures, and n (%) for categorical measures.
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Referral standards, by eia diagnosis
+. preserve
+{txt}
+{com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(gp_ref_cat cat %3.1f \ ///
+>                  gp_ref_3d bin %3.1f \ ///
+>                  ref_appt_cat cat %3.1f \ ///
+>                  ref_appt_3w bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c TRC}
+  {c |} {res}factor                               N_T      N_1      N_2      N_3      m_T      m_1      m_2      m_3 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c RT}
+  {c |} {res}Time to GP referral               34,096   11,315   11,288   11,493        0        0        0        0 {txt}{c |}
+  {c |} {res}Time to GP referral                  914      326      303      285   33,182   10,989   10,985   11,208 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c RT}
+  {c |} {res}Time to rheumatology assessment   34,096   11,315   11,288   11,493        0        0        0        0 {txt}{c |}
+  {c |} {res}Time to rheumatology assessment    5,184    1,735    1,705    1,744   28,912    9,580    9,583    9,749 {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 33}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c TRC}
+  {c |} {res}                                  Total            RA               PsA              AxSpA            p-value {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}                                  N=34,096         N=11,315         N=11,288         N=11,493                 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Time to GP referral                                                                                    0.84   {txt}{c |}
+  {c |} {res}   Referred within 3 days         11 (0.0%)        3 (0.0%)         3 (0.0%)         5 (0.0%)                 {txt}{c |}
+  {c |} {res}   Referred within 7 days         12 (0.0%)        5 (0.0%)         3 (0.0%)         4 (0.0%)                 {txt}{c |}
+  {c |} {res}   Referral delay >7 days         891 (2.6%)       318 (2.8%)       297 (2.6%)       276 (2.4%)               {txt}{c |}
+  {c |} {res}   Missing                        33,182 (97.3%)   10,989 (97.1%)   10,985 (97.3%)   11,208 (97.5%)           {txt}{c |}
+  {c |} {res}Time to GP referral               11 (1.2%)        3 (0.9%)         3 (1.0%)         5 (1.8%)          0.59   {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Time to rheumatology assessment                                                                        0.83   {txt}{c |}
+  {c |} {res}   Seen within 3 weeks            298 (0.9%)       93 (0.8%)        97 (0.9%)        108 (0.9%)               {txt}{c |}
+  {c |} {res}   Seen within 6 weeks            242 (0.7%)       82 (0.7%)        83 (0.7%)        77 (0.7%)                {txt}{c |}
+  {c |} {res}   Assessment delay >6 weeks      4,644 (13.6%)    1,560 (13.8%)    1,525 (13.5%)    1,559 (13.6%)            {txt}{c |}
+  {c |} {res}   Missing                        28,912 (84.8%)   9,580 (84.7%)    9,583 (84.9%)    9,749 (84.8%)            {txt}{c |}
+  {c |} {res}Time to rheumatology assessment   298 (5.7%)       93 (5.4%)        97 (5.7%)        108 (6.2%)        0.57   {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Referral standards, by year of diagnosis
+. preserve
+{txt}
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(gp_ref_cat cat %3.1f \ ///
+>                  gp_ref_3d bin %3.1f \ ///
+>                  ref_appt_cat cat %3.1f \ ///
+>                  ref_appt_3w bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c TRC}
+  {c |} {res}factor                               N_T      N_1      N_2      N_3      m_T      m_1      m_2      m_3 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c RT}
+  {c |} {res}Time to GP referral               32,644   10,917   10,897   10,830        0        0        0        0 {txt}{c |}
+  {c |} {res}Time to GP referral                  826       92      252      482   31,818   10,825   10,645   10,348 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c RT}
+  {c |} {res}Time to rheumatology assessment   32,644   10,917   10,897   10,830        0        0        0        0 {txt}{c |}
+  {c |} {res}Time to rheumatology assessment    4,830      865    1,660    2,305   27,814   10,052    9,237    8,525 {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 33}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                  Total            March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                  N=32,644         N=10,917                N=10,897                N=10,830                        {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Time to GP referral                                                                                                         0.31   {txt}{c |}
+  {c |} {res}   Referred within 3 days         11 (0.0%)        3 (0.0%)                4 (0.0%)                4 (0.0%)                        {txt}{c |}
+  {c |} {res}   Referred within 7 days         11 (0.0%)        2 (0.0%)                2 (0.0%)                7 (0.1%)                        {txt}{c |}
+  {c |} {res}   Referral delay >7 days         804 (2.5%)       87 (0.8%)               246 (2.3%)              471 (4.3%)                      {txt}{c |}
+  {c |} {res}   Missing                        31,818 (97.5%)   10,825 (99.2%)          10,645 (97.7%)          10,348 (95.5%)                  {txt}{c |}
+  {c |} {res}Time to GP referral               11 (1.3%)        3 (3.3%)                4 (1.6%)                4 (0.8%)                 0.16   {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Time to rheumatology assessment                                                                                            <0.001  {txt}{c |}
+  {c |} {res}   Seen within 3 weeks            286 (0.9%)       69 (0.6%)               91 (0.8%)               126 (1.2%)                      {txt}{c |}
+  {c |} {res}   Seen within 6 weeks            229 (0.7%)       59 (0.5%)               79 (0.7%)               91 (0.8%)                       {txt}{c |}
+  {c |} {res}   Assessment delay >6 weeks      4,315 (13.2%)    737 (6.8%)              1,490 (13.7%)           2,088 (19.3%)                   {txt}{c |}
+  {c |} {res}   Missing                        27,814 (85.2%)   10,052 (92.1%)          9,237 (84.8%)           8,525 (78.7%)                   {txt}{c |}
+  {c |} {res}Time to rheumatology assessment   286 (5.9%)       69 (8.0%)               91 (5.5%)               126 (5.5%)               0.018  {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 16}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Referral standards, by region
+. preserve
+{txt}
+{com}. table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(gp_ref_cat cat %3.1f \ ///
+>                  gp_ref_3d bin %3.1f \ ///
+>                  ref_appt_cat cat %3.1f \ ///
+>                  ref_appt_3w bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 33}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+  {c |} {res}factor                               N_T     N_1     N_2     N_3     N_4     N_5     N_6     N_7     N_8      m_T     m_1     m_2     m_3     m_4     m_5     m_6     m_7     m_8 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  {c |} {res}Time to GP referral               34,096   3,304   3,388   6,896   3,496   3,401   6,823   3,390   3,398        0       0       0       0       0       0       0       0       0 {txt}{c |}
+  {c |} {res}Time to GP referral                  914      86      90     190      88      91     179      87     103   33,182   3,218   3,298   6,706   3,408   3,310   6,644   3,303   3,295 {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  {c |} {res}Time to rheumatology assessment   34,096   3,304   3,388   6,896   3,496   3,401   6,823   3,390   3,398        0       0       0       0       0       0       0       0       0 {txt}{c |}
+  {c |} {res}Time to rheumatology assessment    5,184     486     543   1,052     526     521   1,037     491     528   28,912   2,818   2,845   5,844   2,970   2,880   5,786   2,899   2,870 {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 33}{c -}{hline 16}{c -}{hline 15}{c -}{hline 17}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 26}{c -}{hline 9}{c TRC}
+  {c |} {res}                                  Total            East Midlands   East of England   London          North East      North West      South East      West Midlands   Yorkshire and the Humber   p-value {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 15}{c -}{hline 17}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 26}{c -}{hline 9}{c RT}
+  {c |} {res}                                  N=34,096         N=3,304         N=3,388           N=6,896         N=3,496         N=3,401         N=6,823         N=3,390         N=3,398                            {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 15}{c -}{hline 17}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 26}{c -}{hline 9}{c RT}
+  {c |} {res}Time to GP referral                                                                                                                                                                              0.44   {txt}{c |}
+  {c |} {res}   Referred within 3 days         11 (0.0%)        1 (0.0%)        1 (0.0%)          2 (0.0%)        4 (0.1%)        1 (0.0%)        1 (0.0%)        0 (0.0%)        1 (0.0%)                           {txt}{c |}
+  {c |} {res}   Referred within 7 days         12 (0.0%)        2 (0.1%)        2 (0.1%)          3 (0.0%)        1 (0.0%)        2 (0.1%)        1 (0.0%)        1 (0.0%)        0 (0.0%)                           {txt}{c |}
+  {c |} {res}   Referral delay >7 days         891 (2.6%)       83 (2.5%)       87 (2.6%)         185 (2.7%)      83 (2.4%)       88 (2.6%)       177 (2.6%)      86 (2.5%)       102 (3.0%)                         {txt}{c |}
+  {c |} {res}   Missing                        33,182 (97.3%)   3,218 (97.4%)   3,298 (97.3%)     6,706 (97.2%)   3,408 (97.5%)   3,310 (97.3%)   6,644 (97.4%)   3,303 (97.4%)   3,295 (97.0%)                      {txt}{c |}
+  {c |} {res}Time to GP referral               11 (1.2%)        1 (1.2%)        1 (1.1%)          2 (1.1%)        4 (4.5%)        1 (1.1%)        1 (0.6%)        0 (0.0%)        1 (1.0%)                    0.19   {txt}{c |}
+  {c LT}{hline 33}{c -}{hline 16}{c -}{hline 15}{c -}{hline 17}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 26}{c -}{hline 9}{c RT}
+  {c |} {res}Time to rheumatology assessment                                                                                                                                                                  0.78   {txt}{c |}
+  {c |} {res}   Seen within 3 weeks            298 (0.9%)       27 (0.8%)       32 (0.9%)         57 (0.8%)       38 (1.1%)       26 (0.8%)       54 (0.8%)       25 (0.7%)       39 (1.1%)                          {txt}{c |}
+  {c |} {res}   Seen within 6 weeks            242 (0.7%)       27 (0.8%)       21 (0.6%)         47 (0.7%)       26 (0.7%)       25 (0.7%)       45 (0.7%)       22 (0.6%)       29 (0.9%)                          {txt}{c |}
+  {c |} {res}   Assessment delay >6 weeks      4,644 (13.6%)    432 (13.1%)     490 (14.5%)       948 (13.7%)     462 (13.2%)     470 (13.8%)     938 (13.7%)     444 (13.1%)     460 (13.5%)                        {txt}{c |}
+  {c |} {res}   Missing                        28,912 (84.8%)   2,818 (85.3%)   2,845 (84.0%)     5,844 (84.7%)   2,970 (85.0%)   2,880 (84.7%)   5,786 (84.8%)   2,899 (85.5%)   2,870 (84.5%)                      {txt}{c |}
+  {c |} {res}Time to rheumatology assessment   298 (5.7%)       27 (5.6%)       32 (5.9%)         57 (5.4%)       38 (7.2%)       26 (5.0%)       54 (5.2%)       25 (5.1%)       39 (7.4%)                   0.48   {txt}{c |}
+  {c BLC}{hline 33}{c -}{hline 16}{c -}{hline 15}{c -}{hline 17}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 26}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 months, for those with at least 6m registration
+. preserve
+{txt}
+{com}. keep if has_6m_follow_up==1
+{txt}(1,731 observations deleted)
+
+{com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months              32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months         32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months          32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       32,365   10,704   10,742   10,919     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c TRC}
+  {c |} {res}                                     Total           RA              PsA             AxSpA           p-value {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}                                     N=32,365        N=10,704        N=10,742        N=10,919                {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months              1,393 (4.3%)    469 (4.4%)      445 (4.1%)      479 (4.4%)       0.60   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months         582 (1.8%)      194 (1.8%)      179 (1.7%)      209 (1.9%)       0.39   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        280 (0.9%)      90 (0.8%)       94 (0.9%)       96 (0.9%)        0.95   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   308 (1.0%)      110 (1.0%)      104 (1.0%)      94 (0.9%)        0.44   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months          266 (0.8%)      88 (0.8%)       84 (0.8%)       94 (0.9%)        0.81   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       4,184 (12.9%)   1,360 (12.7%)   1,375 (12.8%)   1,449 (13.3%)    0.41   {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 12 months, for those with at least 12m registration
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1
+{txt}(3,405 observations deleted)
+
+{com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_12m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                   N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           RA              PsA             AxSpA           p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=30,691        N=10,245        N=10,140        N=10,306                {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              2,925 (9.5%)    989 (9.7%)      932 (9.2%)      1,004 (9.7%)     0.36   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         1,239 (4.0%)    427 (4.2%)      395 (3.9%)      417 (4.0%)       0.61   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        606 (2.0%)      196 (1.9%)      194 (1.9%)      216 (2.1%)       0.55   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   648 (2.1%)      227 (2.2%)      211 (2.1%)      210 (2.0%)       0.65   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          596 (1.9%)      198 (1.9%)      181 (1.8%)      217 (2.1%)       0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       8,323 (27.1%)   2,767 (27.0%)   2,748 (27.1%)   2,808 (27.2%)    0.93   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 and 12 months, for those with at least 12m registration
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1
+{txt}(3,405 observations deleted)
+
+{com}. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  csdmard_12m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                   N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months               30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months          30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months           30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       30,691   10,245   10,140   10,306     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           RA              PsA             AxSpA           p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=30,691        N=10,245        N=10,140        N=10,306                {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months               1,315 (4.3%)    445 (4.3%)      415 (4.1%)      455 (4.4%)       0.49   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              2,925 (9.5%)    989 (9.7%)      932 (9.2%)      1,004 (9.7%)     0.36   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months          549 (1.8%)      187 (1.8%)      168 (1.7%)      194 (1.9%)       0.45   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         1,239 (4.0%)    427 (4.2%)      395 (3.9%)      417 (4.0%)       0.61   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         256 (0.8%)      77 (0.8%)       88 (0.9%)       91 (0.9%)        0.53   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        606 (2.0%)      196 (1.9%)      194 (1.9%)      216 (2.1%)       0.55   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    294 (1.0%)      104 (1.0%)      99 (1.0%)       91 (0.9%)        0.61   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   648 (2.1%)      227 (2.2%)      211 (2.1%)      210 (2.0%)       0.65   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months           256 (0.8%)      88 (0.9%)       76 (0.7%)       92 (0.9%)        0.50   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          596 (1.9%)      198 (1.9%)      181 (1.8%)      217 (2.1%)       0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        3,979 (13.0%)   1,278 (12.5%)   1,315 (13.0%)   1,386 (13.4%)    0.12   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       8,323 (27.1%)   2,767 (27.0%)   2,748 (27.1%)   2,808 (27.2%)    0.93   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 15}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 months, for those with at least 6m registration, for all patients by year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_6m_follow_up==1
+{txt}(1,731 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T      N_1      N_2      N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months              30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months         30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months          30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       30,994   10,359   10,381   10,254     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                     Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                     N=30,994        N=10,359                N=10,381                N=10,254                        {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months              1,335 (4.3%)    451 (4.4%)              450 (4.3%)              434 (4.2%)               0.90   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months         561 (1.8%)      193 (1.9%)              188 (1.8%)              180 (1.8%)               0.85   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        268 (0.9%)      91 (0.9%)               93 (0.9%)               84 (0.8%)                0.82   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   296 (1.0%)      108 (1.0%)              92 (0.9%)               96 (0.9%)                0.50   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months          252 (0.8%)      76 (0.7%)               88 (0.8%)               88 (0.9%)                0.54   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       4,007 (12.9%)   1,341 (12.9%)           1,359 (13.1%)           1,307 (12.7%)            0.76   {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 12 months, for those with at least 12m registration, by all patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1
+{txt}(3,405 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_12m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                   N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=29,371        N=9,834                 N=9,800                 N=9,737                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              2,813 (9.6%)    957 (9.7%)              911 (9.3%)              945 (9.7%)               0.51   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         1,197 (4.1%)    406 (4.1%)              383 (3.9%)              408 (4.2%)               0.58   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        583 (2.0%)      210 (2.1%)              197 (2.0%)              176 (1.8%)               0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   623 (2.1%)      212 (2.2%)              198 (2.0%)              213 (2.2%)               0.69   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          565 (1.9%)      181 (1.8%)              180 (1.8%)              204 (2.1%)               0.32   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       7,982 (27.2%)   2,681 (27.3%)           2,665 (27.2%)           2,636 (27.1%)            0.96   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 and 12 months, for those with at least 12m registration, by all patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1
+{txt}(3,405 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  csdmard_12m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                   N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months               29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months          29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months           29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       29,371   9,834   9,800   9,737     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=29,371        N=9,834                 N=9,800                 N=9,737                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months               1,259 (4.3%)    428 (4.4%)              418 (4.3%)              413 (4.2%)               0.92   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              2,813 (9.6%)    957 (9.7%)              911 (9.3%)              945 (9.7%)               0.51   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months          530 (1.8%)      186 (1.9%)              176 (1.8%)              168 (1.7%)               0.68   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         1,197 (4.1%)    406 (4.1%)              383 (3.9%)              408 (4.2%)               0.58   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         246 (0.8%)      84 (0.9%)               83 (0.8%)               79 (0.8%)                0.94   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        583 (2.0%)      210 (2.1%)              197 (2.0%)              176 (1.8%)               0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    281 (1.0%)      100 (1.0%)              87 (0.9%)               94 (1.0%)                0.65   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   623 (2.1%)      212 (2.2%)              198 (2.0%)              213 (2.2%)               0.69   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months           242 (0.8%)      73 (0.7%)               81 (0.8%)               88 (0.9%)                0.46   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          565 (1.9%)      181 (1.8%)              180 (1.8%)              204 (2.1%)               0.32   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        3,816 (13.0%)   1,280 (13.0%)           1,296 (13.2%)           1,240 (12.7%)            0.59   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       7,982 (27.2%)   2,681 (27.3%)           2,665 (27.2%)           2,636 (27.1%)            0.96   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 months, for those with at least 6m registration, for RA patients by year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_6m_follow_up==1 & ra_code==1
+{txt}(23,392 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months              10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months         10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months          10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       10,239   3,415   3,356   3,468     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                     Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                     N=10,239        N=3,415                 N=3,356                 N=3,468                         {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months              447 (4.4%)      147 (4.3%)              149 (4.4%)              151 (4.4%)               0.96   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months         184 (1.8%)      65 (1.9%)               62 (1.8%)               57 (1.6%)                0.69   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        86 (0.8%)       27 (0.8%)               28 (0.8%)               31 (0.9%)                0.89   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   106 (1.0%)      38 (1.1%)               30 (0.9%)               38 (1.1%)                0.61   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months          84 (0.8%)       23 (0.7%)               34 (1.0%)               27 (0.8%)                0.28   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       1,307 (12.8%)   440 (12.9%)             437 (13.0%)             430 (12.4%)              0.72   {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 12 months, for those with at least 12m registration, by RA patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1 & ra_code==1
+{txt}(23,851 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_12m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=9,802         N=3,310                 N=3,168                 N=3,324                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              944 (9.6%)      309 (9.3%)              296 (9.3%)              339 (10.2%)              0.39   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         411 (4.2%)      146 (4.4%)              126 (4.0%)              139 (4.2%)               0.68   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        185 (1.9%)      61 (1.8%)               64 (2.0%)               60 (1.8%)                0.79   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   216 (2.2%)      68 (2.1%)               64 (2.0%)               84 (2.5%)                0.29   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          187 (1.9%)      55 (1.7%)               57 (1.8%)               75 (2.3%)                0.18   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       2,658 (27.1%)   880 (26.6%)             851 (26.9%)             927 (27.9%)              0.45   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 and 12 months, for those with at least 12m registration, by RA patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1 & ra_code==1
+{txt}(23,851 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  csdmard_12m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months               9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months          9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months           9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       9,802   3,310   3,168   3,324     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=9,802         N=3,310                 N=3,168                 N=3,324                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months               424 (4.3%)      136 (4.1%)              141 (4.5%)              147 (4.4%)               0.75   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              944 (9.6%)      309 (9.3%)              296 (9.3%)              339 (10.2%)              0.39   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months          178 (1.8%)      66 (2.0%)               56 (1.8%)               56 (1.7%)                0.62   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         411 (4.2%)      146 (4.4%)              126 (4.0%)              139 (4.2%)               0.68   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         73 (0.7%)       24 (0.7%)               24 (0.8%)               25 (0.8%)                0.99   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        185 (1.9%)      61 (1.8%)               64 (2.0%)               60 (1.8%)                0.79   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    100 (1.0%)      32 (1.0%)               31 (1.0%)               37 (1.1%)                0.81   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   216 (2.2%)      68 (2.1%)               64 (2.0%)               84 (2.5%)                0.29   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months           84 (0.9%)       19 (0.6%)               34 (1.1%)               31 (0.9%)                0.079  {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          187 (1.9%)      55 (1.7%)               57 (1.8%)               75 (2.3%)                0.18   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        1,228 (12.5%)   414 (12.5%)             407 (12.8%)             407 (12.2%)              0.76   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       2,658 (27.1%)   880 (26.6%)             851 (26.9%)             927 (27.9%)              0.45   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 months, for those with at least 6m registration, for all patients by year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_6m_follow_up==1 & psa_code==1
+{txt}(23,354 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months              10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months         10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months          10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       10,259   3,442   3,414   3,403     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 8}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                     Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                     N=10,259        N=3,442                 N=3,414                 N=3,403                         {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months              423 (4.1%)      155 (4.5%)              141 (4.1%)              127 (3.7%)               0.28   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months         173 (1.7%)      64 (1.9%)               55 (1.6%)               54 (1.6%)                0.62   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months        90 (0.9%)       39 (1.1%)               28 (0.8%)               23 (0.7%)                0.12   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months   97 (0.9%)       33 (1.0%)               36 (1.1%)               28 (0.8%)                0.61   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months          79 (0.8%)       25 (0.7%)               27 (0.8%)               27 (0.8%)                0.94   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months       1,314 (12.8%)   416 (12.1%)             430 (12.6%)             468 (13.8%)              0.11   {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 12 months, for those with at least 12m registration, by all patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1 & psa_code==1
+{txt}(23,956 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_12m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=9,678         N=3,237                 N=3,227                 N=3,214                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              888 (9.2%)      319 (9.9%)              288 (8.9%)              281 (8.7%)               0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         380 (3.9%)      128 (4.0%)              124 (3.8%)              128 (4.0%)               0.95   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        185 (1.9%)      76 (2.3%)               57 (1.8%)               52 (1.6%)                0.077  {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   200 (2.1%)      72 (2.2%)               67 (2.1%)               61 (1.9%)                0.65   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          168 (1.7%)      58 (1.8%)               55 (1.7%)               55 (1.7%)                0.96   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       2,633 (27.2%)   860 (26.6%)             867 (26.9%)             906 (28.2%)              0.30   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. *Drug prescription table at 6 and 12 months, for those with at least 12m registration, by all patients year of diagnosis
+. preserve
+{txt}
+{com}. keep if has_12m_follow_up==1 & psa_code==1
+{txt}(23,956 observations deleted)
+
+{com}. table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(csdmard_6m bin %3.1f \ ///
+>                  csdmard_12m bin %3.1f \ ///
+>                  mtx_6m bin %3.1f \ ///
+>                  mtx_12m bin %3.1f \ ///
+>                  ssz_6m bin %3.1f \ ///
+>                  ssz_12m bin %3.1f \ ///
+>                  hcq_6m bin %3.1f \ ///
+>                  hcq_12m bin %3.1f \ ///
+>                  lef_6m bin %3.1f \ ///
+>                  lef_12m bin %3.1f \ ///
+>                  biologic_6m bin %3.1f \ ///
+>                  biologic_12m bin %3.1f \ ///
+>                  ) clear
+{res}{txt}
+  {c TLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                                  N_T     N_1     N_2     N_3   m_T   m_1   m_2   m_3 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 6 months               9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}csDMARD within 12 months              9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 6 months          9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Methotrexate within 12 months         9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 6 months           9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Leflunomide within 12 months          9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       9,678   3,237   3,227   3,214     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c TRC}
+  {c |} {res}                                      Total           March 2019-March 2020   March 2020-March 2021   March 2021-March 2022   p-value {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}                                      N=9,678         N=3,237                 N=3,227                 N=3,214                         {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 6 months               394 (4.1%)      143 (4.4%)              130 (4.0%)              121 (3.8%)               0.41   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}csDMARD within 12 months              888 (9.2%)      319 (9.9%)              288 (8.9%)              281 (8.7%)               0.25   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 6 months          163 (1.7%)      56 (1.7%)               53 (1.6%)               54 (1.7%)                0.96   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Methotrexate within 12 months         380 (3.9%)      128 (4.0%)              124 (3.8%)              128 (4.0%)               0.95   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 6 months         85 (0.9%)       35 (1.1%)               26 (0.8%)               24 (0.7%)                0.31   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Sulfasalazine within 12 months        185 (1.9%)      76 (2.3%)               57 (1.8%)               52 (1.6%)                0.077  {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 6 months    92 (1.0%)       32 (1.0%)               33 (1.0%)               27 (0.8%)                0.72   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Hydroxychloroquine within 12 months   200 (2.1%)      72 (2.2%)               67 (2.1%)               61 (1.9%)                0.65   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 6 months           70 (0.7%)       26 (0.8%)               22 (0.7%)               22 (0.7%)                0.81   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}Leflunomide within 12 months          168 (1.7%)      58 (1.8%)               55 (1.7%)               55 (1.7%)                0.96   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 6 months        1,259 (13.0%)   405 (12.5%)             412 (12.8%)             442 (13.8%)              0.29   {txt}{c |}
+  {c LT}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c RT}
+  {c |} {res}bDMARD/tsDMARD within 12 months       2,633 (27.2%)   860 (26.6%)             867 (26.9%)             906 (28.2%)              0.30   {txt}{c |}
+  {c BLC}{hline 37}{c -}{hline 15}{c -}{hline 23}{c -}{hline 23}{c -}{hline 23}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+
+{com}. restore
+{txt}
+{com}. 
+. **Consider tables with time categories for GP to rheum ref, rheum ref to rheum appt, by year of diagnosis 
+. 
 . log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/descriptive_tables.smcl
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 Apr 2022, 15:45:48
+ {txt}closed on:  {res} 5 Apr 2022, 15:40:03
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

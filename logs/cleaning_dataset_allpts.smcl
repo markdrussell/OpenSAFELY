@@ -1,20 +1,20 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/cleaning_dataset_allpts.smcl
+       {txt}log:  {res}C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs/cleaning_dataset_allpts.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 15:44:59
+ {txt}opened on:  {res} 5 Apr 2022, 12:30:49
 {txt}
 {com}. 
 . **Set Ado file path
 . adopath + "$projectdir/analysis/extra_ados"
-{txt}  [1]  (BASE)      "{res}/usr/local/stata/ado/base/{txt}"
-  [2]  (SITE)      "{res}/usr/local/ado/{txt}"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
   [3]              "{res}.{txt}"
-  [4]  (PERSONAL)  "{res}~/ado/personal/{txt}"
-  [5]  (PLUS)      "{res}~/ado/plus/{txt}"
-  [6]  (OLDPLACE)  "{res}~/ado/{txt}"
-  [7]              "{res}/workspace/analysis/extra_ados{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/analysis/extra_ados{txt}"
 
 {com}. 
 . **Set index dates ===========================================================*/
@@ -55,19 +55,19 @@
 {txt} 15{com}.         
 .         format `var'_date %td
 {txt} 16{com}. {c )-}
-{txt}variable {bf}hba1c_mmol_per_mol_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+{txt}variable {bf}{res}hba1c_mmol_per_mol_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}hba1c_percentage_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}hba1c_percentage_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}creatinine_date{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}creatinine_date{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(5,000 real changes made)
 (5,000 missing values generated)
-variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
+variable {bf}{res}bmi_date_measured{sf}{txt} was {bf}{res}str7{sf}{txt} now {bf}{res}str10{sf}
 {txt}(100,000 real changes made)
 {res}{txt}(40,000 real changes made)
 (40,000 missing values generated)
@@ -189,19 +189,19 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 
 {com}. ****rearrange in order of prevalence
 . recode ethnicity 2=6 /* mixed to 6 */
-{txt}(ethnicity: 14879 changes made)
+{txt}(14879 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 3=2 /* south asian to 2 */
-{txt}(ethnicity: 7775 changes made)
+{txt}(7775 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 4=3 /* black to 3 */
-{txt}(ethnicity: 7476 changes made)
+{txt}(7476 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 6=4 /* mixed to 4 */
-{txt}(ethnicity: 14879 changes made)
+{txt}(14879 changes made to {bf:ethnicity})
 
 {com}. recode ethnicity 5=4 /* other to 4 */
-{txt}(ethnicity: 7599 changes made)
+{txt}(7599 changes made to {bf:ethnicity})
 
 {com}. 
 . label define ethnicity  1 "White"                                       ///
@@ -249,7 +249,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {txt}
 {com}. *Reverse the order (so high is more deprived)
 . recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
-{txt}(imd: 100000 changes made)
+{txt}(100000 changes made to {bf:imd})
 
 {com}. label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 {txt}
@@ -279,7 +279,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 >                60/69.9999 = 4 ///
 >                    70/79.9999 = 5 ///
 >                    80/max = 6, gen(agegroup) 
-{txt}(78795 differences between age and agegroup)
+{txt}(78795 differences between {bf:age} and {bf:agegroup})
 
 {com}. 
 . label define agegroup   1 "18-39" ///
@@ -298,7 +298,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 . *Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
-{txt}(78795 differences between age and age70)
+{txt}(78795 differences between {bf:age} and {bf:age70})
 
 {com}. 
 . *Create restricted cubic splines for age
@@ -347,22 +347,22 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {txt}(78,795 missing values generated)
 
 {com}. recode  bmicat . = 1 if bmi_value < 18.5
-{txt}(bmicat: 171 changes made)
+{txt}(171 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 2 if bmi_value < 25
-{txt}(bmicat: 417 changes made)
+{txt}(417 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 3 if bmi_value < 30
-{txt}(bmicat: 544 changes made)
+{txt}(544 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 4 if bmi_value < 35
-{txt}(bmicat: 723 changes made)
+{txt}(723 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 5 if bmi_value < 40
-{txt}(bmicat: 725 changes made)
+{txt}(725 changes made to {bf:bmicat})
 
 {com}. recode  bmicat . = 6 if bmi_value < .
-{txt}(bmicat: 1130 changes made)
+{txt}(1130 changes made to {bf:bmicat})
 
 {com}. replace bmicat = .u if bmi_value >= .
 {txt}(75,085 real changes made, 75,085 to missing)
@@ -384,7 +384,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {com}. 
 . *Create less granular categorisation
 . recode bmicat 1/3 .u = 1 4 = 2 5 = 3 6 = 4, gen(obese4cat)
-{txt}(78624 differences between bmicat and obese4cat)
+{txt}(78624 differences between {bf:bmicat} and {bf:obese4cat})
 
 {com}. 
 . label define obese4cat  1 "No record of obesity"        ///
@@ -427,7 +427,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {com}. 
 . *Create non-missing 3-category variable for current smoking (assumes missing smoking is never smoking)
 . recode smoke .u = 1, gen(smoke_nomiss)
-{txt}(43350 differences between smoke and smoke_nomiss)
+{txt}(43350 differences between {bf:smoke} and {bf:smoke_nomiss})
 
 {com}. order smoke_nomiss, after(smoke)
 {txt}
@@ -452,7 +452,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {txt}(19,701 real changes made, 19,701 to missing)
 
 {com}. recode creatinine .=0
-{txt}(creatinine: 19701 changes made)
+{txt}(19701 changes made to {bf:creatinine})
 
 {com}. 
 . *Divide by 88.4 (to convert umol/l to mg/dl) 
@@ -509,23 +509,23 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 {com}. 
 . *Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-{txt}(19701 missing values generated)
+{txt}(19,701 missing values generated)
 
 {com}. recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-{txt}(59094 differences between egfr_cat_all and ckd_egfr)
+{txt}(59094 differences between {bf:egfr_cat_all} and {bf:ckd_egfr})
 
 {com}. 
 . gen egfr_cat = .
 {txt}(78,795 missing values generated)
 
 {com}. recode egfr_cat . = 3 if egfr < 30
-{txt}(egfr_cat: 13898 changes made)
+{txt}(13898 changes made to {bf:egfr_cat})
 
 {com}. recode egfr_cat . = 2 if egfr < 60
-{txt}(egfr_cat: 20987 changes made)
+{txt}(20987 changes made to {bf:egfr_cat})
 
 {com}. recode egfr_cat . = 1 if egfr < .
-{txt}(egfr_cat: 24209 changes made)
+{txt}(24209 changes made to {bf:egfr_cat})
 
 {com}. replace egfr_cat = .u if egfr >= .
 {txt}(19,701 real changes made, 19,701 to missing)
@@ -636,7 +636,7 @@ variable {bf}bmi_date_measured{sf} was {bf}{res}str7{sf}{txt} now {bf}{res}str10
 . *Express all values as perecentage 
 . noi summ hba1c_percentage hba1c_mmol_per_mol 
 
-{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
 hba1c_per~ge {c |}{res}      1,253    5.096173    1.826876   1.063151   11.53066
 {txt}hba1c_mmol~l {c |}{res}      1,140    42.68133    16.95212   10.18346     110.87
@@ -687,10 +687,16 @@ hba1c_per~ge {c |}{res}      1,253    5.096173    1.826876   1.063151   11.53066
 
 {com}. 
 . *Group hba1c mmol
+. 
+{txt}end of do-file
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD4638_000000.tmp"
+{txt}
+{com}. *Group hba1c mmol
 . gen     hba1ccatmm = 0 if hba1c_mmol < 58
 {txt}(76,757 missing values generated)
 
-{com}. replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_pct !=.
+{com}. replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_mmol !=.
 {txt}(333 real changes made)
 
 {com}. replace hba1ccatmm =.u if hba1ccatmm==. 
@@ -739,7 +745,7 @@ hba1c_per~ge {c |}{res}      1,253    5.096173    1.826876   1.063151   11.53066
 {txt}(50,327 missing values generated)
 
 {com}. recode combined_cv_comorbid .=0
-{txt}(combined_cv_comorbid: 50327 changes made)
+{txt}(50327 changes made to {bf:combined_cv_comorbid})
 
 {com}. 
 . *Delete unneeded variables
@@ -765,15 +771,13 @@ hba1c_per~ge {c |}{res}      1,253    5.096173    1.826876   1.063151   11.53066
 {txt}
 {com}. 
 . save "$projectdir/output/data/file_eia_allpts", replace 
-{txt}(note: file /workspace/output/data/file_eia_allpts.dta not found)
-file /workspace/output/data/file_eia_allpts.dta saved
+{txt}{p 0 4 2}
+file {bf}
+C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/output/data/file_eia_allpts.dta{rm}
+saved
+{p_end}
 
 {com}. 
-. log close
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/workspace/logs/cleaning_dataset_allpts.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 Apr 2022, 15:45:03
-{txt}{.-}
-{smcl}
-{txt}{sf}{ul off}
+{txt}end of do-file
+
+{com}. exit, clear
