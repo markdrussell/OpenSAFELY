@@ -6,7 +6,7 @@ year_preceding = "2018-03-01"
 start_date = "2019-03-01"
 end_date = "today"
 
-# Date of first EIA code in primary care record (captures everyone with first EIA code; refine in Stata)
+# Date of first EIA code in primary care record
 def first_code_in_period(dx_codelist):
     return patients.with_these_clinical_events(
         dx_codelist,
@@ -55,10 +55,10 @@ def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
 
 def medication_counts_and_dates(var_name, med_codelist_file, high_cost):
     """
-    Generates dictionary of covariates for a medication including counts (or binary flags for high cost drugs) and dates
+    Generates dictionary of covariates for a medication and dates
     Takes a variable prefix and medication codelist filename (minus .csv)
     Returns a dictionary suitable for unpacking into the main study definition
-    This will include all five of the items defined in the functions above
+    This will include all of the items defined in the functions above
     """
     definitions={}
     
@@ -94,7 +94,7 @@ study = StudyDefinition(
         "incidence": 0.5,
     },
  
-    # EIA disease codes (note: cross-IMID codes used for PsA and AS - all CTV3)
+    # EIA disease codes
     eia_code_date=first_code_in_period(eia_diagnosis_codes),
     ra_code_date=first_code_in_period(rheumatoid_arthritis_codes),
     psa_code_date=first_code_in_period(psoriatic_arthritis_codes),
@@ -288,14 +288,13 @@ study = StudyDefinition(
 
     ## Death
     died_date_ons=patients.died_from_any_cause(
-        between=[year_preceding, end_date],
         returning="date_of_death",
         include_month=True,
         include_day=True,
         return_expectations={"date": {"earliest": start_date}, "incidence": 0.1},
     ),
 
-    # Comorbidities (first comorbidity code before EIA diagnosis date; for bloods, test closest to EIA date chosen)
+    # Comorbidities (first comorbidity code prior to EIA code date; for bloods, test closest to EIA date chosen)
     chronic_cardiac_disease=first_comorbidity_in_period(chronic_cardiac_disease_codes),
     diabetes=first_comorbidity_in_period(diabetes_codes),
     hba1c_mmol_per_mol=patients.with_these_clinical_events(
