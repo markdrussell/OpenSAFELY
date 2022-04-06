@@ -22,7 +22,7 @@ di "$logdir"
 
 **Open a log file
 cap log close
-log using "$logdir/descriptive_tables.smcl", replace
+log using "$logdir/descriptive_tables.log", replace
 
 **Set Ado file path
 adopath + "$projectdir/analysis/extra_ados"

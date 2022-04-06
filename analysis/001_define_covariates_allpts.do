@@ -27,7 +27,7 @@ import delimited "$projectdir/output/input_allpts.csv", clear
 
 **Open a log file
 cap log close
-log using "$logdir/cleaning_dataset_allpts.smcl", replace
+log using "$logdir/cleaning_dataset_allpts.log", replace
 
 **Set Ado file path
 adopath + "$projectdir/analysis/extra_ados"

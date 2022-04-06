@@ -23,7 +23,7 @@ global logdir "$projectdir/logs"
 
 **Open a log file
 cap log close
-log using "$logdir/cleaning_dataset.smcl", replace
+log using "$logdir/cleaning_dataset.log", replace
 
 di "$projectdir"
 di "$logdir"

@@ -22,7 +22,7 @@ actions:
     needs: [generate_study_population_allpts]
     outputs:
       highly_sensitive:
-        log1: logs/cleaning_dataset_allpts.smcl 
+        log1: logs/cleaning_dataset_allpts.log 
         data1: output/data/file_eia_allpts.dta        
 
   create_cohorts:
@@ -30,7 +30,7 @@ actions:
     needs: [generate_study_population]
     outputs:
       highly_sensitive:
-        log1: logs/cleaning_dataset.smcl 
+        log1: logs/cleaning_dataset.log 
         data1: output/data/file_eia_all.dta
 
   run_baseline_tables_allpts:
@@ -38,21 +38,21 @@ actions:
     needs: [create_cohorts_allpts]
     outputs:
       moderately_sensitive:
-        log1: logs/descriptive_tables_allpts.smcl         
+        log1: logs/descriptive_tables_allpts.log         
 
   run_baseline_tables:
     run: stata-mp:latest analysis/100_baseline_characteristics.do
     needs: [create_cohorts]
     outputs:
       moderately_sensitive:
-        log1: logs/descriptive_tables.smcl         
+        log1: logs/descriptive_tables.log         
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
     needs: [create_cohorts]
     outputs:
       moderately_sensitive:
-        log1: logs/itsa_models.smcl   
+        log1: logs/itsa_models.log   
         figure1:  output/figures/ITSA_diagnostic_delay_newey.gph
         figure2:  output/figures/ITSA_diagnostic_delay_newey.svg
         figure3:  output/figures/ITSA_diagnostic_delay_prais.gph  
