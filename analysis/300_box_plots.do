@@ -19,6 +19,8 @@ global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Prac
 *global projectdir `c(pwd)'
 di "$projectdir"
 
+capture mkdir "$projectdir/output/figures"
+
 global logdir "$projectdir/logs"
 di "$logdir"
 
