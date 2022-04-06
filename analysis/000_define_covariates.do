@@ -21,6 +21,10 @@ USER-INSTALLED ADO:
 *global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
 global projectdir `c(pwd)'
 
+capture mkdir "$projectdir/output/data"
+capture mkdir "$projectdir/output/figures"
+capture mkdir "$projectdir/output/tables"
+
 global logdir "$projectdir/logs"
 
 **Open a log file

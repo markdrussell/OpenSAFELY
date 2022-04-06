@@ -39,7 +39,8 @@ set scheme plotplainblind
 **Time from rheum referral to rheum appt (all diagnoses)
 preserve
 keep if time_ref_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
-asdoc tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_ref_rheum_appt.doc) dec(0)
+eststo X: estpost tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/diagnostic_delay_ref_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_diag_delay=time_ref_rheum_appt (p75) p75_diag_delay=time_ref_rheum_appt (p25) p25_diag_delay=time_ref_rheum_appt (mean) mean_diag_delay=time_ref_rheum_appt (sd) sd_diag_delay=time_ref_rheum_appt (count) n_diag_delay=time_ref_rheum_appt, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -67,7 +68,8 @@ restore
 **Sensitivity analysis using time from last GP (pre-rheum appt) to rheum appt (all diagnoses)
 preserve
 keep if time_gp_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
-asdoc tabstat time_gp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_GP_rheum_appt.doc) dec(0)
+eststo X: estpost tabstat time_gp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/diagnostic_delay_GP_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_diag_delay=time_gp_rheum_appt (p75) p75_diag_delay=time_gp_rheum_appt (p25) p25_diag_delay=time_gp_rheum_appt (mean) mean_diag_delay=time_gp_rheum_appt (sd) sd_diag_delay=time_gp_rheum_appt (count) n_diag_delay=time_gp_rheum_appt, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -85,7 +87,8 @@ restore
 **Sensitivity analyses using combination of time from rheum ref to rheum appt; or, if no ref present, time from last GP appt to rheum appt (all diagnoses)
 preserve
 keep if time_refgp_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
-asdoc tabstat time_refgp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/diagnostic_delay_GPref_rheum_appt.doc) dec(0)
+eststo X: estpost tabstat time_refgp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/diagnostic_delay_GPref_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_diag_delay=time_refgp_rheum_appt (p75) p75_diag_delay=time_refgp_rheum_appt (p25) p25_diag_delay=time_refgp_rheum_appt (mean) mean_diag_delay=time_refgp_rheum_appt (sd) sd_diag_delay=time_refgp_rheum_appt (count) n_diag_delay=time_refgp_rheum_appt, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -104,7 +107,8 @@ restore
 **Time from last GP appt to rheum referral (all diagnoses)
 preserve
 keep if time_gp_rheum_ref_appt!=. //drop those with no last GP appt and/or rheum ref
-asdoc tabstat time_gp_rheum_ref_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/referral_delay_GP_to_ref.doc) dec(0)
+eststo X: estpost tabstat time_gp_rheum_ref_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/referral_delay_GP_to_ref.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_ref_delay=time_gp_rheum_ref_appt (p75) p75_ref_delay=time_gp_rheum_ref_appt (p25) p25_ref_delay=time_gp_rheum_ref_appt (mean) mean_ref_delay=time_gp_rheum_ref_appt (sd) sd_ref_delay=time_gp_rheum_ref_appt (count) n_ref_delay=time_gp_rheum_ref_appt, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -123,7 +127,8 @@ restore
 **Time from rheum appt to shared care csDMARD for RA patients (not including MTX high-cost drug) 
 preserve
 keep if time_to_csdmard!=. & ra_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
-asdoc tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/csDMARD_delay_RA.doc) dec(0)
+eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/csDMARD_delay_RA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -141,7 +146,8 @@ restore
 **Time from rheum appt to shared care csDMARD for PsA patients (not including MTX high-cost drug)
 preserve
 keep if time_to_csdmard!=. & psa_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
-asdoc tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/csDMARD_delay_PsA.doc) dec(0)
+eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/csDMARD_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -159,7 +165,8 @@ restore
 **Time from rheum appt to shared care MTX for RA patients (not including MTX high-cost drug) 
 preserve
 keep if time_to_mtx!=. & ra_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or MTX prescription; must have minimum of 6m follow-up after diagnosis
-asdoc tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/MTX_delay_RA.doc) dec(0)
+eststo X: estpost tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/MTX_delay_RA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -177,7 +184,8 @@ restore
 **Time from rheum appt to shared care MTX for PsA patients (not including MTX high-cost drug)
 preserve
 keep if time_to_mtx!=. & psa_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or MTX prescription; must have minimum of 6m follow-up after diagnosis
-asdoc tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/MTX_delay_PsA.doc) dec(0)
+eststo X: estpost tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/MTX_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -195,7 +203,8 @@ restore
 **Time from rheum appt to biologic for all EIA patients (data available to 2020-11-27) - for patients who have at least 12 months of follow-up post-diagnosis
 preserve
 keep if time_to_biologic!=. & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
-asdoc tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/Biol_delay_all.doc) dec(0)
+eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/Biol_delay_all.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -213,7 +222,8 @@ restore
 **Time from rheum appt to biologic for RA patients
 preserve
 keep if time_to_biologic!=. & ra_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
-asdoc tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/Biol_delay_ra.doc) dec(0)
+eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/Biol_delay_ra.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -231,7 +241,8 @@ restore
 **Time from rheum appt to biologic for PsA patients
 preserve
 keep if time_to_biologic!=. & psa_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
-asdoc tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/Biol_delay_PsA.doc) dec(0)
+eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/Biol_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
 
 tsset mo_year_diagn
@@ -249,7 +260,8 @@ restore
 **Time from rheum appt to biologic for AxSpA patients
 preserve
 keep if time_to_biologic!=. & anksp_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
-asdoc tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) save($projectdir/output/tables/Biol_delay_anksp.doc) dec(0)
+eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/Biol_delay_anksp.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (count) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
 
 tsset mo_year_diagn

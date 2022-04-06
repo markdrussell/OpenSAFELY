@@ -1,0 +1,2462 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/itsa_models.log
+  log type:  text
+ opened on:   6 Apr 2022, 14:30:02
+
+. 
+. **Set Ado file path
+. adopath + "$projectdir/analysis/extra_ados"
+  [1]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata17\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\k1754142\ado\personal/"
+  [5]  (PLUS)      "C:\Users\k1754142\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados"
+
+. 
+. **Use cleaned data from previous step
+. use "$projectdir/output/data/file_eia_all.dta", clear
+
+. 
+. set scheme plotplainblind
+
+. 
+. /*ITSA models===========================================================================*/
+. 
+. **Time from rheum referral to rheum appt (all diagnoses)
+. preserve
+
+. keep if time_ref_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
+(29,792 observations deleted)
+
+. eststo X: estpost tabstat time_ref_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_ref_rheum_appt
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        45        123        183         59   127.5556   80.12307 
+         711 |        41         89        231         38   131.9756   106.7264 
+         712 |        52        129        259         52   157.0192    113.988 
+         713 |        51        140        240         51   154.7843   107.4974 
+         714 |        61        145        271         72   170.3607   114.0764 
+         715 |        67        131        241         49   147.3284   107.4965 
+         716 |        69        162        280         82   190.7391   127.7814 
+         717 |        76        157      247.5       82.5   172.8026   124.8963 
+         718 |        90        190        270         82   199.0667   136.5498 
+         719 |       116        160        304       78.5   204.4828   155.0593 
+         720 |        94      207.5        301         79   216.0106   146.5568 
+         721 |        89        164        317         61   209.8876   161.2004 
+         722 |       106        210        332        117   233.5094    156.221 
+         723 |       125        202        321         53    222.392   175.7112 
+         724 |       124      236.5      372.5        105   259.4113   176.8202 
+         725 |       127        226        378        106   254.9134   179.8999 
+         726 |       136      184.5      322.5         83   220.9632   165.1407 
+         727 |       130      221.5        361        106   251.8692   185.9045 
+         728 |       147        235        378         96   258.4558   179.6864 
+         729 |       177        201        412         85   256.0282   199.2366 
+         730 |       151        218        387        110   271.1722   206.1687 
+         731 |       159        249        411        101    287.805    217.747 
+         732 |       164      223.5      389.5         93   273.1524   218.5627 
+         733 |       155        233        472        119   299.8129    228.637 
+         734 |       154      295.5        561        118   342.6688    260.256 
+         735 |       197        207        388         92   273.5025   233.8563 
+         736 |       185        273        521        122   322.9784    243.857 
+         737 |       196        257        484      125.5   333.0867   253.4197 
+         738 |       217        246        513        110   321.4424     254.63 
+         739 |       225        291        478        133     329.56   240.7425 
+         740 |       202      294.5        477        144    349.302   275.0716 
+         741 |       218        244        444        111   328.2569   271.2599 
+         742 |       229        272        475        117   327.9956   257.4636 
+         743 |       215        256        512        108   349.1814   300.9037 
+         744 |       194      265.5        502        145   343.1598   276.7561 
+         745 |       194        243        509        131   351.0876    293.741 
+         746 |       221        252        513        105   337.5611   284.2791 
+         747 |       156      336.5      585.5        123   396.3013   321.2949 
+-------------+------------------------------------------------------------------
+       Total |      5355        227        411        102   286.5664   237.1737 
+
+. esttab X using "$projectdir/output/tables/diagnostic_delay_ref_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_ref_rheum_appt.csv)
+
+. collapse (p50) p50_diag_delay=time_ref_rheum_appt (p75) p75_diag_delay=time_ref_rheum_appt (p25) p25_diag_delay=time_ref_rheum_appt (mean) mean_diag_delay=time_ref_rheum_appt (sd) sd_diag_delay=time_ref_rheum_appt (count)
+>  n_diag_delay=time_ref_rheum_appt, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsma
+> ll) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) not
+> e("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_newey.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =     178.86
+                                                Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   7.173077   .6961707    10.30   0.000     5.756707    8.589447
+    _x2020m3 |   13.76487   7.554141     1.82   0.078    -1.604143    29.13389
+  _x_t2020m3 |  -4.566538   .9005532    -5.07   0.000    -6.398728   -2.734349
+       _cons |   110.3397   3.995904    27.61   0.000       102.21    118.4695
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   2.606538   .5540232     4.70   0.000      1.47937    3.733707
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey.svg", as(svg) replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      3.410      1    0.0648 |   1 |      3.410      1    0.0648
+   1 -  2  |      3.729      2    0.1550 |   2 |      0.024      1    0.8775
+   1 -  3  |      4.900      3    0.1793 |   3 |      1.238      1    0.2658
+   1 -  4  |      5.399      4    0.2488 |   4 |      0.034      1    0.8535
+   1 -  5  |      6.425      5    0.2670 |   5 |      1.014      1    0.3140
+   1 -  6  |      6.440      6    0.3757 |   6 |      1.134      1    0.2868
+   1 -  7  |      8.058      7    0.3275 |   7 |      1.900      1    0.1681
+   1 -  8  |      8.850      8    0.3551 |   8 |      0.011      1    0.9163
+   1 -  9  |     10.865      9    0.2851 |   9 |      0.087      1    0.7684
+   1 - 10  |     12.128      10   0.2766 |  10 |      0.133      1    0.7151
+   1 - 11  |     13.421      11   0.2667 |  11 |      0.401      1    0.5268
+   1 - 12  |     14.005      12   0.3004 |  12 |      0.041      1    0.8396
+   1 - 13  |     19.892      13   0.0979 |  13 |      3.598      1    0.0578
+   1 - 14  |     24.043      14   0.0453 |  14 |      0.390      1*   0.5324
+   1 - 15  |     29.035      15   0.0159 |  15 |      0.080      1*   0.7779
+   1 - 16  |     30.096      16   0.0175 |  16 |      1.241      1*   0.2653
+   1 - 17  |     30.164      17   0.0252 |  17 |      0.484      1    0.4866
+   1 - 18  |     30.169      18   0.0358 |  18 |      0.465      1*   0.4952
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to di
+> agnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 
+> 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_prais.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.2948
+Iteration 2:   rho = -0.3019
+Iteration 3:   rho = -0.3019
+Iteration 4:   rho = -0.3019
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =     136.25
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9144
+                                                Root MSE          =     21.091
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   7.550504   1.214071     6.22   0.000     5.080458    10.02055
+    _x2020m3 |   10.01068   11.19358     0.89   0.378    -12.76282    32.78418
+  _x_t2020m3 |  -4.847184   1.281224    -3.78   0.001    -7.453853   -2.240514
+       _cons |    108.404   7.059722    15.36   0.000     94.04085    122.7671
+-------------+----------------------------------------------------------------
+         rho |  -.3019478
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.553099
+Durbin–Watson statistic (transformed) = 1.991374
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |    2.70332   .4771002     5.67   0.000     1.732652    3.673988
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_prais.svg", as(svg) replace      
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais.svg saved as SVG format
+
+. 
+. **Time from rheum referral to rheum appt (all diagnoses) with second cut point corresponding to Jan 2021 lockdown
+. **Newey Standard Errors with 6 lags
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3; 2021m1) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", siz
+> e(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nog
+> rid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_newey_2cuts.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  5,        31) =     169.60
+                                                Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   7.173077   .7182768     9.99   0.000     5.708142    8.638012
+    _x2020m3 |   12.40152   8.203917     1.51   0.141    -4.330484    29.13351
+  _x_t2020m3 |  -5.054895   1.166664    -4.33   0.000    -7.434322   -2.675468
+    _x2021m1 |   18.74167   13.11016     1.43   0.163    -7.996674    45.48001
+  _x_t2021m1 |  -.9574675   1.253709    -0.76   0.451    -3.514424    1.599489
+       _cons |   110.3397    4.12279    26.76   0.000     101.9313    118.7482
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   2.118182   1.051636     2.01   0.053    -.0266449    4.263009
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2021m1
+
+Treated: _b[_t]+_b[_x_t2020m3]+_b[_x_t2021m1]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.160714    1.10144     1.05   0.300    -1.085688    3.407117
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey_2cuts.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey_2cuts.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey_2cuts.svg", as(svg) replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey_2cuts.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_newey_2cuts.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      6.278      1    0.0122 |   1 |      6.278      1    0.0122
+   1 -  2  |      8.929      2    0.0115 |   2 |      0.066      1    0.7977
+   1 -  3  |      9.080      3    0.0282 |   3 |      1.399      1    0.2369
+   1 -  4  |      9.264      4    0.0548 |   4 |      0.148      1    0.7001
+   1 -  5  |     10.540      5    0.0613 |   5 |      1.064      1    0.3024
+   1 -  6  |     10.546      6    0.1035 |   6 |      1.757      1    0.1850
+   1 -  7  |     13.388      7    0.0632 |   7 |      1.630      1    0.2017
+   1 -  8  |     14.961      8    0.0599 |   8 |      0.005      1    0.9414
+   1 -  9  |     16.889      9    0.0505 |   9 |      0.007      1    0.9338
+   1 - 10  |     17.869      10   0.0572 |  10 |      0.010      1    0.9189
+   1 - 11  |     18.223      11   0.0766 |  11 |      0.032      1    0.8570
+   1 - 12  |     18.268      12   0.1078 |  12 |      0.321      1*   0.5709
+   1 - 13  |     20.334      13   0.0872 |  13 |      2.133      1    0.1442
+   1 - 14  |     22.809      14   0.0635 |  14 |      0.314      1*   0.5752
+   1 - 15  |     27.885      15   0.0223 |  15 |      0.026      1*   0.8724
+   1 - 16  |     29.191      16   0.0227 |  16 |      0.700      1*   0.4028
+   1 - 17  |     29.391      17   0.0311 |  17 |      0.725      1    0.3946
+   1 - 18  |     29.429      18   0.0434 |  18 |      0.310      1*   0.5778
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3; 2021m1) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median ti
+> me to diagnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Se
+> p 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_prais_2cuts.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.4023
+Iteration 2:   rho = -0.4199
+Iteration 3:   rho = -0.4201
+Iteration 4:   rho = -0.4201
+Iteration 5:   rho = -0.4201
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(5, 31)          =     109.77
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9391
+                                                Root MSE          =     20.214
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   7.643697   1.064761     7.18   0.000     5.472102    9.815291
+    _x2020m3 |    8.91033   11.65854     0.76   0.450    -14.86741    32.68807
+  _x_t2020m3 |  -5.836059   1.770143    -3.30   0.002     -9.44629   -2.225828
+    _x2021m1 |   24.41654   14.58721     1.67   0.104    -5.334274    54.16736
+  _x_t2021m1 |  -.8337926   1.792866    -0.47   0.645    -4.490367    2.822782
+       _cons |     107.89   6.363523    16.95   0.000     94.91151    120.8685
+-------------+----------------------------------------------------------------
+         rho |  -.4201383
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.783188
+Durbin–Watson statistic (transformed) = 2.205547
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.807638   1.508214     1.20   0.240    -1.268384     4.88366
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2021m1
+
+Treated: _b[_t]+_b[_x_t2020m3]+_b[_x_t2021m1]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   .9738455    1.09144     0.89   0.379    -1.252162    3.199853
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais_2cuts.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais_2cuts.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_prais_2cuts.svg", as(svg) replace        
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais_2cuts.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_prais_2cuts.svg saved as SVG format
+
+. restore
+
+. 
+. **Sensitivity analysis using time from last GP (pre-rheum appt) to rheum appt (all diagnoses)
+. preserve
+
+. keep if time_gp_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
+(29,837 observations deleted)
+
+. eststo X: estpost tabstat time_gp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_gp_rheum_appt
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        39        118        189         49   118.5897   74.40173 
+         711 |        47        116        223         58   131.2979   95.68606 
+         712 |        58        114        181         54   130.9138   94.78883 
+         713 |        61        152        238         68   163.7869   110.6745 
+         714 |        85        126        263         63   157.0588   116.4549 
+         715 |        63        143        244         61   155.1746   115.0741 
+         716 |        84      176.5        291       85.5   177.9762   118.4006 
+         717 |        75        163        327         76   198.8533    143.727 
+         718 |        97        172        270         74   185.7113   131.1132 
+         719 |        91        157        305         60   197.6923   156.2229 
+         720 |        90      181.5        344         78   222.1667   170.9381 
+         721 |        97        165        302         77   197.6289   144.9203 
+         722 |       120        247      369.5        128   253.3917   154.7522 
+         723 |       101        187        364         78   231.6436   184.3173 
+         724 |       132        190        378        112   244.6364   171.3933 
+         725 |       140      214.5        355         70   233.6571   165.5026 
+         726 |       147        216        421        102   282.3265   208.0672 
+         727 |       124        220        426        124   273.0726   196.3235 
+         728 |       155        209        368        102   251.4065   192.2631 
+         729 |       155        240        400        132   285.9677    200.355 
+         730 |       154      228.5        436        130   288.3442    206.736 
+         731 |       154      279.5        457        113   315.4156   231.4549 
+         732 |       152        248        426        129   295.3421   214.3335 
+         733 |       134      228.5        481         91   315.9478    258.144 
+         734 |       177        235        439        119   297.4802   230.8044 
+         735 |       161        262        457        112   301.5155   234.2205 
+         736 |       192      235.5        430      126.5   310.6615   240.5409 
+         737 |       195        262        501         97   330.2462   269.8885 
+         738 |       202        266        485        132   325.8317   245.7571 
+         739 |       204        284      491.5      124.5    335.549   261.9178 
+         740 |       234        278        483        130   336.6111    267.454 
+         741 |       202      222.5        408        126        308   256.7604 
+         742 |       205        275        485        135   343.8488   273.5521 
+         743 |       223        275        498         97    349.435   301.5587 
+         744 |       217        248        532         95   347.3825   296.5694 
+         745 |       189        318        527        138   372.5979   291.1408 
+         746 |       200        300      544.5        143     376.02   284.1472 
+         747 |       154        331        581        169   399.2662   293.9688 
+-------------+------------------------------------------------------------------
+       Total |      5310        229        419        103   291.0759   239.1383 
+
+. esttab X using "$projectdir/output/tables/diagnostic_delay_GP_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_GP_rheum_appt.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_GP_rheum_appt.csv)
+
+. collapse (p50) p50_diag_delay=time_gp_rheum_appt (p75) p75_diag_delay=time_gp_rheum_appt (p25) p25_diag_delay=time_gp_rheum_appt (mean) mean_diag_delay=time_gp_rheum_appt (sd) sd_diag_delay=time_gp_rheum_appt (count) n_di
+> ag_delay=time_gp_rheum_appt, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsma
+> ll) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) not
+> e("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_GP_newey.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =     410.33
+                                                Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   5.776224   .7181398     8.04   0.000     4.315157     7.23729
+    _x2020m3 |   19.64634   7.997486     2.46   0.019     3.375333    35.91735
+  _x_t2020m3 |  -2.367762    .778292    -3.04   0.005    -3.951209   -.7843152
+       _cons |   116.8974   4.182271    27.95   0.000     108.3885    125.4063
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   3.408462   .3984842     8.55   0.000     2.597739    4.219184
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_newey.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_newey.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GP_newey.svg", as(svg) replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_newey.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_newey.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      1.703      1    0.1919 |   1 |      1.703      1    0.1919
+   1 -  2  |      3.089      2    0.2134 |   2 |      0.556      1    0.4560
+   1 -  3  |      3.228      3    0.3578 |   3 |      0.006      1    0.9377
+   1 -  4  |      4.681      4    0.3216 |   4 |      0.776      1    0.3784
+   1 -  5  |      6.232      5    0.2843 |   5 |      0.241      1    0.6236
+   1 -  6  |      7.022      6    0.3188 |   6 |      0.025      1*   0.8746
+   1 -  7  |      7.494      7    0.3793 |   7 |      0.025      1*   0.8739
+   1 -  8  |      8.196      8    0.4146 |   8 |      0.007      1*   0.9338
+   1 -  9  |      9.186      9    0.4203 |   9 |      2.120      1*   0.1454
+   1 - 10  |      9.935      10   0.4462 |  10 |      1.215      1    0.2704
+   1 - 11  |     10.724      11   0.4666 |  11 |      0.097      1    0.7561
+   1 - 12  |     16.870      12   0.1546 |  12 |      1.434      1*   0.2311
+   1 - 13  |     18.218      13   0.1494 |  13 |      0.272      1*   0.6019
+   1 - 14  |     19.107      14   0.1609 |  14 |      0.339      1*   0.5601
+   1 - 15  |     20.490      15   0.1539 |  15 |      0.273      1*   0.6012
+   1 - 16  |     21.333      16   0.1661 |  16 |      0.124      1*   0.7245
+   1 - 17  |     21.971      17   0.1858 |  17 |      0.073      1    0.7866
+   1 - 18  |     22.039      18   0.2302 |  18 |      0.719      1    0.3966
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to di
+> agnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 
+> 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_GP_prais.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.2123
+Iteration 2:   rho = -0.2272
+Iteration 3:   rho = -0.2277
+Iteration 4:   rho = -0.2278
+Iteration 5:   rho = -0.2278
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =     173.36
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9258
+                                                Root MSE          =     19.421
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   6.169343    .874549     7.05   0.000     4.390059    7.948626
+    _x2020m3 |   15.09686   9.225604     1.64   0.111    -3.672771    33.86649
+  _x_t2020m3 |  -2.693153    1.06848    -2.52   0.017    -4.866992   -.5193135
+       _cons |   115.4608   5.284351    21.85   0.000     104.7097    126.2119
+-------------+----------------------------------------------------------------
+         rho |  -.2277712
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.412848
+Durbin–Watson statistic (transformed) = 2.061500
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |    3.47619   .5476138     6.35   0.000     2.362061    4.590318
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_prais.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_prais.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GP_prais.svg", as(svg) replace   
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_prais.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GP_prais.svg saved as SVG format
+
+. restore
+
+. 
+. **Sensitivity analyses using combination of time from rheum ref to rheum appt; or, if no ref present, time from last GP appt to rheum appt (all diagnoses)
+. preserve
+
+. keep if time_refgp_rheum_appt!=. //drop those with no rheum ref and/or rheum appt
+(26,310 observations deleted)
+
+. eststo X: estpost tabstat time_refgp_rheum_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_refgp_rheum_appt
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        79        118        183         55   121.4051    77.3569 
+         711 |        79        107        226         56   134.6456   100.6652 
+         712 |       102      119.5        212         51   142.9412   105.4452 
+         713 |       104        141        238       59.5   154.8558   108.0232 
+         714 |       132        114      260.5       63.5   152.8636   111.1203 
+         715 |       120        131        242         51   150.5333   112.1003 
+         716 |       138        149        280         77   177.9928   124.4535 
+         717 |       134        157        265         82   182.1194   129.7584 
+         718 |       166        181        269         79   191.3133   133.3202 
+         719 |       183        158        305         70   200.1202   154.9591 
+         720 |       160      182.5      300.5       74.5   213.3938   155.5273 
+         721 |       154      161.5        310         72   205.3442   156.3299 
+         722 |       200        227      349.5      124.5    246.735   155.5583 
+         723 |       192      185.5        328         61   221.3438   177.4303 
+         724 |       223        217        370        106   246.1076   170.9291 
+         725 |       233        217        345         97     242.97   174.6763 
+         726 |       236        205        356         97   240.3559   179.9517 
+         727 |       215        227        381        108   264.9302   194.0954 
+         728 |       256        222      377.5        109    255.582   181.9707 
+         729 |       272      213.5      392.5       85.5   260.1434   201.8758 
+         730 |       249        217        382        114   268.3293   200.7723 
+         731 |       253        242        407         96   277.0119   212.1111 
+         732 |       256      224.5      390.5         98   273.8516   215.0239 
+         733 |       248      215.5      416.5         90   285.3952   230.4184 
+         734 |       274        232        450        110   303.8613   240.5292 
+         735 |       303        207        386         97   272.2937   227.9153 
+         736 |       302        248        479        118    313.202   241.1197 
+         737 |       316      255.5      475.5        109   322.9873   257.5174 
+         738 |       344        241      450.5      107.5   301.2558   236.0142 
+         739 |       337        250        470        125   314.9881   240.4455 
+         740 |       342      265.5        442        116   318.0673   256.5178 
+         741 |       345        236        424        111   308.3855   256.3636 
+         742 |       338        254        451        117   312.5385   248.8398 
+         743 |       351        245        498         93   330.6125   289.8082 
+         744 |       326      236.5        493        111   323.6503   273.1572 
+         745 |       306      257.5        519        121   349.8889   290.4724 
+         746 |       332      247.5        499      114.5    319.762   260.7004 
+         747 |       237        312        538        130   374.6582    298.612 
+-------------+------------------------------------------------------------------
+       Total |      8837        216        391         97   273.8309   227.5173 
+
+. esttab X using "$projectdir/output/tables/diagnostic_delay_GPref_rheum_appt.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_GPref_rheum_appt.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/diagnostic_delay_GPref_rheum_appt.csv)
+
+. collapse (p50) p50_diag_delay=time_refgp_rheum_appt (p75) p75_diag_delay=time_refgp_rheum_appt (p25) p25_diag_delay=time_refgp_rheum_appt (mean) mean_diag_delay=time_refgp_rheum_appt (sd) sd_diag_delay=time_refgp_rheum_ap
+> pt (count) n_diag_delay=time_refgp_rheum_appt, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to diagnosis, days", size(medsma
+> ll) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) not
+> e("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_GPref_newey.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =     554.19
+                                                Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   6.204545   .5733937    10.82   0.000     5.037967    7.371124
+    _x2020m3 |   24.30186   4.896036     4.96   0.000      14.3408    34.26293
+  _x_t2020m3 |  -4.236469   .6121952    -6.92   0.000    -5.481989   -2.990948
+       _cons |   109.1667    3.24933    33.60   0.000     102.5559    115.7775
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.968077   .2226506     8.84   0.000     1.515091    2.421063
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_newey.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_newey.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GPref_newey.svg", as(svg) replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_newey.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_newey.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      3.724      1    0.0536 |   1 |      3.724      1    0.0536
+   1 -  2  |      3.752      2    0.1532 |   2 |      0.184      1    0.6680
+   1 -  3  |      3.904      3    0.2721 |   3 |      0.109      1    0.7410
+   1 -  4  |      5.379      4    0.2506 |   4 |      1.595      1    0.2066
+   1 -  5  |      7.758      5    0.1701 |   5 |      0.271      1    0.6026
+   1 -  6  |      8.198      6    0.2240 |   6 |      0.012      1    0.9119
+   1 -  7  |      8.749      7    0.2712 |   7 |      0.359      1    0.5489
+   1 -  8  |     13.563      8    0.0939 |   8 |      1.138      1*   0.2862
+   1 -  9  |     13.831      9    0.1284 |   9 |      4.079      1    0.0434
+   1 - 10  |     13.832      10   0.1808 |  10 |      0.557      1    0.4554
+   1 - 11  |     15.623      11   0.1557 |  11 |      0.018      1*   0.8946
+   1 - 12  |     15.921      12   0.1949 |  12 |      1.842      1*   0.1747
+   1 - 13  |     16.007      13   0.2488 |  13 |      1.732      1    0.1882
+   1 - 14  |     16.057      14   0.3099 |  14 |      0.230      1*   0.6314
+   1 - 15  |     16.082      15   0.3766 |  15 |      0.013      1    0.9079
+   1 - 16  |     17.525      16   0.3524 |  16 |      0.369      1    0.5435
+   1 - 17  |     24.441      17   0.1080 |  17 |      1.928      1*   0.1650
+   1 - 18  |     25.333      18   0.1160 |  18 |      2.018      1*   0.1555
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_diag_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to di
+> agnosis, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 
+> 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_diagnostic_delay_GPref_prais.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.3111
+Iteration 2:   rho = -0.3341
+Iteration 3:   rho = -0.3348
+Iteration 4:   rho = -0.3348
+Iteration 5:   rho = -0.3348
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =     319.38
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.9659
+                                                Root MSE          =     12.451
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_diag_~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   6.629306   .7445475     8.90   0.000     5.114513    8.144099
+    _x2020m3 |   19.84763   6.883264     2.88   0.007     5.843521    33.85173
+  _x_t2020m3 |  -4.569557    .778441    -5.87   0.000    -6.153307   -2.985807
+       _cons |   107.2162   4.356418    24.61   0.000     98.35297    116.0794
+-------------+----------------------------------------------------------------
+         rho |   -.334844
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.598328
+Durbin–Watson statistic (transformed) = 2.002592
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   2.059748   .2333088     8.83   0.000     1.585078    2.534419
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_prais.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_prais.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GPref_prais.svg", as(svg) replace        
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_prais.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_diagnostic_delay_GPref_prais.svg saved as SVG format
+
+. restore
+
+. 
+. /*
+> **Time from last GP appt to rheum referral (all diagnoses)
+> preserve
+> keep if time_gp_rheum_ref_appt!=. //drop those with no last GP appt and/or rheum ref
+> eststo X: estpost tabstat time_gp_rheum_ref_appt, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+> esttab X using "$projectdir/output/tables/referral_delay_GP_to_ref.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+> collapse (p50) p50_ref_delay=time_gp_rheum_ref_appt (p75) p75_ref_delay=time_gp_rheum_ref_appt (p25) p25_ref_delay=time_gp_rheum_ref_appt (mean) mean_ref_delay=time_gp_rheum_ref_appt (sd) sd_ref_delay=time_gp_rheum_ref_ap
+> pt (count) n_ref_delay=time_gp_rheum_ref_appt, by(mo_year_diagn)
+> 
+> tsset mo_year_diagn
+> 
+> **Newey Standard Errors with 6 lags
+> itsa p50_ref_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to referral, days", size(medsmall
+> ) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note(
+> "", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_referral_delay_newey.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_referral_delay_newey.svg", as(svg) replace
+> actest, lag(18) 
+> 
+> **Prais-Winsten 
+> itsa p50_ref_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to ref
+> erral, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 74
+> 6 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_referral_delay_prais.gph", replace)) posttrend 
+>         graph export "$projectdir/output/figures/ITSA_referral_delay_prais.svg", as(svg) replace        
+> restore
+> */
+. 
+. **Time from rheum appt to shared care csDMARD for RA patients (not including MTX high-cost drug) 
+. preserve
+
+. keep if time_to_csdmard!=. & ra_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
+(31,919 observations deleted)
+
+. eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_csdmard
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        99        499        798        280   541.0808   348.1628 
+         711 |       100      583.5      889.5      323.5     610.32   357.1278 
+         712 |        85        476        793        264   539.6235   344.5357 
+         713 |        83        430        797        223   527.4217   365.3151 
+         714 |       101        479        844        298   578.8911    363.959 
+         715 |        90        472        834        255   525.2111   363.0705 
+         716 |        72      551.5        856        280   589.8194    347.452 
+         717 |       107        581        861        246   562.2897   363.2301 
+         718 |        74        477        762        240   537.2027   370.4803 
+         719 |        82        400        784        243   506.3902   343.0332 
+         720 |        97        488        753        245    525.433   349.9805 
+         721 |        82      516.5        894        319   601.3659   362.8385 
+         722 |        65        490        741        276   523.9692      333.4 
+         723 |        83        588        891        363   611.6988   338.5037 
+         724 |        89        485        751        178   514.0674   347.4324 
+         725 |        92      494.5      780.5        225   534.8696   359.8446 
+         726 |        84        613        836        397   616.2738   313.4861 
+         727 |        73        605        908        358    639.726   326.5949 
+         728 |        92      519.5        841      286.5   563.7935   349.0674 
+         729 |       101        550        817        327   592.8218    353.009 
+         730 |        73        595        844        344    597.274    356.834 
+         731 |        85        553        832        313   589.2706   333.3253 
+         732 |        90      608.5        945        319   621.6889   366.1266 
+         733 |        64      512.5        794      271.5   531.9844   347.3297 
+         734 |        80      505.5        792      295.5   550.9625   353.9443 
+         735 |        89        590        834        305   605.3933   333.5295 
+         736 |        96        525        708        305   542.0625   336.3159 
+         737 |        94      507.5        787        322   575.0213   351.8516 
+         738 |        87        573        780        325   581.7241   341.3125 
+         739 |        73        536        849        328   617.8493   366.0161 
+         740 |        94        495        800        261   541.5638   349.4154 
+         741 |        75        471        769        265     518.16   333.6148 
+         742 |        87        522        842        274   564.5057   335.2474 
+         743 |        73        485        818        270   535.5205   315.5818 
+         744 |        86        598        882        303    613.186   350.5263 
+         745 |        93        505        820        226   547.2258   344.4156 
+         746 |        89        593        841        330   606.1685   331.1337 
+         747 |        49        534        786        176   526.3878   384.6301 
+-------------+------------------------------------------------------------------
+       Total |      3228      522.5        824        284   566.5917   348.3619 
+
+. esttab X using "$projectdir/output/tables/csDMARD_delay_RA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/csDMARD_delay_RA.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/csDMARD_delay_RA.csv)
+
+. collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_cs
+> dmard_delay=time_to_csdmard, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsm
+> all) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) no
+> te("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_newey_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =       6.64
+                                                Prob > F          =     0.0012
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_csdma~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.022727   1.946258    -1.04   0.306    -5.982418    1.936964
+    _x2020m3 |   65.47965   20.63693     3.17   0.003     23.49349    107.4658
+  _x_t2020m3 |    1.38465   2.291795     0.60   0.550    -3.278042    6.047343
+       _cons |     507.25   12.86997    39.41   0.000     481.0658    533.4342
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.6380769   1.111212    -0.57   0.570    -2.898855    1.622701
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_ra.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_ra.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.130      1    0.7179 |   1 |      0.130      1    0.7179
+   1 -  2  |      2.438      2    0.2955 |   2 |      2.237      1    0.1347
+   1 -  3  |      2.532      3    0.4695 |   3 |      0.015      1    0.9021
+   1 -  4  |      4.053      4    0.3989 |   4 |      0.408      1    0.5229
+   1 -  5  |      4.068      5    0.5397 |   5 |      0.001      1    0.9765
+   1 -  6  |      5.741      6    0.4528 |   6 |      2.852      1    0.0913
+   1 -  7  |      7.267      7    0.4016 |   7 |      1.285      1    0.2571
+   1 -  8  |      9.232      8    0.3231 |   8 |      3.098      1    0.0784
+   1 -  9  |      9.804      9    0.3666 |   9 |      1.389      1*   0.2385
+   1 - 10  |     11.147      10   0.3461 |  10 |      0.035      1    0.8519
+   1 - 11  |     11.818      11   0.3775 |  11 |      0.394      1    0.5302
+   1 - 12  |     11.825      12   0.4598 |  12 |      0.708      1*   0.4001
+   1 - 13  |     16.582      13   0.2191 |  13 |      1.780      1    0.1821
+   1 - 14  |     16.607      14   0.2777 |  14 |      0.074      1*   0.7850
+   1 - 15  |     19.330      15   0.1992 |  15 |      0.923      1*   0.3368
+   1 - 16  |     19.935      16   0.2232 |  16 |      0.002      1*   0.9666
+   1 - 17  |     20.834      17   0.2338 |  17 |      0.172      1*   0.6788
+   1 - 18  |     24.841      18   0.1294 |  18 |      0.233      1*   0.6296
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to
+>  csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021"
+>  746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_prais_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.0576
+Iteration 2:   rho = -0.0611
+Iteration 3:   rho = -0.0613
+Iteration 4:   rho = -0.0613
+Iteration 5:   rho = -0.0613
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =       2.26
+                                                Prob > F          =     0.1000
+                                                R-squared         =     0.2123
+                                                Root MSE          =     50.583
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_csdma~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.253052   4.021139    -0.56   0.579    -10.43412    5.928017
+    _x2020m3 |   68.42211   36.61265     1.87   0.071    -6.066896    142.9111
+  _x_t2020m3 |   1.530983   4.248921     0.36   0.721    -7.113512    10.17548
+       _cons |   508.1406     26.647    19.07   0.000     453.9269    562.3543
+-------------+----------------------------------------------------------------
+         rho |  -.0612854
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.072121
+Durbin–Watson statistic (transformed) = 1.992734
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.7220685   1.396113    -0.52   0.608    -3.562481    2.118344
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_ra.svg", replace      
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_ra.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to shared care csDMARD for PsA patients (not including MTX high-cost drug)
+. preserve
+
+. keep if time_to_csdmard!=. & psa_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
+(31,916 observations deleted)
+
+. eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_csdmard
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |       105        485        826        227   545.2095   374.1325 
+         711 |        80      539.5      796.5        281    578.975   342.1592 
+         712 |       101        477        816        224   554.1089   384.2075 
+         713 |        86        545        870        224   582.4535   388.0702 
+         714 |        75        542        905        258   591.6533    368.048 
+         715 |        87        429        726        202    492.977   343.5602 
+         716 |        84      628.5        919      328.5   628.9167   360.4422 
+         717 |        94        504        769        266   535.3511   346.5237 
+         718 |        72        441        722        262   495.4167   314.1385 
+         719 |        74      589.5        815        402   603.3108   318.3363 
+         720 |        94      480.5        805        252   526.0851    344.649 
+         721 |        66      475.5        722        323   532.5909     308.73 
+         722 |        84        647        894        319   648.8095   380.9151 
+         723 |        84        492        836      291.5   572.9881   380.5047 
+         724 |        89        498        801        165   536.3258   369.3157 
+         725 |        92        566      897.5        342   611.1087    327.464 
+         726 |        95        514        882        269   567.6737   359.8916 
+         727 |        88      563.5        861      301.5   575.8295   365.3984 
+         728 |        71        490        665        264   515.9718   315.0758 
+         729 |        70      535.5        738        245   521.5429   320.9481 
+         730 |        76      671.5        930        351   648.3947   351.8729 
+         731 |        85        443        778        259      522.6   342.5798 
+         732 |        95        531        819        317   573.9158   338.8817 
+         733 |        77        551        854        392   609.0649   341.8206 
+         734 |        79        471        777        239   538.6962   352.5015 
+         735 |        99        454        709        214   492.1515   327.6715 
+         736 |        83        593        846        282   600.4699   361.8697 
+         737 |        80        469      819.5      293.5     558.95   345.6693 
+         738 |        81        527        821        260   574.7531   368.6042 
+         739 |        96      549.5        892        335   592.3229   358.1465 
+         740 |       110      530.5        762        278   539.4545   303.8412 
+         741 |        99        500        809        335   560.5152   311.4993 
+         742 |        85        453        789        247   524.3059   346.8309 
+         743 |        93        505        838        207   552.1075   389.7526 
+         744 |        73        473        697        285   517.9315   302.0552 
+         745 |        93        444        739        265   539.4409   360.2483 
+         746 |        85        608        862        326   619.0706    371.174 
+         747 |        51        566        921        329   604.5098   351.3643 
+-------------+------------------------------------------------------------------
+       Total |      3231        522        815        279   562.0015   350.2366 
+
+. esttab X using "$projectdir/output/tables/csDMARD_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/csDMARD_delay_PsA.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/csDMARD_delay_PsA.csv)
+
+. collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_cs
+> dmard_delay=time_to_csdmard, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsm
+> all) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) no
+> te("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_newey_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =       3.08
+                                                Prob > F          =     0.0410
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_csdma~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -.9877622   1.655205    -0.60   0.555    -4.355302    2.379778
+    _x2020m3 |    44.8793   19.12724     2.35   0.025     5.964635    83.79397
+  _x_t2020m3 |  -1.233392   1.713852    -0.72   0.477    -4.720249    2.253466
+       _cons |   516.8077   10.18249    50.75   0.000     496.0913    537.5241
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -2.221154   .8604023    -2.58   0.014    -3.971656   -.4706521
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_psa.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_newey_psa.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      8.045      1    0.0046 |   1 |      8.045      1    0.0046
+   1 -  2  |     17.137      2    0.0002 |   2 |      1.342      1    0.2468
+   1 -  3  |     17.838      3    0.0005 |   3 |      6.669      1*   0.0098
+   1 -  4  |     18.606      4    0.0009 |   4 |      3.387      1    0.0657
+   1 -  5  |     19.624      5    0.0015 |   5 |      0.058      1*   0.8101
+   1 -  6  |     22.806      6    0.0009 |   6 |      0.523      1    0.4694
+   1 -  7  |     25.757      7    0.0006 |   7 |      0.701      1    0.4024
+   1 -  8  |     25.772      8    0.0011 |   8 |      0.989      1    0.3200
+   1 -  9  |     26.931      9    0.0014 |   9 |      0.238      1    0.6259
+   1 - 10  |     26.941      10   0.0027 |  10 |      0.013      1*   0.9110
+   1 - 11  |     27.459      11   0.0039 |  11 |      1.269      1    0.2599
+   1 - 12  |     27.846      12   0.0058 |  12 |      2.744      1*   0.0976
+   1 - 13  |     29.583      13   0.0054 |  13 |      0.055      1*   0.8138
+   1 - 14  |     30.063      14   0.0075 |  14 |      1.646      1*   0.1995
+   1 - 15  |     31.054      15   0.0086 |  15 |      3.635      1*   0.0566
+   1 - 16  |     31.059      16   0.0132 |  16 |      0.996      1*   0.3182
+   1 - 17  |     31.254      17   0.0186 |  17 |      0.535      1*   0.4644
+   1 - 18  |     31.274      18   0.0268 |  18 |      1.064      1*   0.3024
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to
+>  csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021"
+>  746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_prais_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.4375
+Iteration 2:   rho = -0.4459
+Iteration 3:   rho = -0.4460
+Iteration 4:   rho = -0.4460
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =       1.50
+                                                Prob > F          =     0.2320
+                                                R-squared         =     0.5393
+                                                Root MSE          =     53.469
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_csdma~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -.2193108   2.440334    -0.09   0.929    -5.184208    4.745587
+    _x2020m3 |   34.79145   26.21132     1.33   0.194    -18.53589    88.11879
+  _x_t2020m3 |  -2.061588   2.718731    -0.76   0.454    -7.592888    3.469711
+       _cons |   515.8069   13.63285    37.84   0.000     488.0706    543.5431
+-------------+----------------------------------------------------------------
+         rho |  -.4459651
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.763778
+Durbin–Watson statistic (transformed) = 2.475571
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -2.280899   1.105425    -2.06   0.047    -4.529903   -.0318956
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_psa.svg", replace     
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_csDMARD_delay_prais_psa.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to shared care MTX for RA patients (not including MTX high-cost drug) 
+. preserve
+
+. keep if time_to_mtx!=. & ra_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or MTX prescription; must have minimum of 6m follow-up after diagnosis
+(33,693 observations deleted)
+
+. eststo X: estpost tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_mtx
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        43        499        829        283   547.7442   360.5063 
+         711 |        48        614      889.5        296   608.3125   350.2102 
+         712 |        29        556        858        283   599.4483   380.8903 
+         713 |        39        517        812        290   552.1795   316.2384 
+         714 |        42      560.5        951        393   658.7143   330.3097 
+         715 |        37        454        785        271   526.6757   367.2329 
+         716 |        39        655        865        423   662.9744   338.9455 
+         717 |        47        457        858        121   516.8085   380.6339 
+         718 |        31        491        661        274   503.9677   297.1863 
+         719 |        40      414.5      845.5        308    536.625   320.4429 
+         720 |        50      488.5        798        232     527.68   349.1379 
+         721 |        34      632.5        894        240   617.8529   386.5532 
+         722 |        25        451        756        312     515.64   329.0467 
+         723 |        36      600.5        908      350.5   599.3056   352.0983 
+         724 |        39        533        799        206   539.8718   338.7113 
+         725 |        37        546        775        348   561.7568   296.8601 
+         726 |        38      643.5        833        454   659.6316   306.3187 
+         727 |        39        601        865        428   628.2564   300.8852 
+         728 |        39        521       1000        309   614.2821     373.66 
+         729 |        43        568        826        274   587.3953   338.2434 
+         730 |        29        512        769        344   555.1724   311.0973 
+         731 |        40        597        919      288.5    622.625   360.6517 
+         732 |        40      626.5      975.5        392        662   354.6202 
+         733 |        30      386.5        741        260   479.9667   312.4512 
+         734 |        33        518        975        220   601.4545   382.5535 
+         735 |        49        691        872        375   652.3469   350.9238 
+         736 |        43        522        700        332   560.6279   339.5646 
+         737 |        37        539        966        318   588.4865   378.5929 
+         738 |        40        603      871.5        320      618.1   366.4656 
+         739 |        28      483.5      816.5        325   589.0357    350.559 
+         740 |        40      467.5      749.5        220      504.9   322.0884 
+         741 |        31        471        795        265   508.2258    313.404 
+         742 |        43        528        782        274   567.0698   302.2203 
+         743 |        48        612        885        335   604.0833   299.9912 
+         744 |        43        717       1018        374   674.4884   359.6872 
+         745 |        44        563        834        269   584.8409   343.4316 
+         746 |        40      678.5      836.5        338     626.05    322.085 
+         747 |        21        423        957        262   583.2381   451.8755 
+-------------+------------------------------------------------------------------
+       Total |      1454        553        842        304   585.0688   342.7353 
+
+. esttab X using "$projectdir/output/tables/MTX_delay_RA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/MTX_delay_RA.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/MTX_delay_RA.csv)
+
+. collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(meds
+> mall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) n
+> ote("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_newey_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =       1.21
+                                                Prob > F          =     0.3221
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_mtx_d~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -3.115385   3.560253    -0.88   0.388    -10.35877    4.128005
+    _x2020m3 |   28.47692   34.46071     0.83   0.415    -41.63393    98.58777
+  _x_t2020m3 |   5.007308   4.230407     1.18   0.245     -3.59952    13.61414
+       _cons |   545.3846   16.86374    32.34   0.000     511.0751    579.6942
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.891923   2.066766     0.92   0.367    -2.312945    6.096791
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_mtx_delay_newey_ra.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_ra.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.641      1    0.4235 |   1 |      0.641      1    0.4235
+   1 -  2  |      0.977      2    0.6137 |   2 |      0.175      1    0.6759
+   1 -  3  |      1.044      3    0.7907 |   3 |      0.240      1    0.6243
+   1 -  4  |      3.031      4    0.5526 |   4 |      1.639      1    0.2005
+   1 -  5  |      3.042      5    0.6935 |   5 |      0.110      1    0.7405
+   1 -  6  |      4.231      6    0.6454 |   6 |      0.344      1    0.5574
+   1 -  7  |      5.129      7    0.6443 |   7 |      0.646      1    0.4215
+   1 -  8  |      6.375      8    0.6053 |   8 |      0.019      1    0.8907
+   1 -  9  |      7.103      9    0.6264 |   9 |      0.694      1    0.4049
+   1 - 10  |      7.858      10   0.6427 |  10 |      0.566      1    0.4517
+   1 - 11  |      8.000      11   0.7133 |  11 |      0.045      1    0.8325
+   1 - 12  |      8.267      12   0.7639 |  12 |      0.000      1    0.9979
+   1 - 13  |     10.966      13   0.6137 |  13 |      2.205      1    0.1376
+   1 - 14  |     15.070      14   0.3734 |  14 |      0.204      1*   0.6517
+   1 - 15  |     15.106      15   0.4438 |  15 |      0.251      1*   0.6161
+   1 - 16  |     15.528      16   0.4863 |  16 |      0.545      1    0.4602
+   1 - 17  |     17.517      17   0.4199 |  17 |      0.070      1*   0.7919
+   1 - 18  |     18.351      18   0.4328 |  18 |      0.104      1*   0.7475
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to met
+> hotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021
+> " 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_prais_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.1249
+Iteration 2:   rho = -0.1393
+Iteration 3:   rho = -0.1406
+Iteration 4:   rho = -0.1407
+Iteration 5:   rho = -0.1407
+Iteration 6:   rho = -0.1407
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =       0.76
+                                                Prob > F          =     0.5245
+                                                R-squared         =     0.1409
+                                                Root MSE          =       78.6
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_mtx_d~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -4.415383   6.033736    -0.73   0.469    -16.69111    7.860346
+    _x2020m3 |   43.02864   56.33407     0.76   0.450    -71.58389    157.6412
+  _x_t2020m3 |   5.957552   6.294425     0.95   0.351    -6.848553    18.76366
+       _cons |   551.0868   29.13131    18.92   0.000     491.8187    610.3549
+-------------+----------------------------------------------------------------
+         rho |  -.1406713
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.194514
+Durbin–Watson statistic (transformed) = 1.980119
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.542169   1.915335     0.81   0.426    -2.354609    5.438946
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_mtx_delay_prais_ra.svg", replace  
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_ra.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to shared care MTX for PsA patients (not including MTX high-cost drug)
+. preserve
+
+. keep if time_to_mtx!=. & psa_code==1 & has_6m_follow_up==1 //drop those with no rheum appt and/or MTX prescription; must have minimum of 6m follow-up after diagnosis
+(33,693 observations deleted)
+
+. eststo X: estpost tabstat time_to_mtx, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_mtx
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |        53        501        742        208   543.6038   360.4645 
+         711 |        35        611        908        330   627.7429   336.8416 
+         712 |        37        475        828        224   508.4865   357.1218 
+         713 |        47        708        923        361   689.0213   390.3286 
+         714 |        33        580        861        328   594.5758   354.6816 
+         715 |        37        583        833        320   586.8649     370.72 
+         716 |        40        652      956.5      319.5    654.225   388.9259 
+         717 |        31        612        957        372   637.6774   342.0088 
+         718 |        28      479.5        669        256   481.1429   299.4055 
+         719 |        31        592        929        402   636.8065   338.9405 
+         720 |        41        661        975        359   676.7073   363.6976 
+         721 |        25        401        754        329     523.52   325.9756 
+         722 |        38      717.5        891        324   676.8947   362.0449 
+         723 |        33        592        808        316   628.1515   384.3988 
+         724 |        48        472      756.5        209   539.4375   383.4514 
+         725 |        38        566        832        341   599.9474   319.3091 
+         726 |        44        513      916.5      284.5     595.75   382.6943 
+         727 |        38        594        932        342   617.1053   372.0799 
+         728 |        34      493.5        860        286   558.4706   336.5243 
+         729 |        32      584.5      751.5        370    574.125   312.8482 
+         730 |        32        800        973        547     754.75   342.2336 
+         731 |        46        439        815        278   536.0435   342.0056 
+         732 |        53        524        715        306   568.3208   356.3135 
+         733 |        29        581        785        407   632.5862   310.0714 
+         734 |        37        451        847        277   561.2162   381.0918 
+         735 |        47        443        673        226   486.0638   314.9452 
+         736 |        38      619.5        962        304   627.8421   356.0886 
+         737 |        35        539        784        324   546.5143    308.271 
+         738 |        28        774       1053      399.5     754.75   403.3119 
+         739 |        49        550        946        335   604.5918   390.5033 
+         740 |        48        605      893.5        375   624.5208   331.4765 
+         741 |        43        625        913        391   641.6047   359.9144 
+         742 |        36        507       1001      190.5   605.6389   445.5661 
+         743 |        50        599        875        229     591.98   387.2964 
+         744 |        35        537        760        410   585.7429   276.3598 
+         745 |        43        581        857        276    570.093   359.9624 
+         746 |        35        765       1099        362      694.8   409.4786 
+         747 |        27        566        834        340   605.3333   341.6962 
+-------------+------------------------------------------------------------------
+       Total |      1454      574.5        870        316    601.608   359.1391 
+
+. esttab X using "$projectdir/output/tables/MTX_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/MTX_delay_PsA.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/MTX_delay_PsA.csv)
+
+. collapse (p50) p50_mtx_delay=time_to_mtx (p75) p75_mtx_delay=time_to_mtx (p25) p25_mtx_delay=time_to_mtx (mean) mean_mtx_delay=time_to_mtx (sd) sd_mtx_delay=time_to_mtx (count) n_mtx_delay=time_to_mtx, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to methotrexate, days", size(meds
+> mall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) n
+> ote("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_newey_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         37
+Maximum lag = 6                                 F(  3,        33) =       0.75
+                                                Prob > F          =     0.5287
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_mtx_d~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.826923   5.250003    -0.54   0.594    -13.50813    7.854287
+    _x2020m3 |   4.635641   54.82667     0.08   0.933    -106.9101    116.1813
+  _x_t2020m3 |   4.604231   4.839249     0.95   0.348    -5.241295    14.44976
+       _cons |   586.8397   32.09511    18.28   0.000     521.5417    652.1377
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.777308   1.764405     1.01   0.321    -1.812402    5.367017
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_mtx_delay_newey_psa.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_newey_psa.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      3.487      1    0.0619 |   1 |      3.487      1    0.0619
+   1 -  2  |      4.602      2    0.1001 |   2 |      0.109      1    0.7411
+   1 -  3  |      5.382      3    0.1459 |   3 |      1.390      1    0.2384
+   1 -  4  |      7.614      4    0.1068 |   4 |      3.283      1    0.0700
+   1 -  5  |     10.687      5    0.0579 |   5 |      0.234      1    0.6285
+   1 -  6  |     14.750      6    0.0223 |   6 |      0.078      1*   0.7799
+   1 -  7  |     15.234      7    0.0331 |   7 |      0.041      1*   0.8388
+   1 -  8  |     18.268      8    0.0193 |   8 |      2.306      1*   0.1289
+   1 -  9  |     18.905      9    0.0260 |   9 |      0.250      1    0.6174
+   1 - 10  |     18.955      10   0.0408 |  10 |      0.228      1    0.6333
+   1 - 11  |     19.413      11   0.0541 |  11 |      0.116      1    0.7332
+   1 - 12  |     23.734      12   0.0221 |  12 |      4.380      1    0.0364
+   1 - 13  |     23.886      13   0.0322 |  13 |      0.158      1*   0.6913
+   1 - 14  |     25.334      14   0.0314 |  14 |      0.092      1    0.7613
+   1 - 15  |     26.119      15   0.0368 |  15 |      2.096      1    0.1477
+   1 - 16  |     26.137      16   0.0521 |  16 |      4.163      1*   0.0413
+   1 - 17  |     26.374      17   0.0679 |  17 |      0.070      1    0.7916
+   1 - 18  |     27.411      18   0.0716 |  18 |      0.526      1    0.4683
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to met
+> hotrexate, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021
+> " 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_mtx_delay_prais_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.2869
+Iteration 2:   rho = -0.3041
+Iteration 3:   rho = -0.3045
+Iteration 4:   rho = -0.3045
+Iteration 5:   rho = -0.3045
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         37
+                                                F(3, 33)          =       0.36
+                                                Prob > F          =     0.7843
+                                                R-squared         =     0.2115
+                                                Root MSE          =      93.42
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_mtx_d~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -1.146064   6.629805    -0.17   0.864     -14.6345    12.34238
+    _x2020m3 |  -19.27439   59.48263    -0.32   0.748    -140.2927    101.7439
+  _x_t2020m3 |   3.121362   6.887177     0.45   0.653    -10.89071    17.13343
+       _cons |   584.2384   35.36442    16.52   0.000      512.289    656.1879
+-------------+----------------------------------------------------------------
+         rho |  -.3045232
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.465857
+Durbin–Watson statistic (transformed) = 2.054645
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.975298   1.970657     1.00   0.323    -2.034034     5.98463
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_mtx_delay_prais_psa.svg", replace 
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_mtx_delay_prais_psa.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to biologic for all EIA patients (data available to 2020-11-27) - for patients who have at least 12 months of follow-up post-diagnosis
+. preserve
+
+. keep if time_to_biologic!=. & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
+(16,291 observations deleted)
+
+. eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_biologic
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |       548        414      699.5      196.5      463.5   319.7826 
+         711 |       511        369        669        176   449.1605   332.9244 
+         712 |       528        419      699.5      221.5   478.0644    317.993 
+         713 |       525        407        658        207   463.4857   319.7281 
+         714 |       492      413.5        672      204.5   465.0549   326.0592 
+         715 |       499        415        694        245   475.1002   320.1164 
+         716 |       484        391        685        220   467.6839   317.8063 
+         717 |       527        385        666        199   464.2922   333.6084 
+         718 |       470      350.5        608        181   416.5149   302.0627 
+         719 |       490      393.5        642        217   460.8571   317.4309 
+         720 |       506      394.5        670        184   461.6225   338.3182 
+         721 |       471        394        670        193   451.2972   316.0242 
+         722 |       510        413        680        212   477.0333   324.1349 
+         723 |       480        384      665.5      215.5   458.1604   314.0859 
+         724 |       509        380        639        208   446.6051   310.7679 
+         725 |       490      415.5        704        204   474.7898   322.6599 
+         726 |       478      390.5        676        204   457.3347   316.3089 
+         727 |       508        351        652      200.5   440.4449   314.6638 
+         728 |       466      391.5        688        173   457.7318   330.3966 
+         729 |       527        425        688        212   474.9336   322.7032 
+         730 |       491        411        671        220   468.9837   326.0449 
+         731 |       499        399        664        227   461.2846   317.9403 
+         732 |       498        399        674        199   462.4076    323.077 
+         733 |       444        385      659.5      185.5    446.518   321.6243 
+         734 |       465        403        633        190   456.0946   331.2095 
+         735 |       540        412      697.5        224   475.5963   330.2816 
+         736 |       491        409        666        215   470.4114     325.14 
+         737 |       504        410      680.5      204.5   476.0873   331.1041 
+         738 |       518        403        669        187   456.4305   320.9287 
+         739 |       524      440.5        707        222   486.3092   318.4046 
+         740 |       534      429.5        686        219   467.9644   310.6272 
+         741 |       510        427        665        194   462.5627    319.808 
+         742 |       501        407        661        212   461.9621   317.9452 
+         743 |       499        427        689        218   476.2445   320.2655 
+         744 |       491        390        650        190   450.1935   320.6264 
+         745 |       478      404.5        659        221   460.2218   313.1473 
+         746 |       513        408        655        218   457.2047   306.6989 
+         747 |       337        386        645        192   440.3323   310.6917 
+-------------+------------------------------------------------------------------
+       Total |     18856        402        670        205   462.0258   320.7521 
+
+. esttab X using "$projectdir/output/tables/Biol_delay_all.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_all.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_all.csv)
+
+. collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (c
+> ount) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(me
+> dsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid)
+>  note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_all.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         21
+Maximum lag = 6                                 F(  3,        17) =       1.25
+                                                Prob > F          =     0.3218
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -1.961538   1.025325    -1.91   0.073    -4.124785     .201708
+    _x2020m3 |   8.072222   10.52957     0.77   0.454    -14.14322    30.28766
+  _x_t2020m3 |   3.186538   2.438205     1.31   0.209    -1.957623      8.3307
+       _cons |   406.2885    6.05927    67.05   0.000     393.5045    419.0724
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |      1.225   2.065431     0.59   0.561    -3.132678    5.582678
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_all.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_all.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_all.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_all.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_all.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.012      1    0.9113 |   1 |      0.012      1    0.9113
+   1 -  2  |      2.719      2    0.2568 |   2 |      2.747      1    0.0974
+   1 -  3  |      4.307      3    0.2301 |   3 |      0.573      1    0.4490
+   1 -  4  |      5.549      4    0.2355 |   4 |      0.763      1    0.3824
+   1 -  5  |      6.501      5    0.2605 |   5 |      0.315      1*   0.5748
+   1 -  6  |      8.832      6    0.1833 |   6 |      0.099      1*   0.7528
+   1 -  7  |      9.307      7    0.2314 |   7 |      0.879      1*   0.3483
+   1 -  8  |     13.818      8    0.0866 |   8 |      0.014      1*   0.9045
+   1 -  9  |     15.835      9    0.0704 |   9 |      1.571      1*   0.2100
+   1 - 10  |     15.946      10   0.1012 |  10 |      0.790      1*   0.3742
+   1 - 11  |     16.307      11   0.1301 |  11 |      1.187      1    0.2760
+   1 - 12  |     16.988      12   0.1500 |  12 |      0.729      1    0.3931
+   1 - 13  |     17.735      13   0.1679 |  13 |      0.073      1    0.7865
+   1 - 14  |     18.096      14   0.2025 |  14 |      1.013      1    0.3141
+   1 - 15  |     18.895      15   0.2185 |  15 |      0.019      1*   0.8913
+   1 - 16  |     18.895      16   0.2741 |  16 |      4.741      1*   0.0295
+   1 - 17  |     21.000      17   0.2263 |  17 |      0.220      1    0.6392
+   1 - 18  |     21.000      18   0.2794 |  18 |      1.107      1    0.2928
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time 
+> to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 20
+> 21" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_all.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = 0.0239
+Iteration 2:   rho = 0.0244
+Iteration 3:   rho = 0.0244
+Iteration 4:   rho = 0.0244
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         21
+                                                F(3, 17)          =       0.53
+                                                Prob > F          =     0.6664
+                                                R-squared         =     0.1151
+                                                Root MSE          =      21.91
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -1.981038   1.691111    -1.17   0.258    -5.548969    1.586893
+    _x2020m3 |   8.312646   16.61423     0.50   0.623    -26.74032    43.36562
+  _x_t2020m3 |   3.196633   3.122436     1.02   0.320     -3.39113    9.784397
+       _cons |   406.3845   12.02572    33.79   0.000     381.0125    431.7566
+-------------+----------------------------------------------------------------
+         rho |   .0244052
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 1.931702
+Durbin–Watson statistic (transformed) = 1.965319
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.215595   2.622279     0.46   0.649     -4.31693    6.748121
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_all.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_all.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_all.svg", replace    
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_all.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_all.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to biologic for RA patients
+. preserve
+
+. keep if time_to_biologic!=. & ra_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
+(28,959 observations deleted)
+
+. eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_biologic
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |       174        474        752        241   506.9943     320.18 
+         711 |       177        369        640        199   436.9944   312.0989 
+         712 |       155        394        691        211   464.1806   310.1291 
+         713 |       152        444      656.5      218.5   483.8289   329.3787 
+         714 |       169        371        609        187   432.2722   316.0919 
+         715 |       161        386        640        203   437.8509   297.1929 
+         716 |       157        402        712        166   457.8726   334.7275 
+         717 |       181        394        659        176   460.8785   331.4334 
+         718 |       157        414        636        253   459.6943   303.7631 
+         719 |       177        400        606        215    452.661   307.2839 
+         720 |       167        438        668        232   492.9042   346.0696 
+         721 |       170        418        675        200   462.5235   315.9124 
+         722 |       160        410        667        220   480.2875   326.7517 
+         723 |       170        347        600        160   410.6235    300.498 
+         724 |       175        393        603        211   445.1314   299.9356 
+         725 |       170        455        766        204   508.1824   348.9005 
+         726 |       147        404        685        246   476.2041   302.9782 
+         727 |       162        355        694        200   453.4444   335.4641 
+         728 |       167        374        729        161    463.503   352.7435 
+         729 |       176        408      703.5      183.5   476.2273   328.7482 
+         730 |       150      385.5        637        220   455.0333   321.1493 
+         731 |       165        374        591        208   427.0061   283.9202 
+         732 |       170        410        664        195   468.9353   321.9613 
+         733 |       135        376        669        190   451.9852   338.9082 
+         734 |       157        363        628        159   443.2866   343.5944 
+         735 |       179        395        730        230   482.9218   335.6138 
+         736 |       174        463        759        254   513.1034   338.7429 
+         737 |       169        477        729        233   515.2071   335.7339 
+         738 |       166        462        736        250   505.1446   337.6365 
+         739 |       163        478        728        213    513.135   339.3511 
+         740 |       159        419        656        239   473.5346   304.7321 
+         741 |       168        382        594        141   419.7976   312.3845 
+         742 |       153        425        674        217   451.7778   293.1739 
+         743 |       162        446        786        220   500.7222   327.9507 
+         744 |       170        366        605        178   436.0588   321.0471 
+         745 |       156        396      600.5      225.5     459.25   321.5864 
+         746 |       158        406        647        232   457.3544   306.5675 
+         747 |       110      388.5        667        178   429.6364   303.9622 
+-------------+------------------------------------------------------------------
+       Total |      6188        407        674        207   465.3282   322.1574 
+
+. esttab X using "$projectdir/output/tables/Biol_delay_ra.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_ra.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_ra.csv)
+
+. collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (c
+> ount) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(me
+> dsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid)
+>  note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         21
+Maximum lag = 6                                 F(  3,        17) =       2.69
+                                                Prob > F          =     0.0787
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -.0629371   2.103207    -0.03   0.976    -4.500317    4.374443
+    _x2020m3 |  -12.33535   17.17226    -0.72   0.482    -48.56566    23.89495
+  _x_t2020m3 |  -.8203963   2.343902    -0.35   0.731    -5.765597    4.124805
+       _cons |   409.0128   14.63377    27.95   0.000     378.1383    439.8874
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.8833333   1.512245    -0.58   0.567    -4.073891    2.307225
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_ra.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_ra.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.480      1    0.4884 |   1 |      0.480      1    0.4884
+   1 -  2  |      5.208      2    0.0740 |   2 |      3.889      1    0.0486
+   1 -  3  |      5.418      3    0.1436 |   3 |      0.195      1*   0.6585
+   1 -  4  |      6.111      4    0.1910 |   4 |      0.156      1    0.6925
+   1 -  5  |      6.170      5    0.2901 |   5 |      0.005      1    0.9414
+   1 -  6  |      8.112      6    0.2300 |   6 |      0.493      1    0.4826
+   1 -  7  |      9.075      7    0.2473 |   7 |      0.060      1    0.8059
+   1 -  8  |      9.247      8    0.3219 |   8 |      0.007      1    0.9317
+   1 -  9  |      9.801      9    0.3669 |   9 |      0.008      1    0.9272
+   1 - 10  |     12.563      10   0.2491 |  10 |      0.208      1    0.6484
+   1 - 11  |     16.384      11   0.1275 |  11 |      0.190      1*   0.6627
+   1 - 12  |     16.687      12   0.1617 |  12 |      2.432      1*   0.1189
+   1 - 13  |     16.687      13   0.2140 |  13 |      0.340      1    0.5600
+   1 - 14  |     17.509      14   0.2301 |  14 |      1.242      1    0.2651
+   1 - 15  |     19.619      15   0.1870 |  15 |      0.752      1*   0.3859
+   1 - 16  |     20.647      16   0.1925 |  16 |      0.980      1    0.3222
+   1 - 17  |     21.000      17   0.2263 |  17 |      0.477      1    0.4896
+   1 - 18  |     21.000      18   0.2794 |  18 |      0.469      1    0.4933
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time 
+> to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 20
+> 21" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_ra.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = -0.1509
+Iteration 2:   rho = -0.1615
+Iteration 3:   rho = -0.1621
+Iteration 4:   rho = -0.1621
+Iteration 5:   rho = -0.1621
+Iteration 6:   rho = -0.1621
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         21
+                                                F(3, 17)          =       0.98
+                                                Prob > F          =     0.4247
+                                                R-squared         =          .
+                                                Root MSE          =     32.871
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |   .3841332   2.765855     0.14   0.891     -5.45131    6.219576
+    _x2020m3 |  -15.04837   25.43313    -0.59   0.562    -68.70758    38.61085
+  _x_t2020m3 |  -1.141635   4.096757    -0.28   0.784    -9.785037    7.501766
+       _cons |   405.8281   20.88761    19.43   0.000     361.7591    449.8971
+-------------+----------------------------------------------------------------
+         rho |  -.1621056
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 2.078358
+Durbin–Watson statistic (transformed) = 1.898588
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.7575022    3.16699    -0.24   0.814    -7.439266    5.924262
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_ra.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_ra.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_ra.svg", replace     
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_ra.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_ra.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to biologic for PsA patients
+. preserve
+
+. keep if time_to_biologic!=. & psa_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
+(28,742 observations deleted)
+
+. eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_biologic
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |       197        377        633        189   435.3503   302.4143 
+         711 |       164      355.5      711.5      174.5   458.8476   352.8984 
+         712 |       191        412        731        229   485.6335   323.6752 
+         713 |       197        370        646        161   429.5584   320.1065 
+         714 |       178        448        737        240   501.5618   343.6429 
+         715 |       172      482.5        734      292.5   528.2616   316.3846 
+         716 |       165        384        647        217   453.9515   311.9227 
+         717 |       174      384.5        673        223   465.5862   317.2779 
+         718 |       142      297.5        592        154    380.493    288.748 
+         719 |       150        402        633        217   472.4733   333.4184 
+         720 |       180      387.5      721.5        173   468.7833   345.5114 
+         721 |       147        365        670        158   438.7143   329.4225 
+         722 |       182      435.5        668        234    483.011   316.3053 
+         723 |       152        418      760.5        231   494.9671   325.9237 
+         724 |       174        370        658        182   438.3506   305.3566 
+         725 |       184      393.5        631        205   443.4402   290.2716 
+         726 |       175        362        685        151   439.0686    325.823 
+         727 |       172      346.5        650        203   439.2442   308.4477 
+         728 |       141        425        662        235   476.0567   320.3113 
+         729 |       173        452        747        234   500.5549   334.6031 
+         730 |       171        419        630        225   457.2398   319.0113 
+         731 |       170        357        619        184   444.5941   341.5621 
+         732 |       149        382        665        202   455.9262   320.5014 
+         733 |       157        383        621        187   427.1529   294.4214 
+         734 |       147        436        652        221   479.2653   333.8995 
+         735 |       174      438.5        714        194   476.2011   326.0217 
+         736 |       153        405        591        203   440.7582   303.8405 
+         737 |       170      391.5        685        170   465.7294   342.5035 
+         738 |       186      333.5        597        161   400.3656   296.4287 
+         739 |       167        467        713        255   491.8084   300.1349 
+         740 |       208      429.5      714.5      225.5   479.5769   317.3928 
+         741 |       172        432        645        214   475.9477   324.0411 
+         742 |       180      419.5      674.5        213   482.7056   337.3435 
+         743 |       153        419        659        234    473.817   303.2053 
+         744 |       174        414        650        215   452.9885   317.3026 
+         745 |       172        362        613        203    428.407   307.5414 
+         746 |       172      432.5        698      233.5    468.064   299.7922 
+         747 |       120      391.5        593        199   426.7833   289.1103 
+-------------+------------------------------------------------------------------
+       Total |      6405        401        670        203    459.929    319.065 
+
+. esttab X using "$projectdir/output/tables/Biol_delay_PsA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_PsA.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_PsA.csv)
+
+. collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (c
+> ount) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(me
+> dsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid)
+>  note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         21
+Maximum lag = 6                                 F(  3,        17) =       0.75
+                                                Prob > F          =     0.5396
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -1.977273   2.628872    -0.75   0.462    -7.523707    3.569161
+    _x2020m3 |   19.84949   31.46619     0.63   0.537    -46.53837    86.23736
+  _x_t2020m3 |   3.627273    4.86253     0.75   0.466    -6.631768    13.88631
+       _cons |   399.6667   18.21124    21.95   0.000     361.2443     438.089
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |       1.65   4.634577     0.36   0.726    -8.128103     11.4281
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_psa.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_psa.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.400      1    0.5273 |   1 |      0.400      1    0.5273
+   1 -  2  |      0.939      2    0.6254 |   2 |      0.419      1    0.5176
+   1 -  3  |      2.187      3    0.5344 |   3 |      1.447      1    0.2290
+   1 -  4  |      7.466      4    0.1132 |   4 |      5.138      1    0.0234
+   1 -  5  |      8.576      5    0.1272 |   5 |      0.204      1*   0.6511
+   1 -  6  |     12.651      6    0.0489 |   6 |      0.045      1*   0.8313
+   1 -  7  |     13.461      7    0.0616 |   7 |      0.992      1*   0.3192
+   1 -  8  |     13.816      8    0.0867 |   8 |      1.237      1*   0.2660
+   1 -  9  |     14.035      9    0.1211 |   9 |      0.107      1    0.7440
+   1 - 10  |     14.036      10   0.1714 |  10 |      0.110      1    0.7397
+   1 - 11  |     14.064      11   0.2295 |  11 |      1.082      1    0.2982
+   1 - 12  |     15.121      12   0.2349 |  12 |      1.826      1    0.1766
+   1 - 13  |     15.469      13   0.2790 |  13 |      0.000      1*   0.9958
+   1 - 14  |     17.294      14   0.2409 |  14 |      1.981      1*   0.1593
+   1 - 15  |     17.298      15   0.3014 |  15 |      0.568      1*   0.4511
+   1 - 16  |     20.982      16   0.1792 |  16 |      0.789      1    0.3743
+   1 - 17  |     21.000      17   0.2263 |  17 |      0.310      1    0.5777
+   1 - 18  |     21.000      18*  0.2794 |  18 |      1.373      1    0.2414
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time 
+> to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 20
+> 21" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_psa.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = 0.1375
+Iteration 2:   rho = 0.1468
+Iteration 3:   rho = 0.1476
+Iteration 4:   rho = 0.1477
+Iteration 5:   rho = 0.1477
+Iteration 6:   rho = 0.1477
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         21
+                                                F(3, 17)          =       0.35
+                                                Prob > F          =     0.7890
+                                                R-squared         =     0.0708
+                                                Root MSE          =     43.796
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.175361   3.106082    -0.70   0.493    -8.728622      4.3779
+    _x2020m3 |    25.8908   34.72889     0.75   0.466    -47.38075    99.16234
+  _x_t2020m3 |   3.234668   5.776933     0.56   0.583    -8.953594    15.42293
+       _cons |   399.6363   22.60164    17.68   0.000      351.951    447.3216
+-------------+----------------------------------------------------------------
+         rho |   .1477287
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 1.706612
+Durbin–Watson statistic (transformed) = 1.940426
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |   1.059308   4.807424     0.22   0.828     -9.08347    11.20209
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_psa.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_psa.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_psa.svg", replace    
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_psa.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_psa.svg saved as SVG format
+
+. restore
+
+. 
+. **Time from rheum appt to biologic for AxSpA patients
+. preserve
+
+. keep if time_to_biologic!=. & anksp_code==1 & has_12m_follow_up==1 //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
+(28,884 observations deleted)
+
+. eststo X: estpost tabstat time_to_biologic, by(mo_year_diagn) stat(count p50 p75 p25 mean sd) 
+
+Summary statistics: count p50 p75 p25 mean sd
+     for variables: time_to_biologic
+  by categories of: mo_year_diagn
+
+mo_year_diag |  e(count)     e(p50)     e(p75)     e(p25)    e(mean)      e(sd) 
+-------------+------------------------------------------------------------------
+         710 |       177        380        714        171   452.0734   335.1402 
+         711 |       170      416.5        682        161   452.4824    335.664 
+         712 |       182      431.5        674        222   481.9451   319.9555 
+         713 |       176        418      680.5        233    483.892   309.2636 
+         714 |       145        389        658        209   458.4483   312.7799 
+         715 |       166        370        603        217   456.1446   339.4688 
+         716 |       162        401        699        273    491.179   307.3895 
+         717 |       172      354.5        667      189.5   466.5756   353.3457 
+         718 |       171        354        599        148   406.7836   308.2102 
+         719 |       163        376        675        233   459.0675    314.835 
+         720 |       159        374        592        160   420.6604   319.3439 
+         721 |       154        408        653        210   450.9156   304.4837 
+         722 |       168      399.5      704.5      204.5   467.4583   331.6527 
+         723 |       158      398.5        629        245   473.8987   312.4122 
+         724 |       160        373      628.5        215   457.1938    329.346 
+         725 |       136        405        705      202.5   475.4632   328.2643 
+         726 |       156      382.5        641        208   460.0449   318.6509 
+         727 |       174        356        620        198   429.5287   301.8645 
+         728 |       158      384.5        644        160   435.2785   315.3076 
+         729 |       178        364        637        214   448.7528   304.1166 
+         730 |       170      426.5        727        215   493.1059   337.6729 
+         731 |       164        444      750.5      284.5   513.0732   320.3072 
+         732 |       179        390        701        199   461.6034   327.9277 
+         733 |       152      419.5        713      167.5   461.6645   333.6865 
+         734 |       161        410        589        213   447.4286    317.112 
+         735 |       187        407        677        223   468.0214   330.6837 
+         736 |       164        381      659.5        206   452.7805   326.8603 
+         737 |       165        382        607        190   446.6909   311.9836 
+         738 |       166        416        676        210   470.5361   322.5959 
+         739 |       194      415.5        682        185   459.0361   314.9688 
+         740 |       167        444        667        176   448.1976   308.5683 
+         741 |       170        448        727        229   491.2824   320.2144 
+         742 |       168      380.5      639.5        205   449.0119    318.945 
+         743 |       184      384.5        665        211    456.712   327.4507 
+         744 |       147        389        698        192   463.2313   325.5709 
+         745 |       150      452.5        732        239   497.7133   308.5678 
+         746 |       183        388        626        194   446.8689   314.4587 
+         747 |       107        382        686        191   466.5234   340.7597 
+-------------+------------------------------------------------------------------
+       Total |      6263        400        666        204   460.9072   321.1068 
+
+. esttab X using "$projectdir/output/tables/Biol_delay_anksp.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_anksp.csv not found)
+(output written to C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/Biol_delay_anksp.csv)
+
+. collapse (p50) p50_biologic_delay=time_to_biologic (p75) p75_biologic_delay=time_to_biologic (p25) p25_biologic_delay=time_to_biologic (mean) mean_biologic_delay=time_to_biologic (sd) sd_biologic_delay=time_to_biologic (c
+> ount) n_biologic_delay=time_to_biologic, by(mo_year_diagn)
+
+. 
+. tsset mo_year_diagn
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+. 
+. **Newey Standard Errors with 6 lags
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to biologic, days", size(me
+> dsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid)
+>  note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_newey_anksp.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Regression with Newey–West standard errors      Number of obs     =         21
+Maximum lag = 6                                 F(  3,        17) =       1.18
+                                                Prob > F          =     0.3470
+
+------------------------------------------------------------------------------
+             |             Newey–West
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.991259    1.70096    -1.76   0.097    -6.579972    .5974542
+    _x2020m3 |   19.22374   12.78023     1.50   0.151      -7.7402    46.18768
+  _x_t2020m3 |   2.632925   3.130312     0.84   0.412    -3.971456    9.237307
+       _cons |   405.8269   9.790533    41.45   0.000     385.1707    426.4831
+------------------------------------------------------------------------------
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.3583333   2.218713    -0.16   0.874     -5.03941    4.322743
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_anksp.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_anksp.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_newey_anksp.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_anksp.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_newey_anksp.svg saved as SVG format
+
+. actest, lag(18) 
+
+Cumby-Huizinga test for autocorrelation (Breusch-Godfrey)
+  H0: variable is MA process up to order q
+  HA: serial correlation present at specified lags >q
+-----------------------------------------------------------------------------
+  H0: q=0 (serially uncorrelated)        |  H0: q=specified lag-1
+  HA: s.c. present at range specified    |  HA: s.c. present at lag specified
+-----------------------------------------+-----------------------------------
+    lags   |      chi2      df     p-val | lag |      chi2      df     p-val
+-----------+-----------------------------+-----+-----------------------------
+   1 -  1  |      0.033      1    0.8566 |   1 |      0.033      1    0.8566
+   1 -  2  |      0.076      2    0.9626 |   2 |      0.051      1    0.8214
+   1 -  3  |      2.051      3    0.5619 |   3 |      1.877      1    0.1706
+   1 -  4  |      2.941      4    0.5678 |   4 |      1.047      1    0.3063
+   1 -  5  |      2.962      5    0.7058 |   5 |      0.049      1    0.8248
+   1 -  6  |     11.271      6    0.0804 |   6 |      5.110      1    0.0238
+   1 -  7  |     11.365      7    0.1235 |   7 |      0.008      1*   0.9280
+   1 -  8  |     14.851      8    0.0621 |   8 |      0.019      1*   0.8900
+   1 -  9  |     14.851      9    0.0951 |   9 |      4.637      1*   0.0313
+   1 - 10  |     15.471      10   0.1158 |  10 |      1.416      1*   0.2341
+   1 - 11  |     15.501      11   0.1607 |  11 |      0.309      1*   0.5781
+   1 - 12  |     16.541      12   0.1677 |  12 |      0.001      1    0.9730
+   1 - 13  |     16.713      13   0.2128 |  13 |      0.806      1    0.3694
+   1 - 14  |     17.544      14   0.2283 |  14 |      0.398      1    0.5282
+   1 - 15  |     19.470      15   0.1932 |  15 |      3.176      1    0.0747
+   1 - 16  |     20.291      16   0.2074 |  16 |      1.152      1    0.2831
+   1 - 17  |     21.000      17   0.2263 |  17 |      0.986      1    0.3206
+   1 - 18  |     21.000      18   0.2794 |  18 |      1.215      1    0.2703
+-----------------------------------------------------------------------------
+  Test allows predetermined regressors/instruments
+  Test requires conditional homoskedasticity
+  * Eigenvalues adjusted to make matrix positive semidefinite
+
+. 
+. **Prais-Winsten 
+. itsa p50_biologic_delay if inrange(mo_year_diagn, tm(2019m3), tm(2020m11)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time 
+> to biologic, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 20
+> 21" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_biologic_delay_prais_anksp.gph", replace)) posttrend 
+
+
+
+Time variable: mo_year_diagn, 2019m3 to 2022m4
+        Delta: 1 month
+
+Iteration 0:   rho = 0.0000
+Iteration 1:   rho = 0.0302
+Iteration 2:   rho = 0.0374
+Iteration 3:   rho = 0.0392
+Iteration 4:   rho = 0.0396
+Iteration 5:   rho = 0.0397
+Iteration 6:   rho = 0.0397
+Iteration 7:   rho = 0.0398
+Iteration 8:   rho = 0.0398
+Iteration 9:   rho = 0.0398
+
+Prais–Winsten AR(1) regression with iterated estimates
+
+Linear regression                               Number of obs     =         21
+                                                F(3, 17)          =       0.54
+                                                Prob > F          =     0.6622
+                                                R-squared         =     0.1011
+                                                Root MSE          =     23.932
+
+------------------------------------------------------------------------------
+             |             Semirobust
+_p50_biolo~y | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          _t |  -2.894009   2.296352    -1.26   0.225    -7.738888    1.950871
+    _x2020m3 |   17.87721    19.8087     0.90   0.379    -23.91551    59.66992
+  _x_t2020m3 |   2.732132   4.275278     0.64   0.531    -6.287917    11.75218
+       _cons |   405.2892   14.42022    28.11   0.000     374.8652    435.7132
+-------------+----------------------------------------------------------------
+         rho |   .0397548
+------------------------------------------------------------------------------
+Durbin–Watson statistic (original)    = 1.705345
+Durbin–Watson statistic (transformed) = 1.751889
+
+
+                    Postintervention Linear Trend: 2020m3
+
+Treated: _b[_t]+_b[_x_t2020m3]
+------------------------------------------------------------------------------
+Linear Trend |      Coef.   Std. Err.      t              [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     Treated |  -.1618766   3.572259    -0.05   0.964    -7.698685    7.374932
+------------------------------------------------------------------------------
+(note:  named style v.small not found in class gsize, default attributes used)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_anksp.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_anksp.gph saved
+
+.         graph export "$projectdir/output/figures/ITSA_biologic_delay_prais_anksp.svg", replace  
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_anksp.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/ITSA_biologic_delay_prais_anksp.svg saved as SVG format
+
+. restore
+
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/itsa_models.log
+  log type:  text
+ closed on:   6 Apr 2022, 14:30:28
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -22,6 +22,10 @@ USER-INSTALLED ADO:
 global projectdir `c(pwd)'
 di "$projectdir"
 
+capture mkdir "$projectdir/output/data"
+capture mkdir "$projectdir/output/figures"
+capture mkdir "$projectdir/output/tables"
+
 global logdir "$projectdir/logs"
 di "$logdir"
 
