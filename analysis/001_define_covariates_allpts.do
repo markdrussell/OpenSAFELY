@@ -1,3 +1,5 @@
+version 16
+
 /*==============================================================================
 DO FILE NAME:			define covariates allpts
 PROJECT:				EIA OpenSAFELY project

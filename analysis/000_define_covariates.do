@@ -1,3 +1,5 @@
+version 16
+
 /*==============================================================================
 DO FILE NAME:			define covariates
 PROJECT:				EIA OpenSAFELY project
