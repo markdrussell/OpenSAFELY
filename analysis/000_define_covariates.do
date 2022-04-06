@@ -690,8 +690,8 @@ bys nuts_region: tab gp_ref_cat, missing
 bys nuts_region: tab gp_ref_cat
 
 gen gp_ref_3d=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
-replace gp_ref_3d=0 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
-lab define gp_ref_3d 1 "Referred within 3 days" 0 "Referral delay >3 days", modify
+replace gp_ref_3d=2 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
+lab define gp_ref_3d 1 "Referred within 3 days" 2 "Referral delay >3 days", modify
 lab val gp_ref_3d gp_ref_3d
 lab var gp_ref_3d "Time to GP referral"
 tab gp_ref_3d, missing
@@ -755,8 +755,8 @@ bys nuts_region: tab ref_appt_cat, missing
 bys nuts_region: tab ref_appt_cat
 
 gen ref_appt_3w=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
-replace ref_appt_3w=0 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
-lab define ref_appt_3w 1 "Seen within 3 weeks" 0 "Assessment delay >3 weeks", modify
+replace ref_appt_3w=2 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
+lab define ref_appt_3w 1 "Seen within 3 weeks" 2 "Assessment delay >3 weeks", modify
 lab val ref_appt_3w ref_appt_3w
 lab var ref_appt_3w "Time to rheumatology assessment"
 tab ref_appt_3w, missing
@@ -813,51 +813,61 @@ bys nuts_region: tabstat time_to_csdmard if psa_code==1 & has_6m_follow_up==1, s
 **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) 
 
-**csDMARD time categories for RA patients (not including high cost MTX prescriptions) - consider restricting to patients with only 12m follow-up
-gen csdmard_6w=1 if time_to_csdmard<=42 & time_to_csdmard!=. 
-recode csdmard_6w .=0
-tab csdmard_6w if ra_code==1 & has_6m_follow_up==1
+**csDMARD time categories for RA patients (not including high cost MTX prescriptions)
 gen csdmard_3m=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
-recode csdmard_3m .=0
+replace csdmard_3m=2 if time_to_csdmard>90 & time_to_csdmard!=.
+lab define csdmard_3m 1 "Yes" 2 "No", modify
+lab val csdmard_3m csdmard_3m
+lab var csdmard_3m "csDMARD within 3 months" 
+tab csdmard_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab csdmard_3m if ra_code==1 & has_6m_follow_up==1
 gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
-recode csdmard_6m .=0
+replace csdmard_6m=2 if time_to_csdmard>180 & time_to_csdmard!=.
+lab define csdmard_6m 1 "Yes" 2 "No", modify
+lab val csdmard_6m csdmard_6m
+lab var csdmard_6m "csDMARD within 6 months" 
+tab csdmard_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab csdmard_6m if ra_code==1 & has_6m_follow_up==1
 gen csdmard_12m=1 if time_to_csdmard<=365 & time_to_csdmard!=. 
-recode csdmard_12m .=0
-tab csdmard_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
-lab define csdmard_6m 0 "No" 1 "Yes", modify
-lab val csdmard_6m csdmard_6m
-lab var csdmard_6m "csDMARD within 6 months"
-lab define csdmard_12m 0 "No" 1 "Yes", modify
+replace csdmard_12m=2 if time_to_csdmard>365 & time_to_csdmard!=.
+lab define csdmard_12m 1 "Yes" 2 "No", modify
 lab val csdmard_12m csdmard_12m
-lab var csdmard_12m "csDMARD within 12 months"
+lab var csdmard_12m "csDMARD within 12 months" 
+tab csdmard_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+tab csdmard_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **csDMARD time categories for RA patients (including high cost MTX prescriptions)
-gen csdmard_hcd_6w=1 if time_to_csdmard_hcd<=42 & time_to_csdmard_hcd!=.
-recode csdmard_hcd_6w .=0
-tab csdmard_hcd_6w if ra_code==1 & has_6m_follow_up==1
-gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=.
-recode csdmard_hcd_3m .=0
+gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=. 
+replace csdmard_hcd_3m=2 if time_to_csdmard_hcd>90 & time_to_csdmard_hcd!=.
+lab define csdmard_hcd_3m 1 "Yes" 2 "No", modify
+lab val csdmard_hcd_3m csdmard_hcd_3m
+lab var csdmard_hcd_3m "csDMARD within 3 months" 
+tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1
-gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=.
-recode csdmard_hcd_6m .=0
+gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=. 
+replace csdmard_hcd_6m=2 if time_to_csdmard_hcd>180 & time_to_csdmard_hcd!=.
+lab define csdmard_hcd_6m 1 "Yes" 2 "No", modify
+lab val csdmard_hcd_6m csdmard_hcd_6m
+lab var csdmard_hcd_6m "csDMARD within 6 months" 
+tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1
-gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=.
-recode csdmard_hcd_12m .=0
+gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=. 
+replace csdmard_hcd_12m=2 if time_to_csdmard_hcd>365 & time_to_csdmard_hcd!=.
+lab define csdmard_hcd_12m 1 "Yes" 2 "No", modify
+lab val csdmard_hcd_12m csdmard_hcd_12m
+lab var csdmard_hcd_12m "csDMARD within 12 months" 
+tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **csDMARD time categories for PsA patients (not including high cost MTX prescriptions)
-tab csdmard_6w if psa_code==1 & has_6m_follow_up==1
-tab csdmard_3m if psa_code==1 & has_6m_follow_up==1
-tab csdmard_6m if psa_code==1 & has_6m_follow_up==1
-tab csdmard_12m if psa_code==1 & has_12m_follow_up==1
+tab csdmard_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab csdmard_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab csdmard_12m if psa_code==1 & has_12m_follow_up==1, missing
 
 **csDMARD time categories for PsA patients (including high cost MTX prescriptions)
-tab csdmard_hcd_6w if psa_code==1 & has_6m_follow_up==1
-tab csdmard_hcd_3m if psa_code==1 & has_6m_follow_up==1
-tab csdmard_hcd_6m if psa_code==1 & has_6m_follow_up==1
-tab csdmard_hcd_12m if psa_code==1 & has_12m_follow_up==1
+tab csdmard_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab csdmard_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab csdmard_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing
 
 **What was first shared care csDMARD (not including high cost MTX prescriptions)
 gen first_csD=""
@@ -918,50 +928,60 @@ bys nuts_region: tabstat time_to_mtx if psa_code==1 & has_6m_follow_up==1, stats
 tabstat time_to_mtx_hcd if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
 
 **Methotrexate time categories for RA patients (not including high-cost MTX) //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-gen mtx_6w=1 if time_to_mtx<=42 & time_to_mtx!=.
-recode mtx_6w .=0
-tab mtx_6w if ra_code==1 & has_6m_follow_up==1
-gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=.
-recode mtx_3m .=0
+gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=. 
+replace mtx_3m=2 if time_to_mtx>90 & time_to_mtx!=.
+lab define mtx_3m 1 "Yes" 2 "No", modify
+lab val mtx_3m mtx_3m
+lab var mtx_3m "Methotrexate within 3 months" 
+tab mtx_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab mtx_3m if ra_code==1 & has_6m_follow_up==1
-gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=.
-recode mtx_6m .=0
+gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=. 
+replace mtx_6m=2 if time_to_mtx>180 & time_to_mtx!=.
+lab define mtx_6m 1 "Yes" 2 "No", modify
+lab val mtx_6m mtx_6m
+lab var mtx_6m "Methotrexate within 6 months" 
+tab mtx_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab mtx_6m if ra_code==1 & has_6m_follow_up==1
 gen mtx_12m=1 if time_to_mtx<=365 & time_to_mtx!=. 
-recode mtx_12m .=0 
-tab mtx_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-lab define mtx_6m 0 "No" 1 "Yes", modify
-lab val mtx_6m mtx_6m
-lab var mtx_6m "Methotrexate within 6 months"
-lab define mtx_12m 0 "No" 1 "Yes", modify
+replace mtx_12m=2 if time_to_mtx>365 & time_to_mtx!=.
+lab define mtx_12m 1 "Yes" 2 "No", modify
 lab val mtx_12m mtx_12m
-lab var mtx_12m "Methotrexate within 12 months"
+lab var mtx_12m "Methotrexate within 12 months" 
+tab mtx_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after mtx script
+tab mtx_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Methotrexate time categories for RA patients (including high-cost MTX)
-gen mtx_hcd_6w=1 if time_to_mtx_hcd<=42 & time_to_mtx_hcd!=.
-recode mtx_hcd_6w .=0
-tab mtx_hcd_6w if ra_code==1 & has_6m_follow_up==1
-gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=.
-recode mtx_hcd_3m .=0
+gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=. 
+replace mtx_hcd_3m=2 if time_to_mtx_hcd>90 & time_to_mtx_hcd!=.
+lab define mtx_hcd_3m 1 "Yes" 2 "No", modify
+lab val mtx_hcd_3m mtx_hcd_3m
+lab var mtx_hcd_3m "Methotrexate within 3 months" 
+tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1
-gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=.
-recode mtx_hcd_6m .=0
+gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=. 
+replace mtx_hcd_6m=2 if time_to_mtx_hcd>180 & time_to_mtx_hcd!=.
+lab define mtx_hcd_6m 1 "Yes" 2 "No", modify
+lab val mtx_hcd_6m mtx_hcd_6m
+lab var mtx_hcd_6m "Methotrexate within 6 months" 
+tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1
-gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=.
-recode mtx_hcd_12m .=0
-tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
+gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=. 
+replace mtx_hcd_12m=2 if time_to_mtx_hcd>365 & time_to_mtx_hcd!=.
+lab define mtx_hcd_12m 1 "Yes" 2 "No", modify
+lab val mtx_hcd_12m mtx_hcd_12m
+lab var mtx_hcd_12m "Methotrexate within 12 months" 
+tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Methotrexate time categories for PsA patients (not including high-cost MTX)
-tab mtx_6w if psa_code==1 & has_6m_follow_up==1
-tab mtx_3m if psa_code==1 & has_6m_follow_up==1
-tab mtx_6m if psa_code==1 & has_6m_follow_up==1
-tab mtx_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+tab mtx_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab mtx_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab mtx_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
 **Methotrexate time categories for PsA patients (including high-cost MTX)
-tab mtx_hcd_6w if psa_code==1 & has_6m_follow_up==1
-tab mtx_hcd_3m if psa_code==1 & has_6m_follow_up==1
-tab mtx_hcd_6m if psa_code==1 & has_6m_follow_up==1
-tab mtx_hcd_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+tab mtx_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab mtx_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab mtx_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
 **Sulfasalazine use
 gen time_to_ssz=(sulfasalazine_date-rheum_appt_date) if sulfasalazine==1 & rheum_appt_date!=. & sulfasalazine_date>rheum_appt_date 
@@ -972,30 +992,32 @@ bys nuts_region: tabstat time_to_ssz if ra_code==1 & has_6m_follow_up==1, stats 
 bys nuts_region: tabstat time_to_ssz if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) //by region for PsA
 
 **Sulfasalazine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-gen ssz_6w=1 if time_to_ssz<=42 & time_to_ssz!=.
-recode ssz_6w .=0
-tab ssz_6w if ra_code==1 & has_6m_follow_up==1
-gen ssz_3m=1 if time_to_ssz<=90 & time_to_ssz!=.
-recode ssz_3m .=0
+gen ssz_3m=1 if time_to_ssz<=90 & time_to_ssz!=. 
+replace ssz_3m=2 if time_to_ssz>90 & time_to_ssz!=.
+lab define ssz_3m 1 "Yes" 2 "No", modify
+lab val ssz_3m ssz_3m
+lab var ssz_3m "Sulfasalazine within 3 months" 
+tab ssz_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab ssz_3m if ra_code==1 & has_6m_follow_up==1
-gen ssz_6m=1 if time_to_ssz<=180 & time_to_ssz!=.
-recode ssz_6m .=0
+gen ssz_6m=1 if time_to_ssz<=180 & time_to_ssz!=. 
+replace ssz_6m=2 if time_to_ssz>180 & time_to_ssz!=.
+lab define ssz_6m 1 "Yes" 2 "No", modify
+lab val ssz_6m ssz_6m
+lab var ssz_6m "Sulfasalazine within 6 months" 
+tab ssz_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab ssz_6m if ra_code==1 & has_6m_follow_up==1
 gen ssz_12m=1 if time_to_ssz<=365 & time_to_ssz!=. 
-recode ssz_12m .=0 
-tab ssz_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-lab define ssz_6m 0 "No" 1 "Yes", modify
-lab val ssz_6m ssz_6m
-lab var ssz_6m "Sulfasalazine within 6 months"
-lab define ssz_12m 0 "No" 1 "Yes", modify
+replace ssz_12m=2 if time_to_ssz>365 & time_to_ssz!=.
+lab define ssz_12m 1 "Yes" 2 "No", modify
 lab val ssz_12m ssz_12m
-lab var ssz_12m "Sulfasalazine within 12 months"
+lab var ssz_12m "Sulfasalazine within 12 months" 
+tab ssz_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after ssz script
+tab ssz_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Sulfasalazine time categories for PsA patients
-tab ssz_6w if psa_code==1 & has_6m_follow_up==1
-tab ssz_3m if psa_code==1 & has_6m_follow_up==1
-tab ssz_6m if psa_code==1 & has_6m_follow_up==1
-tab ssz_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+tab ssz_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab ssz_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab ssz_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
 **Hydroxychloroquine use
 gen time_to_hcq=(hydroxychloroquine_date-rheum_appt_date) if hydroxychloroquine==1 & rheum_appt_date!=. & hydroxychloroquine_date>rheum_appt_date 
@@ -1006,30 +1028,32 @@ bys nuts_region: tabstat time_to_hcq if ra_code==1 & has_6m_follow_up==1, stats 
 bys nuts_region: tabstat time_to_hcq if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) //by region for PsA
 
 **Hydroxychloroquine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-gen hcq_6w=1 if time_to_hcq<=42 & time_to_hcq!=.
-recode hcq_6w .=0
-tab hcq_6w if ra_code==1 & has_6m_follow_up==1
-gen hcq_3m=1 if time_to_hcq<=90 & time_to_hcq!=.
-recode hcq_3m .=0
+gen hcq_3m=1 if time_to_hcq<=90 & time_to_hcq!=. 
+replace hcq_3m=2 if time_to_hcq>90 & time_to_hcq!=.
+lab define hcq_3m 1 "Yes" 2 "No", modify
+lab val hcq_3m hcq_3m
+lab var hcq_3m "Hydroxychloroquine within 3 months" 
+tab hcq_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab hcq_3m if ra_code==1 & has_6m_follow_up==1
-gen hcq_6m=1 if time_to_hcq<=180 & time_to_hcq!=.
-recode hcq_6m .=0
+gen hcq_6m=1 if time_to_hcq<=180 & time_to_hcq!=. 
+replace hcq_6m=2 if time_to_hcq>180 & time_to_hcq!=.
+lab define hcq_6m 1 "Yes" 2 "No", modify
+lab val hcq_6m hcq_6m
+lab var hcq_6m "Hydroxychloroquine within 6 months" 
+tab hcq_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab hcq_6m if ra_code==1 & has_6m_follow_up==1
 gen hcq_12m=1 if time_to_hcq<=365 & time_to_hcq!=. 
-recode hcq_12m .=0 
-tab hcq_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-lab define hcq_6m 0 "No" 1 "Yes", modify
-lab val hcq_6m hcq_6m
-lab var hcq_6m "Hydroxychloroquine within 6 months"
-lab define hcq_12m 0 "No" 1 "Yes", modify
+replace hcq_12m=2 if time_to_hcq>365 & time_to_hcq!=.
+lab define hcq_12m 1 "Yes" 2 "No", modify
 lab val hcq_12m hcq_12m
-lab var hcq_12m "Hydroxychloroquine within 12 months"
+lab var hcq_12m "Hydroxychloroquine within 12 months" 
+tab hcq_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after hcq script
+tab hcq_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Hydroxychloroquine time categories for PsA patients
-tab hcq_6w if psa_code==1 & has_6m_follow_up==1
-tab hcq_3m if psa_code==1 & has_6m_follow_up==1
-tab hcq_6m if psa_code==1 & has_6m_follow_up==1
-tab hcq_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+tab hcq_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab hcq_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab hcq_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
 **Leflunomide use
 gen time_to_lef=(leflunomide_date-rheum_appt_date) if leflunomide==1 & rheum_appt_date!=. & leflunomide_date>rheum_appt_date 
@@ -1040,30 +1064,32 @@ bys nuts_region: tabstat time_to_lef if ra_code==1 & has_6m_follow_up==1, stats 
 bys nuts_region: tabstat time_to_lef if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) //by region for PsA
 
 **Leflunomide time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-gen lef_6w=1 if time_to_lef<=42 & time_to_lef!=.
-recode lef_6w .=0
-tab lef_6w if ra_code==1 & has_6m_follow_up==1
-gen lef_3m=1 if time_to_lef<=90 & time_to_lef!=.
-recode lef_3m .=0
+gen lef_3m=1 if time_to_lef<=90 & time_to_lef!=. 
+replace lef_3m=2 if time_to_lef>90 & time_to_lef!=.
+lab define lef_3m 1 "Yes" 2 "No", modify
+lab val lef_3m lef_3m
+lab var lef_3m "Leflunomide within 3 months" 
+tab lef_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab lef_3m if ra_code==1 & has_6m_follow_up==1
-gen lef_6m=1 if time_to_lef<=180 & time_to_lef!=.
-recode lef_6m .=0
+gen lef_6m=1 if time_to_lef<=180 & time_to_lef!=. 
+replace lef_6m=2 if time_to_lef>180 & time_to_lef!=.
+lab define lef_6m 1 "Yes" 2 "No", modify
+lab val lef_6m lef_6m
+lab var lef_6m "Leflunomide within 6 months" 
+tab lef_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 tab lef_6m if ra_code==1 & has_6m_follow_up==1
 gen lef_12m=1 if time_to_lef<=365 & time_to_lef!=. 
-recode lef_12m .=0 
-tab lef_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-lab define lef_6m 0 "No" 1 "Yes", modify
-lab val lef_6m lef_6m
-lab var lef_6m "Leflunomide within 6 months"
-lab define lef_12m 0 "No" 1 "Yes", modify
+replace lef_12m=2 if time_to_lef>365 & time_to_lef!=.
+lab define lef_12m 1 "Yes" 2 "No", modify
 lab val lef_12m lef_12m
-lab var lef_12m "Leflunomide within 12 months"
+lab var lef_12m "Leflunomide within 12 months" 
+tab lef_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after lef script
+tab lef_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Leflunomide time categories for PsA patients
-tab lef_6w if psa_code==1 & has_6m_follow_up==1
-tab lef_3m if psa_code==1 & has_6m_follow_up==1
-tab lef_6m if psa_code==1 & has_6m_follow_up==1
-tab lef_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+tab lef_3m if psa_code==1 & has_6m_follow_up==1, missing
+tab lef_6m if psa_code==1 & has_6m_follow_up==1, missing
+tab lef_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date (assumes rheum appt present); high_cost drug data available to Nov 2020======================================================================*/
 
@@ -1085,26 +1111,33 @@ tab first_biologic if has_12m_follow_up==1 //for all EIA patients
 bys eia_diagnosis: tab first_biologic if has_12m_follow_up==1
 
 **Biologic time categories (for all patients)
-gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=.
-recode biologic_6m .=0
-tab biologic_6m if has_6m_follow_up==1 //for all EIA patients with at least 6m follow-up
-bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1
-gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=.
-recode biologic_12m .=0
-tab biologic_12m if has_12m_follow_up==1 //for all EIA patients
-bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1
-lab define biologic_6m 0 "No" 1 "Yes", modify
+gen biologic_3m=1 if time_to_biologic<=90 & time_to_biologic!=. 
+replace biologic_3m=2 if time_to_biologic>90 & time_to_biologic!=.
+lab define biologic_3m 1 "Yes" 2 "No", modify
+lab val biologic_3m biologic_3m
+lab var biologic_3m "bDMARD/tsDMARD within 3 months" 
+bys eia_diagnosis: tab biologic_3m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
+bys eia_diagnosis: tab biologic_3m if has_6m_follow_up==1
+gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=. 
+replace biologic_6m=2 if time_to_biologic>180 & time_to_biologic!=.
+lab define biologic_6m 1 "Yes" 2 "No", modify
 lab val biologic_6m biologic_6m
-lab var biologic_6m "bDMARD/tsDMARD within 6 months"
-lab define biologic_12m 0 "No" 1 "Yes", modify
+lab var biologic_6m "bDMARD/tsDMARD within 6 months" 
+bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
+bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1
+gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=. 
+replace biologic_12m=2 if time_to_biologic>365 & time_to_biologic!=.
+lab define biologic_12m 1 "Yes" 2 "No", modify
 lab val biologic_12m biologic_12m
-lab var biologic_12m "bDMARD/tsDMARD within 12 months"
+lab var biologic_12m "bDMARD/tsDMARD within 12 months" 
+bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
+bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1 //for patients with at least 12m registration
 
 **Biologic time categories (by year)
-bys diagnosis_year: tab biologic_6m if has_6m_follow_up==1 //for all EIA patients with at least 6m follow-up
-bys diagnosis_year eia_diagnosis: tab biologic_6m if has_6m_follow_up==1 //for each diagnosis with at least 6m follow-up
-bys diagnosis_year: tab biologic_12m if has_12m_follow_up==1 //for all EIA patients
-bys diagnosis_year eia_diagnosis: tab biologic_12m if has_12m_follow_up==1 //for each diagnosis
+bys diagnosis_year: tab biologic_6m if has_6m_follow_up==1, missing //for all EIA patients with at least 6m follow-up
+bys diagnosis_year eia_diagnosis: tab biologic_6m if has_6m_follow_up==1, missing //for each diagnosis with at least 6m follow-up
+bys diagnosis_year: tab biologic_12m if has_12m_follow_up==1, missing //for all EIA patients
+bys diagnosis_year eia_diagnosis: tab biologic_12m if has_12m_follow_up==1, missing //for each diagnosis
 
 save "$projectdir/output/data/file_eia_all", replace
 

@@ -13,8 +13,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir `c(pwd)'
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir `c(pwd)'
 di "$projectdir"
 
 global logdir "$projectdir/logs"
@@ -83,29 +83,60 @@ restore
 preserve
 table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
-		 gp_ref_3d bin %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
-		 ref_appt_3w bin %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
+		 ) clear
+restore
+
+**With missing data
+preserve
+table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
+	vars(gp_ref_cat cat %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
+		 ref_appt_cat cat %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
 		 ) clear
 restore
 
 *Referral standards, by year of diagnosis
 preserve
-table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
-		 gp_ref_3d bin %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
-		 ref_appt_3w bin %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
 		 ) clear
 restore
 
+**With missing data
+preserve
+table1_mc, by(diagnosis_year) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
+	vars(gp_ref_cat cat %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
+		 ref_appt_cat cat %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
+		 ) clear
+restore
+
+
 *Referral standards, by region
+preserve
+table1_mc, by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+	vars(gp_ref_cat cat %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
+		 ref_appt_cat cat %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
+		 ) clear
+restore
+
+**With missing data
 preserve
 table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
-		 gp_ref_3d bin %3.1f \ ///
+		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
-		 ref_appt_3w bin %3.1f \ ///
+		 ref_appt_3w cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -113,12 +144,12 @@ restore
 preserve
 keep if has_6m_follow_up==1
 table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -126,12 +157,12 @@ restore
 preserve
 keep if has_12m_follow_up==1
 table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_12m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_12m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -139,18 +170,18 @@ restore
 preserve
 keep if has_12m_follow_up==1
 table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 csdmard_12m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 csdmard_12m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -158,12 +189,12 @@ restore
 preserve
 keep if has_6m_follow_up==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -171,12 +202,12 @@ restore
 preserve
 keep if has_12m_follow_up==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_12m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_12m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -184,18 +215,18 @@ restore
 preserve
 keep if has_12m_follow_up==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 csdmard_12m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 csdmard_12m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -203,12 +234,12 @@ restore
 preserve
 keep if has_6m_follow_up==1 & ra_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -216,12 +247,12 @@ restore
 preserve
 keep if has_12m_follow_up==1 & ra_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_12m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_12m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
@@ -229,66 +260,64 @@ restore
 preserve
 keep if has_12m_follow_up==1 & ra_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 csdmard_12m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 csdmard_12m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
-*Drug prescription table at 6 months, for those with at least 6m registration, for all patients by year of diagnosis
+*Drug prescription table at 6 months, for those with at least 6m registration, for PsA patients by year of diagnosis
 preserve
 keep if has_6m_follow_up==1 & psa_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
 		 ) clear
 restore
 
-*Drug prescription table at 12 months, for those with at least 12m registration, by all patients year of diagnosis
+*Drug prescription table at 12 months, for those with at least 12m registration, by PsA patients year of diagnosis
 preserve
 keep if has_12m_follow_up==1 & psa_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_12m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_12m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
 
-*Drug prescription table at 6 and 12 months, for those with at least 12m registration, by all patients year of diagnosis
+*Drug prescription table at 6 and 12 months, for those with at least 12m registration, by PsA patients year of diagnosis
 preserve
 keep if has_12m_follow_up==1 & psa_code==1
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(csdmard_6m bin %3.1f \ ///
-		 csdmard_12m bin %3.1f \ ///
-		 mtx_6m bin %3.1f \ ///
-		 mtx_12m bin %3.1f \ ///
-		 ssz_6m bin %3.1f \ ///
-		 ssz_12m bin %3.1f \ ///
-		 hcq_6m bin %3.1f \ ///
-		 hcq_12m bin %3.1f \ ///
-		 lef_6m bin %3.1f \ ///
-		 lef_12m bin %3.1f \ ///
-		 biologic_6m bin %3.1f \ ///
-		 biologic_12m bin %3.1f \ ///
+	vars(csdmard_6m cat %3.1f \ ///
+		 csdmard_12m cat %3.1f \ ///
+		 mtx_6m cat %3.1f \ ///
+		 mtx_12m cat %3.1f \ ///
+		 ssz_6m cat %3.1f \ ///
+		 ssz_12m cat %3.1f \ ///
+		 hcq_6m cat %3.1f \ ///
+		 hcq_12m cat %3.1f \ ///
+		 lef_6m cat %3.1f \ ///
+		 lef_12m cat %3.1f \ ///
+		 biologic_6m cat %3.1f \ ///
+		 biologic_12m cat %3.1f \ ///
 		 ) clear
 restore
-
-**Consider tables with time categories for GP to rheum ref, rheum ref to rheum appt, by year of diagnosis 
 
 log close

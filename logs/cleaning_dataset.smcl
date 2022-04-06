@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs/cleaning_dataset.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 5 Apr 2022, 15:38:21
+ {txt}opened on:  {res} 5 Apr 2022, 19:51:44
 {txt}
 {com}. 
 . di "$projectdir"
@@ -2455,10 +2455,10 @@ Referred within 3 days {c |}{res}          1        0.97        0.97
 . gen gp_ref_3d=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
 {txt}(34,085 missing values generated)
 
-{com}. replace gp_ref_3d=0 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
+{com}. replace gp_ref_3d=2 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
 {txt}(903 real changes made)
 
-{com}. lab define gp_ref_3d 1 "Referred within 3 days" 0 "Referral delay >3 days", modify
+{com}. lab define gp_ref_3d 1 "Referred within 3 days" 2 "Referral delay >3 days", modify
 {txt}
 {com}. lab val gp_ref_3d gp_ref_3d
 {txt}
@@ -2468,8 +2468,8 @@ Referred within 3 days {c |}{res}          1        0.97        0.97
 
    {txt}Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        903        2.65        2.65
-{txt}Referred within 3 days {c |}{res}         11        0.03        2.68
+Referred within 3 days {c |}{res}         11        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}        903        2.65        2.68
 {txt}                     . {c |}{res}     33,182       97.32      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     34,096      100.00
@@ -2478,8 +2478,8 @@ Referral delay >3 days {c |}{res}        903        2.65        2.65
 
    {txt}Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        903       98.80       98.80
-{txt}Referred within 3 days {c |}{res}         11        1.20      100.00
+Referred within 3 days {c |}{res}         11        1.20        1.20
+{txt}Referral delay >3 days {c |}{res}        903       98.80      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        914      100.00
 {txt}
@@ -2490,8 +2490,8 @@ Referral delay >3 days {c |}{res}        903       98.80       98.80
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        323        2.85        2.85
-{txt}Referred within 3 days {c |}{res}          3        0.03        2.88
+Referred within 3 days {c |}{res}          3        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}        323        2.85        2.88
 {txt}                     . {c |}{res}     10,989       97.12      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     11,315      100.00
@@ -2501,8 +2501,8 @@ Referral delay >3 days {c |}{res}        323        2.85        2.85
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        300        2.66        2.66
-{txt}Referred within 3 days {c |}{res}          3        0.03        2.68
+Referred within 3 days {c |}{res}          3        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}        300        2.66        2.68
 {txt}                     . {c |}{res}     10,985       97.32      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     11,288      100.00
@@ -2512,8 +2512,8 @@ Referral delay >3 days {c |}{res}        300        2.66        2.66
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        280        2.44        2.44
-{txt}Referred within 3 days {c |}{res}          5        0.04        2.48
+Referred within 3 days {c |}{res}          5        0.04        0.04
+{txt}Referral delay >3 days {c |}{res}        280        2.44        2.48
 {txt}                     . {c |}{res}     11,208       97.52      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     11,493      100.00
@@ -2526,8 +2526,8 @@ Referral delay >3 days {c |}{res}        280        2.44        2.44
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        323       99.08       99.08
-{txt}Referred within 3 days {c |}{res}          3        0.92      100.00
+Referred within 3 days {c |}{res}          3        0.92        0.92
+{txt}Referral delay >3 days {c |}{res}        323       99.08      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        326      100.00
 
@@ -2536,8 +2536,8 @@ Referral delay >3 days {c |}{res}        323       99.08       99.08
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        300       99.01       99.01
-{txt}Referred within 3 days {c |}{res}          3        0.99      100.00
+Referred within 3 days {c |}{res}          3        0.99        0.99
+{txt}Referral delay >3 days {c |}{res}        300       99.01      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        303      100.00
 
@@ -2546,8 +2546,8 @@ Referral delay >3 days {c |}{res}        300       99.01       99.01
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        280       98.25       98.25
-{txt}Referred within 3 days {c |}{res}          5        1.75      100.00
+Referred within 3 days {c |}{res}          5        1.75        1.75
+{txt}Referral delay >3 days {c |}{res}        280       98.25      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        285      100.00
 
@@ -2559,8 +2559,8 @@ Referral delay >3 days {c |}{res}        280       98.25       98.25
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         89        0.82        0.82
-{txt}Referred within 3 days {c |}{res}          3        0.03        0.84
+Referred within 3 days {c |}{res}          3        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}         89        0.82        0.84
 {txt}                     . {c |}{res}     10,825       99.16      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     10,917      100.00
@@ -2570,8 +2570,8 @@ Referral delay >3 days {c |}{res}         89        0.82        0.82
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        248        2.28        2.28
-{txt}Referred within 3 days {c |}{res}          4        0.04        2.31
+Referred within 3 days {c |}{res}          4        0.04        0.04
+{txt}Referral delay >3 days {c |}{res}        248        2.28        2.31
 {txt}                     . {c |}{res}     10,645       97.69      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     10,897      100.00
@@ -2581,8 +2581,8 @@ Referral delay >3 days {c |}{res}        248        2.28        2.28
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        478        4.41        4.41
-{txt}Referred within 3 days {c |}{res}          4        0.04        4.45
+Referred within 3 days {c |}{res}          4        0.04        0.04
+{txt}Referral delay >3 days {c |}{res}        478        4.41        4.45
 {txt}                     . {c |}{res}     10,348       95.55      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}     10,830      100.00
@@ -2605,8 +2605,8 @@ Referral delay >3 days {c |}{res}         88        6.06        6.06
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         89       96.74       96.74
-{txt}Referred within 3 days {c |}{res}          3        3.26      100.00
+Referred within 3 days {c |}{res}          3        3.26        3.26
+{txt}Referral delay >3 days {c |}{res}         89       96.74      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}         92      100.00
 
@@ -2615,8 +2615,8 @@ Referral delay >3 days {c |}{res}         89       96.74       96.74
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        248       98.41       98.41
-{txt}Referred within 3 days {c |}{res}          4        1.59      100.00
+Referred within 3 days {c |}{res}          4        1.59        1.59
+{txt}Referral delay >3 days {c |}{res}        248       98.41      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        252      100.00
 
@@ -2625,8 +2625,8 @@ Referral delay >3 days {c |}{res}        248       98.41       98.41
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        478       99.17       99.17
-{txt}Referred within 3 days {c |}{res}          4        0.83      100.00
+Referred within 3 days {c |}{res}          4        0.83        0.83
+{txt}Referral delay >3 days {c |}{res}        478       99.17      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        482      100.00
 
@@ -2647,8 +2647,8 @@ Referral delay >3 days {c |}{res}         88      100.00      100.00
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         85        2.57        2.57
-{txt}Referred within 3 days {c |}{res}          1        0.03        2.60
+Referred within 3 days {c |}{res}          1        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}         85        2.57        2.60
 {txt}                     . {c |}{res}      3,218       97.40      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      3,304      100.00
@@ -2658,8 +2658,8 @@ Referral delay >3 days {c |}{res}         85        2.57        2.57
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         89        2.63        2.63
-{txt}Referred within 3 days {c |}{res}          1        0.03        2.66
+Referred within 3 days {c |}{res}          1        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}         89        2.63        2.66
 {txt}                     . {c |}{res}      3,298       97.34      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      3,388      100.00
@@ -2669,8 +2669,8 @@ Referral delay >3 days {c |}{res}         89        2.63        2.63
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        188        2.73        2.73
-{txt}Referred within 3 days {c |}{res}          2        0.03        2.76
+Referred within 3 days {c |}{res}          2        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}        188        2.73        2.76
 {txt}                     . {c |}{res}      6,706       97.24      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      6,896      100.00
@@ -2680,8 +2680,8 @@ Referral delay >3 days {c |}{res}        188        2.73        2.73
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         84        2.40        2.40
-{txt}Referred within 3 days {c |}{res}          4        0.11        2.52
+Referred within 3 days {c |}{res}          4        0.11        0.11
+{txt}Referral delay >3 days {c |}{res}         84        2.40        2.52
 {txt}                     . {c |}{res}      3,408       97.48      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      3,496      100.00
@@ -2691,8 +2691,8 @@ Referral delay >3 days {c |}{res}         84        2.40        2.40
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         90        2.65        2.65
-{txt}Referred within 3 days {c |}{res}          1        0.03        2.68
+Referred within 3 days {c |}{res}          1        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}         90        2.65        2.68
 {txt}                     . {c |}{res}      3,310       97.32      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      3,401      100.00
@@ -2702,8 +2702,8 @@ Referral delay >3 days {c |}{res}         90        2.65        2.65
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        178        2.61        2.61
-{txt}Referred within 3 days {c |}{res}          1        0.01        2.62
+Referred within 3 days {c |}{res}          1        0.01        0.01
+{txt}Referral delay >3 days {c |}{res}        178        2.61        2.62
 {txt}                     . {c |}{res}      6,644       97.38      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      6,823      100.00
@@ -2723,8 +2723,8 @@ Referral delay >3 days {c |}{res}         87        2.57        2.57
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        102        3.00        3.00
-{txt}Referred within 3 days {c |}{res}          1        0.03        3.03
+Referred within 3 days {c |}{res}          1        0.03        0.03
+{txt}Referral delay >3 days {c |}{res}        102        3.00        3.03
 {txt}                     . {c |}{res}      3,295       96.97      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}      3,398      100.00
@@ -2737,8 +2737,8 @@ Referral delay >3 days {c |}{res}        102        3.00        3.00
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         85       98.84       98.84
-{txt}Referred within 3 days {c |}{res}          1        1.16      100.00
+Referred within 3 days {c |}{res}          1        1.16        1.16
+{txt}Referral delay >3 days {c |}{res}         85       98.84      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}         86      100.00
 
@@ -2747,8 +2747,8 @@ Referral delay >3 days {c |}{res}         85       98.84       98.84
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         89       98.89       98.89
-{txt}Referred within 3 days {c |}{res}          1        1.11      100.00
+Referred within 3 days {c |}{res}          1        1.11        1.11
+{txt}Referral delay >3 days {c |}{res}         89       98.89      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}         90      100.00
 
@@ -2757,8 +2757,8 @@ Referral delay >3 days {c |}{res}         89       98.89       98.89
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        188       98.95       98.95
-{txt}Referred within 3 days {c |}{res}          2        1.05      100.00
+Referred within 3 days {c |}{res}          2        1.05        1.05
+{txt}Referral delay >3 days {c |}{res}        188       98.95      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        190      100.00
 
@@ -2767,8 +2767,8 @@ Referral delay >3 days {c |}{res}        188       98.95       98.95
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         84       95.45       95.45
-{txt}Referred within 3 days {c |}{res}          4        4.55      100.00
+Referred within 3 days {c |}{res}          4        4.55        4.55
+{txt}Referral delay >3 days {c |}{res}         84       95.45      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}         88      100.00
 
@@ -2777,8 +2777,8 @@ Referral delay >3 days {c |}{res}         84       95.45       95.45
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}         90       98.90       98.90
-{txt}Referred within 3 days {c |}{res}          1        1.10      100.00
+Referred within 3 days {c |}{res}          1        1.10        1.10
+{txt}Referral delay >3 days {c |}{res}         90       98.90      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}         91      100.00
 
@@ -2787,8 +2787,8 @@ Referral delay >3 days {c |}{res}         90       98.90       98.90
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        178       99.44       99.44
-{txt}Referred within 3 days {c |}{res}          1        0.56      100.00
+Referred within 3 days {c |}{res}          1        0.56        0.56
+{txt}Referral delay >3 days {c |}{res}        178       99.44      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        179      100.00
 
@@ -2806,8 +2806,8 @@ Referral delay >3 days {c |}{res}         87      100.00      100.00
 
    Time to GP referral {c |}      Freq.     Percent        Cum.
 {hline 23}{c +}{hline 35}
-Referral delay >3 days {c |}{res}        102       99.03       99.03
-{txt}Referred within 3 days {c |}{res}          1        0.97      100.00
+Referred within 3 days {c |}{res}          1        0.97        0.97
+{txt}Referral delay >3 days {c |}{res}        102       99.03      100.00
 {txt}{hline 23}{c +}{hline 35}
                  Total {c |}{res}        103      100.00
 
@@ -3826,10 +3826,10 @@ Referral delay >3 days {c |}{res}        102       99.03       99.03
 . gen ref_appt_3w=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
 {txt}(33,798 missing values generated)
 
-{com}. replace ref_appt_3w=0 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
+{com}. replace ref_appt_3w=2 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
 {txt}(4,886 real changes made)
 
-{com}. lab define ref_appt_3w 1 "Seen within 3 weeks" 0 "Assessment delay >3 weeks", modify
+{com}. lab define ref_appt_3w 1 "Seen within 3 weeks" 2 "Assessment delay >3 weeks", modify
 {txt}
 {com}. lab val ref_appt_3w ref_appt_3w
 {txt}
@@ -3840,8 +3840,8 @@ Referral delay >3 days {c |}{res}        102       99.03       99.03
      {txt}Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      4,886       14.33       14.33
-{txt}      Seen within 3 weeks {c |}{res}        298        0.87       15.20
+      Seen within 3 weeks {c |}{res}        298        0.87        0.87
+{txt}Assessment delay >3 weeks {c |}{res}      4,886       14.33       15.20
 {txt}                        . {c |}{res}     28,912       84.80      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     34,096      100.00
@@ -3851,8 +3851,8 @@ Assessment delay >3 weeks {c |}{res}      4,886       14.33       14.33
      {txt}Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      4,886       94.25       94.25
-{txt}      Seen within 3 weeks {c |}{res}        298        5.75      100.00
+      Seen within 3 weeks {c |}{res}        298        5.75        5.75
+{txt}Assessment delay >3 weeks {c |}{res}      4,886       94.25      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      5,184      100.00
 {txt}
@@ -3864,8 +3864,8 @@ Assessment delay >3 weeks {c |}{res}      4,886       94.25       94.25
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,642       14.51       14.51
-{txt}      Seen within 3 weeks {c |}{res}         93        0.82       15.33
+      Seen within 3 weeks {c |}{res}         93        0.82        0.82
+{txt}Assessment delay >3 weeks {c |}{res}      1,642       14.51       15.33
 {txt}                        . {c |}{res}      9,580       84.67      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     11,315      100.00
@@ -3876,8 +3876,8 @@ Assessment delay >3 weeks {c |}{res}      1,642       14.51       14.51
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,608       14.25       14.25
-{txt}      Seen within 3 weeks {c |}{res}         97        0.86       15.10
+      Seen within 3 weeks {c |}{res}         97        0.86        0.86
+{txt}Assessment delay >3 weeks {c |}{res}      1,608       14.25       15.10
 {txt}                        . {c |}{res}      9,583       84.90      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     11,288      100.00
@@ -3888,8 +3888,8 @@ Assessment delay >3 weeks {c |}{res}      1,608       14.25       14.25
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,636       14.23       14.23
-{txt}      Seen within 3 weeks {c |}{res}        108        0.94       15.17
+      Seen within 3 weeks {c |}{res}        108        0.94        0.94
+{txt}Assessment delay >3 weeks {c |}{res}      1,636       14.23       15.17
 {txt}                        . {c |}{res}      9,749       84.83      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     11,493      100.00
@@ -3903,8 +3903,8 @@ Assessment delay >3 weeks {c |}{res}      1,636       14.23       14.23
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,642       94.64       94.64
-{txt}      Seen within 3 weeks {c |}{res}         93        5.36      100.00
+      Seen within 3 weeks {c |}{res}         93        5.36        5.36
+{txt}Assessment delay >3 weeks {c |}{res}      1,642       94.64      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,735      100.00
 
@@ -3914,8 +3914,8 @@ Assessment delay >3 weeks {c |}{res}      1,642       94.64       94.64
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,608       94.31       94.31
-{txt}      Seen within 3 weeks {c |}{res}         97        5.69      100.00
+      Seen within 3 weeks {c |}{res}         97        5.69        5.69
+{txt}Assessment delay >3 weeks {c |}{res}      1,608       94.31      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,705      100.00
 
@@ -3925,8 +3925,8 @@ Assessment delay >3 weeks {c |}{res}      1,608       94.31       94.31
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,636       93.81       93.81
-{txt}      Seen within 3 weeks {c |}{res}        108        6.19      100.00
+      Seen within 3 weeks {c |}{res}        108        6.19        6.19
+{txt}Assessment delay >3 weeks {c |}{res}      1,636       93.81      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,744      100.00
 
@@ -3939,8 +3939,8 @@ Assessment delay >3 weeks {c |}{res}      1,636       93.81       93.81
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        796        7.29        7.29
-{txt}      Seen within 3 weeks {c |}{res}         69        0.63        7.92
+      Seen within 3 weeks {c |}{res}         69        0.63        0.63
+{txt}Assessment delay >3 weeks {c |}{res}        796        7.29        7.92
 {txt}                        . {c |}{res}     10,052       92.08      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     10,917      100.00
@@ -3951,8 +3951,8 @@ Assessment delay >3 weeks {c |}{res}        796        7.29        7.29
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,569       14.40       14.40
-{txt}      Seen within 3 weeks {c |}{res}         91        0.84       15.23
+      Seen within 3 weeks {c |}{res}         91        0.84        0.84
+{txt}Assessment delay >3 weeks {c |}{res}      1,569       14.40       15.23
 {txt}                        . {c |}{res}      9,237       84.77      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     10,897      100.00
@@ -3963,8 +3963,8 @@ Assessment delay >3 weeks {c |}{res}      1,569       14.40       14.40
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      2,179       20.12       20.12
-{txt}      Seen within 3 weeks {c |}{res}        126        1.16       21.28
+      Seen within 3 weeks {c |}{res}        126        1.16        1.16
+{txt}Assessment delay >3 weeks {c |}{res}      2,179       20.12       21.28
 {txt}                        . {c |}{res}      8,525       78.72      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}     10,830      100.00
@@ -3975,8 +3975,8 @@ Assessment delay >3 weeks {c |}{res}      2,179       20.12       20.12
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        342       23.55       23.55
-{txt}      Seen within 3 weeks {c |}{res}         12        0.83       24.38
+      Seen within 3 weeks {c |}{res}         12        0.83        0.83
+{txt}Assessment delay >3 weeks {c |}{res}        342       23.55       24.38
 {txt}                        . {c |}{res}      1,098       75.62      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,452      100.00
@@ -3990,8 +3990,8 @@ Assessment delay >3 weeks {c |}{res}        342       23.55       23.55
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        796       92.02       92.02
-{txt}      Seen within 3 weeks {c |}{res}         69        7.98      100.00
+      Seen within 3 weeks {c |}{res}         69        7.98        7.98
+{txt}Assessment delay >3 weeks {c |}{res}        796       92.02      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        865      100.00
 
@@ -4001,8 +4001,8 @@ Assessment delay >3 weeks {c |}{res}        796       92.02       92.02
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      1,569       94.52       94.52
-{txt}      Seen within 3 weeks {c |}{res}         91        5.48      100.00
+      Seen within 3 weeks {c |}{res}         91        5.48        5.48
+{txt}Assessment delay >3 weeks {c |}{res}      1,569       94.52      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,660      100.00
 
@@ -4012,8 +4012,8 @@ Assessment delay >3 weeks {c |}{res}      1,569       94.52       94.52
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}      2,179       94.53       94.53
-{txt}      Seen within 3 weeks {c |}{res}        126        5.47      100.00
+      Seen within 3 weeks {c |}{res}        126        5.47        5.47
+{txt}Assessment delay >3 weeks {c |}{res}      2,179       94.53      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      2,305      100.00
 
@@ -4023,8 +4023,8 @@ Assessment delay >3 weeks {c |}{res}      2,179       94.53       94.53
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        342       96.61       96.61
-{txt}      Seen within 3 weeks {c |}{res}         12        3.39      100.00
+      Seen within 3 weeks {c |}{res}         12        3.39        3.39
+{txt}Assessment delay >3 weeks {c |}{res}        342       96.61      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        354      100.00
 
@@ -4037,8 +4037,8 @@ Assessment delay >3 weeks {c |}{res}        342       96.61       96.61
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        459       13.89       13.89
-{txt}      Seen within 3 weeks {c |}{res}         27        0.82       14.71
+      Seen within 3 weeks {c |}{res}         27        0.82        0.82
+{txt}Assessment delay >3 weeks {c |}{res}        459       13.89       14.71
 {txt}                        . {c |}{res}      2,818       85.29      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,304      100.00
@@ -4049,8 +4049,8 @@ Assessment delay >3 weeks {c |}{res}        459       13.89       13.89
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        511       15.08       15.08
-{txt}      Seen within 3 weeks {c |}{res}         32        0.94       16.03
+      Seen within 3 weeks {c |}{res}         32        0.94        0.94
+{txt}Assessment delay >3 weeks {c |}{res}        511       15.08       16.03
 {txt}                        . {c |}{res}      2,845       83.97      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,388      100.00
@@ -4061,8 +4061,8 @@ Assessment delay >3 weeks {c |}{res}        511       15.08       15.08
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        995       14.43       14.43
-{txt}      Seen within 3 weeks {c |}{res}         57        0.83       15.26
+      Seen within 3 weeks {c |}{res}         57        0.83        0.83
+{txt}Assessment delay >3 weeks {c |}{res}        995       14.43       15.26
 {txt}                        . {c |}{res}      5,844       84.74      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      6,896      100.00
@@ -4073,8 +4073,8 @@ Assessment delay >3 weeks {c |}{res}        995       14.43       14.43
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        488       13.96       13.96
-{txt}      Seen within 3 weeks {c |}{res}         38        1.09       15.05
+      Seen within 3 weeks {c |}{res}         38        1.09        1.09
+{txt}Assessment delay >3 weeks {c |}{res}        488       13.96       15.05
 {txt}                        . {c |}{res}      2,970       84.95      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,496      100.00
@@ -4085,8 +4085,8 @@ Assessment delay >3 weeks {c |}{res}        488       13.96       13.96
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        495       14.55       14.55
-{txt}      Seen within 3 weeks {c |}{res}         26        0.76       15.32
+      Seen within 3 weeks {c |}{res}         26        0.76        0.76
+{txt}Assessment delay >3 weeks {c |}{res}        495       14.55       15.32
 {txt}                        . {c |}{res}      2,880       84.68      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,401      100.00
@@ -4097,8 +4097,8 @@ Assessment delay >3 weeks {c |}{res}        495       14.55       14.55
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        983       14.41       14.41
-{txt}      Seen within 3 weeks {c |}{res}         54        0.79       15.20
+      Seen within 3 weeks {c |}{res}         54        0.79        0.79
+{txt}Assessment delay >3 weeks {c |}{res}        983       14.41       15.20
 {txt}                        . {c |}{res}      5,786       84.80      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      6,823      100.00
@@ -4109,8 +4109,8 @@ Assessment delay >3 weeks {c |}{res}        983       14.41       14.41
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        466       13.75       13.75
-{txt}      Seen within 3 weeks {c |}{res}         25        0.74       14.48
+      Seen within 3 weeks {c |}{res}         25        0.74        0.74
+{txt}Assessment delay >3 weeks {c |}{res}        466       13.75       14.48
 {txt}                        . {c |}{res}      2,899       85.52      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,390      100.00
@@ -4121,8 +4121,8 @@ Assessment delay >3 weeks {c |}{res}        466       13.75       13.75
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        489       14.39       14.39
-{txt}      Seen within 3 weeks {c |}{res}         39        1.15       15.54
+      Seen within 3 weeks {c |}{res}         39        1.15        1.15
+{txt}Assessment delay >3 weeks {c |}{res}        489       14.39       15.54
 {txt}                        . {c |}{res}      2,870       84.46      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      3,398      100.00
@@ -4136,8 +4136,8 @@ Assessment delay >3 weeks {c |}{res}        489       14.39       14.39
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        459       94.44       94.44
-{txt}      Seen within 3 weeks {c |}{res}         27        5.56      100.00
+      Seen within 3 weeks {c |}{res}         27        5.56        5.56
+{txt}Assessment delay >3 weeks {c |}{res}        459       94.44      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        486      100.00
 
@@ -4147,8 +4147,8 @@ Assessment delay >3 weeks {c |}{res}        459       94.44       94.44
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        511       94.11       94.11
-{txt}      Seen within 3 weeks {c |}{res}         32        5.89      100.00
+      Seen within 3 weeks {c |}{res}         32        5.89        5.89
+{txt}Assessment delay >3 weeks {c |}{res}        511       94.11      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        543      100.00
 
@@ -4158,8 +4158,8 @@ Assessment delay >3 weeks {c |}{res}        511       94.11       94.11
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        995       94.58       94.58
-{txt}      Seen within 3 weeks {c |}{res}         57        5.42      100.00
+      Seen within 3 weeks {c |}{res}         57        5.42        5.42
+{txt}Assessment delay >3 weeks {c |}{res}        995       94.58      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,052      100.00
 
@@ -4169,8 +4169,8 @@ Assessment delay >3 weeks {c |}{res}        995       94.58       94.58
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        488       92.78       92.78
-{txt}      Seen within 3 weeks {c |}{res}         38        7.22      100.00
+      Seen within 3 weeks {c |}{res}         38        7.22        7.22
+{txt}Assessment delay >3 weeks {c |}{res}        488       92.78      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        526      100.00
 
@@ -4180,8 +4180,8 @@ Assessment delay >3 weeks {c |}{res}        488       92.78       92.78
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        495       95.01       95.01
-{txt}      Seen within 3 weeks {c |}{res}         26        4.99      100.00
+      Seen within 3 weeks {c |}{res}         26        4.99        4.99
+{txt}Assessment delay >3 weeks {c |}{res}        495       95.01      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        521      100.00
 
@@ -4191,8 +4191,8 @@ Assessment delay >3 weeks {c |}{res}        495       95.01       95.01
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        983       94.79       94.79
-{txt}      Seen within 3 weeks {c |}{res}         54        5.21      100.00
+      Seen within 3 weeks {c |}{res}         54        5.21        5.21
+{txt}Assessment delay >3 weeks {c |}{res}        983       94.79      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}      1,037      100.00
 
@@ -4202,8 +4202,8 @@ Assessment delay >3 weeks {c |}{res}        983       94.79       94.79
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        466       94.91       94.91
-{txt}      Seen within 3 weeks {c |}{res}         25        5.09      100.00
+      Seen within 3 weeks {c |}{res}         25        5.09        5.09
+{txt}Assessment delay >3 weeks {c |}{res}        466       94.91      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        491      100.00
 
@@ -4213,8 +4213,8 @@ Assessment delay >3 weeks {c |}{res}        466       94.91       94.91
      Time to rheumatology {c |}
                assessment {c |}      Freq.     Percent        Cum.
 {hline 26}{c +}{hline 35}
-Assessment delay >3 weeks {c |}{res}        489       92.61       92.61
-{txt}      Seen within 3 weeks {c |}{res}         39        7.39      100.00
+      Seen within 3 weeks {c |}{res}         39        7.39        7.39
+{txt}Assessment delay >3 weeks {c |}{res}        489       92.61      100.00
 {txt}{hline 26}{c +}{hline 35}
                     Total {c |}{res}        528      100.00
 
@@ -4882,226 +4882,292 @@ Assessment delay >3 weeks {c |}{res}        489       92.61       92.61
 {txt}{hline 13}{c BT}{hline 50}
 
 {com}. 
-. **csDMARD time categories for RA patients (not including high cost MTX prescriptions) - consider restricting to patients with only 12m follow-up
-. gen csdmard_6w=1 if time_to_csdmard<=42 & time_to_csdmard!=. 
-{txt}(33,793 missing values generated)
+. **csDMARD time categories for RA patients (not including high cost MTX prescriptions)
+. gen csdmard_3m=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
+{txt}(33,399 missing values generated)
 
-{com}. recode csdmard_6w .=0
-{txt}(33793 changes made to {bf:csdmard_6w})
+{com}. replace csdmard_3m=2 if time_to_csdmard>90 & time_to_csdmard!=.
+{txt}(9,161 real changes made)
 
-{com}. tab csdmard_6w if ra_code==1 & has_6m_follow_up==1
+{com}. lab define csdmard_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val csdmard_3m csdmard_3m
+{txt}
+{com}. lab var csdmard_3m "csDMARD within 3 months" 
+{txt}
+{com}. tab csdmard_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
- {txt}csdmard_6w {c |}      Freq.     Percent        Cum.
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,612       99.14       99.14
-{txt}          1 {c |}{res}         92        0.86      100.00
+        Yes {c |}{res}        222        2.07        2.07
+{txt}         No {c |}{res}      2,906       27.15       29.22
+{txt}          . {c |}{res}      7,576       70.78      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,704      100.00
 {txt}
-{com}. gen csdmard_3m=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
-{txt}(33,399 missing values generated)
-
-{com}. recode csdmard_3m .=0
-{txt}(33399 changes made to {bf:csdmard_3m})
-
 {com}. tab csdmard_3m if ra_code==1 & has_6m_follow_up==1
 
- {txt}csdmard_3m {c |}      Freq.     Percent        Cum.
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,482       97.93       97.93
-{txt}          1 {c |}{res}        222        2.07      100.00
+        Yes {c |}{res}        222        7.10        7.10
+{txt}         No {c |}{res}      2,906       92.90      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
+      Total {c |}{res}      3,128      100.00
 {txt}
 {com}. gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
 {txt}(32,629 missing values generated)
 
-{com}. recode csdmard_6m .=0
-{txt}(32629 changes made to {bf:csdmard_6m})
+{com}. replace csdmard_6m=2 if time_to_csdmard>180 & time_to_csdmard!=.
+{txt}(8,391 real changes made)
 
-{com}. tab csdmard_6m if ra_code==1 & has_6m_follow_up==1
-
- {txt}csdmard_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,235       95.62       95.62
-{txt}          1 {c |}{res}        469        4.38      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen csdmard_12m=1 if time_to_csdmard<=365 & time_to_csdmard!=. 
-{txt}(30,843 missing values generated)
-
-{com}. recode csdmard_12m .=0
-{txt}(30843 changes made to {bf:csdmard_12m})
-
-{com}. tab csdmard_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
-
-{txt}csdmard_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,256       90.35       90.35
-{txt}          1 {c |}{res}        989        9.65      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. lab define csdmard_6m 0 "No" 1 "Yes", modify
+{com}. lab define csdmard_6m 1 "Yes" 2 "No", modify
 {txt}
 {com}. lab val csdmard_6m csdmard_6m
 {txt}
-{com}. lab var csdmard_6m "csDMARD within 6 months"
+{com}. lab var csdmard_6m "csDMARD within 6 months" 
 {txt}
-{com}. lab define csdmard_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val csdmard_12m csdmard_12m
-{txt}
-{com}. lab var csdmard_12m "csDMARD within 12 months"
-{txt}
-{com}. 
-. **csDMARD time categories for RA patients (including high cost MTX prescriptions)
-. gen csdmard_hcd_6w=1 if time_to_csdmard_hcd<=42 & time_to_csdmard_hcd!=.
-{txt}(33,737 missing values generated)
-
-{com}. recode csdmard_hcd_6w .=0
-{txt}(33737 changes made to {bf:csdmard_hcd_6w})
-
-{com}. tab csdmard_hcd_6w if ra_code==1 & has_6m_follow_up==1
-
-{txt}csdmard_hcd {c |}
-        _6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,601       99.04       99.04
-{txt}          1 {c |}{res}        103        0.96      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=.
-{txt}(33,281 missing values generated)
-
-{com}. recode csdmard_hcd_3m .=0
-{txt}(33281 changes made to {bf:csdmard_hcd_3m})
-
-{com}. tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1
-
-{txt}csdmard_hcd {c |}
-        _3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,455       97.67       97.67
-{txt}          1 {c |}{res}        249        2.33      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=.
-{txt}(32,391 missing values generated)
-
-{com}. recode csdmard_hcd_6m .=0
-{txt}(32391 changes made to {bf:csdmard_hcd_6m})
-
-{com}. tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1
-
-{txt}csdmard_hcd {c |}
-        _6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,173       95.04       95.04
-{txt}          1 {c |}{res}        531        4.96      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=.
-{txt}(30,290 missing values generated)
-
-{com}. recode csdmard_hcd_12m .=0
-{txt}(30290 changes made to {bf:csdmard_hcd_12m})
-
-{com}. tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
-
-{txt}csdmard_hcd {c |}
-       _12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,084       88.67       88.67
-{txt}          1 {c |}{res}      1,161       11.33      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. 
-. **csDMARD time categories for PsA patients (not including high cost MTX prescriptions)
-. tab csdmard_6w if psa_code==1 & has_6m_follow_up==1
-
- {txt}csdmard_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,646       99.11       99.11
-{txt}          1 {c |}{res}         96        0.89      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab csdmard_3m if psa_code==1 & has_6m_follow_up==1
-
- {txt}csdmard_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,532       98.05       98.05
-{txt}          1 {c |}{res}        210        1.95      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab csdmard_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab csdmard_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
     {txt}csDMARD {c |}
    within 6 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}     10,297       95.86       95.86
-{txt}        Yes {c |}{res}        445        4.14      100.00
+        Yes {c |}{res}        469        4.38        4.38
+{txt}         No {c |}{res}      2,659       24.84       29.22
+{txt}          . {c |}{res}      7,576       70.78      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
+      Total {c |}{res}     10,704      100.00
 {txt}
-{com}. tab csdmard_12m if psa_code==1 & has_12m_follow_up==1
+{com}. tab csdmard_6m if ra_code==1 & has_6m_follow_up==1
+
+    {txt}csDMARD {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        469       14.99       14.99
+{txt}         No {c |}{res}      2,659       85.01      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      3,128      100.00
+{txt}
+{com}. gen csdmard_12m=1 if time_to_csdmard<=365 & time_to_csdmard!=. 
+{txt}(30,843 missing values generated)
+
+{com}. replace csdmard_12m=2 if time_to_csdmard>365 & time_to_csdmard!=.
+{txt}(6,605 real changes made)
+
+{com}. lab define csdmard_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val csdmard_12m csdmard_12m
+{txt}
+{com}. lab var csdmard_12m "csDMARD within 12 months" 
+{txt}
+{com}. tab csdmard_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
     {txt}csDMARD {c |}
   within 12 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,208       90.81       90.81
-{txt}        Yes {c |}{res}        932        9.19      100.00
+        Yes {c |}{res}        989        9.65        9.65
+{txt}         No {c |}{res}      2,002       19.54       29.19
+{txt}          . {c |}{res}      7,254       70.81      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab csdmard_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+    {txt}csDMARD {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        989       33.07       33.07
+{txt}         No {c |}{res}      2,002       66.93      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,991      100.00
+{txt}
+{com}. 
+. **csDMARD time categories for RA patients (including high cost MTX prescriptions)
+. gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=. 
+{txt}(33,281 missing values generated)
+
+{com}. replace csdmard_hcd_3m=2 if time_to_csdmard_hcd>90 & time_to_csdmard_hcd!=.
+{txt}(10,344 real changes made)
+
+{com}. lab define csdmard_hcd_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val csdmard_hcd_3m csdmard_hcd_3m
+{txt}
+{com}. lab var csdmard_hcd_3m "csDMARD within 3 months" 
+{txt}
+{com}. tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        249        2.33        2.33
+{txt}         No {c |}{res}      3,316       30.98       33.31
+{txt}          . {c |}{res}      7,139       66.69      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
+{com}. tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1
+
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        249        6.98        6.98
+{txt}         No {c |}{res}      3,316       93.02      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      3,565      100.00
+{txt}
+{com}. gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=. 
+{txt}(32,391 missing values generated)
+
+{com}. replace csdmard_hcd_6m=2 if time_to_csdmard_hcd>180 & time_to_csdmard_hcd!=.
+{txt}(9,454 real changes made)
+
+{com}. lab define csdmard_hcd_6m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val csdmard_hcd_6m csdmard_hcd_6m
+{txt}
+{com}. lab var csdmard_hcd_6m "csDMARD within 6 months" 
+{txt}
+{com}. tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+    {txt}csDMARD {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        531        4.96        4.96
+{txt}         No {c |}{res}      3,034       28.34       33.31
+{txt}          . {c |}{res}      7,139       66.69      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
+{com}. tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1
+
+    {txt}csDMARD {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        531       14.89       14.89
+{txt}         No {c |}{res}      3,034       85.11      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      3,565      100.00
+{txt}
+{com}. gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=. 
+{txt}(30,290 missing values generated)
+
+{com}. replace csdmard_hcd_12m=2 if time_to_csdmard_hcd>365 & time_to_csdmard_hcd!=.
+{txt}(7,353 real changes made)
+
+{com}. lab define csdmard_hcd_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val csdmard_hcd_12m csdmard_hcd_12m
+{txt}
+{com}. lab var csdmard_hcd_12m "csDMARD within 12 months" 
+{txt}
+{com}. tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+    {txt}csDMARD {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,161       11.33       11.33
+{txt}         No {c |}{res}      2,245       21.91       33.25
+{txt}          . {c |}{res}      6,839       66.75      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+    {txt}csDMARD {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,161       34.09       34.09
+{txt}         No {c |}{res}      2,245       65.91      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      3,406      100.00
+{txt}
+{com}. 
+. **csDMARD time categories for PsA patients (not including high cost MTX prescriptions)
+. tab csdmard_3m if psa_code==1 & has_6m_follow_up==1, missing
+
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        210        1.95        1.95
+{txt}         No {c |}{res}      2,877       26.78       28.74
+{txt}          . {c |}{res}      7,655       71.26      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab csdmard_6m if psa_code==1 & has_6m_follow_up==1, missing
+
+    {txt}csDMARD {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        445        4.14        4.14
+{txt}         No {c |}{res}      2,642       24.60       28.74
+{txt}          . {c |}{res}      7,655       71.26      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab csdmard_12m if psa_code==1 & has_12m_follow_up==1, missing
+
+    {txt}csDMARD {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        932        9.19        9.19
+{txt}         No {c |}{res}      1,974       19.47       28.66
+{txt}          . {c |}{res}      7,234       71.34      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
 {com}. 
 . **csDMARD time categories for PsA patients (including high cost MTX prescriptions)
-. tab csdmard_hcd_6w if psa_code==1 & has_6m_follow_up==1
+. tab csdmard_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
 
-{txt}csdmard_hcd {c |}
-        _6w {c |}      Freq.     Percent        Cum.
+    {txt}csDMARD {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,619       98.85       98.85
-{txt}          1 {c |}{res}        123        1.15      100.00
+        Yes {c |}{res}        252        2.35        2.35
+{txt}         No {c |}{res}      3,243       30.19       32.54
+{txt}          . {c |}{res}      7,247       67.46      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,742      100.00
 {txt}
-{com}. tab csdmard_hcd_3m if psa_code==1 & has_6m_follow_up==1
+{com}. tab csdmard_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
 
-{txt}csdmard_hcd {c |}
-        _3m {c |}      Freq.     Percent        Cum.
+    {txt}csDMARD {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,490       97.65       97.65
-{txt}          1 {c |}{res}        252        2.35      100.00
+        Yes {c |}{res}        524        4.88        4.88
+{txt}         No {c |}{res}      2,971       27.66       32.54
+{txt}          . {c |}{res}      7,247       67.46      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,742      100.00
 {txt}
-{com}. tab csdmard_hcd_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab csdmard_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing
 
-{txt}csdmard_hcd {c |}
-        _6m {c |}      Freq.     Percent        Cum.
+    {txt}csDMARD {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,218       95.12       95.12
-{txt}          1 {c |}{res}        524        4.88      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab csdmard_hcd_12m if psa_code==1 & has_12m_follow_up==1
-
-{txt}csdmard_hcd {c |}
-       _12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,048       89.23       89.23
-{txt}          1 {c |}{res}      1,092       10.77      100.00
+        Yes {c |}{res}      1,092       10.77       10.77
+{txt}         No {c |}{res}      2,178       21.48       32.25
+{txt}          . {c |}{res}      6,870       67.75      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
@@ -5590,217 +5656,291 @@ hydroxychloroquine {c |}{res}        705       15.53       15.53
 
 {com}. 
 . **Methotrexate time categories for RA patients (not including high-cost MTX) //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen mtx_6w=1 if time_to_mtx<=42 & time_to_mtx!=.
-{txt}(33,970 missing values generated)
-
-{com}. recode mtx_6w .=0
-{txt}(33970 changes made to {bf:mtx_6w})
-
-{com}. tab mtx_6w if ra_code==1 & has_6m_follow_up==1
-
-     {txt}mtx_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,669       99.67       99.67
-{txt}          1 {c |}{res}         35        0.33      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=.
+. gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=. 
 {txt}(33,824 missing values generated)
 
-{com}. recode mtx_3m .=0
-{txt}(33824 changes made to {bf:mtx_3m})
+{com}. replace mtx_3m=2 if time_to_mtx>90 & time_to_mtx!=.
+{txt}(4,186 real changes made)
 
+{com}. lab define mtx_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val mtx_3m mtx_3m
+{txt}
+{com}. lab var mtx_3m "Methotrexate within 3 months" 
+{txt}
+{com}. tab mtx_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         84        0.78        0.78
+{txt}         No {c |}{res}      1,354       12.65       13.43
+{txt}          . {c |}{res}      9,266       86.57      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
 {com}. tab mtx_3m if ra_code==1 & has_6m_follow_up==1
 
-     {txt}mtx_3m {c |}      Freq.     Percent        Cum.
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,620       99.22       99.22
-{txt}          1 {c |}{res}         84        0.78      100.00
+        Yes {c |}{res}         84        5.84        5.84
+{txt}         No {c |}{res}      1,354       94.16      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
+      Total {c |}{res}      1,438      100.00
 {txt}
-{com}. gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=.
+{com}. gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=. 
 {txt}(33,489 missing values generated)
 
-{com}. recode mtx_6m .=0
-{txt}(33489 changes made to {bf:mtx_6m})
+{com}. replace mtx_6m=2 if time_to_mtx>180 & time_to_mtx!=.
+{txt}(3,851 real changes made)
 
-{com}. tab mtx_6m if ra_code==1 & has_6m_follow_up==1
-
-     {txt}mtx_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,510       98.19       98.19
-{txt}          1 {c |}{res}        194        1.81      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen mtx_12m=1 if time_to_mtx<=365 & time_to_mtx!=. 
-{txt}(32,729 missing values generated)
-
-{com}. recode mtx_12m .=0 
-{txt}(32729 changes made to {bf:mtx_12m})
-
-{com}. tab mtx_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-    {txt}mtx_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,818       95.83       95.83
-{txt}          1 {c |}{res}        427        4.17      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. lab define mtx_6m 0 "No" 1 "Yes", modify
+{com}. lab define mtx_6m 1 "Yes" 2 "No", modify
 {txt}
 {com}. lab val mtx_6m mtx_6m
 {txt}
-{com}. lab var mtx_6m "Methotrexate within 6 months"
+{com}. lab var mtx_6m "Methotrexate within 6 months" 
 {txt}
-{com}. lab define mtx_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val mtx_12m mtx_12m
-{txt}
-{com}. lab var mtx_12m "Methotrexate within 12 months"
-{txt}
-{com}. 
-. **Methotrexate time categories for RA patients (including high-cost MTX)
-. gen mtx_hcd_6w=1 if time_to_mtx_hcd<=42 & time_to_mtx_hcd!=.
-{txt}(33,907 missing values generated)
-
-{com}. recode mtx_hcd_6w .=0
-{txt}(33907 changes made to {bf:mtx_hcd_6w})
-
-{com}. tab mtx_hcd_6w if ra_code==1 & has_6m_follow_up==1
-
- {txt}mtx_hcd_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,656       99.55       99.55
-{txt}          1 {c |}{res}         48        0.45      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=.
-{txt}(33,689 missing values generated)
-
-{com}. recode mtx_hcd_3m .=0
-{txt}(33689 changes made to {bf:mtx_hcd_3m})
-
-{com}. tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1
-
- {txt}mtx_hcd_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,589       98.93       98.93
-{txt}          1 {c |}{res}        115        1.07      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=.
-{txt}(33,215 missing values generated)
-
-{com}. recode mtx_hcd_6m .=0
-{txt}(33215 changes made to {bf:mtx_hcd_6m})
-
-{com}. tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1
-
- {txt}mtx_hcd_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,438       97.51       97.51
-{txt}          1 {c |}{res}        266        2.49      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=.
-{txt}(32,078 missing values generated)
-
-{com}. recode mtx_hcd_12m .=0
-{txt}(32078 changes made to {bf:mtx_hcd_12m})
-
-{com}. tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-{txt}mtx_hcd_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,621       93.91       93.91
-{txt}          1 {c |}{res}        624        6.09      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. 
-. **Methotrexate time categories for PsA patients (not including high-cost MTX)
-. tab mtx_6w if psa_code==1 & has_6m_follow_up==1
-
-     {txt}mtx_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,705       99.66       99.66
-{txt}          1 {c |}{res}         37        0.34      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab mtx_3m if psa_code==1 & has_6m_follow_up==1
-
-     {txt}mtx_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,669       99.32       99.32
-{txt}          1 {c |}{res}         73        0.68      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab mtx_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab mtx_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
 {txt}Methotrexat {c |}
  e within 6 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}     10,563       98.33       98.33
-{txt}        Yes {c |}{res}        179        1.67      100.00
+        Yes {c |}{res}        194        1.81        1.81
+{txt}         No {c |}{res}      1,244       11.62       13.43
+{txt}          . {c |}{res}      9,266       86.57      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
+      Total {c |}{res}     10,704      100.00
 {txt}
-{com}. tab mtx_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+{com}. tab mtx_6m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Methotrexat {c |}
+ e within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        194       13.49       13.49
+{txt}         No {c |}{res}      1,244       86.51      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      1,438      100.00
+{txt}
+{com}. gen mtx_12m=1 if time_to_mtx<=365 & time_to_mtx!=. 
+{txt}(32,729 missing values generated)
+
+{com}. replace mtx_12m=2 if time_to_mtx>365 & time_to_mtx!=.
+{txt}(3,091 real changes made)
+
+{com}. lab define mtx_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val mtx_12m mtx_12m
+{txt}
+{com}. lab var mtx_12m "Methotrexate within 12 months" 
+{txt}
+{com}. tab mtx_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after mtx script
 
 {txt}Methotrexat {c |}
 e within 12 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,745       96.10       96.10
-{txt}        Yes {c |}{res}        395        3.90      100.00
+        Yes {c |}{res}        427        4.17        4.17
+{txt}         No {c |}{res}        948        9.25       13.42
+{txt}          . {c |}{res}      8,870       86.58      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab mtx_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}Methotrexat {c |}
+e within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        427       31.05       31.05
+{txt}         No {c |}{res}        948       68.95      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      1,375      100.00
+{txt}
+{com}. 
+. **Methotrexate time categories for RA patients (including high-cost MTX)
+. gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=. 
+{txt}(33,689 missing values generated)
+
+{com}. replace mtx_hcd_3m=2 if time_to_mtx_hcd>90 & time_to_mtx_hcd!=.
+{txt}(5,912 real changes made)
+
+{com}. lab define mtx_hcd_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val mtx_hcd_3m mtx_hcd_3m
+{txt}
+{com}. lab var mtx_hcd_3m "Methotrexate within 3 months" 
+{txt}
+{com}. tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        115        1.07        1.07
+{txt}         No {c |}{res}      1,927       18.00       19.08
+{txt}          . {c |}{res}      8,662       80.92      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
+{com}. tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        115        5.63        5.63
+{txt}         No {c |}{res}      1,927       94.37      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,042      100.00
+{txt}
+{com}. gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=. 
+{txt}(33,215 missing values generated)
+
+{com}. replace mtx_hcd_6m=2 if time_to_mtx_hcd>180 & time_to_mtx_hcd!=.
+{txt}(5,438 real changes made)
+
+{com}. lab define mtx_hcd_6m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val mtx_hcd_6m mtx_hcd_6m
+{txt}
+{com}. lab var mtx_hcd_6m "Methotrexate within 6 months" 
+{txt}
+{com}. tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Methotrexat {c |}
+ e within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        266        2.49        2.49
+{txt}         No {c |}{res}      1,776       16.59       19.08
+{txt}          . {c |}{res}      8,662       80.92      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
+{com}. tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Methotrexat {c |}
+ e within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        266       13.03       13.03
+{txt}         No {c |}{res}      1,776       86.97      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,042      100.00
+{txt}
+{com}. gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=. 
+{txt}(32,078 missing values generated)
+
+{com}. replace mtx_hcd_12m=2 if time_to_mtx_hcd>365 & time_to_mtx_hcd!=.
+{txt}(4,301 real changes made)
+
+{com}. lab define mtx_hcd_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val mtx_hcd_12m mtx_hcd_12m
+{txt}
+{com}. lab var mtx_hcd_12m "Methotrexate within 12 months" 
+{txt}
+{com}. tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Methotrexat {c |}
+e within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        624        6.09        6.09
+{txt}         No {c |}{res}      1,330       12.98       19.07
+{txt}          . {c |}{res}      8,291       80.93      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}Methotrexat {c |}
+e within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        624       31.93       31.93
+{txt}         No {c |}{res}      1,330       68.07      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      1,954      100.00
+{txt}
+{com}. 
+. **Methotrexate time categories for PsA patients (not including high-cost MTX)
+. tab mtx_3m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         73        0.68        0.68
+{txt}         No {c |}{res}      1,307       12.17       12.85
+{txt}          . {c |}{res}      9,362       87.15      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab mtx_6m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Methotrexat {c |}
+ e within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        179        1.67        1.67
+{txt}         No {c |}{res}      1,201       11.18       12.85
+{txt}          . {c |}{res}      9,362       87.15      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab mtx_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
+
+{txt}Methotrexat {c |}
+e within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        395        3.90        3.90
+{txt}         No {c |}{res}        905        8.93       12.82
+{txt}          . {c |}{res}      8,840       87.18      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
 {com}. 
 . **Methotrexate time categories for PsA patients (including high-cost MTX)
-. tab mtx_hcd_6w if psa_code==1 & has_6m_follow_up==1
+. tab mtx_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
 
- {txt}mtx_hcd_6w {c |}      Freq.     Percent        Cum.
+{txt}Methotrexat {c |}
+ e within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,676       99.39       99.39
-{txt}          1 {c |}{res}         66        0.61      100.00
+        Yes {c |}{res}        123        1.15        1.15
+{txt}         No {c |}{res}      1,849       17.21       18.36
+{txt}          . {c |}{res}      8,770       81.64      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,742      100.00
 {txt}
-{com}. tab mtx_hcd_3m if psa_code==1 & has_6m_follow_up==1
+{com}. tab mtx_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
 
- {txt}mtx_hcd_3m {c |}      Freq.     Percent        Cum.
+{txt}Methotrexat {c |}
+ e within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,619       98.85       98.85
-{txt}          1 {c |}{res}        123        1.15      100.00
+        Yes {c |}{res}        271        2.52        2.52
+{txt}         No {c |}{res}      1,701       15.84       18.36
+{txt}          . {c |}{res}      8,770       81.64      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,742      100.00
 {txt}
-{com}. tab mtx_hcd_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab mtx_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
 
- {txt}mtx_hcd_6m {c |}      Freq.     Percent        Cum.
+{txt}Methotrexat {c |}
+e within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,471       97.48       97.48
-{txt}          1 {c |}{res}        271        2.52      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab mtx_hcd_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-{txt}mtx_hcd_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,559       94.27       94.27
-{txt}          1 {c |}{res}        581        5.73      100.00
+        Yes {c |}{res}        581        5.73        5.73
+{txt}         No {c |}{res}      1,259       12.42       18.15
+{txt}          . {c |}{res}      8,300       81.85      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
@@ -6093,117 +6233,146 @@ e within 12 {c |}
 
 {com}. 
 . **Sulfasalazine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen ssz_6w=1 if time_to_ssz<=42 & time_to_ssz!=.
-{txt}(34,041 missing values generated)
-
-{com}. recode ssz_6w .=0
-{txt}(34041 changes made to {bf:ssz_6w})
-
-{com}. tab ssz_6w if ra_code==1 & has_6m_follow_up==1
-
-     {txt}ssz_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,689       99.86       99.86
-{txt}          1 {c |}{res}         15        0.14      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen ssz_3m=1 if time_to_ssz<=90 & time_to_ssz!=.
+. gen ssz_3m=1 if time_to_ssz<=90 & time_to_ssz!=. 
 {txt}(33,959 missing values generated)
 
-{com}. recode ssz_3m .=0
-{txt}(33959 changes made to {bf:ssz_3m})
+{com}. replace ssz_3m=2 if time_to_ssz>90 & time_to_ssz!=.
+{txt}(2,230 real changes made)
 
+{com}. lab define ssz_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val ssz_3m ssz_3m
+{txt}
+{com}. lab var ssz_3m "Sulfasalazine within 3 months" 
+{txt}
+{com}. tab ssz_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Sulfasalazi {c |}
+ne within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         37        0.35        0.35
+{txt}         No {c |}{res}        714        6.67        7.02
+{txt}          . {c |}{res}      9,953       92.98      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
 {com}. tab ssz_3m if ra_code==1 & has_6m_follow_up==1
 
-     {txt}ssz_3m {c |}      Freq.     Percent        Cum.
+{txt}Sulfasalazi {c |}
+ne within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,667       99.65       99.65
-{txt}          1 {c |}{res}         37        0.35      100.00
+        Yes {c |}{res}         37        4.93        4.93
+{txt}         No {c |}{res}        714       95.07      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
+      Total {c |}{res}        751      100.00
 {txt}
-{com}. gen ssz_6m=1 if time_to_ssz<=180 & time_to_ssz!=.
+{com}. gen ssz_6m=1 if time_to_ssz<=180 & time_to_ssz!=. 
 {txt}(33,803 missing values generated)
 
-{com}. recode ssz_6m .=0
-{txt}(33803 changes made to {bf:ssz_6m})
+{com}. replace ssz_6m=2 if time_to_ssz>180 & time_to_ssz!=.
+{txt}(2,074 real changes made)
 
-{com}. tab ssz_6m if ra_code==1 & has_6m_follow_up==1
-
-     {txt}ssz_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,614       99.16       99.16
-{txt}          1 {c |}{res}         90        0.84      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen ssz_12m=1 if time_to_ssz<=365 & time_to_ssz!=. 
-{txt}(33,406 missing values generated)
-
-{com}. recode ssz_12m .=0 
-{txt}(33406 changes made to {bf:ssz_12m})
-
-{com}. tab ssz_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-    {txt}ssz_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,049       98.09       98.09
-{txt}          1 {c |}{res}        196        1.91      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. lab define ssz_6m 0 "No" 1 "Yes", modify
+{com}. lab define ssz_6m 1 "Yes" 2 "No", modify
 {txt}
 {com}. lab val ssz_6m ssz_6m
 {txt}
-{com}. lab var ssz_6m "Sulfasalazine within 6 months"
+{com}. lab var ssz_6m "Sulfasalazine within 6 months" 
 {txt}
-{com}. lab define ssz_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val ssz_12m ssz_12m
-{txt}
-{com}. lab var ssz_12m "Sulfasalazine within 12 months"
-{txt}
-{com}. 
-. **Sulfasalazine time categories for PsA patients
-. tab ssz_6w if psa_code==1 & has_6m_follow_up==1
-
-     {txt}ssz_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,720       99.80       99.80
-{txt}          1 {c |}{res}         22        0.20      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab ssz_3m if psa_code==1 & has_6m_follow_up==1
-
-     {txt}ssz_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,687       99.49       99.49
-{txt}          1 {c |}{res}         55        0.51      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab ssz_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab ssz_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
 {txt}Sulfasalazi {c |}
 ne within 6 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}     10,648       99.12       99.12
-{txt}        Yes {c |}{res}         94        0.88      100.00
+        Yes {c |}{res}         90        0.84        0.84
+{txt}         No {c |}{res}        661        6.18        7.02
+{txt}          . {c |}{res}      9,953       92.98      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
+      Total {c |}{res}     10,704      100.00
 {txt}
-{com}. tab ssz_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+{com}. tab ssz_6m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Sulfasalazi {c |}
+ne within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         90       11.98       11.98
+{txt}         No {c |}{res}        661       88.02      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        751      100.00
+{txt}
+{com}. gen ssz_12m=1 if time_to_ssz<=365 & time_to_ssz!=. 
+{txt}(33,406 missing values generated)
+
+{com}. replace ssz_12m=2 if time_to_ssz>365 & time_to_ssz!=.
+{txt}(1,677 real changes made)
+
+{com}. lab define ssz_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val ssz_12m ssz_12m
+{txt}
+{com}. lab var ssz_12m "Sulfasalazine within 12 months" 
+{txt}
+{com}. tab ssz_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after ssz script
 
 {txt}Sulfasalazi {c |}
   ne within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,946       98.09       98.09
-{txt}        Yes {c |}{res}        194        1.91      100.00
+        Yes {c |}{res}        196        1.91        1.91
+{txt}         No {c |}{res}        520        5.08        6.99
+{txt}          . {c |}{res}      9,529       93.01      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab ssz_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}Sulfasalazi {c |}
+  ne within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        196       27.37       27.37
+{txt}         No {c |}{res}        520       72.63      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        716      100.00
+{txt}
+{com}. 
+. **Sulfasalazine time categories for PsA patients
+. tab ssz_3m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Sulfasalazi {c |}
+ne within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         55        0.51        0.51
+{txt}         No {c |}{res}        714        6.65        7.16
+{txt}          . {c |}{res}      9,973       92.84      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab ssz_6m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Sulfasalazi {c |}
+ne within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         94        0.88        0.88
+{txt}         No {c |}{res}        675        6.28        7.16
+{txt}          . {c |}{res}      9,973       92.84      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab ssz_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
+
+{txt}Sulfasalazi {c |}
+  ne within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        194        1.91        1.91
+{txt}         No {c |}{res}        530        5.23        7.14
+{txt}          . {c |}{res}      9,416       92.86      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
@@ -6496,119 +6665,155 @@ ne within 6 {c |}
 
 {com}. 
 . **Hydroxychloroquine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen hcq_6w=1 if time_to_hcq<=42 & time_to_hcq!=.
-{txt}(34,025 missing values generated)
-
-{com}. recode hcq_6w .=0
-{txt}(34025 changes made to {bf:hcq_6w})
-
-{com}. tab hcq_6w if ra_code==1 & has_6m_follow_up==1
-
-     {txt}hcq_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,680       99.78       99.78
-{txt}          1 {c |}{res}         24        0.22      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen hcq_3m=1 if time_to_hcq<=90 & time_to_hcq!=.
+. gen hcq_3m=1 if time_to_hcq<=90 & time_to_hcq!=. 
 {txt}(33,938 missing values generated)
 
-{com}. recode hcq_3m .=0
-{txt}(33938 changes made to {bf:hcq_3m})
+{com}. replace hcq_3m=2 if time_to_hcq>90 & time_to_hcq!=.
+{txt}(2,244 real changes made)
 
+{com}. lab define hcq_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val hcq_3m hcq_3m
+{txt}
+{com}. lab var hcq_3m "Hydroxychloroquine within 3 months" 
+{txt}
+{com}. tab hcq_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         57        0.53        0.53
+{txt}         No {c |}{res}        706        6.60        7.13
+{txt}          . {c |}{res}      9,941       92.87      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
 {com}. tab hcq_3m if ra_code==1 & has_6m_follow_up==1
 
-     {txt}hcq_3m {c |}      Freq.     Percent        Cum.
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,647       99.47       99.47
-{txt}          1 {c |}{res}         57        0.53      100.00
+        Yes {c |}{res}         57        7.47        7.47
+{txt}         No {c |}{res}        706       92.53      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
+      Total {c |}{res}        763      100.00
 {txt}
-{com}. gen hcq_6m=1 if time_to_hcq<=180 & time_to_hcq!=.
+{com}. gen hcq_6m=1 if time_to_hcq<=180 & time_to_hcq!=. 
 {txt}(33,771 missing values generated)
 
-{com}. recode hcq_6m .=0
-{txt}(33771 changes made to {bf:hcq_6m})
+{com}. replace hcq_6m=2 if time_to_hcq>180 & time_to_hcq!=.
+{txt}(2,077 real changes made)
 
-{com}. tab hcq_6m if ra_code==1 & has_6m_follow_up==1
-
-     {txt}hcq_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,594       98.97       98.97
-{txt}          1 {c |}{res}        110        1.03      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen hcq_12m=1 if time_to_hcq<=365 & time_to_hcq!=. 
-{txt}(33,378 missing values generated)
-
-{com}. recode hcq_12m .=0 
-{txt}(33378 changes made to {bf:hcq_12m})
-
-{com}. tab hcq_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-    {txt}hcq_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,018       97.78       97.78
-{txt}          1 {c |}{res}        227        2.22      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. lab define hcq_6m 0 "No" 1 "Yes", modify
+{com}. lab define hcq_6m 1 "Yes" 2 "No", modify
 {txt}
 {com}. lab val hcq_6m hcq_6m
 {txt}
-{com}. lab var hcq_6m "Hydroxychloroquine within 6 months"
+{com}. lab var hcq_6m "Hydroxychloroquine within 6 months" 
 {txt}
-{com}. lab define hcq_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val hcq_12m hcq_12m
-{txt}
-{com}. lab var hcq_12m "Hydroxychloroquine within 12 months"
-{txt}
-{com}. 
-. **Hydroxychloroquine time categories for PsA patients
-. tab hcq_6w if psa_code==1 & has_6m_follow_up==1
-
-     {txt}hcq_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,719       99.79       99.79
-{txt}          1 {c |}{res}         23        0.21      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab hcq_3m if psa_code==1 & has_6m_follow_up==1
-
-     {txt}hcq_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,692       99.53       99.53
-{txt}          1 {c |}{res}         50        0.47      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab hcq_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab hcq_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
 {txt}Hydroxychlo {c |}
     roquine {c |}
    within 6 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}     10,638       99.03       99.03
-{txt}        Yes {c |}{res}        104        0.97      100.00
+        Yes {c |}{res}        110        1.03        1.03
+{txt}         No {c |}{res}        653        6.10        7.13
+{txt}          . {c |}{res}      9,941       92.87      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
+      Total {c |}{res}     10,704      100.00
 {txt}
-{com}. tab hcq_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+{com}. tab hcq_6m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        110       14.42       14.42
+{txt}         No {c |}{res}        653       85.58      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        763      100.00
+{txt}
+{com}. gen hcq_12m=1 if time_to_hcq<=365 & time_to_hcq!=. 
+{txt}(33,378 missing values generated)
+
+{com}. replace hcq_12m=2 if time_to_hcq>365 & time_to_hcq!=.
+{txt}(1,684 real changes made)
+
+{com}. lab define hcq_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val hcq_12m hcq_12m
+{txt}
+{com}. lab var hcq_12m "Hydroxychloroquine within 12 months" 
+{txt}
+{com}. tab hcq_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after hcq script
 
 {txt}Hydroxychlo {c |}
     roquine {c |}
   within 12 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,929       97.92       97.92
-{txt}        Yes {c |}{res}        211        2.08      100.00
+        Yes {c |}{res}        227        2.22        2.22
+{txt}         No {c |}{res}        493        4.81        7.03
+{txt}          . {c |}{res}      9,525       92.97      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab hcq_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        227       31.53       31.53
+{txt}         No {c |}{res}        493       68.47      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        720      100.00
+{txt}
+{com}. 
+. **Hydroxychloroquine time categories for PsA patients
+. tab hcq_3m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         50        0.47        0.47
+{txt}         No {c |}{res}        681        6.34        6.81
+{txt}          . {c |}{res}     10,011       93.19      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab hcq_6m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        104        0.97        0.97
+{txt}         No {c |}{res}        627        5.84        6.81
+{txt}          . {c |}{res}     10,011       93.19      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab hcq_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
+
+{txt}Hydroxychlo {c |}
+    roquine {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        211        2.08        2.08
+{txt}         No {c |}{res}        480        4.73        6.81
+{txt}          . {c |}{res}      9,449       93.19      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
@@ -6901,117 +7106,146 @@ ne within 6 {c |}
 
 {com}. 
 . **Leflunomide time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen lef_6w=1 if time_to_lef<=42 & time_to_lef!=.
-{txt}(34,042 missing values generated)
-
-{com}. recode lef_6w .=0
-{txt}(34042 changes made to {bf:lef_6w})
-
-{com}. tab lef_6w if ra_code==1 & has_6m_follow_up==1
-
-     {txt}lef_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,686       99.83       99.83
-{txt}          1 {c |}{res}         18        0.17      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen lef_3m=1 if time_to_lef<=90 & time_to_lef!=.
+. gen lef_3m=1 if time_to_lef<=90 & time_to_lef!=. 
 {txt}(33,957 missing values generated)
 
-{com}. recode lef_3m .=0
-{txt}(33957 changes made to {bf:lef_3m})
+{com}. replace lef_3m=2 if time_to_lef>90 & time_to_lef!=.
+{txt}(2,204 real changes made)
 
+{com}. lab define lef_3m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val lef_3m lef_3m
+{txt}
+{com}. lab var lef_3m "Leflunomide within 3 months" 
+{txt}
+{com}. tab lef_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
+
+{txt}Leflunomide {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         45        0.42        0.42
+{txt}         No {c |}{res}        696        6.50        6.92
+{txt}          . {c |}{res}      9,963       93.08      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+{txt}
 {com}. tab lef_3m if ra_code==1 & has_6m_follow_up==1
 
-     {txt}lef_3m {c |}      Freq.     Percent        Cum.
+{txt}Leflunomide {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,659       99.58       99.58
-{txt}          1 {c |}{res}         45        0.42      100.00
+        Yes {c |}{res}         45        6.07        6.07
+{txt}         No {c |}{res}        696       93.93      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
+      Total {c |}{res}        741      100.00
 {txt}
-{com}. gen lef_6m=1 if time_to_lef<=180 & time_to_lef!=.
+{com}. gen lef_6m=1 if time_to_lef<=180 & time_to_lef!=. 
 {txt}(33,809 missing values generated)
 
-{com}. recode lef_6m .=0
-{txt}(33809 changes made to {bf:lef_6m})
+{com}. replace lef_6m=2 if time_to_lef>180 & time_to_lef!=.
+{txt}(2,056 real changes made)
 
-{com}. tab lef_6m if ra_code==1 & has_6m_follow_up==1
-
-     {txt}lef_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,616       99.18       99.18
-{txt}          1 {c |}{res}         88        0.82      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,704      100.00
-{txt}
-{com}. gen lef_12m=1 if time_to_lef<=365 & time_to_lef!=. 
-{txt}(33,430 missing values generated)
-
-{com}. recode lef_12m .=0 
-{txt}(33430 changes made to {bf:lef_12m})
-
-{com}. tab lef_12m if ra_code==1 & has_12m_follow_up==1 //with a least 12m registration
-
-    {txt}lef_12m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,047       98.07       98.07
-{txt}          1 {c |}{res}        198        1.93      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,245      100.00
-{txt}
-{com}. lab define lef_6m 0 "No" 1 "Yes", modify
+{com}. lab define lef_6m 1 "Yes" 2 "No", modify
 {txt}
 {com}. lab val lef_6m lef_6m
 {txt}
-{com}. lab var lef_6m "Leflunomide within 6 months"
+{com}. lab var lef_6m "Leflunomide within 6 months" 
 {txt}
-{com}. lab define lef_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val lef_12m lef_12m
-{txt}
-{com}. lab var lef_12m "Leflunomide within 12 months"
-{txt}
-{com}. 
-. **Leflunomide time categories for PsA patients
-. tab lef_6w if psa_code==1 & has_6m_follow_up==1
-
-     {txt}lef_6w {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,726       99.85       99.85
-{txt}          1 {c |}{res}         16        0.15      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab lef_3m if psa_code==1 & has_6m_follow_up==1
-
-     {txt}lef_3m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     10,706       99.66       99.66
-{txt}          1 {c |}{res}         36        0.34      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
-{txt}
-{com}. tab lef_6m if psa_code==1 & has_6m_follow_up==1
+{com}. tab lef_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
 
 {txt}Leflunomide {c |}
    within 6 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}     10,658       99.22       99.22
-{txt}        Yes {c |}{res}         84        0.78      100.00
+        Yes {c |}{res}         88        0.82        0.82
+{txt}         No {c |}{res}        653        6.10        6.92
+{txt}          . {c |}{res}      9,963       93.08      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     10,742      100.00
+      Total {c |}{res}     10,704      100.00
 {txt}
-{com}. tab lef_12m if psa_code==1 & has_12m_follow_up==1 //with a least 12m registration
+{com}. tab lef_6m if ra_code==1 & has_6m_follow_up==1
+
+{txt}Leflunomide {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         88       11.88       11.88
+{txt}         No {c |}{res}        653       88.12      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        741      100.00
+{txt}
+{com}. gen lef_12m=1 if time_to_lef<=365 & time_to_lef!=. 
+{txt}(33,430 missing values generated)
+
+{com}. replace lef_12m=2 if time_to_lef>365 & time_to_lef!=.
+{txt}(1,677 real changes made)
+
+{com}. lab define lef_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val lef_12m lef_12m
+{txt}
+{com}. lab var lef_12m "Leflunomide within 12 months" 
+{txt}
+{com}. tab lef_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after lef script
 
 {txt}Leflunomide {c |}
   within 12 {c |}
      months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,959       98.21       98.21
-{txt}        Yes {c |}{res}        181        1.79      100.00
+        Yes {c |}{res}        198        1.93        1.93
+{txt}         No {c |}{res}        514        5.02        6.95
+{txt}          . {c |}{res}      9,533       93.05      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,245      100.00
+{txt}
+{com}. tab lef_12m if ra_code==1 & has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}Leflunomide {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        198       27.81       27.81
+{txt}         No {c |}{res}        514       72.19      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        712      100.00
+{txt}
+{com}. 
+. **Leflunomide time categories for PsA patients
+. tab lef_3m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Leflunomide {c |}
+   within 3 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         36        0.34        0.34
+{txt}         No {c |}{res}        676        6.29        6.63
+{txt}          . {c |}{res}     10,030       93.37      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab lef_6m if psa_code==1 & has_6m_follow_up==1, missing
+
+{txt}Leflunomide {c |}
+   within 6 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}         84        0.78        0.78
+{txt}         No {c |}{res}        628        5.85        6.63
+{txt}          . {c |}{res}     10,030       93.37      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+{txt}
+{com}. tab lef_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
+
+{txt}Leflunomide {c |}
+  within 12 {c |}
+     months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        181        1.79        1.79
+{txt}         No {c |}{res}        487        4.80        6.59
+{txt}          . {c |}{res}      9,472       93.41      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 {txt}
@@ -7341,121 +7575,288 @@ first_biolog {c |}
 {txt}
 {com}. 
 . **Biologic time categories (for all patients)
-. gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=.
-{txt}(29,685 missing values generated)
+. gen biologic_3m=1 if time_to_biologic<=90 & time_to_biologic!=. 
+{txt}(31,969 missing values generated)
 
-{com}. recode biologic_6m .=0
-{txt}(29685 changes made to {bf:biologic_6m})
+{com}. replace biologic_3m=2 if time_to_biologic>90 & time_to_biologic!=.
+{txt}(18,266 real changes made)
 
-{com}. tab biologic_6m if has_6m_follow_up==1 //for all EIA patients with at least 6m follow-up
-
-{txt}biologic_6m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     28,181       87.07       87.07
-{txt}          1 {c |}{res}      4,184       12.93      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     32,365      100.00
+{com}. lab define biologic_3m 1 "Yes" 2 "No", modify
 {txt}
-{com}. bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1
+{com}. lab val biologic_3m biologic_3m
+{txt}
+{com}. lab var biologic_3m "bDMARD/tsDMARD within 3 months" 
+{txt}
+{com}. bys eia_diagnosis: tab biologic_3m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
 
 {txt}{hline}
 -> eia_diagnosis = RA
 
-biologic_6m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,344       87.29       87.29
-{txt}          1 {c |}{res}      1,360       12.71      100.00
+        Yes {c |}{res}        655        6.12        6.12
+{txt}         No {c |}{res}      5,725       53.48       59.60
+{txt}          . {c |}{res}      4,324       40.40      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,704      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
-biologic_6m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,367       87.20       87.20
-{txt}          1 {c |}{res}      1,375       12.80      100.00
+        Yes {c |}{res}        657        6.12        6.12
+{txt}         No {c |}{res}      5,781       53.82       59.93
+{txt}          . {c |}{res}      4,304       40.07      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,742      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
-biologic_6m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,470       86.73       86.73
-{txt}          1 {c |}{res}      1,449       13.27      100.00
+        Yes {c |}{res}        708        6.48        6.48
+{txt}         No {c |}{res}      5,838       53.47       59.95
+{txt}          . {c |}{res}      4,373       40.05      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,919      100.00
 
 {txt}
-{com}. gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=.
-{txt}(24,849 missing values generated)
-
-{com}. recode biologic_12m .=0
-{txt}(24849 changes made to {bf:biologic_12m})
-
-{com}. tab biologic_12m if has_12m_follow_up==1 //for all EIA patients
-
-{txt}biologic_12 {c |}
-          m {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}     22,368       72.88       72.88
-{txt}          1 {c |}{res}      8,323       27.12      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}     30,691      100.00
-{txt}
-{com}. bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1
+{com}. bys eia_diagnosis: tab biologic_3m if has_6m_follow_up==1
 
 {txt}{hline}
 -> eia_diagnosis = RA
 
-biologic_12 {c |}
-          m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,478       72.99       72.99
-{txt}          1 {c |}{res}      2,767       27.01      100.00
+        Yes {c |}{res}        655       10.27       10.27
+{txt}         No {c |}{res}      5,725       89.73      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,380      100.00
+
+{txt}{hline}
+-> eia_diagnosis = PsA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        657       10.21       10.21
+{txt}         No {c |}{res}      5,781       89.79      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,438      100.00
+
+{txt}{hline}
+-> eia_diagnosis = AxSpA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   3 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}        708       10.82       10.82
+{txt}         No {c |}{res}      5,838       89.18      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,546      100.00
+
+{txt}
+{com}. gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=. 
+{txt}(29,685 missing values generated)
+
+{com}. replace biologic_6m=2 if time_to_biologic>180 & time_to_biologic!=.
+{txt}(15,982 real changes made)
+
+{com}. lab define biologic_6m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val biologic_6m biologic_6m
+{txt}
+{com}. lab var biologic_6m "bDMARD/tsDMARD within 6 months" 
+{txt}
+{com}. bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
+
+{txt}{hline}
+-> eia_diagnosis = RA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,360       12.71       12.71
+{txt}         No {c |}{res}      5,020       46.90       59.60
+{txt}          . {c |}{res}      4,324       40.40      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,704      100.00
+
+{txt}{hline}
+-> eia_diagnosis = PsA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,375       12.80       12.80
+{txt}         No {c |}{res}      5,063       47.13       59.93
+{txt}          . {c |}{res}      4,304       40.07      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,742      100.00
+
+{txt}{hline}
+-> eia_diagnosis = AxSpA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,449       13.27       13.27
+{txt}         No {c |}{res}      5,097       46.68       59.95
+{txt}          . {c |}{res}      4,373       40.05      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     10,919      100.00
+
+{txt}
+{com}. bys eia_diagnosis: tab biologic_6m if has_6m_follow_up==1
+
+{txt}{hline}
+-> eia_diagnosis = RA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,360       21.32       21.32
+{txt}         No {c |}{res}      5,020       78.68      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,380      100.00
+
+{txt}{hline}
+-> eia_diagnosis = PsA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,375       21.36       21.36
+{txt}         No {c |}{res}      5,063       78.64      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,438      100.00
+
+{txt}{hline}
+-> eia_diagnosis = AxSpA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+   6 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      1,449       22.14       22.14
+{txt}         No {c |}{res}      5,097       77.86      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,546      100.00
+
+{txt}
+{com}. gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=. 
+{txt}(24,849 missing values generated)
+
+{com}. replace biologic_12m=2 if time_to_biologic>365 & time_to_biologic!=.
+{txt}(11,146 real changes made)
+
+{com}. lab define biologic_12m 1 "Yes" 2 "No", modify
+{txt}
+{com}. lab val biologic_12m biologic_12m
+{txt}
+{com}. lab var biologic_12m "bDMARD/tsDMARD within 12 months" 
+{txt}
+{com}. bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
+
+{txt}{hline}
+-> eia_diagnosis = RA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      2,767       27.01       27.01
+{txt}         No {c |}{res}      3,341       32.61       59.62
+{txt}          . {c |}{res}      4,137       40.38      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,245      100.00
 
 {txt}{hline}
 -> eia_diagnosis = PsA
 
-biologic_12 {c |}
-          m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,392       72.90       72.90
-{txt}          1 {c |}{res}      2,748       27.10      100.00
+        Yes {c |}{res}      2,748       27.10       27.10
+{txt}         No {c |}{res}      3,299       32.53       59.64
+{txt}          . {c |}{res}      4,093       40.36      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,140      100.00
 
 {txt}{hline}
 -> eia_diagnosis = AxSpA
 
-biologic_12 {c |}
-          m {c |}      Freq.     Percent        Cum.
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}      7,498       72.75       72.75
-{txt}          1 {c |}{res}      2,808       27.25      100.00
+        Yes {c |}{res}      2,808       27.25       27.25
+{txt}         No {c |}{res}      3,392       32.91       60.16
+{txt}          . {c |}{res}      4,106       39.84      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,306      100.00
 
 {txt}
-{com}. lab define biologic_6m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val biologic_6m biologic_6m
-{txt}
-{com}. lab var biologic_6m "bDMARD/tsDMARD within 6 months"
-{txt}
-{com}. lab define biologic_12m 0 "No" 1 "Yes", modify
-{txt}
-{com}. lab val biologic_12m biologic_12m
-{txt}
-{com}. lab var biologic_12m "bDMARD/tsDMARD within 12 months"
+{com}. bys eia_diagnosis: tab biologic_12m if has_12m_follow_up==1 //for patients with at least 12m registration
+
+{txt}{hline}
+-> eia_diagnosis = RA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      2,767       45.30       45.30
+{txt}         No {c |}{res}      3,341       54.70      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,108      100.00
+
+{txt}{hline}
+-> eia_diagnosis = PsA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      2,748       45.44       45.44
+{txt}         No {c |}{res}      3,299       54.56      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,047      100.00
+
+{txt}{hline}
+-> eia_diagnosis = AxSpA
+
+bDMARD/tsDM {c |}
+ ARD within {c |}
+  12 months {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+        Yes {c |}{res}      2,808       45.29       45.29
+{txt}         No {c |}{res}      3,392       54.71      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      6,200      100.00
+
 {txt}
 {com}. 
 . **Biologic time categories (by year)
-. bys diagnosis_year: tab biologic_6m if has_6m_follow_up==1 //for all EIA patients with at least 6m follow-up
+. bys diagnosis_year: tab biologic_6m if has_6m_follow_up==1, missing //for all EIA patients with at least 6m follow-up
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020
@@ -7464,8 +7865,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,018       87.05       87.05
-{txt}        Yes {c |}{res}      1,341       12.95      100.00
+        Yes {c |}{res}      1,341       12.95       12.95
+{txt}         No {c |}{res}      4,824       46.57       59.51
+{txt}          . {c |}{res}      4,194       40.49      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,359      100.00
 
@@ -7476,8 +7878,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      9,022       86.91       86.91
-{txt}        Yes {c |}{res}      1,359       13.09      100.00
+        Yes {c |}{res}      1,359       13.09       13.09
+{txt}         No {c |}{res}      4,938       47.57       60.66
+{txt}          . {c |}{res}      4,084       39.34      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,381      100.00
 
@@ -7488,8 +7891,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      8,947       87.25       87.25
-{txt}        Yes {c |}{res}      1,307       12.75      100.00
+        Yes {c |}{res}      1,307       12.75       12.75
+{txt}         No {c |}{res}      4,795       46.76       59.51
+{txt}          . {c |}{res}      4,152       40.49      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}     10,254      100.00
 
@@ -7500,13 +7904,14 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      1,194       87.09       87.09
-{txt}        Yes {c |}{res}        177       12.91      100.00
+        Yes {c |}{res}        177       12.91       12.91
+{txt}         No {c |}{res}        623       45.44       58.35
+{txt}          . {c |}{res}        571       41.65      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      1,371      100.00
 
 {txt}
-{com}. bys diagnosis_year eia_diagnosis: tab biologic_6m if has_6m_follow_up==1 //for each diagnosis with at least 6m follow-up
+{com}. bys diagnosis_year eia_diagnosis: tab biologic_6m if has_6m_follow_up==1, missing //for each diagnosis with at least 6m follow-up
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = RA
@@ -7515,8 +7920,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,975       87.12       87.12
-{txt}        Yes {c |}{res}        440       12.88      100.00
+        Yes {c |}{res}        440       12.88       12.88
+{txt}         No {c |}{res}      1,592       46.62       59.50
+{txt}          . {c |}{res}      1,383       40.50      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,415      100.00
 
@@ -7527,8 +7933,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      3,026       87.91       87.91
-{txt}        Yes {c |}{res}        416       12.09      100.00
+        Yes {c |}{res}        416       12.09       12.09
+{txt}         No {c |}{res}      1,627       47.27       59.36
+{txt}          . {c |}{res}      1,399       40.64      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,442      100.00
 
@@ -7539,8 +7946,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      3,017       86.15       86.15
-{txt}        Yes {c |}{res}        485       13.85      100.00
+        Yes {c |}{res}        485       13.85       13.85
+{txt}         No {c |}{res}      1,605       45.83       59.68
+{txt}          . {c |}{res}      1,412       40.32      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,502      100.00
 
@@ -7551,8 +7959,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,919       86.98       86.98
-{txt}        Yes {c |}{res}        437       13.02      100.00
+        Yes {c |}{res}        437       13.02       13.02
+{txt}         No {c |}{res}      1,582       47.14       60.16
+{txt}          . {c |}{res}      1,337       39.84      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,356      100.00
 
@@ -7563,8 +7972,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,984       87.40       87.40
-{txt}        Yes {c |}{res}        430       12.60      100.00
+        Yes {c |}{res}        430       12.60       12.60
+{txt}         No {c |}{res}      1,631       47.77       60.37
+{txt}          . {c |}{res}      1,353       39.63      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,414      100.00
 
@@ -7575,8 +7985,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      3,119       86.37       86.37
-{txt}        Yes {c |}{res}        492       13.63      100.00
+        Yes {c |}{res}        492       13.63       13.63
+{txt}         No {c |}{res}      1,725       47.77       61.40
+{txt}          . {c |}{res}      1,394       38.60      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,611      100.00
 
@@ -7587,8 +7998,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      3,038       87.60       87.60
-{txt}        Yes {c |}{res}        430       12.40      100.00
+        Yes {c |}{res}        430       12.40       12.40
+{txt}         No {c |}{res}      1,634       47.12       59.52
+{txt}          . {c |}{res}      1,404       40.48      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,468      100.00
 
@@ -7599,8 +8011,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,935       86.25       86.25
-{txt}        Yes {c |}{res}        468       13.75      100.00
+        Yes {c |}{res}        468       13.75       13.75
+{txt}         No {c |}{res}      1,587       46.64       60.39
+{txt}          . {c |}{res}      1,348       39.61      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,403      100.00
 
@@ -7611,8 +8024,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,974       87.91       87.91
-{txt}        Yes {c |}{res}        409       12.09      100.00
+        Yes {c |}{res}        409       12.09       12.09
+{txt}         No {c |}{res}      1,574       46.53       58.62
+{txt}          . {c |}{res}      1,400       41.38      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,383      100.00
 
@@ -7623,8 +8037,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        412       88.60       88.60
-{txt}        Yes {c |}{res}         53       11.40      100.00
+        Yes {c |}{res}         53       11.40       11.40
+{txt}         No {c |}{res}        212       45.59       56.99
+{txt}          . {c |}{res}        200       43.01      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        465      100.00
 
@@ -7635,8 +8050,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        422       87.37       87.37
-{txt}        Yes {c |}{res}         61       12.63      100.00
+        Yes {c |}{res}         61       12.63       12.63
+{txt}         No {c |}{res}        218       45.13       57.76
+{txt}          . {c |}{res}        204       42.24      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        483      100.00
 
@@ -7647,13 +8063,14 @@ bDMARD/tsDM {c |}
  ARD within {c |}
    6 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        360       85.11       85.11
-{txt}        Yes {c |}{res}         63       14.89      100.00
+        Yes {c |}{res}         63       14.89       14.89
+{txt}         No {c |}{res}        193       45.63       60.52
+{txt}          . {c |}{res}        167       39.48      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        423      100.00
 
 {txt}
-{com}. bys diagnosis_year: tab biologic_12m if has_12m_follow_up==1 //for all EIA patients
+{com}. bys diagnosis_year: tab biologic_12m if has_12m_follow_up==1, missing //for all EIA patients
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020
@@ -7662,8 +8079,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      7,153       72.74       72.74
-{txt}        Yes {c |}{res}      2,681       27.26      100.00
+        Yes {c |}{res}      2,681       27.26       27.26
+{txt}         No {c |}{res}      3,178       32.32       59.58
+{txt}          . {c |}{res}      3,975       40.42      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      9,834      100.00
 
@@ -7674,8 +8092,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      7,135       72.81       72.81
-{txt}        Yes {c |}{res}      2,665       27.19      100.00
+        Yes {c |}{res}      2,665       27.19       27.19
+{txt}         No {c |}{res}      3,323       33.91       61.10
+{txt}          . {c |}{res}      3,812       38.90      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      9,800      100.00
 
@@ -7686,8 +8105,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      7,101       72.93       72.93
-{txt}        Yes {c |}{res}      2,636       27.07      100.00
+        Yes {c |}{res}      2,636       27.07       27.07
+{txt}         No {c |}{res}      3,113       31.97       59.04
+{txt}          . {c |}{res}      3,988       40.96      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      9,737      100.00
 
@@ -7698,13 +8118,14 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        979       74.17       74.17
-{txt}        Yes {c |}{res}        341       25.83      100.00
+        Yes {c |}{res}        341       25.83       25.83
+{txt}         No {c |}{res}        418       31.67       57.50
+{txt}          . {c |}{res}        561       42.50      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      1,320      100.00
 
 {txt}
-{com}. bys diagnosis_year eia_diagnosis: tab biologic_12m if has_12m_follow_up==1 //for each diagnosis
+{com}. bys diagnosis_year eia_diagnosis: tab biologic_12m if has_12m_follow_up==1, missing //for each diagnosis
 
 {txt}{hline}
 -> diagnosis_year = March 2019-March 2020, eia_diagnosis = RA
@@ -7713,8 +8134,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,430       73.41       73.41
-{txt}        Yes {c |}{res}        880       26.59      100.00
+        Yes {c |}{res}        880       26.59       26.59
+{txt}         No {c |}{res}      1,083       32.72       59.31
+{txt}          . {c |}{res}      1,347       40.69      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,310      100.00
 
@@ -7725,8 +8147,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,377       73.43       73.43
-{txt}        Yes {c |}{res}        860       26.57      100.00
+        Yes {c |}{res}        860       26.57       26.57
+{txt}         No {c |}{res}      1,055       32.59       59.16
+{txt}          . {c |}{res}      1,322       40.84      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,237      100.00
 
@@ -7737,8 +8160,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,346       71.37       71.37
-{txt}        Yes {c |}{res}        941       28.63      100.00
+        Yes {c |}{res}        941       28.63       28.63
+{txt}         No {c |}{res}      1,040       31.64       60.27
+{txt}          . {c |}{res}      1,306       39.73      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,287      100.00
 
@@ -7749,8 +8173,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,317       73.14       73.14
-{txt}        Yes {c |}{res}        851       26.86      100.00
+        Yes {c |}{res}        851       26.86       26.86
+{txt}         No {c |}{res}      1,074       33.90       60.76
+{txt}          . {c |}{res}      1,243       39.24      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,168      100.00
 
@@ -7761,8 +8186,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,360       73.13       73.13
-{txt}        Yes {c |}{res}        867       26.87      100.00
+        Yes {c |}{res}        867       26.87       26.87
+{txt}         No {c |}{res}      1,089       33.75       60.61
+{txt}          . {c |}{res}      1,271       39.39      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,227      100.00
 
@@ -7773,8 +8199,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,458       72.19       72.19
-{txt}        Yes {c |}{res}        947       27.81      100.00
+        Yes {c |}{res}        947       27.81       27.81
+{txt}         No {c |}{res}      1,160       34.07       61.88
+{txt}          . {c |}{res}      1,298       38.12      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,405      100.00
 
@@ -7785,8 +8212,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,397       72.11       72.11
-{txt}        Yes {c |}{res}        927       27.89      100.00
+        Yes {c |}{res}        927       27.89       27.89
+{txt}         No {c |}{res}      1,045       31.44       59.33
+{txt}          . {c |}{res}      1,352       40.67      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,324      100.00
 
@@ -7797,8 +8225,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,308       71.81       71.81
-{txt}        Yes {c |}{res}        906       28.19      100.00
+        Yes {c |}{res}        906       28.19       28.19
+{txt}         No {c |}{res}      1,007       31.33       59.52
+{txt}          . {c |}{res}      1,301       40.48      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,214      100.00
 
@@ -7809,8 +8238,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}      2,396       74.90       74.90
-{txt}        Yes {c |}{res}        803       25.10      100.00
+        Yes {c |}{res}        803       25.10       25.10
+{txt}         No {c |}{res}      1,061       33.17       58.27
+{txt}          . {c |}{res}      1,335       41.73      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}      3,199      100.00
 
@@ -7821,8 +8251,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        334       75.40       75.40
-{txt}        Yes {c |}{res}        109       24.60      100.00
+        Yes {c |}{res}        109       24.60       24.60
+{txt}         No {c |}{res}        139       31.38       55.98
+{txt}          . {c |}{res}        195       44.02      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        443      100.00
 
@@ -7833,8 +8264,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        347       75.11       75.11
-{txt}        Yes {c |}{res}        115       24.89      100.00
+        Yes {c |}{res}        115       24.89       24.89
+{txt}         No {c |}{res}        148       32.03       56.93
+{txt}          . {c |}{res}        199       43.07      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        462      100.00
 
@@ -7845,8 +8277,9 @@ bDMARD/tsDM {c |}
  ARD within {c |}
   12 months {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-         No {c |}{res}        298       71.81       71.81
-{txt}        Yes {c |}{res}        117       28.19      100.00
+        Yes {c |}{res}        117       28.19       28.19
+{txt}         No {c |}{res}        131       31.57       59.76
+{txt}          . {c |}{res}        167       40.24      100.00
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        415      100.00
 
@@ -7864,7 +8297,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs/cleaning_dataset.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 5 Apr 2022, 15:38:30
+ {txt}closed on:  {res} 5 Apr 2022, 19:51:52
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
