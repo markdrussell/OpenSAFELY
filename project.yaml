@@ -113,5 +113,15 @@ actions:
         doc10: output/tables/Biol_delay_PsA.csv
         doc11: output/tables/Biol_delay_anksp.csv
   
-
-
+  run_box_plots:
+    run: stata-mp:latest analysis/300_box_plots.do
+    needs: [create_cohorts]
+    outputs:
+      moderately_sensitive:
+        log1: logs/box_plots.log
+        figure 1: output/figures/regional_qs1_bar.gph
+        figure 2: output/figures/regional_qs1_bar.svg
+        figure 3: output/figures/regional_qs2_bar.gph
+        figure 4: output/figures/regional_qs2_bar.svg   
+        figure 5: output/figures/regional_csdmard_bar.gph
+        figure 6: output/figures/regional_csdmard_bar.svg  

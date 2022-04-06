@@ -1,0 +1,170 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/box_plots.log
+  log type:  text
+ opened on:   6 Apr 2022, 16:56:10
+
+. 
+. **Set Ado file path
+. adopath + "$projectdir/analysis/extra_ados"
+  [1]  (BASE)      "C:\Program Files\Stata17\ado\base/"
+  [2]  (SITE)      "C:\Program Files\Stata17\ado\site/"
+  [3]              "."
+  [4]  (PERSONAL)  "C:\Users\k1754142\ado\personal/"
+  [5]  (PLUS)      "C:\Users\k1754142\ado\plus/"
+  [6]  (OLDPLACE)  "c:\ado/"
+  [7]              "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados"
+
+. 
+. **Use cleaned data from previous step
+. use "$projectdir/output/data/file_eia_all.dta", clear
+
+. 
+. set scheme plotplainblind
+
+. 
+. /*GP referral performance by region===========================================================================*/
+. 
+. preserve
+
+. gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
+(35,408 missing values generated)
+
+. recode qs1_0 .=0 if time_gp_rheum_ref_appt!=.
+(946 changes made to qs1_0)
+
+. gen qs1_1 =1 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt<=7 & time_gp_rheum_ref_appt!=.
+(35,408 missing values generated)
+
+. recode qs1_1 .=0 if time_gp_rheum_ref_appt!=.
+(946 changes made to qs1_1)
+
+. gen qs1_2 = 1 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=.
+(34,484 missing values generated)
+
+. recode qs1_2 .=0 if time_gp_rheum_ref_appt!=.
+(22 changes made to qs1_2)
+
+. 
+. expand=2, gen(copy)
+(35,419 observations created)
+
+. replace nuts_region = 0 if copy==1  
+(35,419 real changes made)
+
+. 
+. graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Referral within 3 days" 2 "Referral within 7 days" 3 "
+> Delay >7 days")) title("Time to rheumatology referral") saving("$projectdir/output/figures/regional_qs1_bar.gph", replace) name(regional_qs1_bar, replace)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs1_bar.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs1_bar.gph saved
+
+. graph export "$projectdir/output/figures/regional_qs1_bar.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs1_bar.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs1_bar.svg saved as SVG format
+
+. restore
+
+. 
+. /*
+> *Regional GP referral performance
+> preserve
+> 
+> graph hbox qs1, over(nuts_region) blabel(bar, color(black) position(inside) format(%9.4f)) title("Quality Standard 1: GP referral within 3 days") ytitle(Proportion meeting standard) saving("$projectdir/output/figures/regi
+> onal_gpref_box.gph", replace) name(regional_gpref_box, replace)
+> restore
+> */
+. 
+. *Rheum assessment performance by region==========================================================================*/
+. 
+. preserve
+
+. gen qs2_0 =1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=.
+(35,125 missing values generated)
+
+. recode qs2_0 .=0 if time_ref_rheum_appt!=.
+(5161 changes made to qs2_0)
+
+. gen qs2_1 =1 if time_ref_rheum_appt>21 & time_ref_rheum_appt<=42 & time_ref_rheum_appt!=.
+(35,134 missing values generated)
+
+. recode qs2_1 .=0 if time_ref_rheum_appt!=.
+(5170 changes made to qs2_1)
+
+. gen qs2_2 = 1 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=.
+(30,543 missing values generated)
+
+. recode qs2_2 .=0 if time_ref_rheum_appt!=.
+(579 changes made to qs2_2)
+
+. 
+. expand=2, gen(copy)
+(35,419 observations created)
+
+. replace nuts_region = 0 if copy==1  
+(35,419 real changes made)
+
+. 
+. graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Seen within 3 weeks" 2 "Seen within 6 weeks" 3 "Delay 
+> >6 weeks")) title("Time to rheumatology assessment") saving("$projectdir/output/figures/regional_qs2_bar.gph", replace) name(regional_qs2_bar, replace)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs2_bar.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs2_bar.gph saved
+
+. graph export "$projectdir/output/figures/regional_qs2_bar.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs2_bar.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_qs2_bar.svg saved as SVG format
+
+. restore
+
+. 
+. *csDMARD shared care performance by region==========================================================================*/
+. 
+. preserve
+
+. keep if has_12m_follow_up==1 //only those patients with >12m of follow-up
+(3,516 observations deleted)
+
+. gen csdmard_0 =1 if time_to_csdmard<=180 & time_to_csdmard!=.
+(30,556 missing values generated)
+
+. recode csdmard_0 .=0 if time_to_csdmard!=.
+(7801 changes made to csdmard_0)
+
+. gen csdmard_1 =1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+(30,207 missing values generated)
+
+. recode csdmard_1 .=0 if time_to_csdmard!=.
+(7452 changes made to csdmard_1)
+
+. gen csdmard_2 = 1 if time_to_csdmard>365 & time_to_csdmard!=.
+(25,798 missing values generated)
+
+. recode csdmard_2 .=0 if time_to_csdmard!=.
+(3043 changes made to csdmard_2)
+
+. 
+. expand=2, gen(copy)
+(31,903 observations created)
+
+. replace nuts_region = 0 if copy==1  
+(31,903 real changes made)
+
+. 
+. graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "csDMARD within 6 months" 2 "csDMARD within
+>  1 year" 3 "Delay >1 year")) title("Time to shared care csDMARD") saving("$projectdir/output/figures/regional_csdmard_bar.gph", replace) name(regional_csdmard_bar, replace)
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_csdmard_bar.gph not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_csdmard_bar.gph saved
+
+. graph export "$projectdir/output/figures/regional_csdmard_bar.svg", replace
+(file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_csdmard_bar.svg not found)
+file C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/figures/regional_csdmard_bar.svg saved as SVG format
+
+. restore
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/box_plots.log
+  log type:  text
+ closed on:   6 Apr 2022, 16:56:12
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
