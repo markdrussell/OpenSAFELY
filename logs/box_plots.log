@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  /workspace/logs/box_plots.log
   log type:  text
- opened on:   6 Apr 2022, 15:58:57
+ opened on:   7 Apr 2022, 09:54:05
 
 . 
 . **Set Ado file path
@@ -29,30 +29,30 @@
 . preserve
 
 . gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
-(35,353 missing values generated)
+(35,440 missing values generated)
 
 . recode qs1_0 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_0: 945 changes made)
+(qs1_0: 1035 changes made)
 
 . gen qs1_1 =1 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt<=7 & time_g
 > p_rheum_ref_appt!=.
-(35,341 missing values generated)
+(35,435 missing values generated)
 
 . recode qs1_1 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_1: 933 changes made)
+(qs1_1: 1030 changes made)
 
 . gen qs1_2 = 1 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=.
-(34,430 missing values generated)
+(34,434 missing values generated)
 
 . recode qs1_2 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_2: 22 changes made)
+(qs1_2: 29 changes made)
 
 . 
 . expand=2, gen(copy)
-(35,358 observations created)
+(35,452 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(35,358 real changes made)
+(35,452 real changes made)
 
 . 
 . graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(
@@ -87,30 +87,30 @@
 . preserve
 
 . gen qs2_0 =1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=.
-(35,070 missing values generated)
+(35,143 missing values generated)
 
 . recode qs2_0 .=0 if time_ref_rheum_appt!=.
-(qs2_0: 5217 changes made)
+(qs2_0: 5243 changes made)
 
 . gen qs2_1 =1 if time_ref_rheum_appt>21 & time_ref_rheum_appt<=42 & time_ref_r
 > heum_appt!=.
-(35,080 missing values generated)
+(35,146 missing values generated)
 
 . recode qs2_1 .=0 if time_ref_rheum_appt!=.
-(qs2_1: 5227 changes made)
+(qs2_1: 5246 changes made)
 
 . gen qs2_2 = 1 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=.
-(30,419 missing values generated)
+(30,515 missing values generated)
 
 . recode qs2_2 .=0 if time_ref_rheum_appt!=.
-(qs2_2: 566 changes made)
+(qs2_2: 615 changes made)
 
 . 
 . expand=2, gen(copy)
-(35,358 observations created)
+(35,452 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(35,358 real changes made)
+(35,452 real changes made)
 
 . 
 . graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(
@@ -134,33 +134,33 @@
 . preserve
 
 . keep if has_12m_follow_up==1 //only those patients with >12m of follow-up
-(3,538 observations deleted)
+(3,510 observations deleted)
 
 . gen csdmard_0 =1 if time_to_csdmard<=180 & time_to_csdmard!=.
-(30,429 missing values generated)
+(30,675 missing values generated)
 
 . recode csdmard_0 .=0 if time_to_csdmard!=.
-(csdmard_0: 7646 changes made)
+(csdmard_0: 7855 changes made)
 
 . gen csdmard_1 =1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdm
 > ard!=.
-(30,114 missing values generated)
+(30,177 missing values generated)
 
 . recode csdmard_1 .=0 if time_to_csdmard!=.
-(csdmard_1: 7331 changes made)
+(csdmard_1: 7357 changes made)
 
 . gen csdmard_2 = 1 if time_to_csdmard>365 & time_to_csdmard!=.
-(25,880 missing values generated)
+(25,852 missing values generated)
 
 . recode csdmard_2 .=0 if time_to_csdmard!=.
-(csdmard_2: 3097 changes made)
+(csdmard_2: 3032 changes made)
 
 . 
 . expand=2, gen(copy)
-(31,820 observations created)
+(31,942 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(31,820 real changes made)
+(31,942 real changes made)
 
 . 
 . graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_regi
@@ -184,5 +184,5 @@
       name:  <unnamed>
        log:  /workspace/logs/box_plots.log
   log type:  text
- closed on:   6 Apr 2022, 15:59:01
+ closed on:   7 Apr 2022, 09:54:08
 -------------------------------------------------------------------------------
