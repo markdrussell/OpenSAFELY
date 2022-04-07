@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  /workspace/logs/cleaning_dataset_allpts.log
   log type:  text
- opened on:   6 Apr 2022, 14:50:48
+ opened on:   6 Apr 2022, 15:57:58
 
 . 
 . **Set Ado file path
@@ -211,10 +211,10 @@ variable bmi_date_measured was str7 now str10
 > =======*/
 . ***Sex
 . gen male = 1 if sex == "M"
-(50,972 missing values generated)
+(50,997 missing values generated)
 
 . replace male = 0 if sex == "F"
-(50,972 real changes made)
+(50,997 real changes made)
 
 . lab var male "Male"
 
@@ -225,19 +225,19 @@ variable bmi_date_measured was str7 now str10
 
 . ****rearrange in order of prevalence
 . recode ethnicity 2=6 /* mixed to 6 */
-(ethnicity: 15151 changes made)
+(ethnicity: 14867 changes made)
 
 . recode ethnicity 3=2 /* south asian to 2 */
-(ethnicity: 7534 changes made)
+(ethnicity: 7496 changes made)
 
 . recode ethnicity 4=3 /* black to 3 */
-(ethnicity: 7373 changes made)
+(ethnicity: 7643 changes made)
 
 . recode ethnicity 6=4 /* mixed to 4 */
-(ethnicity: 15151 changes made)
+(ethnicity: 14867 changes made)
 
 . recode ethnicity 5=4 /* other to 4 */
-(ethnicity: 7468 changes made)
+(ethnicity: 7603 changes made)
 
 . 
 . label define ethnicity  1 "White"                                       ///
@@ -302,7 +302,7 @@ variable bmi_date_measured was str7 now str10
 . *Nb. works if ages 18 and over
 . *Create categorised age
 . drop if age<18 & age !=.
-(21,182 observations deleted)
+(21,446 observations deleted)
 
 . drop if age>109 & age !=.
 (0 observations deleted)
@@ -319,7 +319,7 @@ variable bmi_date_measured was str7 now str10
 >                60/69.9999 = 4 ///
 >                    70/79.9999 = 5 ///
 >                    80/max = 6, gen(agegroup) 
-(78818 differences between age and agegroup)
+(78554 differences between age and agegroup)
 
 . 
 . label define agegroup   1 "18-39" ///
@@ -338,7 +338,7 @@ variable bmi_date_measured was str7 now str10
 . *Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
-(78818 differences between age and age70)
+(78554 differences between age and age70)
 
 . 
 . *Create restricted cubic splines for age
@@ -348,24 +348,24 @@ variable bmi_date_measured was str7 now str10
 . ***Body Mass Index
 . *Recode strange values 
 . replace bmi_value = . if bmi_value == 0 
-(31,634 real changes made, 31,634 to missing)
+(31,529 real changes made, 31,529 to missing)
 
 . replace bmi_value = . if !inrange(bmi_value, 10, 80)
-(280 real changes made, 280 to missing)
+(294 real changes made, 294 to missing)
 
 . 
 . *Restrict to within 10 years of start date and aged>16 
 . gen bmi_time = (date("$start_date", "DMY") - bmi_date)/365.25
-(31,634 missing values generated)
+(31,529 missing values generated)
 
 . gen bmi_age = age - bmi_time
-(31,634 missing values generated)
+(31,529 missing values generated)
 
 . replace bmi_value = . if bmi_age < 16 
-(33,959 real changes made, 33,959 to missing)
+(33,872 real changes made, 33,872 to missing)
 
 . replace bmi_value = . if bmi_time > 10 & bmi_time != . 
-(9,222 real changes made, 9,222 to missing)
+(9,185 real changes made, 9,185 to missing)
 
 . 
 . *Set to missing if no date, and vice versa 
@@ -373,39 +373,39 @@ variable bmi_date_measured was str7 now str10
 (0 real changes made)
 
 . replace bmi_date = . if bmi_value == . 
-(43,461 real changes made, 43,461 to missing)
+(43,351 real changes made, 43,351 to missing)
 
 . replace bmi_time = . if bmi_value == . 
-(43,461 real changes made, 43,461 to missing)
+(43,351 real changes made, 43,351 to missing)
 
 . replace bmi_age = . if bmi_value == . 
-(43,461 real changes made, 43,461 to missing)
+(43,351 real changes made, 43,351 to missing)
 
 . 
 . *Create BMI categories
 . gen     bmicat = .
-(78,818 missing values generated)
+(78,554 missing values generated)
 
 . recode  bmicat . = 1 if bmi_value < 18.5
-(bmicat: 179 changes made)
+(bmicat: 167 changes made)
 
 . recode  bmicat . = 2 if bmi_value < 25
-(bmicat: 414 changes made)
+(bmicat: 379 changes made)
 
 . recode  bmicat . = 3 if bmi_value < 30
-(bmicat: 562 changes made)
+(bmicat: 536 changes made)
 
 . recode  bmicat . = 4 if bmi_value < 35
-(bmicat: 721 changes made)
+(bmicat: 708 changes made)
 
 . recode  bmicat . = 5 if bmi_value < 40
-(bmicat: 747 changes made)
+(bmicat: 717 changes made)
 
 . recode  bmicat . = 6 if bmi_value < .
-(bmicat: 1100 changes made)
+(bmicat: 1167 changes made)
 
 . replace bmicat = .u if bmi_value >= .
-(75,095 real changes made, 75,095 to missing)
+(74,880 real changes made, 74,880 to missing)
 
 . 
 . label define bmicat 1 "Underweight (<18.5)"     ///
@@ -425,7 +425,7 @@ variable bmi_date_measured was str7 now str10
 . 
 . *Create less granular categorisation
 . recode bmicat 1/3 .u = 1 4 = 2 5 = 3 6 = 4, gen(obese4cat)
-(78639 differences between bmicat and obese4cat)
+(78387 differences between bmicat and obese4cat)
 
 . 
 . label define obese4cat  1 "No record of obesity"        ///
@@ -447,19 +447,19 @@ variable bmi_date_measured was str7 now str10
 
 . 
 . gen     smoke = 1  if smoking_status == "N"
-(70,958 missing values generated)
+(70,818 missing values generated)
 
 . replace smoke = 2  if smoking_status == "E"
-(3,946 real changes made)
+(3,917 real changes made)
 
 . replace smoke = 3  if smoking_status == "S"
-(23,672 real changes made)
+(23,725 real changes made)
 
 . replace smoke = .u if smoking_status == "M"
-(3,909 real changes made, 3,909 to missing)
+(4,025 real changes made, 4,025 to missing)
 
 . replace smoke = .u if smoking_status == "" 
-(39,431 real changes made, 39,431 to missing)
+(39,151 real changes made, 39,151 to missing)
 
 . 
 . label values smoke smoke
@@ -472,7 +472,7 @@ variable bmi_date_measured was str7 now str10
 . *Create non-missing 3-category variable for current smoking (assumes missing 
 > smoking is never smoking)
 . recode smoke .u = 1, gen(smoke_nomiss)
-(43340 differences between smoke and smoke_nomiss)
+(43176 differences between smoke and smoke_nomiss)
 
 . order smoke_nomiss, after(smoke)
 
@@ -483,7 +483,7 @@ variable bmi_date_measured was str7 now str10
 . ***eGFR
 . *Set implausible creatinine values to missing (Note: zero changed to missing)
 . replace creatinine_value = . if !inrange(creatinine_value, 20, 3000) 
-(19,585 real changes made, 19,585 to missing)
+(19,640 real changes made, 19,640 to missing)
 
 . 
 . *Remove creatinine dates if no measurements, and vice versa 
@@ -491,89 +491,89 @@ variable bmi_date_measured was str7 now str10
 (0 real changes made)
 
 . replace creatinine_date = . if creatinine_value == . 
-(15,685 real changes made, 15,685 to missing)
+(15,708 real changes made, 15,708 to missing)
 
 . replace creatinine = . if creatinine_value == .
-(19,585 real changes made, 19,585 to missing)
+(19,640 real changes made, 19,640 to missing)
 
 . recode creatinine .=0
-(creatinine: 19585 changes made)
+(creatinine: 19640 changes made)
 
 . 
 . *Divide by 88.4 (to convert umol/l to mg/dl) 
 . gen SCr_adj = creatinine_value/88.4
-(19,585 missing values generated)
+(19,640 missing values generated)
 
 . 
 . gen min = .
-(78,818 missing values generated)
+(78,554 missing values generated)
 
 . replace min = SCr_adj/0.7 if male==0
-(30,213 real changes made)
+(30,143 real changes made)
 
 . replace min = SCr_adj/0.9 if male==1
-(29,020 real changes made)
+(28,771 real changes made)
 
 . replace min = min^-0.329  if male==0
-(30,213 real changes made)
+(30,143 real changes made)
 
 . replace min = min^-0.411  if male==1
-(29,020 real changes made)
+(28,771 real changes made)
 
 . replace min = 1 if min<1
-(46,239 real changes made)
+(46,016 real changes made)
 
 . 
 . gen max=.
-(78,818 missing values generated)
+(78,554 missing values generated)
 
 . replace max=SCr_adj/0.7 if male==0
-(30,213 real changes made)
+(30,143 real changes made)
 
 . replace max=SCr_adj/0.9 if male==1
-(29,020 real changes made)
+(28,771 real changes made)
 
 . replace max=max^-1.209
-(59,233 real changes made)
+(58,914 real changes made)
 
 . replace max=1 if max>1
-(32,579 real changes made)
+(32,538 real changes made)
 
 . 
 . gen egfr=min*max*141
-(19,585 missing values generated)
+(19,640 missing values generated)
 
 . replace egfr=egfr*(0.993^age)
-(59,233 real changes made)
+(58,914 real changes made)
 
 . replace egfr=egfr*1.018 if male==0
-(30,213 real changes made)
+(30,143 real changes made)
 
 . label var egfr "egfr calculated using CKD-EPI formula with no ethnicity"
 
 . 
 . *Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-(19585 missing values generated)
+(19640 missing values generated)
 
 . recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-(59233 differences between egfr_cat_all and ckd_egfr)
+(58914 differences between egfr_cat_all and ckd_egfr)
 
 . 
 . gen egfr_cat = .
-(78,818 missing values generated)
+(78,554 missing values generated)
 
 . recode egfr_cat . = 3 if egfr < 30
-(egfr_cat: 14001 changes made)
+(egfr_cat: 13924 changes made)
 
 . recode egfr_cat . = 2 if egfr < 60
-(egfr_cat: 20880 changes made)
+(egfr_cat: 20894 changes made)
 
 . recode egfr_cat . = 1 if egfr < .
-(egfr_cat: 24352 changes made)
+(egfr_cat: 24096 changes made)
 
 . replace egfr_cat = .u if egfr >= .
-(19,585 real changes made, 19,585 to missing)
+(19,640 real changes made, 19,640 to missing)
 
 . 
 . label define egfr_cat   1 ">=60"                ///
@@ -589,10 +589,10 @@ variable bmi_date_measured was str7 now str10
 . 
 . *If missing eGFR, assume normal
 . gen egfr_cat_nomiss = egfr_cat
-(19,585 missing values generated)
+(19,640 missing values generated)
 
 . replace egfr_cat_nomiss = 1 if egfr_cat == .u
-(19,585 real changes made)
+(19,640 real changes made)
 
 . 
 . label define egfr_cat_nomiss    1 ">=60/missing"        ///
@@ -606,7 +606,7 @@ variable bmi_date_measured was str7 now str10
 
 . 
 . gen egfr_date = creatinine_date
-(19,585 missing values generated)
+(19,640 missing values generated)
 
 . format egfr_date %td
 
@@ -616,10 +616,10 @@ variable bmi_date_measured was str7 now str10
 . gen ckd = 0
 
 . replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-(34,881 real changes made)
+(34,818 real changes made)
 
 . replace ckd = 1 if esrf == 1
-(8,753 real changes made)
+(8,774 real changes made)
 
 . 
 . label define ckd 0 "No CKD" 1 "CKD"
@@ -631,13 +631,13 @@ variable bmi_date_measured was str7 now str10
 . 
 . *Create date (most recent measure prior to index)
 . gen temp1_ckd_date = creatinine_date if ckd_egfr >=1
-(43,937 missing values generated)
+(43,736 missing values generated)
 
 . gen temp2_ckd_date = esrf_date if esrf == 1
-(63,136 missing values generated)
+(62,935 missing values generated)
 
 . gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
-(35,184 missing values generated)
+(34,962 missing values generated)
 
 . format ckd_date %td 
 
@@ -648,36 +648,36 @@ variable bmi_date_measured was str7 now str10
 . ***HbA1c
 . *Set zero or negative to missing
 . replace hba1c_percentage   = . if hba1c_percentage <= 0
-(4,435 real changes made, 4,435 to missing)
+(4,389 real changes made, 4,389 to missing)
 
 . replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
-(5,699 real changes made, 5,699 to missing)
+(5,649 real changes made, 5,649 to missing)
 
 . 
 . *Change implausible values to missing
 . replace hba1c_percentage   = . if !inrange(hba1c_percentage, 1, 20)
-(1,244 real changes made, 1,244 to missing)
+(1,210 real changes made, 1,210 to missing)
 
 . replace hba1c_mmol_per_mol = . if !inrange(hba1c_mmol_per_mol, 10, 200)
-(3,214 real changes made, 3,214 to missing)
+(3,284 real changes made, 3,284 to missing)
 
 . 
 . *Set most recent values of >24 months prior to start date to missing
 . replace hba1c_percentage   = . if (date("$start_date", "DMY") - hba1c_percent
 > age_date) > 24*30 & hba1c_percentage_date != .
-(71,947 real changes made, 71,947 to missing)
+(71,759 real changes made, 71,759 to missing)
 
 . replace hba1c_mmol_per_mol = . if (date("$start_date", "DMY") - hba1c_mmol_pe
 > r_mol_date) > 24*30 & hba1c_mmol_per_mol_date != .
-(68,710 real changes made, 68,710 to missing)
+(68,472 real changes made, 68,472 to missing)
 
 . 
 . *Clean up dates
 . replace hba1c_percentage_date = . if hba1c_percentage == .
-(73,677 real changes made, 73,677 to missing)
+(73,431 real changes made, 73,431 to missing)
 
 . replace hba1c_mmol_per_mol_date = . if hba1c_mmol_per_mol == .
-(73,635 real changes made, 73,635 to missing)
+(73,458 real changes made, 73,458 to missing)
 
 . 
 . *Express  HbA1c as percentage
@@ -686,14 +686,14 @@ variable bmi_date_measured was str7 now str10
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-hba1c_per~ge |      1,192    5.038997     1.83218   1.010929   11.20055
-hba1c_mmol~l |      1,195    41.88554    17.71855   10.00063   109.2327
+hba1c_per~ge |      1,196    5.155237    1.850765    1.00031   11.17595
+hba1c_mmol~l |      1,149    43.08094     17.0602   10.07989    95.5109
 
 . gen     hba1c_pct = hba1c_percentage 
-(77,626 missing values generated)
+(77,358 missing values generated)
 
 . replace hba1c_pct = (hba1c_mmol_per_mol/10.929)+2.15 if hba1c_mmol_per_mol<. 
-(1,195 real changes made)
+(1,149 real changes made)
 
 . 
 . *Valid % range between 0-20  
@@ -701,19 +701,19 @@ hba1c_mmol~l |      1,195    41.88554    17.71855   10.00063   109.2327
 (0 real changes made)
 
 . replace hba1c_pct = round(hba1c_pct, 0.1)
-(2,375 real changes made)
+(2,326 real changes made)
 
 . 
 . *Categorise HbA1c and diabetes
 . *Group hba1c pct
 . gen     hba1ccat = 0 if hba1c_pct <  6.5
-(77,149 missing values generated)
+(76,968 missing values generated)
 
 . replace hba1ccat = 1 if hba1c_pct >= 6.5  & hba1c_pct < 7.5
-(363 real changes made)
+(372 real changes made)
 
 . replace hba1ccat = 2 if hba1c_pct >= 7.5  & hba1c_pct < 8
-(117 real changes made)
+(142 real changes made)
 
 . replace hba1ccat = 3 if hba1c_pct >= 8    & hba1c_pct < 9
 (151 real changes made)
@@ -728,22 +728,22 @@ hba1c_mmol~l |      1,195    41.88554    17.71855   10.00063   109.2327
 . 
 . *Express all values as mmol
 . gen hba1c_mmol = hba1c_mmol_per_mol
-(77,623 missing values generated)
+(77,405 missing values generated)
 
 . replace hba1c_mmol = (hba1c_percentage*10.929)-23.5 if hba1c_percentage<. & h
 > ba1c_mmol==.
-(1,180 real changes made)
+(1,177 real changes made)
 
 . 
 . *Group hba1c mmol
 . gen     hba1ccatmm = 0 if hba1c_mmol < 58
-(76,784 missing values generated)
+(76,591 missing values generated)
 
 . replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_mmol !=.
-(341 real changes made)
+(363 real changes made)
 
 . replace hba1ccatmm =.u if hba1ccatmm==. 
-(76,443 real changes made, 76,443 to missing)
+(76,228 real changes made, 76,228 to missing)
 
 . label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Miss
 > ing"
@@ -755,16 +755,16 @@ hba1c_mmol~l |      1,195    41.88554    17.71855   10.00063   109.2327
 . 
 . *Create diabetes, split by control/not (assumes missing = no diabetes)
 . gen     diabcat = 1 if diabetes==0
-(15,721 missing values generated)
+(15,740 missing values generated)
 
 . replace diabcat = 2 if diabetes==1 & inlist(hba1ccat, 0, 1)
-(403 real changes made)
+(378 real changes made)
 
 . replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-(89 real changes made)
+(74 real changes made)
 
 . replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
-(15,229 real changes made)
+(15,288 real changes made)
 
 . 
 . label define diabcat    1 "No diabetes"                         ///
@@ -783,17 +783,17 @@ hba1c_mmol~l |      1,195    41.88554    17.71855   10.00063   109.2327
 . gen cancer =0
 
 . replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
-(38,585 real changes made)
+(38,474 real changes made)
 
 . lab var cancer "Cancer"
 
 . 
 . *Create other comorbid variables
 . gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
-(50,604 missing values generated)
+(50,293 missing values generated)
 
 . recode combined_cv_comorbid .=0
-(combined_cv_comorbid: 50604 changes made)
+(combined_cv_comorbid: 50293 changes made)
 
 . 
 . *Delete unneeded variables
@@ -827,5 +827,5 @@ file /workspace/output/data/file_eia_allpts.dta saved
       name:  <unnamed>
        log:  /workspace/logs/cleaning_dataset_allpts.log
   log type:  text
- closed on:   6 Apr 2022, 14:50:51
+ closed on:   6 Apr 2022, 15:58:01
 -------------------------------------------------------------------------------
