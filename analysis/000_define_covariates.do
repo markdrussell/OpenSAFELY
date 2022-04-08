@@ -256,6 +256,7 @@ encode region, gen(nuts_region)
 tab region, missing
 
 ***IMD
+/*
 *Group into 5 groups
 rename imd imd_o
 egen imd = cut(imd_o), group(5) icodes 
@@ -269,6 +270,7 @@ recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
 label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
+*/
 tab imd, missing
 
 ***Age variables
@@ -300,9 +302,6 @@ tab agegroup, missing
 *Create binary age
 recode age min/69.999 = 0 ///
            70/max = 1, gen(age70)
-
-*Create restricted cubic splines for age
-mkspline age = age, cubic nknots(4)
 
 ***Body Mass Index
 *Recode strange values 
@@ -540,6 +539,8 @@ lab var copd "COPD"
 lab var esrf "End-stage renal failure"
 lab var chronic_liver_disease "Chronic liver disease"
 lab var chronic_cardiac_disease "Chronic cardiac disease"
+
+drop age
 
 *Refine diagnostic window=============================================================*/
 
