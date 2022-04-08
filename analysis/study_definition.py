@@ -102,7 +102,6 @@ study = StudyDefinition(
     population=patients.satisfying(
             """
             eia_code_date AND
-            (eia_code_date >= 2018-03-01) AND
             has_follow_up AND
             (age >=18 AND age <= 110) AND
             (sex = "M" OR sex = "F")
