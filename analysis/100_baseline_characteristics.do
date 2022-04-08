@@ -70,7 +70,6 @@ tab diagnosis_year if has_12m_follow_up==1, missing
 bys eia_diagnosis: tab diagnosis_year if has_12m_follow_up==1, missing
 
 **Demographics
-tabstat age, stats (n mean p50 p25 p75)
 tab agegroup, missing
 tab male, missing
 tab ethnicity, missing
@@ -107,8 +106,7 @@ tab chronic_cardiac_disease, missing
 *Baseline table by eia diagnosis
 preserve
 table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(age contn %3.0f \ ///
-		 agegroup cat %5.1f \ ///
+	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
 		 imd cat %5.1f \ ///
@@ -131,8 +129,7 @@ restore
 *Baseline table by year of diagnosis
 preserve
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(age contn %3.0f \ ///
-		 agegroup cat %5.1f \ ///
+	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
 		 imd cat %5.1f \ ///

@@ -13,8 +13,7 @@ def first_comorbidity_in_period(dx_codelist):
         returning="date",
         find_first_match_in_period=True,
         on_or_before=start_date,
-        include_month=True,
-        include_day=True,
+        date_format="YYYY-MM-DD",
         return_expectations={
             "incidence": 0.2,
             "date": {"earliest": "1950-01-01", "latest": start_date},
@@ -66,14 +65,6 @@ study = StudyDefinition(
             "incidence": 0.75,
         },
     ),
-    prac_id = patients.registered_practice_as_of(
-        start_date,
-        returning="pseudo_id",
-        return_expectations={
-            "rate" : "universal", 
-            "int" : {"distribution":"normal", "mean":1500, "stddev":50}
-        },
-    ),
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/54
     stp=patients.registered_practice_as_of(
         start_date,
@@ -102,14 +93,32 @@ study = StudyDefinition(
             },
         },    
     ),
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/52
-    imd=patients.address_as_of(
-        start_date,
-        returning="index_of_multiple_deprivation",
-        round_to_nearest=100,
+    imd=patients.categorised_as(
+        {
+            "0": "DEFAULT",
+            "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
+            "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
+            "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
+            "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
+            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+        },
+        index_of_multiple_deprivation=patients.address_as_of(
+            start_date,
+            returning="index_of_multiple_deprivation",
+            round_to_nearest=100,
+        ),
         return_expectations={
             "rate": "universal",
-            "category": {"ratios": {"100": 0.1, "200": 0.2, "300": 0.7}},
+            "category": {
+                "ratios": {
+                    "0": 0.05,
+                    "1": 0.19,
+                    "2": 0.19,
+                    "3": 0.19,
+                    "4": 0.19,
+                    "5": 0.19,
+                }
+            },
         },
     ),
    
@@ -122,7 +131,7 @@ study = StudyDefinition(
         on_or_before=start_date,
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM",
         return_expectations={
             "date": {"latest": start_date},
             "float": {"distribution": "normal", "mean": 40.0, "stddev": 20},
@@ -135,7 +144,7 @@ study = StudyDefinition(
         on_or_before=start_date,
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM",
         return_expectations={
             "date": {"latest": start_date},
             "float": {"distribution": "normal", "mean": 5, "stddev": 2},
@@ -157,7 +166,7 @@ study = StudyDefinition(
         on_or_before=start_date,
         returning="numeric_value",
         include_date_of_match=True,
-        include_month=True,
+        date_format="YYYY-MM",
         return_expectations={
             "float": {"distribution": "normal", "mean": 100.0, "stddev": 100.0},
             "date": {"latest": start_date},
@@ -168,10 +177,10 @@ study = StudyDefinition(
 
     # https://github.com/ebmdatalab/tpp-sql-notebook/issues/10
     bmi=patients.most_recent_bmi(
-        between = ["2009-03-01", "2019-03-01"],
+        between = ["2009-03-01", start_date],
         minimum_age_at_measurement=16,
         include_measurement_date=True,
-        include_month=True,
+        date_format="YYYY-MM",
         return_expectations={
             "incidence": 0.6,
             "float": {"distribution": "normal", "mean": 35, "stddev": 10},

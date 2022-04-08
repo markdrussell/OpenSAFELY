@@ -38,8 +38,7 @@ use "$projectdir/output/data/file_eia_allpts.dta", clear
 *Baseline table
 preserve
 table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(age contn %3.0f \ ///
-		 agegroup cat %5.1f \ ///
+	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
 		 imd cat %5.1f \ ///

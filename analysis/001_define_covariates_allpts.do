@@ -173,6 +173,7 @@ drop stp_old
 encode region, gen(nuts_region)
 
 ***IMD
+/*
 *Group into 5 groups
 rename imd imd_o
 egen imd = cut(imd_o), group(5) icodes 
@@ -186,10 +187,10 @@ recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
 label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
+*/
 
 ***Age variables
 *Nb. works if ages 18 and over
-*Create categorised age
 drop if age<18 & age !=.
 drop if age>109 & age !=.
 drop if age==.
@@ -215,9 +216,6 @@ lab var agegroup "Age group"
 *Create binary age
 recode age min/69.999 = 0 ///
            70/max = 1, gen(age70)
-
-*Create restricted cubic splines for age
-mkspline age = age, cubic nknots(4)
 
 ***Body Mass Index
 *Recode strange values 
@@ -438,7 +436,7 @@ gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
 recode combined_cv_comorbid .=0
 
 *Delete unneeded variables
-drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
+drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol age
 
 *Label variables
 lab var hypertension "Hypertension"
