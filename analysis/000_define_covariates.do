@@ -96,6 +96,8 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 foreach var of varlist 	 died_date_ons						///
 					     eia_code_date 						///
 						 rheum_appt_date					///
+						 ortho_appt_date					///
+						 tandortho_appt_date				///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -146,6 +148,8 @@ foreach var of varlist 	 died_date_ons						///
 						 
 **Rename variables with extra 'date' added to the end of variable names===========================================================*/ 
 rename rheum_appt_date_date rheum_appt_date
+rename ortho_appt_date_date ortho_appt_date
+rename tandortho_appt_date_date tandortho_appt_date
 rename eia_code_date_date eia_code_date
 rename ra_code_date_date ra_code_date
 rename psa_code_date_date psa_code_date
@@ -166,6 +170,8 @@ rename bmi bmi_value
 
 foreach var of varlist 	 eia_code_date 						///
 						 rheum_appt_date					///
+						 ortho_appt_date					///
+						 tandortho_appt_date				///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -637,8 +643,14 @@ tab diagnosis_year if has_12m_follow_up==1, missing
 **Nb. not excluding those without 6m+ follow-up
 
 **Rheumatology appt 
-tab rheum_appt  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
+tab rheum_appt, missing  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
 tab rheum_appt if rheum_appt_date<eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt before EIA code (should be accounted for by Python code)
+
+**Ortho
+tab ortho_appt, missing
+codebook ortho_appt_date
+tab tandortho_appt, missing
+codebook tandortho_appt_date
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the year before rheumatology outpatient (requires rheum appt to have been present, and rheum appt to be before EIA code)

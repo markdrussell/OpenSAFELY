@@ -210,7 +210,7 @@ study = StudyDefinition(
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
-        with_these_treatment_function_codes='410',
+        with_these_treatment_function_codes="410",
         date_format="YYYY-MM-DD",
         between=["eia_code_date - 1 year", "eia_code_date"],
         return_expectations={
@@ -218,6 +218,31 @@ study = StudyDefinition(
             "date": {"earliest": year_preceding, "latest": end_date},
         },
     ),
+
+    ortho_appt_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes='111',
+        date_format="YYYY-MM-DD",
+        between=["eia_code_date - 1 year", "eia_code_date"],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),
+
+    tandortho_appt_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes="110",
+        date_format="YYYY-MM-DD",
+        between=[year_preceding, end_date],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),    
+
 
     ## Rheumatology referral codes (last referral in the year before rheumatology outpatient)
     referral_rheum_prerheum = patients.with_these_clinical_events(
