@@ -210,7 +210,6 @@ study = StudyDefinition(
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
-        with_these_treatment_function_codes="410",
         date_format="YYYY-MM-DD",
         between=["eia_code_date - 1 year", "eia_code_date"],
         return_expectations={
