@@ -659,6 +659,7 @@ tab referral_rheum_prerheum //last rheum referral in the year before rheumatolog
 tab referral_rheum_prerheum if rheum_appt!=0  //last rheum referral in the year before rheumatology outpatient if rheum appt date present
 tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
 tab referral_rheum_precode //last rheum referral in the year before EIA code (could use if rheum appt missing)
+codebook referral_rheum_precode_date
 gen referral_rheum_comb_date = referral_rheum_prerheum_date if referral_rheum_prerheum_date!=.
 replace referral_rheum_comb_date = referral_rheum_precode_date if referral_rheum_prerheum_date==. & referral_rheum_precode_date!=.
 format %td referral_rheum_comb_date
