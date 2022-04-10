@@ -24,7 +24,7 @@ def first_comorbidity_in_period(dx_codelist):
     return patients.with_these_clinical_events(
         dx_codelist,
         returning="date",
-        between=["1900-01-01", "eia_code_date"],
+        between = ["1900-01-01", "eia_code_date"],
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
         return_expectations={
@@ -41,7 +41,7 @@ def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
         date_format="YYYY-MM-DD"
     return with_med_func(
         med_codelist,
-        between=dates,
+        between = dates,
         returning="date",
         date_format=date_format,
         find_first_match_in_period=True,
@@ -112,14 +112,14 @@ study = StudyDefinition(
         ),
     
     has_6m_follow_up=patients.registered_with_one_practice_between(
-            start_date="eia_code_date - 1 year", 
-            end_date="eia_code_date + 6 months",
+            start_date = "eia_code_date - 1 year", 
+            end_date = "eia_code_date + 6 months",
             return_expectations={"incidence": 0.95}       
     ),
 
     has_12m_follow_up=patients.registered_with_one_practice_between(
-            start_date="eia_code_date - 1 year", 
-            end_date="eia_code_date + 1 year",
+            start_date = "eia_code_date - 1 year", 
+            end_date = "eia_code_date + 1 year",
             return_expectations={"incidence": 0.90}       
     ),
 
@@ -212,7 +212,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = codelist(["410"], system="opcs4"),
         date_format="YYYY-MM-DD",
-        between=["eia_code_date - 2 years", "eia_code_date"],
+        between = ["eia_code_date - 2 years", "eia_code_date"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -224,7 +224,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = codelist(["410"], system="treatment function code"),
         date_format="YYYY-MM-DD",
-        between=["2018-03-01", "2022-03-01"],
+        between = ["2018-03-01", "2022-03-01"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -236,7 +236,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = codelist(["410"], system="tfc"),
         date_format="YYYY-MM-DD",
-        between=["2018-03-01", "2022-03-01"],
+        between = ["eia_code_date - 2 years", "eia_code_date"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -330,7 +330,7 @@ study = StudyDefinition(
     hba1c_mmol_per_mol=patients.with_these_clinical_events(
         hba1c_new_codes,
         find_last_match_in_period=True,
-        on_or_before="eia_code_date",
+        on_or_before = "eia_code_date",
         returning="numeric_value",
         include_date_of_match=True,
         date_format="YYYY-MM",
@@ -343,7 +343,7 @@ study = StudyDefinition(
     hba1c_percentage=patients.with_these_clinical_events(
         hba1c_old_codes,
         find_last_match_in_period=True,
-        on_or_before="eia_code_date",
+        on_or_before = "eia_code_date",
         returning="numeric_value",
         include_date_of_match=True,
         date_format="YYYY-MM",
@@ -365,7 +365,7 @@ study = StudyDefinition(
     creatinine=patients.with_these_clinical_events(
         creatinine_codes,
         find_last_match_in_period=True,
-        on_or_before="eia_code_date",
+        on_or_before = "eia_code_date",
         returning="numeric_value",
         include_date_of_match=True,
         date_format="YYYY-MM",
@@ -407,12 +407,12 @@ study = StudyDefinition(
         most_recent_smoking_code=patients.with_these_clinical_events(
             clear_smoking_codes,
             find_last_match_in_period=True,
-            on_or_before="eia_code_date",
+            on_or_before = "eia_code_date",
             returning="category",
         ),
         ever_smoked=patients.with_these_clinical_events(
             filter_codes_by_category(clear_smoking_codes, include=["S", "E"]),
-            on_or_before="eia_code_date",
+            on_or_before = "eia_code_date",
         ),
     ),
 
