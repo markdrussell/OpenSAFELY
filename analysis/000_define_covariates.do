@@ -315,6 +315,7 @@ replace bmi_value = . if bmi_value == 0
 replace bmi_value = . if !inrange(bmi_value, 10, 80)
 
 *Restrict to within 10 years of EIA diagnosis date and aged>16 
+codebook bmi_date
 gen bmi_time = (eia_code_date - bmi_date)/365.25
 gen bmi_age = age - bmi_time
 replace bmi_value = . if bmi_age < 16 
@@ -645,6 +646,7 @@ tab diagnosis_year if has_12m_follow_up==1, missing
 **Rheumatology appt 
 tab rheum_appt, missing  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
 tab rheum_appt if rheum_appt_date<eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt before EIA code (should be accounted for by Python code)
+codebook rheum_appt_date
 
 **Ortho
 tab ortho_appt, missing

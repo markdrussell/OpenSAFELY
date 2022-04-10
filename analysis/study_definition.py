@@ -211,7 +211,7 @@ study = StudyDefinition(
         returning="date",
         find_first_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between=["eia_code_date - 1 year", "eia_code_date"],
+        between=["eia_code_date - 2 years", "eia_code_date"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -223,7 +223,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes='111',
         date_format="YYYY-MM-DD",
-        between=["eia_code_date - 1 year", "eia_code_date"],
+        between=["2018-03-01", "2022-03-01"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -233,9 +233,9 @@ study = StudyDefinition(
     tandortho_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
-        with_these_treatment_function_codes="110",
+        with_these_treatment_function_codes='110',
         date_format="YYYY-MM-DD",
-        between=[year_preceding, end_date],
+        between=["2018-03-01", "2022-03-01"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
