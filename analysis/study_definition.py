@@ -119,7 +119,7 @@ study = StudyDefinition(
 
     has_12m_follow_up=patients.registered_with_one_practice_between(
             start_date = "eia_code_date - 1 year", 
-            end_date = "eia_code_date + 1 year",
+            end_date = "today",
             return_expectations={"incidence": 0.90}       
     ),
 
@@ -212,42 +212,18 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 2 years", "eia_code_date"],
+        between = ["eia_code_date - 2 years", end_date],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
         },
     ),
-
-    ortho_appt_date=patients.outpatient_appointment_date(
-        returning="date",
-        find_first_match_in_period=True,
-        with_these_treatment_function_codes = ["410"],
-        date_format="YYYY-MM-DD",
-        on_or_after = "2019-04-01",
-        return_expectations={
-            "incidence": 0.9,
-            "date": {"earliest": year_preceding, "latest": end_date},
-        },
-    ),
-
-    tandortho_appt_date=patients.outpatient_appointment_date(
-        returning="date",
-        find_first_match_in_period=True,
-        with_these_treatment_function_codes = codelist(["410"], system="tfc"),
-        date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 2 years", "eia_code_date"],
-        return_expectations={
-            "incidence": 0.9,
-            "date": {"earliest": year_preceding, "latest": end_date},
-        },
-    ),    
 
     ## Rheumatology referral codes (last referral in the year before rheumatology outpatient)
     referral_rheum_prerheum = patients.with_these_clinical_events(
         referral_rheumatology,
         find_last_match_in_period = True,
-        between = ["rheum_appt_date - 1 year", "rheum_appt_date"],
+        between = ["rheum_appt_date - 2 years", "rheum_appt_date"],
         returning = "date",
         date_format = "YYYY-MM-DD",
         return_expectations = {

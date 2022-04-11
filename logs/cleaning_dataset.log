@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs/cleaning_dataset.log
   log type:  text
- opened on:  11 Apr 2022, 12:34:18
+ opened on:  11 Apr 2022, 16:47:51
 
 . 
 . di "$projectdir"
@@ -31,6 +31,8 @@ C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs
 . global year_preceding = "01/03/2018"
 
 . global start_date = "01/03/2019"
+
+. global outpatient_date = "01/10/2019"
 
 . global end_date = "01/03/2022"
 
@@ -173,8 +175,6 @@ variable ustekinumab was str7 now str10
 . foreach var of varlist   died_date_ons                                          ///
 >                                              eia_code_date                                              ///
 >                                                  rheum_appt_date                                        ///
->                                                  ortho_appt_date                                        ///
->                                                  tandortho_appt_date                            ///
 >                                              ra_code_date                                               ///
 >                                                  psa_code_date                                          ///
 >                                                  anksp_code_date                                        ///
@@ -226,10 +226,6 @@ variable ustekinumab was str7 now str10
 (90,000 missing values generated)
 (1,000 missing values generated)
 (1,000 missing values generated)
-(9,999 missing values generated)
-(9,999 missing values generated)
-(12,390 missing values generated)
-(12,390 missing values generated)
 (9,999 missing values generated)
 (9,999 missing values generated)
 (1,000 missing values generated)
@@ -289,10 +285,6 @@ variable ustekinumab was str7 now str10
 . **Rename variables with extra 'date' added to the end of variable names===========================================================*/ 
 . rename rheum_appt_date_date rheum_appt_date
 
-. rename ortho_appt_date_date ortho_appt_date
-
-. rename tandortho_appt_date_date tandortho_appt_date
-
 . rename eia_code_date_date eia_code_date
 
 . rename ra_code_date_date ra_code_date
@@ -328,8 +320,6 @@ variable ustekinumab was str7 now str10
 . 
 . foreach var of varlist   eia_code_date                                          ///
 >                                                  rheum_appt_date                                        ///
->                                                  ortho_appt_date                                        ///
->                                                  tandortho_appt_date                            ///
 >                                              ra_code_date                                               ///
 >                                                  psa_code_date                                          ///
 >                                                  anksp_code_date                                        ///
@@ -388,10 +378,10 @@ variable ustekinumab was str7 now str10
 . **Demographics
 . ***Sex
 . gen male = 1 if sex == "M"
-(51,135 missing values generated)
+(51,134 missing values generated)
 
 . replace male = 0 if sex == "F"
-(51,135 real changes made)
+(51,134 real changes made)
 
 . lab var male "Male"
 
@@ -403,8 +393,8 @@ variable ustekinumab was str7 now str10
 
        Male |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-         No |     51,135       51.13       51.13
-        Yes |     48,865       48.87      100.00
+         No |     51,134       51.13       51.13
+        Yes |     48,866       48.87      100.00
 ------------+-----------------------------------
       Total |    100,000      100.00
 
@@ -415,19 +405,19 @@ variable ustekinumab was str7 now str10
 
 . ****rearrange in order of prevalence
 . recode ethnicity 2=6 /* mixed to 6 */
-(14922 changes made to ethnicity)
+(14907 changes made to ethnicity)
 
 . recode ethnicity 3=2 /* south asian to 2 */
-(7415 changes made to ethnicity)
+(7426 changes made to ethnicity)
 
 . recode ethnicity 4=3 /* black to 3 */
-(7634 changes made to ethnicity)
+(7562 changes made to ethnicity)
 
 . recode ethnicity 6=4 /* mixed to 4 */
-(14922 changes made to ethnicity)
+(14907 changes made to ethnicity)
 
 . recode ethnicity 5=4 /* other to 4 */
-(7563 changes made to ethnicity)
+(7377 changes made to ethnicity)
 
 . 
 . label define ethnicity  1 "White"                                       ///
@@ -444,10 +434,10 @@ variable ustekinumab was str7 now str10
 
           Ethnicity |      Freq.     Percent        Cum.
 --------------------+-----------------------------------
-              White |     37,466       37.47       37.47
-Asian/Asian British |      7,415        7.42       44.88
-              Black |      7,634        7.63       52.52
-        Mixed/Other |     22,485       22.48       75.00
+              White |     37,728       37.73       37.73
+Asian/Asian British |      7,426        7.43       45.15
+              Black |      7,562        7.56       52.72
+        Mixed/Other |     22,284       22.28       75.00
             Missing |     25,000       25.00      100.00
 --------------------+-----------------------------------
               Total |    100,000      100.00
@@ -473,14 +463,14 @@ Asian/Asian British |      7,415        7.42       44.88
                   region |      Freq.     Percent        Cum.
 -------------------------+-----------------------------------
                          |      1,000        1.00        1.00
-           East Midlands |      9,833        9.83       10.83
-         East of England |      9,836        9.84       20.67
-                  London |     19,767       19.77       40.44
-              North East |     10,068       10.07       50.50
-              North West |     10,011       10.01       60.52
-              South East |     19,688       19.69       80.20
-           West Midlands |      9,866        9.87       90.07
-Yorkshire and the Humber |      9,931        9.93      100.00
+           East Midlands |      9,693        9.69       10.69
+         East of England |     10,041       10.04       20.73
+                  London |     19,902       19.90       40.64
+              North East |      9,712        9.71       50.35
+              North West |      9,915        9.91       60.26
+              South East |     19,960       19.96       80.22
+           West Midlands |      9,874        9.87       90.10
+Yorkshire and the Humber |      9,903        9.90      100.00
 -------------------------+-----------------------------------
                    Total |    100,000      100.00
 
@@ -491,7 +481,7 @@ Yorkshire and the Humber |      9,931        9.93      100.00
 . ***IMD
 . *Reverse the order (so high is more deprived)
 . recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
-(81199 changes made to imd)
+(80913 changes made to imd)
 
 . label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 
@@ -505,12 +495,12 @@ Yorkshire and the Humber |      9,931        9.93      100.00
         multiple |
      deprivation |      Freq.     Percent        Cum.
 -----------------+-----------------------------------
-1 least deprived |     19,027       19.03       19.03
-               2 |     19,085       19.09       38.11
-               3 |     18,801       18.80       56.91
-               4 |     18,993       18.99       75.91
- 5 most deprived |     19,250       19.25       95.16
-         Missing |      4,844        4.84      100.00
+1 least deprived |     18,934       18.93       18.93
+               2 |     18,805       18.80       37.74
+               3 |     19,087       19.09       56.83
+               4 |     19,064       19.06       75.89
+ 5 most deprived |     19,203       19.20       95.09
+         Missing |      4,907        4.91      100.00
 -----------------+-----------------------------------
            Total |    100,000      100.00
 
@@ -519,7 +509,7 @@ Yorkshire and the Humber |      9,931        9.93      100.00
 . *Nb. works if ages 18 and over
 . *Create categorised age
 . drop if age<18 & age !=.
-(21,069 observations deleted)
+(21,313 observations deleted)
 
 . drop if age>109 & age !=.
 (0 observations deleted)
@@ -536,7 +526,7 @@ Yorkshire and the Humber |      9,931        9.93      100.00
 >                60/69.9999 = 4 ///
 >                    70/79.9999 = 5 ///
 >                    80/max = 6, gen(agegroup) 
-(78931 differences between age and agegroup)
+(78687 differences between age and agegroup)
 
 . 
 . label define agegroup   1 "18-39" ///
@@ -555,29 +545,29 @@ Yorkshire and the Humber |      9,931        9.93      100.00
 
   Age group |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-      18-39 |     28,649       36.30       36.30
-      40-49 |     12,768       16.18       52.47
-      50-59 |     13,635       17.27       69.75
-      60-69 |     10,649       13.49       83.24
-      70-79 |      8,319       10.54       93.78
-        80+ |      4,911        6.22      100.00
+      18-39 |     28,521       36.25       36.25
+      40-49 |     12,782       16.24       52.49
+      50-59 |     13,484       17.14       69.63
+      60-69 |     10,644       13.53       83.15
+      70-79 |      8,330       10.59       93.74
+        80+ |      4,926        6.26      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *Create binary age
 . recode age min/69.999 = 0 ///
 >            70/max = 1, gen(age70)
-(78931 differences between age and age70)
+(78687 differences between age and age70)
 
 . 
 . ***Body Mass Index
 . *Recode strange values 
 . replace bmi_value = . if bmi_value == 0 
-(31,523 real changes made, 31,523 to missing)
+(31,460 real changes made, 31,460 to missing)
 
 . replace bmi_value = . if !inrange(bmi_value, 10, 80)
-(295 real changes made, 295 to missing)
+(299 real changes made, 299 to missing)
 
 . 
 . *Restrict to within 10 years of EIA diagnosis date and aged>16 
@@ -591,25 +581,25 @@ bmi_date                                                                        
 
                  Range: [-21900,22750]                Units: 1
        Or equivalently: [15jan1900,15apr2022]         Units: days
-         Unique values: 1,468                     Missing .: 31,523/78,931
+         Unique values: 1,468                     Missing .: 31,460/78,687
 
-                  Mean: 360.151 = 26dec1960(+ 4 hours)
-             Std. dev.: 12895.9
+                  Mean: 244.723 = 01sep1960(+ 17 hours)
+             Std. dev.: 12862.1
            Percentiles:       10%        25%        50%        75%        90%
-                           -17458     -10853        258      11610      18246
-                        15mar1912  15apr1930  15sep1960  15oct1991  15dec2009
+                           -17487     -10912        196      11276      18155
+                        15feb1912  15feb1930  15jul1960  15nov1990  15sep2009
 
 . gen bmi_time = (eia_code_date - bmi_date)/365.25
-(32,004 missing values generated)
+(31,928 missing values generated)
 
 . gen bmi_age = age - bmi_time
-(32,004 missing values generated)
+(31,928 missing values generated)
 
 . replace bmi_value = . if bmi_age < 16 
-(33,307 real changes made, 33,307 to missing)
+(33,370 real changes made, 33,370 to missing)
 
 . replace bmi_value = . if bmi_time > 10 & bmi_time != . 
-(8,960 real changes made, 8,960 to missing)
+(8,842 real changes made, 8,842 to missing)
 
 . 
 . *Set to missing if no date, and vice versa 
@@ -617,39 +607,39 @@ bmi_date                                                                        
 (0 real changes made)
 
 . replace bmi_date = . if bmi_value == . 
-(42,562 real changes made, 42,562 to missing)
+(42,511 real changes made, 42,511 to missing)
 
 . replace bmi_time = . if bmi_value == . 
-(42,557 real changes made, 42,557 to missing)
+(42,507 real changes made, 42,507 to missing)
 
 . replace bmi_age = . if bmi_value == . 
-(42,557 real changes made, 42,557 to missing)
+(42,507 real changes made, 42,507 to missing)
 
 . 
 . *Create BMI categories
 . gen     bmicat = .
-(78,931 missing values generated)
+(78,687 missing values generated)
 
 . recode  bmicat . = 1 if bmi_value < 18.5
-(228 changes made to bmicat)
+(188 changes made to bmicat)
 
 . recode  bmicat . = 2 if bmi_value < 25
-(539 changes made to bmicat)
+(511 changes made to bmicat)
 
 . recode  bmicat . = 3 if bmi_value < 30
-(721 changes made to bmicat)
+(742 changes made to bmicat)
 
 . recode  bmicat . = 4 if bmi_value < 35
-(913 changes made to bmicat)
+(944 changes made to bmicat)
 
 . recode  bmicat . = 5 if bmi_value < 40
-(921 changes made to bmicat)
+(880 changes made to bmicat)
 
 . recode  bmicat . = 6 if bmi_value < .
-(1524 changes made to bmicat)
+(1451 changes made to bmicat)
 
 . replace bmicat = .u if bmi_value >= .
-(74,085 real changes made, 74,085 to missing)
+(73,971 real changes made, 73,971 to missing)
 
 . 
 . label define bmicat 1 "Underweight (<18.5)"     ///
@@ -669,20 +659,20 @@ bmi_date                                                                        
 
                  BMI |      Freq.     Percent        Cum.
 ---------------------+-----------------------------------
- Underweight (<18.5) |        228        0.29        0.29
-  Normal (18.5-24.9) |        539        0.68        0.97
-Overweight (25-29.9) |        721        0.91        1.89
-   Obese I (30-34.9) |        913        1.16        3.04
-  Obese II (35-39.9) |        921        1.17        4.21
-     Obese III (40+) |      1,524        1.93        6.14
-             Missing |     74,085       93.86      100.00
+ Underweight (<18.5) |        188        0.24        0.24
+  Normal (18.5-24.9) |        511        0.65        0.89
+Overweight (25-29.9) |        742        0.94        1.83
+   Obese I (30-34.9) |        944        1.20        3.03
+  Obese II (35-39.9) |        880        1.12        4.15
+     Obese III (40+) |      1,451        1.84        5.99
+             Missing |     73,971       94.01      100.00
 ---------------------+-----------------------------------
-               Total |     78,931      100.00
+               Total |     78,687      100.00
 
 . 
 . *Create less granular categorisation
 . recode bmicat 1/3 .u = 1 4 = 2 5 = 3 6 = 4, gen(obese4cat)
-(78703 differences between bmicat and obese4cat)
+(78499 differences between bmicat and obese4cat)
 
 . 
 . label define obese4cat  1 "No record of obesity"        ///
@@ -701,19 +691,19 @@ Overweight (25-29.9) |        721        0.91        1.89
 
 . 
 . gen     smoke = 1  if smoking_status == "N"
-(70,983 missing values generated)
+(70,868 missing values generated)
 
 . replace smoke = 2  if smoking_status == "E"
-(3,990 real changes made)
+(3,841 real changes made)
 
 . replace smoke = 3  if smoking_status == "S"
-(23,498 real changes made)
+(23,754 real changes made)
 
 . replace smoke = .u if smoking_status == "M"
-(4,016 real changes made, 4,016 to missing)
+(3,929 real changes made, 3,929 to missing)
 
 . replace smoke = .u if smoking_status == "" 
-(39,479 real changes made, 39,479 to missing)
+(39,344 real changes made, 39,344 to missing)
 
 . 
 . label values smoke smoke
@@ -727,17 +717,17 @@ Overweight (25-29.9) |        721        0.91        1.89
     Smoking |
      status |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-      Never |      7,948       10.07       10.07
-     Former |      3,990        5.06       15.12
-    Current |     23,498       29.77       44.89
-    Missing |     43,495       55.11      100.00
+      Never |      7,819        9.94        9.94
+     Former |      3,841        4.88       14.82
+    Current |     23,754       30.19       45.01
+    Missing |     43,273       54.99      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *Create non-missing 3-category variable for current smoking (assumes missing smoking is never smoking)
 . recode smoke .u = 1, gen(smoke_nomiss)
-(43495 differences between smoke and smoke_nomiss)
+(43273 differences between smoke and smoke_nomiss)
 
 . order smoke_nomiss, after(smoke)
 
@@ -755,17 +745,17 @@ creatinine_value                                                                
 
                   Type: Numeric (float)
 
-                 Range: [-348.38907,509.65063]        Units: 1.000e-10
-         Unique values: 74,946                    Missing .: 0/78,931
+                 Range: [-293.72614,504.10419]        Units: 1.000e-10
+         Unique values: 74,675                    Missing .: 0/78,687
 
-                  Mean:  94.9473
-             Std. dev.:  99.7408
+                  Mean:  94.5881
+             Std. dev.:  99.8838
 
            Percentiles:      10%       25%       50%       75%       90%
-                        -24.8718   18.8344   93.3453   163.572   225.501
+                        -25.9474   18.9986   93.3018    163.21   224.962
 
 . replace creatinine_value = . if !inrange(creatinine_value, 20, 3000) 
-(19,981 real changes made, 19,981 to missing)
+(19,903 real changes made, 19,903 to missing)
 
 . codebook creatinine_value
 
@@ -775,14 +765,14 @@ creatinine_value                                                                
 
                   Type: Numeric (float)
 
-                 Range: [20.003706,509.65064]         Units: 1.000e-06
-         Unique values: 58,882                    Missing .: 19,981/78,931
+                 Range: [20.005514,504.10419]         Units: 1.000e-06
+         Unique values: 58,725                    Missing .: 19,903/78,687
 
-                  Mean: 136.907
-             Std. dev.: 75.4972
+                  Mean: 136.619
+             Std. dev.: 75.4128
 
            Percentiles:     10%       25%       50%       75%       90%
-                        45.0144   77.0059   127.148   185.642   241.406
+                        44.5443   76.9755   126.758   185.143   240.995
 
 . 
 . *Remove creatinine dates if no measurements, and vice versa 
@@ -790,79 +780,79 @@ creatinine_value                                                                
 (0 real changes made)
 
 . replace creatinine_date = . if creatinine_value == . 
-(16,065 real changes made, 16,065 to missing)
+(15,952 real changes made, 15,952 to missing)
 
 . replace creatinine = . if creatinine_value == .
-(19,981 real changes made, 19,981 to missing)
+(19,903 real changes made, 19,903 to missing)
 
 . recode creatinine .=0
-(19981 changes made to creatinine)
+(19903 changes made to creatinine)
 
 . tab creatinine, missing
 
  creatinine |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     19,981       25.31       25.31
-          1 |     58,950       74.69      100.00
+          0 |     19,903       25.29       25.29
+          1 |     58,784       74.71      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . tabstat creatinine_value, stat(n mean p50 p25 p75)
 
     Variable |         N      Mean       p50       p25       p75
 -------------+--------------------------------------------------
-creatinin~ue |     58950  136.9067  127.1478  77.00587  185.6423
+creatinin~ue |     58784  136.6191  126.7578  76.97551  185.1433
 ----------------------------------------------------------------
 
 . 
 . *Divide by 88.4 (to convert umol/l to mg/dl) 
 . gen SCr_adj = creatinine_value/88.4
-(19,981 missing values generated)
+(19,903 missing values generated)
 
 . 
 . gen min = .
-(78,931 missing values generated)
+(78,687 missing values generated)
 
 . replace min = SCr_adj/0.7 if male==0
-(30,090 real changes made)
+(29,943 real changes made)
 
 . replace min = SCr_adj/0.9 if male==1
-(28,860 real changes made)
+(28,841 real changes made)
 
 . replace min = min^-0.329  if male==0
-(30,090 real changes made)
+(29,943 real changes made)
 
 . replace min = min^-0.411  if male==1
-(28,860 real changes made)
+(28,841 real changes made)
 
 . replace min = 1 if min<1
-(45,995 real changes made)
+(45,877 real changes made)
 
 . 
 . gen max=.
-(78,931 missing values generated)
+(78,687 missing values generated)
 
 . replace max=SCr_adj/0.7 if male==0
-(30,090 real changes made)
+(29,943 real changes made)
 
 . replace max=SCr_adj/0.9 if male==1
-(28,860 real changes made)
+(28,841 real changes made)
 
 . replace max=max^-1.209
-(58,950 real changes made)
+(58,784 real changes made)
 
 . replace max=1 if max>1
-(32,936 real changes made)
+(32,810 real changes made)
 
 . 
 . gen egfr=min*max*141
-(19,981 missing values generated)
+(19,903 missing values generated)
 
 . replace egfr=egfr*(0.993^age)
-(58,950 real changes made)
+(58,784 real changes made)
 
 . replace egfr=egfr*1.018 if male==0
-(30,090 real changes made)
+(29,943 real changes made)
 
 . label var egfr "egfr calculated using CKD-EPI formula with no ethnicity"
 
@@ -874,59 +864,59 @@ egfr                                                                            
 
                   Type: Numeric (float)
 
-                 Range: [7.1429186,217.18848]         Units: 1.000e-07
-         Unique values: 58,877                    Missing .: 19,981/78,931
+                 Range: [7.8470869,215.75238]         Units: 1.000e-07
+         Unique values: 58,725                    Missing .: 19,903/78,687
 
-                  Mean: 62.3547
-             Std. dev.:  39.418
+                  Mean: 62.5533
+             Std. dev.: 39.6753
 
            Percentiles:     10%       25%       50%       75%       90%
-                        21.7063   30.7843    49.601   89.2219   122.739
+                        21.7993   30.7138   49.6093    89.497   123.333
 
 . tabstat egfr, stat(n mean p50 p25 p75)
 
     Variable |         N      Mean       p50       p25       p75
 -------------+--------------------------------------------------
-        egfr |     58950  62.35472    49.601  30.78428  89.22194
+        egfr |     58784  62.55332  49.60926  30.71379  89.49704
 ----------------------------------------------------------------
 
 . 
 . *Categorise into ckd stages
 . egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
-(19,981 missing values generated)
+(19,903 missing values generated)
 
 . recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-(58950 differences between egfr_cat_all and ckd_egfr)
+(58784 differences between egfr_cat_all and ckd_egfr)
 
 . tab egfr_cat_all, missing
 
 egfr_cat_al |
           l |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      1,173        1.49        1.49
-         15 |     12,814       16.23       17.72
-         30 |     12,585       15.94       33.66
-         45 |      8,194       10.38       44.05
-         60 |     24,184       30.64       74.69
-          . |     19,981       25.31      100.00
+          0 |      1,172        1.49        1.49
+         15 |     12,818       16.29       17.78
+         30 |     12,458       15.83       33.61
+         45 |      8,313       10.56       44.18
+         60 |     24,023       30.53       74.71
+          . |     19,903       25.29      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . gen egfr_cat = .
-(78,931 missing values generated)
+(78,687 missing values generated)
 
 . recode egfr_cat . = 3 if egfr < 30
-(13987 changes made to egfr_cat)
+(13990 changes made to egfr_cat)
 
 . recode egfr_cat . = 2 if egfr < 60
-(20779 changes made to egfr_cat)
+(20771 changes made to egfr_cat)
 
 . recode egfr_cat . = 1 if egfr < .
-(24184 changes made to egfr_cat)
+(24023 changes made to egfr_cat)
 
 . replace egfr_cat = .u if egfr >= .
-(19,981 real changes made, 19,981 to missing)
+(19,903 real changes made, 19,903 to missing)
 
 . 
 . label define egfr_cat   1 ">=60"                ///
@@ -943,20 +933,20 @@ egfr_cat_al |
 
        eGFR |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       >=60 |     24,184       30.64       30.64
-      30-59 |     20,779       26.33       56.96
-        <30 |     13,987       17.72       74.69
-    Missing |     19,981       25.31      100.00
+       >=60 |     24,023       30.53       30.53
+      30-59 |     20,771       26.40       56.93
+        <30 |     13,990       17.78       74.71
+    Missing |     19,903       25.29      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *If missing eGFR, assume normal
 . gen egfr_cat_nomiss = egfr_cat
-(19,981 missing values generated)
+(19,903 missing values generated)
 
 . replace egfr_cat_nomiss = 1 if egfr_cat == .u
-(19,981 real changes made)
+(19,903 real changes made)
 
 . 
 . label define egfr_cat_nomiss    1 ">=60/missing"        ///
@@ -971,15 +961,15 @@ egfr_cat_al |
 
         eGFR |      Freq.     Percent        Cum.
 -------------+-----------------------------------
->=60/missing |     44,165       55.95       55.95
-       30-59 |     20,779       26.33       82.28
-         <30 |     13,987       17.72      100.00
+>=60/missing |     43,926       55.82       55.82
+       30-59 |     20,771       26.40       82.22
+         <30 |     13,990       17.78      100.00
 -------------+-----------------------------------
-       Total |     78,931      100.00
+       Total |     78,687      100.00
 
 . 
 . gen egfr_date = creatinine_date
-(19,981 missing values generated)
+(19,903 missing values generated)
 
 . format egfr_date %td
 
@@ -989,10 +979,10 @@ egfr_cat_al |
 . gen ckd = 0
 
 . replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
-(34,766 real changes made)
+(34,761 real changes made)
 
 . replace ckd = 1 if esrf == 1
-(8,839 real changes made)
+(8,718 real changes made)
 
 . 
 . label define ckd 0 "No CKD" 1 "CKD"
@@ -1007,21 +997,21 @@ egfr_cat_al |
      kidney |
     disease |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-     No CKD |     35,326       44.76       44.76
-        CKD |     43,605       55.24      100.00
+     No CKD |     35,208       44.74       44.74
+        CKD |     43,479       55.26      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *Create date (most recent measure prior to index)
 . gen temp1_ckd_date = creatinine_date if ckd_egfr >=1
-(44,165 missing values generated)
+(43,926 missing values generated)
 
 . gen temp2_ckd_date = esrf_date if esrf == 1
-(63,139 missing values generated)
+(62,948 missing values generated)
 
 . gen ckd_date = max(temp1_ckd_date,temp2_ckd_date) 
-(35,326 missing values generated)
+(35,208 missing values generated)
 
 . format ckd_date %td 
 
@@ -1032,34 +1022,34 @@ egfr_cat_al |
 . ***HbA1c
 . *Set zero or negative to missing
 . replace hba1c_percentage   = . if hba1c_percentage <= 0
-(4,390 real changes made, 4,390 to missing)
+(4,443 real changes made, 4,443 to missing)
 
 . replace hba1c_mmol_per_mol = . if hba1c_mmol_per_mol <= 0
-(5,684 real changes made, 5,684 to missing)
+(5,701 real changes made, 5,701 to missing)
 
 . 
 . *Change implausible values to missing
 . replace hba1c_percentage   = . if !inrange(hba1c_percentage, 1, 20)
-(1,254 real changes made, 1,254 to missing)
+(1,215 real changes made, 1,215 to missing)
 
 . replace hba1c_mmol_per_mol = . if !inrange(hba1c_mmol_per_mol, 10, 200)
-(3,258 real changes made, 3,258 to missing)
+(3,322 real changes made, 3,322 to missing)
 
 . 
 . *Set most recent values of >24 months prior to EIA diagnosis date to missing
 . replace hba1c_percentage   = . if (eia_code_date - hba1c_percentage_date) > 24*30 & hba1c_percentage_date != .
-(70,942 real changes made, 70,942 to missing)
+(70,724 real changes made, 70,724 to missing)
 
 . replace hba1c_mmol_per_mol = . if (eia_code_date - hba1c_mmol_per_mol_date) > 24*30 & hba1c_mmol_per_mol_date != .
-(67,735 real changes made, 67,735 to missing)
+(67,390 real changes made, 67,390 to missing)
 
 . 
 . *Clean up dates
 . replace hba1c_percentage_date = . if hba1c_percentage == .
-(72,654 real changes made, 72,654 to missing)
+(72,402 real changes made, 72,402 to missing)
 
 . replace hba1c_mmol_per_mol_date = . if hba1c_mmol_per_mol == .
-(72,717 real changes made, 72,717 to missing)
+(72,465 real changes made, 72,465 to missing)
 
 . 
 . *Express  HbA1c as percentage
@@ -1068,14 +1058,14 @@ egfr_cat_al |
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-hba1c_per~ge |      2,345    5.089443    1.872514   1.002347   12.71413
-hba1c_mmol~l |      2,254     42.8072    17.58268   10.05546   116.6252
+hba1c_per~ge |      2,305    5.130296    1.854613   1.015584   12.81997
+hba1c_mmol~l |      2,274    42.73847    17.58738   10.05758   111.5655
 
 . gen     hba1c_pct = hba1c_percentage 
-(76,586 missing values generated)
+(76,382 missing values generated)
 
 . replace hba1c_pct = (hba1c_mmol_per_mol/10.929)+2.15 if hba1c_mmol_per_mol<. 
-(2,254 real changes made)
+(2,274 real changes made)
 
 . 
 . *Valid % range between 0-20  
@@ -1083,25 +1073,25 @@ hba1c_mmol~l |      2,254     42.8072    17.58268   10.05546   116.6252
 (0 real changes made)
 
 . replace hba1c_pct = round(hba1c_pct, 0.1)
-(4,543 real changes made)
+(4,506 real changes made)
 
 . 
 . *Categorise HbA1c and diabetes
 . *Group hba1c pct
 . gen     hba1ccat = 0 if hba1c_pct <  6.5
-(75,828 missing values generated)
+(75,579 missing values generated)
 
 . replace hba1ccat = 1 if hba1c_pct >= 6.5  & hba1c_pct < 7.5
-(740 real changes made)
+(704 real changes made)
 
 . replace hba1ccat = 2 if hba1c_pct >= 7.5  & hba1c_pct < 8
-(263 real changes made)
+(256 real changes made)
 
 . replace hba1ccat = 3 if hba1c_pct >= 8    & hba1c_pct < 9
-(295 real changes made)
+(272 real changes made)
 
 . replace hba1ccat = 4 if hba1c_pct >= 9    & hba1c_pct !=.
-(142 real changes made)
+(166 real changes made)
 
 . label define hba1ccat 0 "<6.5%" 1">=6.5-7.4" 2">=7.5-7.9" 3">=8-8.9" 4">=9"
 
@@ -1111,33 +1101,33 @@ hba1c_mmol~l |      2,254     42.8072    17.58268   10.05546   116.6252
 
    hba1ccat |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-      <6.5% |      3,103        3.93        3.93
-  >=6.5-7.4 |        740        0.94        4.87
-  >=7.5-7.9 |        263        0.33        5.20
-    >=8-8.9 |        295        0.37        5.58
-        >=9 |        142        0.18        5.76
-          . |     74,388       94.24      100.00
+      <6.5% |      3,108        3.95        3.95
+  >=6.5-7.4 |        704        0.89        4.84
+  >=7.5-7.9 |        256        0.33        5.17
+    >=8-8.9 |        272        0.35        5.52
+        >=9 |        166        0.21        5.73
+          . |     74,181       94.27      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *Express all values as mmol
 . gen hba1c_mmol = hba1c_mmol_per_mol
-(76,677 missing values generated)
+(76,413 missing values generated)
 
 . replace hba1c_mmol = (hba1c_percentage*10.929)-23.5 if hba1c_percentage<. & hba1c_mmol==.
-(2,289 real changes made)
+(2,232 real changes made)
 
 . 
 . *Group hba1c mmol
 . gen     hba1ccatmm = 0 if hba1c_mmol < 58
-(75,085 missing values generated)
+(74,870 missing values generated)
 
 . replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_mmol !=.
-(697 real changes made)
+(689 real changes made)
 
 . replace hba1ccatmm =.u if hba1ccatmm==. 
-(74,388 real changes made, 74,388 to missing)
+(74,181 real changes made, 74,181 to missing)
 
 . label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Missing"
 
@@ -1149,25 +1139,25 @@ hba1c_mmol~l |      2,254     42.8072    17.58268   10.05546   116.6252
 
              HbA1c |      Freq.     Percent        Cum.
 -------------------+-----------------------------------
- HbA1c <58mmol/mol |      3,846        4.87        4.87
-HbA1c >=58mmol/mol |        697        0.88        5.76
-           Missing |     74,388       94.24      100.00
+ HbA1c <58mmol/mol |      3,817        4.85        4.85
+HbA1c >=58mmol/mol |        689        0.88        5.73
+           Missing |     74,181       94.27      100.00
 -------------------+-----------------------------------
-             Total |     78,931      100.00
+             Total |     78,687      100.00
 
 . 
 . *Create diabetes, split by control/not (assumes missing = no diabetes)
 . gen     diabcatm = 1 if diabetes==0
-(15,784 missing values generated)
+(15,744 missing values generated)
 
 . replace diabcatm = 2 if diabetes==1 & hba1ccatmm==0
-(730 real changes made)
+(751 real changes made)
 
 . replace diabcatm = 3 if diabetes==1 & hba1ccatmm==1
-(146 real changes made)
+(129 real changes made)
 
 . replace diabcatm = 4 if diabetes==1 & hba1ccatmm==.u
-(14,908 real changes made)
+(14,864 real changes made)
 
 . 
 . label define diabcatm   1 "No diabetes"                         ///
@@ -1177,12 +1167,14 @@ HbA1c >=58mmol/mol |        697        0.88        5.76
 
 . label values diabcatm diabcatm
 
+. lab var diabcatm "Diabetes"
+
 . 
 . *Create cancer variable 'other cancer currently', includes carcinoma of the head and neck - need to confirm if this excludes NMSC
 . gen cancer =0
 
 . replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
-(38,512 real changes made)
+(38,469 real changes made)
 
 . lab var cancer "Cancer"
 
@@ -1190,18 +1182,18 @@ HbA1c >=58mmol/mol |        697        0.88        5.76
 
      Cancer |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     40,419       51.21       51.21
-          1 |     38,512       48.79      100.00
+          0 |     40,218       51.11       51.11
+          1 |     38,469       48.89      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . 
 . *Create other comorbid variables
 . gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
-(50,564 missing values generated)
+(50,471 missing values generated)
 
 . recode combined_cv_comorbid .=0
-(50564 changes made to combined_cv_comorbid)
+(50471 changes made to combined_cv_comorbid)
 
 . 
 . *Label variables
@@ -1232,26 +1224,26 @@ HbA1c >=58mmol/mol |        697        0.88        5.76
 
    eia_code |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        797        1.01        1.01
-          1 |     78,134       98.99      100.00
+          0 |        798        1.01        1.01
+          1 |     77,889       98.99      100.00
 ------------+-----------------------------------
-      Total |     78,931      100.00
+      Total |     78,687      100.00
 
 . keep if eia_code==1
-(797 observations deleted)
+(798 observations deleted)
 
 . 
 . **Keep patients with first EIA code in GP record if code was after 1st March 2019
 . keep if eia_code_date>=date("$start_date", "DMY") & eia_code_date!=. 
-(18,139 observations deleted)
+(17,913 observations deleted)
 
 . tab eia_code
 
    eia_code |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |     59,995      100.00      100.00
+          1 |     59,976      100.00      100.00
 ------------+-----------------------------------
-      Total |     59,995      100.00
+      Total |     59,976      100.00
 
 . keep if eia_code_date<=date("$end_date", "DMY") & eia_code_date!=. 
 (2,924 observations deleted)
@@ -1274,31 +1266,31 @@ HbA1c >=58mmol/mol |        697        0.88        5.76
 . *Include only most recent EIA sub-diagnosis=============================================*/
 . 
 . replace ra_code =0 if psa_code_date > ra_code_date & psa_code_date !=.
-(27,686 real changes made)
+(28,112 real changes made)
 
 . replace ra_code =0 if anksp_code_date > ra_code_date & anksp_code_date !=.
-(9,573 real changes made)
+(9,467 real changes made)
 
 . replace psa_code =0 if ra_code_date >= psa_code_date & ra_code_date !=.
-(28,268 real changes made)
+(27,833 real changes made)
 
 . replace psa_code =0 if anksp_code_date > psa_code_date & anksp_code_date !=.
-(9,477 real changes made)
+(9,505 real changes made)
 
 . replace anksp_code =0 if psa_code_date >= anksp_code_date & psa_code_date !=.
-(28,007 real changes made)
+(28,061 real changes made)
 
 . replace anksp_code =0 if ra_code_date >= anksp_code_date & ra_code_date !=.
-(9,451 real changes made)
+(9,422 real changes made)
 
 . gen eia_diagnosis=1 if ra_code==1
-(37,812 missing values generated)
+(38,126 missing values generated)
 
 . replace eia_diagnosis=2 if psa_code==1
-(18,757 real changes made)
+(19,149 real changes made)
 
 . replace eia_diagnosis=3 if anksp_code==1
-(19,055 real changes made)
+(18,977 real changes made)
 
 . lab define eia_diagnosis 1 "RA" 2 "PsA" 3 "AxSpA", modify
 
@@ -1309,11 +1301,11 @@ HbA1c >=58mmol/mol |        697        0.88        5.76
 eia_diagnos |
          is |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-         RA |     19,259       33.75       33.75
-        PsA |     18,757       32.87       66.61
-      AxSpA |     19,055       33.39      100.00
+         RA |     18,926       33.17       33.17
+        PsA |     19,149       33.56       66.74
+      AxSpA |     18,977       33.26      100.00
 ------------+-----------------------------------
-      Total |     57,071      100.00
+      Total |     57,052      100.00
 
 . drop if eia_diagnosis==. //should be ~none
 (0 observations deleted)
@@ -1323,19 +1315,19 @@ eia_diagnos |
 . 
 . **csDMARDs (not including high cost MTX; wouldn't be shared care)
 . gen csdmard=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | sulfasalazine==1
-(33,782 missing values generated)
+(33,672 missing values generated)
 
 . recode csdmard .=0 
-(33782 changes made to csdmard)
+(33672 changes made to csdmard)
 
 . tab csdmard, missing
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     33,782       59.19       59.19
-          1 |     23,289       40.81      100.00
+          0 |     33,672       59.02       59.02
+          1 |     23,380       40.98      100.00
 ------------+-----------------------------------
-      Total |     57,071      100.00
+      Total |     57,052      100.00
 
 . bys eia_diagnosis: tab csdmard
 
@@ -1344,48 +1336,48 @@ eia_diagnos |
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     11,448       59.44       59.44
-          1 |      7,811       40.56      100.00
+          0 |     11,133       58.82       58.82
+          1 |      7,793       41.18      100.00
 ------------+-----------------------------------
-      Total |     19,259      100.00
+      Total |     18,926      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = PsA
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     11,107       59.22       59.22
-          1 |      7,650       40.78      100.00
+          0 |     11,295       58.98       58.98
+          1 |      7,854       41.02      100.00
 ------------+-----------------------------------
-      Total |     18,757      100.00
+      Total |     19,149      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = AxSpA
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     11,227       58.92       58.92
-          1 |      7,828       41.08      100.00
+          0 |     11,244       59.25       59.25
+          1 |      7,733       40.75      100.00
 ------------+-----------------------------------
-      Total |     19,055      100.00
+      Total |     18,977      100.00
 
 
 . 
 . **csDMARDs (including high cost MTX)
 . gen csdmard_hcd=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1 | sulfasalazine==1
-(30,395 missing values generated)
+(30,322 missing values generated)
 
 . recode csdmard_hcd .=0 
-(30395 changes made to csdmard_hcd)
+(30322 changes made to csdmard_hcd)
 
 . tab csdmard_hcd, missing
 
 csdmard_hcd |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     30,395       53.26       53.26
-          1 |     26,676       46.74      100.00
+          0 |     30,322       53.15       53.15
+          1 |     26,730       46.85      100.00
 ------------+-----------------------------------
-      Total |     57,071      100.00
+      Total |     57,052      100.00
 
 . bys eia_diagnosis: tab csdmard_hcd, missing
 
@@ -1394,43 +1386,43 @@ csdmard_hcd |      Freq.     Percent        Cum.
 
 csdmard_hcd |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     10,316       53.56       53.56
-          1 |      8,943       46.44      100.00
+          0 |     10,020       52.94       52.94
+          1 |      8,906       47.06      100.00
 ------------+-----------------------------------
-      Total |     19,259      100.00
+      Total |     18,926      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = PsA
 
 csdmard_hcd |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      9,965       53.13       53.13
-          1 |      8,792       46.87      100.00
+          0 |     10,174       53.13       53.13
+          1 |      8,975       46.87      100.00
 ------------+-----------------------------------
-      Total |     18,757      100.00
+      Total |     19,149      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = AxSpA
 
 csdmard_hcd |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     10,114       53.08       53.08
-          1 |      8,941       46.92      100.00
+          0 |     10,128       53.37       53.37
+          1 |      8,849       46.63      100.00
 ------------+-----------------------------------
-      Total |     19,055      100.00
+      Total |     18,977      100.00
 
 
 . 
 . **Date of first csDMARD script (not including high cost MTX prescriptions)
 . gen csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date)
-(33,782 missing values generated)
+(33,672 missing values generated)
 
 . format %td csdmard_date
 
 . 
 . **Date of first csDMARD script (including high cost MTX prescriptions)
 . gen csdmard_hcd_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date, sulfasalazine_date)
-(30,395 missing values generated)
+(30,322 missing values generated)
 
 . format %td csdmard_hcd_date
 
@@ -1438,19 +1430,19 @@ csdmard_hcd |      Freq.     Percent        Cum.
 . **Biologic use
 . gen biologic=1 if abatacept==1 | adalimumab==1 | baricitinib==1 | certolizumab==1 | etanercept==1 | golimumab==1 | guselkumab==1 | infliximab==1 | ixekizumab==1 | rituximab==1 | sarilumab==1 | secukinumab==1 | tocilizumab
 > ==1 | tofacitinib==1 | upadacitinib==1 | ustekinumab==1 
-(10,575 missing values generated)
+(10,590 missing values generated)
 
 . recode biologic .=0
-(10575 changes made to biologic)
+(10590 changes made to biologic)
 
 . tab biologic, missing
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |     10,575       18.53       18.53
-          1 |     46,496       81.47      100.00
+          0 |     10,590       18.56       18.56
+          1 |     46,462       81.44      100.00
 ------------+-----------------------------------
-      Total |     57,071      100.00
+      Total |     57,052      100.00
 
 . bys eia_diagnosis: tab biologic, missing 
 
@@ -1459,37 +1451,37 @@ csdmard_hcd |      Freq.     Percent        Cum.
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      3,564       18.51       18.51
-          1 |     15,695       81.49      100.00
+          0 |      3,471       18.34       18.34
+          1 |     15,455       81.66      100.00
 ------------+-----------------------------------
-      Total |     19,259      100.00
+      Total |     18,926      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = PsA
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      3,535       18.85       18.85
-          1 |     15,222       81.15      100.00
+          0 |      3,577       18.68       18.68
+          1 |     15,572       81.32      100.00
 ------------+-----------------------------------
-      Total |     18,757      100.00
+      Total |     19,149      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = AxSpA
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      3,476       18.24       18.24
-          1 |     15,579       81.76      100.00
+          0 |      3,542       18.66       18.66
+          1 |     15,435       81.34      100.00
 ------------+-----------------------------------
-      Total |     19,055      100.00
+      Total |     18,977      100.00
 
 
 . 
 . **Date of first biologic script
 . gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certolizumab_date, etanercept_date, golimumab_date, guselkumab_date, infliximab_date, ixekizumab_date, rituximab_date, sarilumab_date, secukinumab_d
 > ate, tocilizumab_date, tofacitinib_date, upadacitinib_date, ustekinumab_date)
-(10,575 missing values generated)
+(10,590 missing values generated)
 
 . format %td biologic_date
 
@@ -1500,83 +1492,51 @@ csdmard_hcd |      Freq.     Percent        Cum.
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |      8,454      100.00      100.00
+          1 |      8,501      100.00      100.00
 ------------+-----------------------------------
-      Total |      8,454      100.00
-
-. tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 15)<rheum_appt_date 
-
-    csdmard |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |      8,256      100.00      100.00
-------------+-----------------------------------
-      Total |      8,256      100.00
-
-. tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 30)<rheum_appt_date 
-
-    csdmard |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |      8,042      100.00      100.00
-------------+-----------------------------------
-      Total |      8,042      100.00
+      Total |      8,501      100.00
 
 . tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
 
     csdmard |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |      7,642      100.00      100.00
+          1 |      7,679      100.00      100.00
 ------------+-----------------------------------
-      Total |      7,642      100.00
+      Total |      7,679      100.00
 
-. drop if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
-(8,454 observations deleted)
+. drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date
+(7,679 observations deleted)
 
 . tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |     14,749      100.00      100.00
+          1 |     15,282      100.00      100.00
 ------------+-----------------------------------
-      Total |     14,749      100.00
-
-. tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 15)<rheum_appt_date 
-
-   biologic |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     14,406      100.00      100.00
-------------+-----------------------------------
-      Total |     14,406      100.00
-
-. tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 30)<rheum_appt_date 
-
-   biologic |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     14,065      100.00      100.00
-------------+-----------------------------------
-      Total |     14,065      100.00
+      Total |     15,282      100.00
 
 . tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
 
    biologic |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |     13,372      100.00      100.00
+          1 |     13,885      100.00      100.00
 ------------+-----------------------------------
-      Total |     13,372      100.00
+      Total |     13,885      100.00
 
-. drop if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
-(14,749 observations deleted)
+. drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
+(13,885 observations deleted)
 
 . 
 . *Number of EIA diagnoses in 1-year time windows=========================================*/
 . 
 . gen diagnosis_year=1 if eia_code_date>=td(01mar2019) & eia_code_date<td(01mar2020)
-(22,437 missing values generated)
+(23,608 missing values generated)
 
 . replace diagnosis_year=2 if eia_code_date>=td(01mar2020) & eia_code_date<td(01mar2021)
-(11,085 real changes made)
+(11,961 real changes made)
 
-. replace diagnosis_year=3 if eia_code_date>=td(01mar2021) & eia_code_date<td(01mar2022)
-(11,319 real changes made)
+. replace diagnosis_year=3 if eia_code_date>=td(01mar2021) & eia_code_date<=td(01mar2022)
+(11,647 real changes made)
 
 . lab define diagnosis_year 1 "March 2019-March 2020" 2 "March 2020-March 2021" 3 "March 2021-March 2022", modify
 
@@ -1588,12 +1548,11 @@ csdmard_hcd |      Freq.     Percent        Cum.
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |     11,431       33.75       33.75
-March 2020-March 2021 |     11,085       32.73       66.48
-March 2021-March 2022 |     11,319       33.42       99.90
-                    . |         33        0.10      100.00
+March 2019-March 2020 |     11,880       33.48       33.48
+March 2020-March 2021 |     11,961       33.70       67.18
+March 2021-March 2022 |     11,647       32.82      100.00
 ----------------------+-----------------------------------
-                Total |     33,868      100.00
+                Total |     35,488      100.00
 
 . bys eia_diagnosis: tab diagnosis_year, missing
 
@@ -1602,36 +1561,33 @@ March 2021-March 2022 |     11,319       33.42       99.90
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |      3,817       33.37       33.37
-March 2020-March 2021 |      3,744       32.74       66.11
-March 2021-March 2022 |      3,865       33.79       99.90
-                    . |         11        0.10      100.00
+March 2019-March 2020 |      3,903       33.18       33.18
+March 2020-March 2021 |      4,007       34.06       67.24
+March 2021-March 2022 |      3,854       32.76      100.00
 ----------------------+-----------------------------------
-                Total |     11,437      100.00
+                Total |     11,764      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = PsA
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |      3,789       34.01       34.01
-March 2020-March 2021 |      3,643       32.70       66.70
-March 2021-March 2022 |      3,700       33.21       99.91
-                    . |         10        0.09      100.00
+March 2019-March 2020 |      3,985       33.45       33.45
+March 2020-March 2021 |      3,973       33.35       66.81
+March 2021-March 2022 |      3,954       33.19      100.00
 ----------------------+-----------------------------------
-                Total |     11,142      100.00
+                Total |     11,912      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -> eia_diagnosis = AxSpA
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |      3,825       33.88       33.88
-March 2020-March 2021 |      3,698       32.76       66.64
-March 2021-March 2022 |      3,754       33.25       99.89
-                    . |         12        0.11      100.00
+March 2019-March 2020 |      3,992       33.80       33.80
+March 2020-March 2021 |      3,981       33.70       67.50
+March 2021-March 2022 |      3,839       32.50      100.00
 ----------------------+-----------------------------------
-                Total |     11,289      100.00
+                Total |     11,812      100.00
 
 
 . 
@@ -1641,2123 +1597,327 @@ March 2021-March 2022 |      3,754       33.25       99.89
 has_6m_foll |
       ow_up |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      1,651        4.87        4.87
-          1 |     32,217       95.13      100.00
+          0 |      1,741        4.91        4.91
+          1 |     33,747       95.09      100.00
 ------------+-----------------------------------
-      Total |     33,868      100.00
+      Total |     35,488      100.00
 
 . tab has_12m_follow_up
 
 has_12m_fol |
      low_up |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      3,366        9.94        9.94
-          1 |     30,502       90.06      100.00
+          0 |      3,565       10.05       10.05
+          1 |     31,923       89.95      100.00
 ------------+-----------------------------------
-      Total |     33,868      100.00
+      Total |     35,488      100.00
 
 . tab mo_year_diagn has_6m_follow_up
 
 mo_year_di |   has_6m_follow_up
        agn |         0          1 |     Total
 -----------+----------------------+----------
-    2019m3 |        56        877 |       933 
-    2019m4 |        38        891 |       929 
-    2019m5 |        44        921 |       965 
-    2019m6 |        40        826 |       866 
-    2019m7 |        34        938 |       972 
-    2019m8 |        67        929 |       996 
-    2019m9 |        44        947 |       991 
-   2019m10 |        58        909 |       967 
-   2019m11 |        45        895 |       940 
-   2019m12 |        41        908 |       949 
-    2020m1 |        36        982 |     1,018 
-    2020m2 |        46        859 |       905 
-    2020m3 |        35        899 |       934 
-    2020m4 |        48        891 |       939 
-    2020m5 |        43        872 |       915 
-    2020m6 |        47        875 |       922 
-    2020m7 |        40        944 |       984 
-    2020m8 |        39        899 |       938 
-    2020m9 |        52        860 |       912 
-   2020m10 |        38        869 |       907 
-   2020m11 |        53        835 |       888 
-   2020m12 |        53        892 |       945 
-    2021m1 |        48        888 |       936 
-    2021m2 |        36        829 |       865 
-    2021m3 |        50        875 |       925 
-    2021m4 |        42        892 |       934 
-    2021m5 |        35        945 |       980 
-    2021m6 |        46        883 |       929 
-    2021m7 |        42        923 |       965 
-    2021m8 |        51        917 |       968 
-    2021m9 |        44        878 |       922 
-   2021m10 |        51        901 |       952 
-   2021m11 |        49        837 |       886 
-   2021m12 |        44        941 |       985 
-    2022m1 |        55        913 |       968 
-    2022m2 |        61        844 |       905 
-    2022m3 |         0         33 |        33 
+    2019m3 |        57        931 |       988 
+    2019m4 |        44        905 |       949 
+    2019m5 |        53        925 |       978 
+    2019m6 |        51        910 |       961 
+    2019m7 |        50        999 |     1,049 
+    2019m8 |        45        944 |       989 
+    2019m9 |        34        950 |       984 
+   2019m10 |        36        936 |       972 
+   2019m11 |        50        912 |       962 
+   2019m12 |        35      1,036 |     1,071 
+    2020m1 |        51        960 |     1,011 
+    2020m2 |        61        905 |       966 
+    2020m3 |        48        997 |     1,045 
+    2020m4 |        53        972 |     1,025 
+    2020m5 |        57        951 |     1,008 
+    2020m6 |        48        907 |       955 
+    2020m7 |        55      1,003 |     1,058 
+    2020m8 |        47        948 |       995 
+    2020m9 |        52        899 |       951 
+   2020m10 |        57        943 |     1,000 
+   2020m11 |        45        964 |     1,009 
+   2020m12 |        43        958 |     1,001 
+    2021m1 |        51        943 |       994 
+    2021m2 |        46        874 |       920 
+    2021m3 |        54        943 |       997 
+    2021m4 |        45        910 |       955 
+    2021m5 |        34        957 |       991 
+    2021m6 |        44        925 |       969 
+    2021m7 |        55      1,001 |     1,056 
+    2021m8 |        37        958 |       995 
+    2021m9 |        53        903 |       956 
+   2021m10 |        53        885 |       938 
+   2021m11 |        47        932 |       979 
+   2021m12 |        46        885 |       931 
+    2022m1 |        53        882 |       935 
+    2022m2 |        48        863 |       911 
+    2022m3 |         3         31 |        34 
 -----------+----------------------+----------
-     Total |     1,651     32,217 |    33,868 
+     Total |     1,741     33,747 |    35,488 
 
 . tab mo_year_diagn has_12m_follow_up
 
 mo_year_di |   has_12m_follow_up
        agn |         0          1 |     Total
 -----------+----------------------+----------
-    2019m3 |        90        843 |       933 
-    2019m4 |       110        819 |       929 
-    2019m5 |       102        863 |       965 
-    2019m6 |        61        805 |       866 
-    2019m7 |        98        874 |       972 
-    2019m8 |        92        904 |       996 
-    2019m9 |       104        887 |       991 
-   2019m10 |       103        864 |       967 
-   2019m11 |       109        831 |       940 
-   2019m12 |       101        848 |       949 
-    2020m1 |       101        917 |     1,018 
-    2020m2 |        82        823 |       905 
-    2020m3 |        88        846 |       934 
-    2020m4 |        67        872 |       939 
-    2020m5 |        88        827 |       915 
-    2020m6 |        95        827 |       922 
-    2020m7 |        81        903 |       984 
-    2020m8 |        98        840 |       938 
-    2020m9 |        80        832 |       912 
-   2020m10 |       100        807 |       907 
-   2020m11 |        94        794 |       888 
-   2020m12 |       107        838 |       945 
-    2021m1 |       116        820 |       936 
-    2021m2 |       103        762 |       865 
-    2021m3 |        97        828 |       925 
-    2021m4 |        81        853 |       934 
-    2021m5 |        84        896 |       980 
-    2021m6 |        95        834 |       929 
-    2021m7 |       102        863 |       965 
-    2021m8 |        89        879 |       968 
-    2021m9 |        82        840 |       922 
-   2021m10 |        93        859 |       952 
-   2021m11 |        84        802 |       886 
-   2021m12 |       113        872 |       985 
-    2022m1 |        91        877 |       968 
-    2022m2 |        80        825 |       905 
-    2022m3 |         5         28 |        33 
+    2019m3 |       102        886 |       988 
+    2019m4 |        87        862 |       949 
+    2019m5 |       117        861 |       978 
+    2019m6 |       105        856 |       961 
+    2019m7 |        95        954 |     1,049 
+    2019m8 |       100        889 |       989 
+    2019m9 |       107        877 |       984 
+   2019m10 |        97        875 |       972 
+   2019m11 |        79        883 |       962 
+   2019m12 |       106        965 |     1,071 
+    2020m1 |       115        896 |     1,011 
+    2020m2 |        84        882 |       966 
+    2020m3 |       109        936 |     1,045 
+    2020m4 |       119        906 |     1,025 
+    2020m5 |       104        904 |     1,008 
+    2020m6 |        98        857 |       955 
+    2020m7 |       109        949 |     1,058 
+    2020m8 |       104        891 |       995 
+    2020m9 |        95        856 |       951 
+   2020m10 |        76        924 |     1,000 
+   2020m11 |       104        905 |     1,009 
+   2020m12 |        85        916 |     1,001 
+    2021m1 |       101        893 |       994 
+    2021m2 |        88        832 |       920 
+    2021m3 |       109        888 |       997 
+    2021m4 |       107        848 |       955 
+    2021m5 |        86        905 |       991 
+    2021m6 |        90        879 |       969 
+    2021m7 |        98        958 |     1,056 
+    2021m8 |       110        885 |       995 
+    2021m9 |        97        859 |       956 
+   2021m10 |        97        841 |       938 
+   2021m11 |        90        889 |       979 
+   2021m12 |        92        839 |       931 
+    2022m1 |       110        825 |       935 
+    2022m2 |        87        824 |       911 
+    2022m3 |         6         28 |        34 
 -----------+----------------------+----------
-     Total |     3,366     30,502 |    33,868 
+     Total |     3,565     31,923 |    35,488 
 
 . tab diagnosis_year if has_6m_follow_up==1, missing
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |     10,882       33.78       33.78
-March 2020-March 2021 |     10,553       32.76       66.53
-March 2021-March 2022 |     10,749       33.36       99.90
-                    . |         33        0.10      100.00
+March 2019-March 2020 |     11,313       33.52       33.52
+March 2020-March 2021 |     11,359       33.66       67.18
+March 2021-March 2022 |     11,075       32.82      100.00
 ----------------------+-----------------------------------
-                Total |     32,217      100.00
+                Total |     33,747      100.00
 
 . tab diagnosis_year if has_12m_follow_up==1, missing
 
     Year of diagnosis |      Freq.     Percent        Cum.
 ----------------------+-----------------------------------
-March 2019-March 2020 |     10,278       33.70       33.70
-March 2020-March 2021 |      9,968       32.68       66.38
-March 2021-March 2022 |     10,228       33.53       99.91
-                    . |         28        0.09      100.00
+March 2019-March 2020 |     10,686       33.47       33.47
+March 2020-March 2021 |     10,769       33.73       67.21
+March 2021-March 2022 |     10,468       32.79      100.00
 ----------------------+-----------------------------------
-                Total |     30,502      100.00
+                Total |     31,923      100.00
 
 . 
 . *Define appointments and referrals======================================*/
 . **Nb. not excluding those without 6m+ follow-up
 . 
 . **Rheumatology appt 
-. tab rheum_appt, missing  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
+. tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      5,742       16.95       16.95
-          1 |     28,126       83.05      100.00
+          0 |      5,699       16.06       16.06
+          1 |     29,789       83.94      100.00
 ------------+-----------------------------------
-      Total |     33,868      100.00
+      Total |     35,488      100.00
 
-. tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code (should be accounted for by Python code)
-
- rheum_appt |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |      5,547      100.00      100.00
-------------+-----------------------------------
-      Total |      5,547      100.00
-
-. tab rheum_appt if rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code (should be accounted for by Python code)
+. tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a code date from Oct 2019 onward with a rheum outpatient date in the two years before EIA code appeared in GP record 
+> (i.e. 6m+ preceding)
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |      5,157      100.00      100.00
+          0 |      4,579       16.02       16.02
+          1 |     24,011       83.98      100.00
 ------------+-----------------------------------
-      Total |      5,157      100.00
+      Total |     28,590      100.00
 
-. tab rheum_appt if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code (should be accounted for by Python code)
+. 
+. **Check timeframe of rheum appt relative to EIA codebook
+. tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |      4,735      100.00      100.00
+          1 |      3,467      100.00      100.00
 ------------+-----------------------------------
-      Total |      4,735      100.00
+      Total |      3,467      100.00
 
-. codebook rheum_appt_date
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-rheum_appt_date                                                                                                                                                                                                     (unlabeled)
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric daily date (float)
-
-                 Range: [21260,22760]                 Units: 1
-       Or equivalently: [17mar2018,25apr2022]         Units: days
-         Unique values: 1,500                     Missing .: 5,742/33,868
-
-                  Mean: 21753.2 = 23jul2019(+ 6 hours)
-             Std. dev.: 361.617
-           Percentiles:       10%        25%        50%        75%        90%
-                            21343      21465      21671      21978      22300
-                        08jun2018  08oct2018  02may2019  04mar2020  20jan2021
-
-. bys region: tab rheum_appt, missing
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = East Midlands
+. tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code 
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        551       16.46       16.46
-          1 |      2,797       83.54      100.00
+          1 |      3,190      100.00      100.00
 ------------+-----------------------------------
-      Total |      3,348      100.00
+      Total |      3,190      100.00
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = East of England
+. tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        550       16.74       16.74
-          1 |      2,736       83.26      100.00
+          1 |      2,878      100.00      100.00
 ------------+-----------------------------------
-      Total |      3,286      100.00
+      Total |      2,878      100.00
+
+. replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+(5,315 real changes made)
+
+. replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+(5,315 real changes made, 5,315 to missing)
+
+. //consider dropping if above or missing for analyses below
+. bys nuts_region: tab rheum_appt //check proportion by region
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = London
+-> nuts_region = East Midlands
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      1,141       17.15       17.15
-          1 |      5,512       82.85      100.00
+          0 |      1,047       30.24       30.24
+          1 |      2,415       69.76      100.00
 ------------+-----------------------------------
-      Total |      6,653      100.00
+      Total |      3,462      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = Missing
+-> nuts_region = East of England
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |         53       15.32       15.32
-          1 |        293       84.68      100.00
+          0 |      1,120       31.41       31.41
+          1 |      2,446       68.59      100.00
 ------------+-----------------------------------
-      Total |        346      100.00
+      Total |      3,566      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = North East
+-> nuts_region = London
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        630       18.13       18.13
-          1 |      2,845       81.87      100.00
+          0 |      2,215       32.02       32.02
+          1 |      4,703       67.98      100.00
 ------------+-----------------------------------
-      Total |      3,475      100.00
+      Total |      6,918      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = North West
+-> nuts_region = North East
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        556       16.21       16.21
-          1 |      2,874       83.79      100.00
+          0 |      1,094       31.99       31.99
+          1 |      2,326       68.01      100.00
 ------------+-----------------------------------
-      Total |      3,430      100.00
+      Total |      3,420      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = South East
+-> nuts_region = North West
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |      1,094       16.45       16.45
-          1 |      5,557       83.55      100.00
+          0 |      1,091       31.11       31.11
+          1 |      2,416       68.89      100.00
 ------------+-----------------------------------
-      Total |      6,651      100.00
+      Total |      3,507      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = West Midlands
+-> nuts_region = South East
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        583       17.61       17.61
-          1 |      2,727       82.39      100.00
+          0 |      2,154       30.11       30.11
+          1 |      4,999       69.89      100.00
 ------------+-----------------------------------
-      Total |      3,310      100.00
+      Total |      7,153      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> region = Yorkshire and the Humber
+-> nuts_region = West Midlands
 
  rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        584       17.33       17.33
-          1 |      2,785       82.67      100.00
+          0 |      1,086       30.59       30.59
+          1 |      2,464       69.41      100.00
 ------------+-----------------------------------
-      Total |      3,369      100.00
-
-
-. 
-. **Ortho
-. tab ortho_appt, missing
-
- ortho_appt |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      4,154       12.27       12.27
-          1 |     29,714       87.73      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. codebook ortho_appt_date
+      Total |      3,550      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ortho_appt_date                                                                                                                                                                                                     (unlabeled)
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> nuts_region = Yorkshire and the Humber
 
-                  Type: Numeric daily date (float)
-
-                 Range: [21260,22720]                 Units: 1
-       Or equivalently: [17mar2018,16mar2022]         Units: days
-         Unique values: 1,461                     Missing .: 4,154/33,868
-
-                  Mean: 21985.8 = 11mar2020(+ 19 hours)
-             Std. dev.: 420.525
-           Percentiles:       10%        25%        50%        75%        90%
-                            21406      21620      21985      22347      22571
-                        10aug2018  12mar2019  11mar2020  08mar2021  18oct2021
-
-. tab ortho_appt if ortho_appt_date>eia_code_date & ortho_appt_date!=. 
-
- ortho_appt |      Freq.     Percent        Cum.
+ rheum_appt |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          1 |     11,301      100.00      100.00
+          0 |      1,096       30.72       30.72
+          1 |      2,472       69.28      100.00
 ------------+-----------------------------------
-      Total |     11,301      100.00
-
-. tab ortho_appt if ortho_appt_date>(eia_code_date + 30) & ortho_appt_date!=. 
-
- ortho_appt |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     10,736      100.00      100.00
-------------+-----------------------------------
-      Total |     10,736      100.00
-
-. tab ortho_appt if ortho_appt_date>(eia_code_date + 60) & ortho_appt_date!=. 
-
- ortho_appt |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     10,156      100.00      100.00
-------------+-----------------------------------
-      Total |     10,156      100.00
-
-. tab tandortho_appt, missing
-
-tandortho_a |
-        ppt |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,448       10.18       10.18
-          1 |     30,420       89.82      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. codebook tandortho_appt_date
+      Total |      3,568      100.00
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-tandortho_appt_date                                                                                                                                                                                                 (unlabeled)
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-> nuts_region = .
 
-                  Type: Numeric daily date (float)
+ rheum_appt |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |        111       32.27       32.27
+          1 |        233       67.73      100.00
+------------+-----------------------------------
+      Total |        344      100.00
 
-                 Range: [21260,22761]                 Units: 1
-       Or equivalently: [17mar2018,26apr2022]         Units: days
-         Unique values: 1,502                     Missing .: 3,448/33,868
-
-                  Mean: 22010.2 = 05apr2020(+ 4 hours)
-             Std. dev.: 431.933
-           Percentiles:       10%        25%        50%        75%        90%
-                            21412      21637      22008      22382      22612
-                        16aug2018  29mar2019  03apr2020  12apr2021  28nov2021
 
 . 
-. **Rheumatology referrals
-. tab referral_rheum_prerheum //last rheum referral in the year before rheumatology outpatient (requires rheum appt to have been present, and rheum appt to be before EIA code)
+end of do-file
 
-referral_rh |
-eum_prerheu |
-          m |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,452       10.19       10.19
-          1 |     30,416       89.81      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
+. do "C:\Users\k1754142\AppData\Local\Temp\STD4444_000000.tmp"
 
-. tab referral_rheum_prerheum if rheum_appt!=0  //last rheum referral in the year before rheumatology outpatient if rheum appt date present
-
-referral_rh |
-eum_prerheu |
-          m |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      2,880       10.24       10.24
-          1 |     25,246       89.76      100.00
-------------+-----------------------------------
-      Total |     28,126      100.00
-
-. tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted 
-> for by Python code)
-
-referral_rh |
-eum_prerheu |
-          m |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |      8,238      100.00      100.00
-------------+-----------------------------------
-      Total |      8,238      100.00
-
-. tab referral_rheum_precode //last rheum referral in the year before EIA code (could use if rheum appt missing)
-
-referral_rh |
-eum_precode |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,419       10.10       10.10
-          1 |     30,449       89.90      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. codebook referral_rheum_precode_date
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-referral_rheum_precode_date                                                                                                                                                                                         (unlabeled)
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric daily date (float)
-
-                 Range: [21260,22761]                 Units: 1
-       Or equivalently: [17mar2018,26apr2022]         Units: days
-         Unique values: 1,502                     Missing .: 3,419/33,868
-
-                  Mean: 22012.6 = 07apr2020(+ 15 hours)
-             Std. dev.: 432.932
-           Percentiles:       10%        25%        50%        75%        90%
-                            21413      21637      22014      22390      22610
-                        17aug2018  29mar2019  09apr2020  20apr2021  26nov2021
-
-. gen referral_rheum_comb_date = referral_rheum_prerheum_date if referral_rheum_prerheum_date!=.
-(3,452 missing values generated)
-
-. replace referral_rheum_comb_date = referral_rheum_precode_date if referral_rheum_prerheum_date==. & referral_rheum_precode_date!=.
-(3,138 real changes made)
-
-. format %td referral_rheum_comb_date
-
-. codebook referral_rheum_comb_date
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-referral_rheum_comb_date                                                                                                                                                                                            (unlabeled)
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  Type: Numeric daily date (float)
-
-                 Range: [21260,22761]                 Units: 1
-       Or equivalently: [17mar2018,26apr2022]         Units: days
-         Unique values: 1,502                     Missing .: 314/33,868
-
-                  Mean: 22015.5 = 10apr2020(+ 11 hours)
-             Std. dev.: 432.951
-           Percentiles:       10%        25%        50%        75%        90%
-                            21414      21639      22020      22390      22612
-                        18aug2018  31mar2019  15apr2020  20apr2021  28nov2021
+. drop if eia_code_date<date("$outpatient_date", "DMY")
+(6,898 observations deleted)
 
 . 
-. **GP appointments
-. tab last_gp_refrheum //proportion with last GP appointment in year before rheum referral (pre-rheum appt); requires there to have been a rheum referral, before a rheum appt, before an EIA code
+end of do-file
+
+. tab mo_year_diagn
+
+mo_year_dia |
+         gn |      Freq.     Percent        Cum.
+------------+-----------------------------------
+    2019m10 |        972        3.40        3.40
+    2019m11 |        962        3.36        6.76
+    2019m12 |      1,071        3.75       10.51
+     2020m1 |      1,011        3.54       14.05
+     2020m2 |        966        3.38       17.43
+     2020m3 |      1,045        3.66       21.08
+     2020m4 |      1,025        3.59       24.67
+     2020m5 |      1,008        3.53       28.19
+     2020m6 |        955        3.34       31.53
+     2020m7 |      1,058        3.70       35.23
+     2020m8 |        995        3.48       38.71
+     2020m9 |        951        3.33       42.04
+    2020m10 |      1,000        3.50       45.54
+    2020m11 |      1,009        3.53       49.07
+    2020m12 |      1,001        3.50       52.57
+     2021m1 |        994        3.48       56.04
+     2021m2 |        920        3.22       59.26
+     2021m3 |        997        3.49       62.75
+     2021m4 |        955        3.34       66.09
+     2021m5 |        991        3.47       69.56
+     2021m6 |        969        3.39       72.95
+     2021m7 |      1,056        3.69       76.64
+     2021m8 |        995        3.48       80.12
+     2021m9 |        956        3.34       83.46
+    2021m10 |        938        3.28       86.74
+    2021m11 |        979        3.42       90.17
+    2021m12 |        931        3.26       93.42
+     2022m1 |        935        3.27       96.69
+     2022m2 |        911        3.19       99.88
+     2022m3 |         34        0.12      100.00
+------------+-----------------------------------
+      Total |     28,590      100.00
 
-last_gp_ref |
-      rheum |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,378        9.97        9.97
-          1 |     30,490       90.03      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. gen all_appts=1 if last_gp_refrheum==1 & referral_rheum_prerheum==1 & rheum_appt==1 & eia_code==1 & last_gp_refrheum_date<referral_rheum_prerheum_date & referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_c
-> ode_date 
-(33,013 missing values generated)
-
-. recode all_appts .=0
-(33013 changes made to all_appts)
-
-. tab all_appts, missing //KEY - proportion who had a last gp appt, then rheum ref, then rheum appt, then EIA code 
-
-  all_appts |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |     33,013       97.48       97.48
-          1 |        855        2.52      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code ref); requires there to have been a rheum referral before an EIA code (i.e. rheum appt could have been missing)
-
-last_gp_ref |
-       code |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,437       10.15       10.15
-          1 |     30,431       89.85      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
-
-last_gp_pre |
-      rheum |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,383        9.99        9.99
-          1 |     30,485       90.01      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. tab last_gp_precode //last GP appointment before EIA code
-
-last_gp_pre |
-       code |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      3,448       10.18       10.18
-          1 |     30,420       89.82      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. 
-. **For sensitivity analyses for those without rheum_appt, replace diagnosis date as EIA code date if rheum appt pre-code is missing or after
-. gen eia_diagnosis_date_nomiss=rheum_appt_date if rheum_appt_date!=.
-(5,742 missing values generated)
-
-. format %td eia_diagnosis_date_nomiss
-
-. replace eia_diagnosis_date_nomiss=eia_code_date if (rheum_appt_date==. | rheum_appt_date>eia_code_date) & eia_code_date!=.
-(11,289 real changes made)
-
-. gen eia_diagnosis_nomiss=1 if eia_diagnosis_date_nomiss!=.
-
-. recode eia_diagnosis_nomiss .=0
-(0 changes made to eia_diagnosis_nomiss)
-
-. tab eia_diagnosis_nomiss
-
-eia_diagnos |
-  is_nomiss |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          1 |     33,868      100.00      100.00
-------------+-----------------------------------
-      Total |     33,868      100.00
-
-. 
-. *Time to referral, appointment and EIA code=============================================*/
-. 
-. **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct time order) //Note - referral could (in theory) be coded just before GP appt
-. gen time_gp_rheum_ref_appt = (referral_rheum_prerheum_date - last_gp_refrheum_date) if referral_rheum_prerheum_date!=. & last_gp_refrheum_date!=. & rheum_appt_date!=. & referral_rheum_prerheum_date>last_gp_refrheum_date &
->  referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_code_date
-(33,013 missing values generated)
-
-. tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all_appts)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_gp_rh~t |       855  250.0339       185        81       343
-----------------------------------------------------------------
-
-. 
-. gen gp_ref_cat=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
-(33,854 missing values generated)
-
-. replace gp_ref_cat=2 if time_gp_rheum_ref_appt<=7 & time_gp_rheum_ref_appt!=. & gp_ref_cat==.
-(7 real changes made)
-
-. replace gp_ref_cat=3 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=. & gp_ref_cat==.
-(834 real changes made)
-
-. lab define gp_ref_cat 1 "Referred within 3 days" 2 "Referred within 7 days" 3 "Referral delay >7 days", modify
-
-. lab val gp_ref_cat gp_ref_cat
-
-. lab var gp_ref_cat "Time to GP referral"
-
-. tab gp_ref_cat, missing
-
-   Time to GP referral |      Freq.     Percent        Cum.
------------------------+-----------------------------------
-Referred within 3 days |         14        0.04        0.04
-Referred within 7 days |          7        0.02        0.06
-Referral delay >7 days |        834        2.46        2.52
-                     . |     33,013       97.48      100.00
------------------------+-----------------------------------
-                 Total |     33,868      100.00
-
-. 
-. gen gp_ref_3d=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
-(33,854 missing values generated)
-
-. replace gp_ref_3d=2 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
-(841 real changes made)
-
-. lab define gp_ref_3d 1 "Referred within 3 days" 2 "Referral delay >3 days", modify
-
-. lab val gp_ref_3d gp_ref_3d
-
-. lab var gp_ref_3d "Time to GP referral"
-
-. tab gp_ref_3d, missing
-
-   Time to GP referral |      Freq.     Percent        Cum.
------------------------+-----------------------------------
-Referred within 3 days |         14        0.04        0.04
-Referral delay >3 days |        841        2.48        2.52
-                     . |     33,013       97.48      100.00
------------------------+-----------------------------------
-                 Total |     33,868      100.00
-
-. 
-. **Time from last GP to rheum ref before eia code (sensitivity analysis; includes those with no rheum appt)
-. gen time_gp_rheum_ref_code = (referral_rheum_precode_date - last_gp_refcode_date) if referral_rheum_precode_date!=. & last_gp_refcode_date!=. & referral_rheum_precode_date>last_gp_refcode_date & referral_rheum_precode_dat
-> e<eia_code_date
-(28,340 missing values generated)
-
-. tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_gp_rh~e |      5528  365.0195       300       137       541
-----------------------------------------------------------------
-
-. 
-. **Time from last GP to rheum ref (combined - sensitivity analysis; includes those with no rheum appt)
-. gen time_gp_rheum_ref_comb = time_gp_rheum_ref_appt 
-(33,013 missing values generated)
-
-. replace time_gp_rheum_ref_comb = time_gp_rheum_ref_code if time_gp_rheum_ref_appt==. & time_gp_rheum_ref_code!=.
-(5,328 real changes made)
-
-. tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_gp_rh~b |      6183   346.753       280       125       513
-----------------------------------------------------------------
-
-. 
-. **Time from last GP pre-rheum appt to first rheum appt (key sensitivity analysis; includes those with no rheum ref)
-. gen time_gp_rheum_appt = (rheum_appt_date - last_gp_prerheum_date) if rheum_appt_date!=. & last_gp_prerheum_date!=. & rheum_appt_date>last_gp_prerheum_date & rheum_appt_date<eia_code_date
-(28,774 missing values generated)
-
-. tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_~m_appt |      5094  281.8567       224        98       405
-----------------------------------------------------------------
-
-. 
-. **Time from last GP pre-code to EIA code (sensitivity analysis; includes those with no rheum ref and/or no rheum appt)
-. gen time_gp_eia_code = (eia_code_date - last_gp_precode_date) if eia_code_date!=. & last_gp_precode_date!=. & eia_code_date>last_gp_precode_date
-(15,683 missing values generated)
-
-. tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_gp_ei~e |     18185  507.4463       458       227       748
-----------------------------------------------------------------
-
-. 
-. **Time from last GP to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
-. gen time_gp_eia_diag = time_gp_rheum_appt
-(28,774 missing values generated)
-
-. replace time_gp_eia_diag = time_gp_eia_code if time_gp_rheum_appt==. & time_gp_eia_code!=.
-(15,051 real changes made)
-
-. tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_gp_ei~g |     20145  445.1877       377       174       658
-----------------------------------------------------------------
-
-. 
-. **Time from rheum ref to rheum appt (i.e. if appts are present and in correct time order)
-. gen time_ref_rheum_appt = (rheum_appt_date - referral_rheum_prerheum_date) if rheum_appt_date!=. & referral_rheum_prerheum_date!=. & referral_rheum_prerheum_date<rheum_appt_date & rheum_appt_date<eia_code_date
-(28,870 missing values generated)
-
-. tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_ref_r~t |      4998  285.7409       227       101       421
-----------------------------------------------------------------
-
-. 
-. gen ref_appt_cat=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
-(33,575 missing values generated)
-
-. replace ref_appt_cat=2 if time_ref_rheum_appt<=42 & time_ref_rheum_appt!=. & ref_appt_cat==.
-(278 real changes made)
-
-. replace ref_appt_cat=3 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=. & ref_appt_cat==.
-(4,427 real changes made)
-
-. lab define ref_appt_cat 1 "Seen within 3 weeks" 2 "Seen within 6 weeks" 3 "Assessment delay >6 weeks", modify
-
-. lab val ref_appt_cat ref_appt_cat
-
-. lab var ref_appt_cat "Time to rheumatology assessment"
-
-. tab ref_appt_cat, missing
-
-     Time to rheumatology |
-               assessment |      Freq.     Percent        Cum.
---------------------------+-----------------------------------
-      Seen within 3 weeks |        293        0.87        0.87
-      Seen within 6 weeks |        278        0.82        1.69
-Assessment delay >6 weeks |      4,427       13.07       14.76
-                        . |     28,870       85.24      100.00
---------------------------+-----------------------------------
-                    Total |     33,868      100.00
-
-. 
-. gen ref_appt_3w=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
-(33,575 missing values generated)
-
-. replace ref_appt_3w=2 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
-(4,705 real changes made)
-
-. lab define ref_appt_3w 1 "Seen within 3 weeks" 2 "Assessment delay >3 weeks", modify
-
-. lab val ref_appt_3w ref_appt_3w
-
-. lab var ref_appt_3w "Time to rheumatology assessment"
-
-. tab ref_appt_3w, missing
-
-     Time to rheumatology |
-               assessment |      Freq.     Percent        Cum.
---------------------------+-----------------------------------
-      Seen within 3 weeks |        293        0.87        0.87
-Assessment delay >3 weeks |      4,705       13.89       14.76
-                        . |     28,870       85.24      100.00
---------------------------+-----------------------------------
-                    Total |     33,868      100.00
-
-. 
-. **Time from rheum ref or last GP to rheum appt (combined - sensitivity analysis; includes those with no rheum ref)
-. gen time_refgp_rheum_appt = time_ref_rheum_appt
-(28,870 missing values generated)
-
-. replace time_refgp_rheum_appt = time_gp_rheum_appt if time_ref_rheum_appt==. & time_gp_rheum_appt!=.
-(3,388 real changes made)
-
-. tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_refgp~t |      8386  269.7406       212        95       391
-----------------------------------------------------------------
-
-. 
-. **Time from rheum ref to EIA code (sensitivity analysis; includes those with no rheum appt)
-. gen time_ref_rheum_eia = (eia_code_date - referral_rheum_precode_date) if eia_code_date!=. & referral_rheum_precode_date!=. & referral_rheum_precode_date<eia_code_date  
-(15,729 missing values generated)
-
-. tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_ref_r~a |     18139  505.3258       454       226       741
-----------------------------------------------------------------
-
-. 
-. **Time from rheum ref to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
-. gen time_ref_rheum_eia_comb = time_ref_rheum_appt
-(28,870 missing values generated)
-
-. replace time_ref_rheum_eia_comb = time_ref_rheum_eia if time_ref_rheum_appt==. & time_ref_rheum_eia!=.
-(15,002 real changes made)
-
-. tabstat time_ref_rheum_eia_comb, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_ref_r~b |     20000  441.6819       374       173       654
-----------------------------------------------------------------
-
-. 
-. **Time from rheum appt to EIA code (i.e. if appts are present and in correct time order)
-. gen time_rheum_eia_code = (eia_code_date - rheum_appt_date) if eia_code_date!=. & rheum_appt_date!=. & rheum_appt_date<eia_code_date 
-(11,307 missing values generated)
-
-. tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) 
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_rheum~e |     22561  578.8638       548       302       835
-----------------------------------------------------------------
-
-. 
-. *Time to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
-. 
-. *All patients below must have at least six months of GP registration after EIA code
-. 
-. **Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions)
-. gen time_to_csdmard=(csdmard_date-rheum_appt_date) if csdmard==1 & rheum_appt_date!=. & csdmard_date>rheum_appt_date 
-(24,160 missing values generated)
-
-. tabstat time_to_csdmard if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_cs~d |      3091  572.9259       530       298       819
-----------------------------------------------------------------
-
-. 
-. **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
-. gen time_to_csdmard_hcd=(csdmard_hcd_date-rheum_appt_date) if csdmard_hcd==1 & rheum_appt_date!=. & csdmard_hcd_date>rheum_appt_date 
-(22,832 missing values generated)
-
-. tabstat time_to_csdmard_hcd if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) 
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_c~cd |      3528  563.7126       518       289       808
-----------------------------------------------------------------
-
-. 
-. **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
-. tabstat time_to_csdmard if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_c~rd |      3033  561.8678       517       274       823
-----------------------------------------------------------------
-
-. 
-. **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
-. tabstat time_to_csdmard_hcd if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75) 
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_c~cd |      3462  554.3654       511       266       813
-----------------------------------------------------------------
-
-. 
-. **csDMARD time categories for RA patients (not including high cost MTX prescriptions)
-. gen csdmard_3m=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
-(33,193 missing values generated)
-
-. replace csdmard_3m=2 if time_to_csdmard>90 & time_to_csdmard!=.
-(9,033 real changes made)
-
-. lab define csdmard_3m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_3m csdmard_3m
-
-. lab var csdmard_3m "csDMARD within 3 months" 
-
-. tab csdmard_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        202        1.86        1.86
-         No |      2,889       26.61       28.47
-          . |      7,766       71.53      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
-(32,430 missing values generated)
-
-. replace csdmard_6m=2 if time_to_csdmard>180 & time_to_csdmard!=.
-(8,270 real changes made)
-
-. lab define csdmard_6m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_6m csdmard_6m
-
-. lab var csdmard_6m "csDMARD within 6 months" 
-
-. tab csdmard_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        435        4.01        4.01
-         No |      2,656       24.46       28.47
-          . |      7,766       71.53      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen csdmard_12m=1 if time_to_csdmard<=365 & time_to_csdmard!=. 
-(30,660 missing values generated)
-
-. replace csdmard_12m=2 if time_to_csdmard>365 & time_to_csdmard!=.
-(6,500 real changes made)
-
-. lab define csdmard_12m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_12m csdmard_12m
-
-. lab var csdmard_12m "csDMARD within 12 months" 
-
-. tab csdmard_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        948        9.16        9.16
-         No |      1,993       19.27       28.43
-          . |      7,403       71.57      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **csDMARD time categories for RA patients (including high cost MTX prescriptions)
-. gen csdmard_hcd_3m=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=. 
-(33,071 missing values generated)
-
-. replace csdmard_hcd_3m=2 if time_to_csdmard_hcd>90 & time_to_csdmard_hcd!=.
-(10,239 real changes made)
-
-. lab define csdmard_hcd_3m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_hcd_3m csdmard_hcd_3m
-
-. lab var csdmard_hcd_3m "csDMARD within 3 months" 
-
-. tab csdmard_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        243        2.24        2.24
-         No |      3,285       30.26       32.50
-          . |      7,329       67.50      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen csdmard_hcd_6m=1 if time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=. 
-(32,176 missing values generated)
-
-. replace csdmard_hcd_6m=2 if time_to_csdmard_hcd>180 & time_to_csdmard_hcd!=.
-(9,344 real changes made)
-
-. lab define csdmard_hcd_6m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_hcd_6m csdmard_hcd_6m
-
-. lab var csdmard_hcd_6m "csDMARD within 6 months" 
-
-. tab csdmard_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        516        4.75        4.75
-         No |      3,012       27.74       32.50
-          . |      7,329       67.50      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen csdmard_hcd_12m=1 if time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=. 
-(30,105 missing values generated)
-
-. replace csdmard_hcd_12m=2 if time_to_csdmard_hcd>365 & time_to_csdmard_hcd!=.
-(7,273 real changes made)
-
-. lab define csdmard_hcd_12m 1 "Yes" 2 "No", modify
-
-. lab val csdmard_hcd_12m csdmard_hcd_12m
-
-. lab var csdmard_hcd_12m "csDMARD within 12 months" 
-
-. tab csdmard_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-    csDMARD |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,122       10.85       10.85
-         No |      2,236       21.62       32.46
-          . |      6,986       67.54      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **csDMARD time categories for PsA patients (not including high cost MTX prescriptions)
-. tab csdmard_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-    csDMARD |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        214        2.01        2.01
-         No |      2,819       26.54       28.55
-          . |      7,590       71.45      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab csdmard_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-    csDMARD |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        464        4.37        4.37
-         No |      2,569       24.18       28.55
-          . |      7,590       71.45      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab csdmard_12m if psa_code==1 & has_12m_follow_up==1, missing
-
-    csDMARD |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        977        9.76        9.76
-         No |      1,870       18.68       28.44
-          . |      7,165       71.56      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **csDMARD time categories for PsA patients (including high cost MTX prescriptions)
-. tab csdmard_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-    csDMARD |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        255        2.40        2.40
-         No |      3,207       30.19       32.59
-          . |      7,161       67.41      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab csdmard_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-    csDMARD |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        550        5.18        5.18
-         No |      2,912       27.41       32.59
-          . |      7,161       67.41      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab csdmard_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing
-
-    csDMARD |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,141       11.40       11.40
-         No |      2,123       21.20       32.60
-          . |      6,748       67.40      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **What was first shared care csDMARD (not including high cost MTX prescriptions)
-. gen first_csD=""
-(33,868 missing values generated)
-
-. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date sulfasalazine_date {
-  2.         replace first_csD="`var'" if csdmard_date==`var' & csdmard_date!=.
-  3.         }
-variable first_csD was str1 now str23
-(2,398 real changes made)
-(2,367 real changes made)
-(2,375 real changes made)
-(2,453 real changes made)
-(2,428 real changes made)
-
-. gen first_csDMARD = substr(first_csD, 1, length(first_csD) - 5) if first_csD!=""
-(21,847 missing values generated)
-
-. drop first_csD
-
-. tab first_csDMARD if ra_code==1 & has_6m_follow_up==1 //for RA patients
-
-     first_csDMARD |      Freq.     Percent        Cum.
--------------------+-----------------------------------
-hydroxychloroquine |        779       20.39       20.39
-       leflunomide |        708       18.53       38.93
-      methotrexate |        744       19.48       58.40
-  methotrexate_inj |        810       21.20       79.61
-     sulfasalazine |        779       20.39      100.00
--------------------+-----------------------------------
-             Total |      3,820      100.00
-
-. tab first_csDMARD if psa_code==1 & has_6m_follow_up==1 //for PsA patients
-
-     first_csDMARD |      Freq.     Percent        Cum.
--------------------+-----------------------------------
-hydroxychloroquine |        732       19.47       19.47
-       leflunomide |        761       20.24       39.71
-      methotrexate |        778       20.69       60.40
-  methotrexate_inj |        742       19.73       80.13
-     sulfasalazine |        747       19.87      100.00
--------------------+-----------------------------------
-             Total |      3,760      100.00
-
-. 
-. **What was first csDMARD (including high cost MTX prescriptions)
-. gen first_csD_hcd=""
-(33,868 missing values generated)
-
-. foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {
-  2.         replace first_csD_hcd="`var'" if csdmard_hcd_date==`var' & csdmard_hcd_date!=.
-  3.         }
-variable first_csD_hcd was str1 now str23
-(2,286 real changes made)
-(2,235 real changes made)
-(2,246 real changes made)
-(2,333 real changes made)
-(2,863 real changes made)
-(2,278 real changes made)
-
-. gen first_csDMARD_hcd = substr(first_csD_hcd, 1, length(first_csD_hcd) - 5) if first_csD_hcd!=""
-(19,627 missing values generated)
-
-. drop first_csD_hcd
-
-. tab first_csDMARD_hcd if ra_code==1 & has_6m_follow_up==1 //for RA patients
-
- first_csDMARD_hcd |      Freq.     Percent        Cum.
--------------------+-----------------------------------
-hydroxychloroquine |        735       16.23       16.23
-       leflunomide |        672       14.84       31.07
-      methotrexate |        701       15.48       46.55
-  methotrexate_hcd |        929       20.52       67.07
-  methotrexate_inj |        764       16.87       83.94
-     sulfasalazine |        727       16.06      100.00
--------------------+-----------------------------------
-             Total |      4,528      100.00
-
-. tab first_csDMARD_hcd if psa_code==1 & has_6m_follow_up==1 //for PsA patients
-
- first_csDMARD_hcd |      Freq.     Percent        Cum.
--------------------+-----------------------------------
-hydroxychloroquine |        703       15.74       15.74
-       leflunomide |        730       16.34       32.08
-      methotrexate |        735       16.45       48.53
-  methotrexate_hcd |        884       19.79       68.32
-  methotrexate_inj |        704       15.76       84.08
-     sulfasalazine |        711       15.92      100.00
--------------------+-----------------------------------
-             Total |      4,467      100.00
-
-.  
-. **Methotrexate use (not including high cost MTX prescriptions)
-. gen mtx=1 if methotrexate==1 | methotrexate_inj==1
-(28,354 missing values generated)
-
-. recode mtx .=0 
-(28354 changes made to mtx)
-
-. tab mtx if ra_code==1 & has_6m_follow_up==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
-
-        mtx |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      9,074       83.58       83.58
-          1 |      1,783       16.42      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. tab mtx if psa_code==1 & has_6m_follow_up==1 //for PsA patients
-
-        mtx |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      8,896       83.74       83.74
-          1 |      1,727       16.26      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. 
-. **Methotrexate use (including high cost MTX prescriptions)
-. gen mtx_hcd=1 if methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1
-(25,481 missing values generated)
-
-. recode mtx_hcd .=0 
-(25481 changes made to mtx_hcd)
-
-. tab mtx_hcd if ra_code==1 & has_6m_follow_up==1 //for RA patients
-
-    mtx_hcd |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      8,144       75.01       75.01
-          1 |      2,713       24.99      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. tab mtx_hcd if psa_code==1 & has_6m_follow_up==1 //for PsA patients
-
-    mtx_hcd |      Freq.     Percent        Cum.
-------------+-----------------------------------
-          0 |      8,014       75.44       75.44
-          1 |      2,609       24.56      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. 
-. **Date of first methotrexate script (not including high cost MTX prescriptions)
-. gen mtx_date=min(methotrexate_date, methotrexate_inj_date)
-(28,354 missing values generated)
-
-. format %td mtx_date
-
-. 
-. **Date of first methotrexate script (including high cost MTX prescriptions)
-. gen mtx_hcd_date=min(methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date)
-(25,481 missing values generated)
-
-. format %td mtx_hcd_date
-
-. 
-. **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
-. gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & mtx_date>rheum_appt_date 
-(29,446 missing values generated)
-
-. tabstat time_to_mtx if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
- time_to_mtx |      1419  602.6624       562       313       874
-----------------------------------------------------------------
-
-. 
-. **Time to first methotrexate script for RA patients (including high cost MTX prescriptions)
-. gen time_to_mtx_hcd=(mtx_hcd_date-rheum_appt_date) if mtx_hcd==1 & rheum_appt_date!=. & mtx_hcd_date>rheum_appt_date 
-(27,596 missing values generated)
-
-. tabstat time_to_mtx_hcd if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_mt~d |      2035  590.0953       551       301       860
-----------------------------------------------------------------
-
-. 
-. **Time to first methotrexate script for PsA patients (not including high cost MTX prescriptions)
-. tabstat time_to_mtx if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
- time_to_mtx |      1392  579.6681       546       293       846
-----------------------------------------------------------------
-
-. 
-. **Time to first methotrexate script for PsA patients (including high cost MTX prescriptions)
-. tabstat time_to_mtx_hcd if psa_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_mt~d |      1969  577.7009       542       280       849
-----------------------------------------------------------------
-
-. 
-. **Methotrexate time categories for RA patients (not including high-cost MTX) //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen mtx_3m=1 if time_to_mtx<=90 & time_to_mtx!=. 
-(33,598 missing values generated)
-
-. replace mtx_3m=2 if time_to_mtx>90 & time_to_mtx!=.
-(4,152 real changes made)
-
-. lab define mtx_3m 1 "Yes" 2 "No", modify
-
-. lab val mtx_3m mtx_3m
-
-. lab var mtx_3m "Methotrexate within 3 months" 
-
-. tab mtx_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Methotrexat |
- e within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         79        0.73        0.73
-         No |      1,340       12.34       13.07
-          . |      9,438       86.93      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen mtx_6m=1 if time_to_mtx<=180 & time_to_mtx!=. 
-(33,257 missing values generated)
-
-. replace mtx_6m=2 if time_to_mtx>180 & time_to_mtx!=.
-(3,811 real changes made)
-
-. lab define mtx_6m 1 "Yes" 2 "No", modify
-
-. lab val mtx_6m mtx_6m
-
-. lab var mtx_6m "Methotrexate within 6 months" 
-
-. tab mtx_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Methotrexat |
- e within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        185        1.70        1.70
-         No |      1,234       11.37       13.07
-          . |      9,438       86.93      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen mtx_12m=1 if time_to_mtx<=365 & time_to_mtx!=. 
-(32,470 missing values generated)
-
-. replace mtx_12m=2 if time_to_mtx>365 & time_to_mtx!=.
-(3,024 real changes made)
-
-. lab define mtx_12m 1 "Yes" 2 "No", modify
-
-. lab val mtx_12m mtx_12m
-
-. lab var mtx_12m "Methotrexate within 12 months" 
-
-. tab mtx_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after mtx script
-
-Methotrexat |
-e within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        417        4.03        4.03
-         No |        929        8.98       13.01
-          . |      8,998       86.99      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **Methotrexate time categories for RA patients (including high-cost MTX)
-. gen mtx_hcd_3m=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=. 
-(33,461 missing values generated)
-
-. replace mtx_hcd_3m=2 if time_to_mtx_hcd>90 & time_to_mtx_hcd!=.
-(5,865 real changes made)
-
-. lab define mtx_hcd_3m 1 "Yes" 2 "No", modify
-
-. lab val mtx_hcd_3m mtx_hcd_3m
-
-. lab var mtx_hcd_3m "Methotrexate within 3 months" 
-
-. tab mtx_hcd_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Methotrexat |
- e within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        124        1.14        1.14
-         No |      1,911       17.60       18.74
-          . |      8,822       81.26      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen mtx_hcd_6m=1 if time_to_mtx_hcd<=180 & time_to_mtx_hcd!=. 
-(32,970 missing values generated)
-
-. replace mtx_hcd_6m=2 if time_to_mtx_hcd>180 & time_to_mtx_hcd!=.
-(5,374 real changes made)
-
-. lab define mtx_hcd_6m 1 "Yes" 2 "No", modify
-
-. lab val mtx_hcd_6m mtx_hcd_6m
-
-. lab var mtx_hcd_6m "Methotrexate within 6 months" 
-
-. tab mtx_hcd_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Methotrexat |
- e within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        275        2.53        2.53
-         No |      1,760       16.21       18.74
-          . |      8,822       81.26      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen mtx_hcd_12m=1 if time_to_mtx_hcd<=365 & time_to_mtx_hcd!=. 
-(31,826 missing values generated)
-
-. replace mtx_hcd_12m=2 if time_to_mtx_hcd>365 & time_to_mtx_hcd!=.
-(4,230 real changes made)
-
-. lab define mtx_hcd_12m 1 "Yes" 2 "No", modify
-
-. lab val mtx_hcd_12m mtx_hcd_12m
-
-. lab var mtx_hcd_12m "Methotrexate within 12 months" 
-
-. tab mtx_hcd_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Methotrexat |
-e within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        618        5.97        5.97
-         No |      1,309       12.65       18.63
-          . |      8,417       81.37      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **Methotrexate time categories for PsA patients (not including high-cost MTX)
-. tab mtx_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-Methotrexat |
- e within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         93        0.88        0.88
-         No |      1,299       12.23       13.10
-          . |      9,231       86.90      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab mtx_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-Methotrexat |
- e within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        210        1.98        1.98
-         No |      1,182       11.13       13.10
-          . |      9,231       86.90      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab mtx_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
-
-Methotrexat |
-e within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        428        4.27        4.27
-         No |        873        8.72       12.99
-          . |      8,711       87.01      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **Methotrexate time categories for PsA patients (including high-cost MTX)
-. tab mtx_hcd_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-Methotrexat |
- e within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        136        1.28        1.28
-         No |      1,833       17.26       18.54
-          . |      8,654       81.46      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab mtx_hcd_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-Methotrexat |
- e within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        305        2.87        2.87
-         No |      1,664       15.66       18.54
-          . |      8,654       81.46      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab mtx_hcd_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
-
-Methotrexat |
-e within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        615        6.14        6.14
-         No |      1,239       12.38       18.52
-          . |      8,158       81.48      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **Sulfasalazine use
-. gen time_to_ssz=(sulfasalazine_date-rheum_appt_date) if sulfasalazine==1 & rheum_appt_date!=. & sulfasalazine_date>rheum_appt_date 
-(31,546 missing values generated)
-
-. tabstat time_to_ssz if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
- time_to_ssz |       721  620.5257       575       331       867
-----------------------------------------------------------------
-
-. 
-. **Sulfasalazine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen ssz_3m=1 if time_to_ssz<=90 & time_to_ssz!=. 
-(33,730 missing values generated)
-
-. replace ssz_3m=2 if time_to_ssz>90 & time_to_ssz!=.
-(2,184 real changes made)
-
-. lab define ssz_3m 1 "Yes" 2 "No", modify
-
-. lab val ssz_3m ssz_3m
-
-. lab var ssz_3m "Sulfasalazine within 3 months" 
-
-. tab ssz_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Sulfasalazi |
-ne within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         36        0.33        0.33
-         No |        685        6.31        6.64
-          . |     10,136       93.36      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen ssz_6m=1 if time_to_ssz<=180 & time_to_ssz!=. 
-(33,580 missing values generated)
-
-. replace ssz_6m=2 if time_to_ssz>180 & time_to_ssz!=.
-(2,034 real changes made)
-
-. lab define ssz_6m 1 "Yes" 2 "No", modify
-
-. lab val ssz_6m ssz_6m
-
-. lab var ssz_6m "Sulfasalazine within 6 months" 
-
-. tab ssz_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Sulfasalazi |
-ne within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         88        0.81        0.81
-         No |        633        5.83        6.64
-          . |     10,136       93.36      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen ssz_12m=1 if time_to_ssz<=365 & time_to_ssz!=. 
-(33,201 missing values generated)
-
-. replace ssz_12m=2 if time_to_ssz>365 & time_to_ssz!=.
-(1,655 real changes made)
-
-. lab define ssz_12m 1 "Yes" 2 "No", modify
-
-. lab val ssz_12m ssz_12m
-
-. lab var ssz_12m "Sulfasalazine within 12 months" 
-
-. tab ssz_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after ssz script
-
-Sulfasalazi |
-  ne within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        187        1.81        1.81
-         No |        497        4.80        6.61
-          . |      9,660       93.39      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **Sulfasalazine time categories for PsA patients
-. tab ssz_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-Sulfasalazi |
-ne within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         45        0.42        0.42
-         No |        670        6.31        6.73
-          . |      9,908       93.27      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab ssz_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-Sulfasalazi |
-ne within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         92        0.87        0.87
-         No |        623        5.86        6.73
-          . |      9,908       93.27      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab ssz_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
-
-Sulfasalazi |
-  ne within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        217        2.17        2.17
-         No |        449        4.48        6.65
-          . |      9,346       93.35      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **Hydroxychloroquine use
-. gen time_to_hcq=(hydroxychloroquine_date-rheum_appt_date) if hydroxychloroquine==1 & rheum_appt_date!=. & hydroxychloroquine_date>rheum_appt_date 
-(31,506 missing values generated)
-
-. tabstat time_to_hcq if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
- time_to_hcq |       773  618.9638       592       349       867
-----------------------------------------------------------------
-
-. 
-. **Hydroxychloroquine time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen hcq_3m=1 if time_to_hcq<=90 & time_to_hcq!=. 
-(33,736 missing values generated)
-
-. replace hcq_3m=2 if time_to_hcq>90 & time_to_hcq!=.
-(2,230 real changes made)
-
-. lab define hcq_3m 1 "Yes" 2 "No", modify
-
-. lab val hcq_3m hcq_3m
-
-. lab var hcq_3m "Hydroxychloroquine within 3 months" 
-
-. tab hcq_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Hydroxychlo |
-    roquine |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         40        0.37        0.37
-         No |        733        6.75        7.12
-          . |     10,084       92.88      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen hcq_6m=1 if time_to_hcq<=180 & time_to_hcq!=. 
-(33,595 missing values generated)
-
-. replace hcq_6m=2 if time_to_hcq>180 & time_to_hcq!=.
-(2,089 real changes made)
-
-. lab define hcq_6m 1 "Yes" 2 "No", modify
-
-. lab val hcq_6m hcq_6m
-
-. lab var hcq_6m "Hydroxychloroquine within 6 months" 
-
-. tab hcq_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Hydroxychlo |
-    roquine |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         79        0.73        0.73
-         No |        694        6.39        7.12
-          . |     10,084       92.88      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen hcq_12m=1 if time_to_hcq<=365 & time_to_hcq!=. 
-(33,199 missing values generated)
-
-. replace hcq_12m=2 if time_to_hcq>365 & time_to_hcq!=.
-(1,693 real changes made)
-
-. lab define hcq_12m 1 "Yes" 2 "No", modify
-
-. lab val hcq_12m hcq_12m
-
-. lab var hcq_12m "Hydroxychloroquine within 12 months" 
-
-. tab hcq_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after hcq script
-
-Hydroxychlo |
-    roquine |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        192        1.86        1.86
-         No |        541        5.23        7.09
-          . |      9,611       92.91      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **Hydroxychloroquine time categories for PsA patients
-. tab hcq_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-Hydroxychlo |
-    roquine |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         38        0.36        0.36
-         No |        674        6.34        6.70
-          . |      9,911       93.30      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab hcq_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-Hydroxychlo |
-    roquine |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         79        0.74        0.74
-         No |        633        5.96        6.70
-          . |      9,911       93.30      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab hcq_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
-
-Hydroxychlo |
-    roquine |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        198        1.98        1.98
-         No |        488        4.87        6.85
-          . |      9,326       93.15      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **Leflunomide use
-. gen time_to_lef=(leflunomide_date-rheum_appt_date) if leflunomide==1 & rheum_appt_date!=. & leflunomide_date>rheum_appt_date 
-(31,535 missing values generated)
-
-. tabstat time_to_lef if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
- time_to_lef |       726  597.3526       562       326       854
-----------------------------------------------------------------
-
-. 
-. **Leflunomide time categories for RA patients //Nb. this is time period from rheum appt (i.e. diagnosis) to shared care, not from referral to first script 
-. gen lef_3m=1 if time_to_lef<=90 & time_to_lef!=. 
-(33,720 missing values generated)
-
-. replace lef_3m=2 if time_to_lef>90 & time_to_lef!=.
-(2,185 real changes made)
-
-. lab define lef_3m 1 "Yes" 2 "No", modify
-
-. lab val lef_3m lef_3m
-
-. lab var lef_3m "Leflunomide within 3 months" 
-
-. tab lef_3m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Leflunomide |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         51        0.47        0.47
-         No |        675        6.22        6.69
-          . |     10,131       93.31      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen lef_6m=1 if time_to_lef<=180 & time_to_lef!=. 
-(33,561 missing values generated)
-
-. replace lef_6m=2 if time_to_lef>180 & time_to_lef!=.
-(2,026 real changes made)
-
-. lab define lef_6m 1 "Yes" 2 "No", modify
-
-. lab val lef_6m lef_6m
-
-. lab var lef_6m "Leflunomide within 6 months" 
-
-. tab lef_6m if ra_code==1 & has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after csDMARD script
-
-Leflunomide |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         95        0.88        0.88
-         No |        631        5.81        6.69
-          . |     10,131       93.31      100.00
-------------+-----------------------------------
-      Total |     10,857      100.00
-
-. gen lef_12m=1 if time_to_lef<=365 & time_to_lef!=. 
-(33,203 missing values generated)
-
-. replace lef_12m=2 if time_to_lef>365 & time_to_lef!=.
-(1,668 real changes made)
-
-. lab define lef_12m 1 "Yes" 2 "No", modify
-
-. lab val lef_12m lef_12m
-
-. lab var lef_12m "Leflunomide within 12 months" 
-
-. tab lef_12m if ra_code==1 & has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after lef script
-
-Leflunomide |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        199        1.92        1.92
-         No |        500        4.83        6.76
-          . |      9,645       93.24      100.00
-------------+-----------------------------------
-      Total |     10,344      100.00
-
-. 
-. **Leflunomide time categories for PsA patients
-. tab lef_3m if psa_code==1 & has_6m_follow_up==1, missing
-
-Leflunomide |
-   within 3 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         41        0.39        0.39
-         No |        693        6.52        6.91
-          . |      9,889       93.09      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab lef_6m if psa_code==1 & has_6m_follow_up==1, missing
-
-Leflunomide |
-   within 6 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         93        0.88        0.88
-         No |        641        6.03        6.91
-          . |      9,889       93.09      100.00
-------------+-----------------------------------
-      Total |     10,623      100.00
-
-. tab lef_12m if psa_code==1 & has_12m_follow_up==1, missing //with a least 12m registration
-
-Leflunomide |
-  within 12 |
-     months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |        196        1.96        1.96
-         No |        481        4.80        6.76
-          . |      9,335       93.24      100.00
-------------+-----------------------------------
-      Total |     10,012      100.00
-
-. 
-. **Time to first biologic script, whereby first rheum appt is classed as diagnosis date (assumes rheum appt present); high_cost drug data available to Nov 2020===============================================================
-> =======*/
-. 
-. *Below analyses are only for patients with at least 12 months of follow-up available after EIA code
-. gen time_to_biologic=(biologic_date-rheum_appt_date) if biologic==1 & rheum_appt_date!=. & biologic_date>rheum_appt_date 
-(13,783 missing values generated)
-
-. tabstat time_to_biologic if has_12m_follow_up==1, stats (n mean p50 p25 p75) //for all EIA patients
-
-    Variable |         N      Mean       p50       p25       p75
--------------+--------------------------------------------------
-time_to_bi~c |     18123  462.7977       405       208       666
-----------------------------------------------------------------
-
-. 
-. **What was first biologic
-. gen first_bio=""
-(33,868 missing values generated)
-
-. foreach var of varlist abatacept_date adalimumab_date baricitinib_date certolizumab_date etanercept_date golimumab_date guselkumab_date infliximab_date ixekizumab_date rituximab_date sarilumab_date secukinumab_date tocili
-> zumab_date tofacitinib_date upadacitinib_date ustekinumab_date {
-  2.         replace first_bio="`var'" if biologic_date==`var' & biologic_date!=.
-  3.         }
-variable first_bio was str1 now str14
-(1,595 real changes made)
-variable first_bio was str14 now str15
-(1,557 real changes made)
-variable first_bio was str15 now str16
-(1,657 real changes made)
-variable first_bio was str16 now str17
-(1,610 real changes made)
-(1,568 real changes made)
-(1,589 real changes made)
-(1,555 real changes made)
-(1,555 real changes made)
-(1,556 real changes made)
-(1,563 real changes made)
-(1,607 real changes made)
-(1,510 real changes made)
-(1,665 real changes made)
-(1,604 real changes made)
-(1,623 real changes made)
-(1,579 real changes made)
-
-. gen first_biologic = substr(first_bio, 1, length(first_bio) - 5)        
-(9,018 missing values generated)
-
-. drop first_bio
-
-. tab first_biologic if has_12m_follow_up==1 //for all EIA patients
-
-first_biolog |
-          ic |      Freq.     Percent        Cum.
--------------+-----------------------------------
-   abatacept |      1,358        6.06        6.06
-  adalimumab |      1,333        5.95       12.01
- baricitinib |      1,452        6.48       18.49
-certolizumab |      1,403        6.26       24.75
-  etanercept |      1,377        6.14       30.89
-   golimumab |      1,382        6.17       37.06
-  guselkumab |      1,384        6.18       43.23
-  infliximab |      1,390        6.20       49.44
-  ixekizumab |      1,372        6.12       55.56
-   rituximab |      1,386        6.18       61.74
-   sarilumab |      1,416        6.32       68.06
- secukinumab |      1,347        6.01       74.07
- tocilizumab |      1,490        6.65       80.72
- tofacitinib |      1,446        6.45       87.17
-upadacitinib |      1,459        6.51       93.68
- ustekinumab |      1,416        6.32      100.00
--------------+-----------------------------------
-       Total |     22,411      100.00
-
-. 
-. **Biologic time categories (for all patients)
-. gen biologic_3m=1 if time_to_biologic<=90 & time_to_biologic!=. 
-(31,812 missing values generated)
-
-. replace biologic_3m=2 if time_to_biologic>90 & time_to_biologic!=.
-(18,029 real changes made)
-
-. lab define biologic_3m 1 "Yes" 2 "No", modify
-
-. lab val biologic_3m biologic_3m
-
-. lab var biologic_3m "bDMARD/tsDMARD within 3 months" 
-
-. tab biologic_3m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
-
-bDMARD/tsDM |
- ARD within |
-   3 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,969        6.11        6.11
-         No |     17,164       53.28       59.39
-          . |     13,084       40.61      100.00
-------------+-----------------------------------
-      Total |     32,217      100.00
-
-. gen biologic_6m=1 if time_to_biologic<=180 & time_to_biologic!=. 
-(29,574 missing values generated)
-
-. replace biologic_6m=2 if time_to_biologic>180 & time_to_biologic!=.
-(15,791 real changes made)
-
-. lab define biologic_6m 1 "Yes" 2 "No", modify
-
-. lab val biologic_6m biologic_6m
-
-. lab var biologic_6m "bDMARD/tsDMARD within 6 months" 
-
-. tab biologic_6m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
-
-bDMARD/tsDM |
- ARD within |
-   6 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      4,102       12.73       12.73
-         No |     15,031       46.66       59.39
-          . |     13,084       40.61      100.00
-------------+-----------------------------------
-      Total |     32,217      100.00
-
-. gen biologic_12m=1 if time_to_biologic<=365 & time_to_biologic!=. 
-(24,827 missing values generated)
-
-. replace biologic_12m=2 if time_to_biologic>365 & time_to_biologic!=.
-(11,044 real changes made)
-
-. lab define biologic_12m 1 "Yes" 2 "No", modify
-
-. lab val biologic_12m biologic_12m
-
-. lab var biologic_12m "bDMARD/tsDMARD within 12 months" 
-
-. tab biologic_12m if has_12m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script
-
-bDMARD/tsDM |
- ARD within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      8,199       26.88       26.88
-         No |      9,924       32.54       59.42
-          . |     12,379       40.58      100.00
-------------+-----------------------------------
-      Total |     30,502      100.00
-
-. 
-. **Biologic time categories (by year)
-. bys diagnosis_year: tab biologic_6m if has_6m_follow_up==1, missing //for all EIA patients with at least 6m follow-up
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2019-March 2020
-
-bDMARD/tsDM |
- ARD within |
-   6 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,354       12.44       12.44
-         No |      5,171       47.52       59.96
-          . |      4,357       40.04      100.00
-------------+-----------------------------------
-      Total |     10,882      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2020-March 2021
-
-bDMARD/tsDM |
- ARD within |
-   6 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,354       12.83       12.83
-         No |      4,871       46.16       58.99
-          . |      4,328       41.01      100.00
-------------+-----------------------------------
-      Total |     10,553      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2021-March 2022
-
-bDMARD/tsDM |
- ARD within |
-   6 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      1,391       12.94       12.94
-         No |      4,972       46.26       59.20
-          . |      4,386       40.80      100.00
-------------+-----------------------------------
-      Total |     10,749      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = .
-
-bDMARD/tsDM |
- ARD within |
-   6 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |          3        9.09        9.09
-         No |         17       51.52       60.61
-          . |         13       39.39      100.00
-------------+-----------------------------------
-      Total |         33      100.00
-
-
-. bys diagnosis_year: tab biologic_12m if has_12m_follow_up==1, missing //for all EIA patients
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2019-March 2020
-
-bDMARD/tsDM |
- ARD within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      2,703       26.30       26.30
-         No |      3,440       33.47       59.77
-          . |      4,135       40.23      100.00
-------------+-----------------------------------
-      Total |     10,278      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2020-March 2021
-
-bDMARD/tsDM |
- ARD within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      2,697       27.06       27.06
-         No |      3,222       32.32       59.38
-          . |      4,049       40.62      100.00
-------------+-----------------------------------
-      Total |      9,968      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = March 2021-March 2022
-
-bDMARD/tsDM |
- ARD within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |      2,789       27.27       27.27
-         No |      3,254       31.81       59.08
-          . |      4,185       40.92      100.00
-------------+-----------------------------------
-      Total |     10,228      100.00
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--> diagnosis_year = .
-
-bDMARD/tsDM |
- ARD within |
-  12 months |      Freq.     Percent        Cum.
-------------+-----------------------------------
-        Yes |         10       35.71       35.71
-         No |          8       28.57       64.29
-          . |         10       35.71      100.00
-------------+-----------------------------------
-      Total |         28      100.00
-
-
-. 
-. save "$projectdir/output/data/file_eia_all", replace
-file C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/output/data/file_eia_all.dta saved
-
-. 
-. log close
-      name:  <unnamed>
-       log:  C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/logs/cleaning_dataset.log
-  log type:  text
- closed on:  11 Apr 2022, 12:34:29
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
