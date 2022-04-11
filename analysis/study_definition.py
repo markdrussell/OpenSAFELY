@@ -160,7 +160,7 @@ study = StudyDefinition(
         "eia_code_date",
         returning="nuts1_region_name",
         return_expectations={
-            "rate": "universal",
+            "incidence": 0.99,
             "category": {
             "ratios": {
                 "North East": 0.1,
@@ -210,7 +210,7 @@ study = StudyDefinition(
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
-        with_these_treatment_function_codes = codelist(["410"], system="opcs4"),
+        with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
         between = ["eia_code_date - 2 years", "eia_code_date"],
         return_expectations={
@@ -222,9 +222,9 @@ study = StudyDefinition(
     ortho_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
-        with_these_treatment_function_codes = codelist(["410"], system="treatment function code"),
+        with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["2018-03-01", "2022-03-01"],
+        on_or_after = "2019-04-01",
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -260,7 +260,7 @@ study = StudyDefinition(
     referral_rheum_precode = patients.with_these_clinical_events(
         referral_rheumatology,
         find_last_match_in_period = True,
-        between = ["eia_code_date - 1 year", "eia_code_date"],
+        between = ["eia_code_date - 2 years", "eia_code_date"],
         returning = "date",
         date_format = "YYYY-MM-DD",
         return_expectations = {

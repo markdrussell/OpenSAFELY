@@ -93,7 +93,7 @@ tabstat hba1c_pct, stats (n mean p50 p25 p75) //with conversion of mmol values
 tab hba1ccat, missing
 tabstat hba1c_mmol, stats (n mean p50 p25 p75) //with conversion of % values
 tab hba1ccatmm, missing
-tab diabcat, missing //on basis of converted %
+tab diabcatm, missing //on basis of converted %
 tab cancer, missing //lung, haem or other cancer
 tab hypertension, missing
 tab stroke, missing
@@ -113,8 +113,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 bmicat cat %5.1f \ ///
 		 smoke cat %5.1f \ ///
 		 hypertension bin %5.1f \ ///
-		 diabetes bin %5.1f \ ///
-		 hba1ccatmm cat %5.1f \ ///
+		 diabcatm cat %5.1f \ ///
 		 chronic_cardiac_disease bin %5.1f \ /// 
 		 stroke bin %5.1f \ ///
 		 cancer bin %5.1f \ ///
@@ -136,8 +135,7 @@ table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqr
 		 bmicat cat %5.1f \ ///
 		 smoke cat %5.1f \ ///
 		 hypertension bin %5.1f \ ///
-		 diabetes bin %5.1f \ ///
-		 hba1ccatmm cat %5.1f \ ///
+		 diabcatm cat %5.1f \ ///
 		 chronic_cardiac_disease bin %5.1f \ /// 
 		 stroke bin %5.1f \ ///
 		 cancer bin %5.1f \ ///

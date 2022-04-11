@@ -45,8 +45,7 @@ table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 		 bmicat cat %5.1f \ ///
 		 smoke cat %5.1f \ ///
 		 hypertension bin %5.1f \ ///
-		 diabetes bin %5.1f \ ///
-		 hba1ccatmm cat %5.1f \ ///
+		 diabcatm cat %5.1f \ ///
 		 chronic_cardiac_disease bin %5.1f \ /// 
 		 stroke bin %5.1f \ ///
 		 cancer bin %5.1f \ ///

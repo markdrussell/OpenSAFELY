@@ -85,22 +85,6 @@ actions:
         figure30:  output/figures/ITSA_mtx_delay_newey_psa.svg    
         figure31:  output/figures/ITSA_mtx_delay_prais_psa.gph
         figure32:  output/figures/ITSA_mtx_delay_prais_psa.svg
-        figure33:  output/figures/ITSA_biologic_delay_newey_all.gph
-        figure34:  output/figures/ITSA_biologic_delay_newey_all.svg
-        figure35:  output/figures/ITSA_biologic_delay_prais_all.gph
-        figure36:  output/figures/ITSA_biologic_delay_prais_all.svg
-        figure37:  output/figures/ITSA_biologic_delay_newey_ra.gph  
-        figure38:  output/figures/ITSA_biologic_delay_newey_ra.svg    
-        figure39:  output/figures/ITSA_biologic_delay_prais_ra.gph
-        figure40:  output/figures/ITSA_biologic_delay_prais_ra.svg
-        figure41:  output/figures/ITSA_biologic_delay_newey_psa.gph
-        figure42:  output/figures/ITSA_biologic_delay_newey_psa.svg
-        figure43:  output/figures/ITSA_biologic_delay_prais_psa.gph
-        figure44:  output/figures/ITSA_biologic_delay_prais_psa.svg
-        figure45:  output/figures/ITSA_biologic_delay_newey_anksp.gph  
-        figure46:  output/figures/ITSA_biologic_delay_newey_anksp.svg    
-        figure47:  output/figures/ITSA_biologic_delay_prais_anksp.gph
-        figure48:  output/figures/ITSA_biologic_delay_prais_anksp.svg           
         doc1: output/tables/diagnostic_delay_ref_rheum_appt.csv
         doc2: output/tables/diagnostic_delay_GP_rheum_appt.csv
         doc3: output/tables/diagnostic_delay_GPref_rheum_appt.csv
@@ -108,10 +92,6 @@ actions:
         doc5: output/tables/csDMARD_delay_PsA.csv
         doc6: output/tables/MTX_delay_RA.csv
         doc7: output/tables/MTX_delay_PsA.csv
-        doc8: output/tables/Biol_delay_all.csv
-        doc9: output/tables/Biol_delay_ra.csv
-        doc10: output/tables/Biol_delay_PsA.csv
-        doc11: output/tables/Biol_delay_anksp.csv
   
   run_box_plots:
     run: stata-mp:latest analysis/300_box_plots.do

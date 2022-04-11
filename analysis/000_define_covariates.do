@@ -17,7 +17,7 @@ USER-INSTALLED ADO:
   (place .ado file(s) in analysis folder)						
 ==============================================================================*/
 
-**Set filepaths
+**Set filepathsdiabe
 *global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
 global projectdir `c(pwd)'
 
@@ -231,6 +231,8 @@ foreach var of varlist 	 eia_code_date 						///
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
 lab var male "Male"
+lab define male 0 "No" 1 "Yes", modify
+lab val male male
 tab male, missing
 
 ***Ethnicity
@@ -260,23 +262,14 @@ drop stp_old
 ***Regions
 encode region, gen(nuts_region)
 tab region, missing
+replace region="Missing" if region==""
 
 ***IMD
-/*
-*Group into 5 groups
-rename imd imd_o
-egen imd = cut(imd_o), group(5) icodes 
-*Add one to create groups 1-5 
-replace imd = imd + 1
-*-1 is missing, should be excluded from population 
-replace imd = .u if imd_o == -1
-drop imd_o
 *Reverse the order (so high is more deprived)
-recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
+recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
 label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
-*/
 tab imd, missing
 
 ***Age variables
@@ -382,7 +375,9 @@ label values smoke_nomiss smoke
 **Clinical comorbidities
 ***eGFR
 *Set implausible creatinine values to missing (Note: zero changed to missing)
+codebook creatinine_value
 replace creatinine_value = . if !inrange(creatinine_value, 20, 3000) 
+codebook creatinine_value
 
 *Remove creatinine dates if no measurements, and vice versa 
 replace creatinine_value = . if creatinine_date == . 
@@ -390,7 +385,7 @@ replace creatinine_date = . if creatinine_value == .
 replace creatinine = . if creatinine_value == .
 recode creatinine .=0
 tab creatinine, missing
-tabstat creatinine_value, stat(n mean p50)
+tabstat creatinine_value, stat(n mean p50 p25 p75)
 
 *Divide by 88.4 (to convert umol/l to mg/dl) 
 gen SCr_adj = creatinine_value/88.4
@@ -412,10 +407,13 @@ gen egfr=min*max*141
 replace egfr=egfr*(0.993^age)
 replace egfr=egfr*1.018 if male==0
 label var egfr "egfr calculated using CKD-EPI formula with no ethnicity"
+codebook egfr
+tabstat egfr, stat(n mean p50 p25 p75)
 
 *Categorise into ckd stages
 egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
 recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
+tab egfr_cat_all, missing
 
 gen egfr_cat = .
 recode egfr_cat . = 3 if egfr < 30
@@ -441,6 +439,7 @@ label define egfr_cat_nomiss 	1 ">=60/missing" 	///
 								3 "<30"	
 label values egfr_cat_nomiss egfr_cat_nomiss
 lab var egfr_cat_nomiss "eGFR"
+tab egfr_cat_nomiss, missing
 
 gen egfr_date = creatinine_date
 format egfr_date %td
@@ -516,16 +515,17 @@ lab var hba1ccatmm "HbA1c"
 tab hba1ccatmm, missing
 
 *Create diabetes, split by control/not (assumes missing = no diabetes)
-gen     diabcat = 1 if diabetes==0
-replace diabcat = 2 if diabetes==1 & inlist(hba1ccat, 0, 1)
-replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
+gen     diabcatm = 1 if diabetes==0
+replace diabcatm = 2 if diabetes==1 & hba1ccatmm==0
+replace diabcatm = 3 if diabetes==1 & hba1ccatmm==1
+replace diabcatm = 4 if diabetes==1 & hba1ccatmm==.u
 
-label define diabcat 	1 "No diabetes" 			///
-						2 "Controlled diabetes"		///
-						3 "Uncontrolled diabetes" 	///
-						4 "Diabetes, no hba1c measure"
-label values diabcat diabcat
+label define diabcatm 	1 "No diabetes" 			///
+						2 "Diabetes with HbA1c <58mmol/mol"		///
+						3 "Diabetes with HbA1c >58mmol/mol" 	///
+						4 "Diabetes with no HbA1c measure"
+label values diabcatm diabcatm
+lab var diabcatm "Diabetes"
 
 *Create cancer variable 'other cancer currently', includes carcinoma of the head and neck - need to confirm if this excludes NMSC
 gen cancer =0
@@ -558,6 +558,7 @@ keep if eia_code==1
 **Keep patients with first EIA code in GP record if code was after 1st March 2019
 keep if eia_code_date>=date("$start_date", "DMY") & eia_code_date!=. 
 tab eia_code
+keep if eia_code_date<=date("$end_date", "DMY") & eia_code_date!=. 
 
 **Month/Year of EIA code
 gen year_diag=year(eia_code_date)
@@ -565,13 +566,14 @@ format year_diag %ty
 gen month_diag=month(eia_code_date)
 gen mo_year_diagn=ym(year_diag, month_diag)
 format mo_year_diagn %tm
+generate str16 mo_year_diagn_s = strofreal(mo_year_diagn,"%tmCCYY!mNN")
 
 *Include only most recent EIA sub-diagnosis=============================================*/
 
-replace ra_code =0 if psa_code_date >= ra_code_date & psa_code_date !=.
-replace ra_code =0 if anksp_code_date >= ra_code_date & anksp_code_date !=.
+replace ra_code =0 if psa_code_date > ra_code_date & psa_code_date !=.
+replace ra_code =0 if anksp_code_date > ra_code_date & anksp_code_date !=.
 replace psa_code =0 if ra_code_date >= psa_code_date & ra_code_date !=.
-replace psa_code =0 if anksp_code_date >= psa_code_date & anksp_code_date !=.
+replace psa_code =0 if anksp_code_date > psa_code_date & anksp_code_date !=.
 replace anksp_code =0 if psa_code_date >= anksp_code_date & psa_code_date !=.
 replace anksp_code =0 if ra_code_date >= anksp_code_date & ra_code_date !=.
 gen eia_diagnosis=1 if ra_code==1
@@ -617,8 +619,14 @@ format %td biologic_date
 **Exclude if first csdmard or biologic was before first rheum appt
 ***Nb. could introduce leeway e.g. 30 days?
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 15)<rheum_appt_date 
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 30)<rheum_appt_date 
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
 tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
+tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 15)<rheum_appt_date 
+tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 30)<rheum_appt_date 
+tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 
 *Number of EIA diagnoses in 1-year time windows=========================================*/
@@ -645,12 +653,18 @@ tab diagnosis_year if has_12m_follow_up==1, missing
 
 **Rheumatology appt 
 tab rheum_appt, missing  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
-tab rheum_appt if rheum_appt_date<eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt before EIA code (should be accounted for by Python code)
+tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code (should be accounted for by Python code)
+tab rheum_appt if rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code (should be accounted for by Python code)
+tab rheum_appt if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code (should be accounted for by Python code)
 codebook rheum_appt_date
+bys region: tab rheum_appt, missing
 
 **Ortho
 tab ortho_appt, missing
 codebook ortho_appt_date
+tab ortho_appt if ortho_appt_date>eia_code_date & ortho_appt_date!=. 
+tab ortho_appt if ortho_appt_date>(eia_code_date + 30) & ortho_appt_date!=. 
+tab ortho_appt if ortho_appt_date>(eia_code_date + 60) & ortho_appt_date!=. 
 tab tandortho_appt, missing
 codebook tandortho_appt_date
 

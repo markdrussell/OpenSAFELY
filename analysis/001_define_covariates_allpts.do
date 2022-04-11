@@ -145,6 +145,8 @@ foreach var of varlist 	 chronic_cardiac_disease_date		///
 gen male = 1 if sex == "M"
 replace male = 0 if sex == "F"
 lab var male "Male"
+lab define male 0 "No" 1 "Yes", modify
+lab val male male
 
 ***Ethnicity
 replace ethnicity = .u if ethnicity == .
@@ -171,23 +173,15 @@ drop stp_old
 
 ***Regions
 encode region, gen(nuts_region)
+replace region="Missing" if region==""
 
 ***IMD
-/*
-*Group into 5 groups
-rename imd imd_o
-egen imd = cut(imd_o), group(5) icodes 
-*Add one to create groups 1-5 
-replace imd = imd + 1
-*-1 is missing, should be excluded from population 
-replace imd = .u if imd_o == -1
-drop imd_o
 *Reverse the order (so high is more deprived)
-recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 .u = .u
+recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
 label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
-*/
+tab imd, missing
 
 ***Age variables
 *Nb. works if ages 18 and over
@@ -415,16 +409,17 @@ label values hba1ccatmm hba1ccatmm
 lab var hba1ccatmm "HbA1c"
 
 *Create diabetes, split by control/not (assumes missing = no diabetes)
-gen     diabcat = 1 if diabetes==0
-replace diabcat = 2 if diabetes==1 & inlist(hba1ccat, 0, 1)
-replace diabcat = 3 if diabetes==1 & inlist(hba1ccat, 2, 3, 4)
-replace diabcat = 4 if diabetes==1 & !inlist(hba1ccat, 0, 1, 2, 3, 4)
+gen     diabcatm = 1 if diabetes==0
+replace diabcatm = 2 if diabetes==1 & hba1ccatmm==0
+replace diabcatm = 3 if diabetes==1 & hba1ccatmm==1
+replace diabcatm = 4 if diabetes==1 & hba1ccatmm==.u
 
-label define diabcat 	1 "No diabetes" 			///
-						2 "Controlled diabetes"		///
-						3 "Uncontrolled diabetes" 	///
-						4 "Diabetes, no hba1c measure"
-label values diabcat diabcat
+label define diabcatm 	1 "No diabetes" 			///
+						2 "Diabetes with HbA1c <58mmol/mol"		///
+						3 "Diabetes with HbA1c >58mmol/mol" 	///
+						4 "Diabetes with no HbA1c measure"
+label values diabcatm diabcatm
+lab var diabcatm "Diabetes"
 
 *Create cancer variable 'other cancer currently', includes carcinoma of the head and neck - need to confirm if this excludes NMSC
 gen cancer =0
