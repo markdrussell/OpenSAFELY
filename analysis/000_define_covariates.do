@@ -18,8 +18,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepathsdiabe
-global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
-*global projectdir `c(pwd)'
+*global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
+global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/figures"
@@ -303,7 +303,6 @@ replace bmi_value = . if bmi_value == 0
 replace bmi_value = . if !inrange(bmi_value, 10, 80)
 
 *Restrict to within 10 years of EIA diagnosis date and aged>16 
-codebook bmi_date
 gen bmi_time = (eia_code_date - bmi_date)/365.25
 gen bmi_age = age - bmi_time
 replace bmi_value = . if bmi_age < 16 
@@ -370,9 +369,7 @@ label values smoke_nomiss smoke
 **Clinical comorbidities
 ***eGFR
 *Set implausible creatinine values to missing (Note: zero changed to missing)
-codebook creatinine_value
 replace creatinine_value = . if !inrange(creatinine_value, 20, 3000) 
-codebook creatinine_value
 
 *Remove creatinine dates if no measurements, and vice versa 
 replace creatinine_value = . if creatinine_date == . 
@@ -380,7 +377,6 @@ replace creatinine_date = . if creatinine_value == .
 replace creatinine = . if creatinine_value == .
 recode creatinine .=0
 tab creatinine, missing
-tabstat creatinine_value, stat(n mean p50 p25 p75)
 
 *Divide by 88.4 (to convert umol/l to mg/dl) 
 gen SCr_adj = creatinine_value/88.4
@@ -402,13 +398,10 @@ gen egfr=min*max*141
 replace egfr=egfr*(0.993^age)
 replace egfr=egfr*1.018 if male==0
 label var egfr "egfr calculated using CKD-EPI formula with no ethnicity"
-codebook egfr
-tabstat egfr, stat(n mean p50 p25 p75)
 
 *Categorise into ckd stages
 egen egfr_cat_all = cut(egfr), at(0, 15, 30, 45, 60, 5000)
 recode egfr_cat_all 0 = 5 15 = 4 30 = 3 45 = 2 60 = 0, generate(ckd_egfr)
-tab egfr_cat_all, missing
 
 gen egfr_cat = .
 recode egfr_cat . = 3 if egfr < 30
@@ -552,8 +545,9 @@ keep if eia_code==1
 
 **Keep patients with first EIA code in GP record if code was after 1st March 2019
 keep if eia_code_date>=date("$start_date", "DMY") & eia_code_date!=. 
-tab eia_code
+tab eia_code, missing
 keep if eia_code_date<=date("$end_date", "DMY") & eia_code_date!=. 
+tab eia_code, missing
 
 **Month/Year of EIA code
 gen year_diag=year(eia_code_date)
@@ -577,7 +571,7 @@ replace eia_diagnosis=3 if anksp_code==1
 lab define eia_diagnosis 1 "RA" 2 "PsA" 3 "AxSpA", modify
 lab val eia_diagnosis eia_diagnosis
 tab eia_diagnosis, missing
-drop if eia_diagnosis==. //should be ~none
+drop if eia_diagnosis==. //should be none
 
 *Define drugs and dates=====================================================*/
 
@@ -612,13 +606,12 @@ gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certoli
 format %td biologic_date
 
 **Exclude if first csdmard or biologic was before first rheum appt
-***Nb. could introduce leeway e.g. 30 days?
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
-drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date
+drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first rheum_appt_date
 tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
-drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
+drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
 
 *Number of EIA diagnoses in 1-year time windows=========================================*/
 
@@ -633,14 +626,13 @@ bys eia_diagnosis: tab diagnosis_year, missing
 
 **Proportion of patients with at least 6 or 12 months of GP follow-up after EIA code
 tab has_6m_follow_up
-tab has_12m_follow_up
+tab has_12m_follow_up 
 tab mo_year_diagn has_6m_follow_up
 tab mo_year_diagn has_12m_follow_up
-tab diagnosis_year if has_6m_follow_up==1, missing
-tab diagnosis_year if has_12m_follow_up==1, missing
+tab has_6m_follow_up if eia_code_date<=td(01sep2021)
+tab has_12m_follow_up if eia_code_date<=td(01mar2021)
 
 *Define appointments and referrals======================================*/
-**Nb. not excluding those without 6m+ follow-up
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
@@ -652,21 +644,15 @@ tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_da
 tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
 replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
 replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
-//consider dropping if above or missing for analyses below
-bys nuts_region: tab rheum_appt //check proportion by region
-
-**Drop patients who before Oct 2019 (insufficient time for rheum appt)
-drop if eia_code_date<date("$outpatient_date", "DMY")
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present, and rheum appt to be before EIA code)
 tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
 tab referral_rheum_precode //last rheum referral in the year before EIA code (could potentially use if rheum appt missing)
-codebook referral_rheum_precode_date
 gen referral_rheum_comb_date = referral_rheum_prerheum_date if referral_rheum_prerheum_date!=.
 replace referral_rheum_comb_date = referral_rheum_precode_date if referral_rheum_prerheum_date==. & referral_rheum_precode_date!=.
 format %td referral_rheum_comb_date
-codebook referral_rheum_comb_date
+tab referral_rheum_comb_date
 
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in year before rheum referral (pre-rheum appt); requires there to have been a rheum referral, before a rheum appt, before an EIA code

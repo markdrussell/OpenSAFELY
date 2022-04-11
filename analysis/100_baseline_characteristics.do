@@ -34,40 +34,21 @@ adopath + "$projectdir/analysis/extra_ados"
 **Use cleaned data from previous step
 use "$projectdir/output/data/file_eia_all.dta", clear
 
+**Set index dates ===========================================================*/
+global year_preceding = "01/03/2018"
+global start_date = "01/03/2019"
+global outpatient_date = "01/10/2019"
+global fup_6m_date = "01/09/2021"
+global end_date = "01/03/2022"
+
 *Descriptive statistics======================================================================*/
 
-**All patients with eia code in window after 1st March 2019
+**All patients with eia code in window after 1st March 2019 and before 1st March 2022
 tab eia_code
 codebook eia_code_date
 
 **EIA sub-diagnosis (most recent code)
 tab eia_diagnosis, missing
-
-**Proportion with a csDMARD shared care prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was before rheumatology appt date (if present)
-tab csdmard, missing
-bys eia_diagnosis: tab csdmard
-tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
-bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
-tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date //verify that no prescriptions were before rheum appt date
-
-**Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was before rheumatology appt date (if present)
-tab biologic, missing
-bys eia_diagnosis: tab biologic, missing 
-tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date //verify that no prescriptions were before rheum appt date
-
-**Number of EIA diagnoses in 1-year time windows
-tab diagnosis_year, missing
-bys eia_diagnosis: tab diagnosis_year, missing
-
-**Proportion of patients with at least 6 or 12 months of GP follow-up after EIA code
-tab has_6m_follow_up
-tab has_12m_follow_up
-tab mo_year_diagn has_6m_follow_up
-tab mo_year_diagn has_12m_follow_up
-tab diagnosis_year if has_6m_follow_up==1, missing
-bys eia_diagnosis: tab diagnosis_year if has_6m_follow_up==1, missing
-tab diagnosis_year if has_12m_follow_up==1, missing
-bys eia_diagnosis: tab diagnosis_year if has_12m_follow_up==1, missing
 
 **Demographics
 tab agegroup, missing
@@ -147,20 +128,44 @@ table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqr
 		 ) clear
 restore
 
+*Medications pre-time windows=====================================================================================*/
+
+**Proportion with a csDMARD shared care prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
+tab csdmard, missing
+bys eia_diagnosis: tab csdmard
+tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
+bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //verify that no prescriptions were >60 days before rheumatology appt date
+
+**Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
+tab biologic, missing
+bys eia_diagnosis: tab biologic, missing 
+tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date  //verify that no prescriptions were >60 days before rheumatology appt date
+
+**Number of EIA diagnoses in 1-year time windows
+tab diagnosis_year, missing
+bys eia_diagnosis: tab diagnosis_year, missing
+
 *Referral and appointment performance==============================================================================*/
 
-**Nb. not excluding those without 6m+ follow-up
+**Nb. not excluding those without 6m+ follow-up for this section
+
+**Keep those with at least 6m of GP registration prior to EIA code 
+keep if eia_code_date>=date("$outpatient_date", "DMY")
 
 **Rheumatology appt 
-tab rheum_appt  //proportion with first rheum outpatient date in the year before EIA code appears in GP record (could change to two years)
-tab rheum_appt if rheum_appt_date<eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt before EIA code (should be accounted for by Python code)
+tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm no rheum appts more than 60 days after EIA code (recoded)
+
+**By region
+bys nuts_region: tab rheum_appt //check proportion by region
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the year before rheumatology outpatient (requires rheum appt to have been present, and rheum appt to be before EIA code)
-tab referral_rheum_prerheum if rheum_appt!=0  //last rheum referral in the year before rheumatology outpatient if rheum appt date present
-tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
+tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
+tab referral_rheum_precode //last rheum referral in the year before EIA code (could potentially use if rheum appt missing)
 tab referral_rheum_precode //last rheum referral in the year before EIA code (could use if rheum appt missing)
-codebook referral_rheum_comb_date //combination of referral pre-rheum appt (if present) and referral pre-code if not
+tab referral_rheum_comb_date //combination of referral pre-rheum appt (if present) and referral pre-code if not
 
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in year before rheum referral (pre-rheum appt); requires there to have been a rheum referral, before a rheum appt, before an EIA code
@@ -326,6 +331,15 @@ restore
 *Time to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
 
 *All patients below must have at least six months of GP registration after EIA code (12m+ for biologics)
+keep if eia_code_date<=date("$fup_6m_date", "DMY")
+
+**Proportion of patients with at least 6 or 12 months of GP follow-up after EIA code
+tab has_6m_follow_up
+tab has_12m_follow_up 
+tab mo_year_diagn has_6m_follow_up
+tab mo_year_diagn has_12m_follow_up
+tab has_12m_follow_up if eia_code_date<=td(01mar2021) //proportion of patients >12 months before end date who had >12 months of registration after EIA code date
+tab mo_year_diagn has_12m_follow_up if eia_code_date<=td(01mar2021) //proportion of patients >12 months before end date who had >12 months of registration after EIA code date
 
 **Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions)
 tabstat time_to_csdmard if ra_code==1 & has_6m_follow_up==1, stats (n mean p50 p25 p75)
@@ -507,8 +521,10 @@ bys diagnosis_year: tabstat time_to_biologic if ra_code==1 & has_12m_follow_up==
 bys nuts_region: tabstat time_to_biologic if ra_code==1 & has_12m_follow_up==1, stats (n mean p50 p25 p75) //by region
 
 **What was first biologic
+/*
 tab first_biologic if has_12m_follow_up==1 //for all EIA patients
 bys eia_diagnosis: tab first_biologic if has_12m_follow_up==1
+*/
 
 **Biologic time categories (for all patients)
 tab biologic_3m if has_6m_follow_up==1, missing //missing will be patients with no rheum appt and/or rheum appt after bDMARD/tsDMARD script

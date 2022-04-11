@@ -119,7 +119,7 @@ study = StudyDefinition(
 
     has_12m_follow_up=patients.registered_with_one_practice_between(
             start_date = "eia_code_date - 1 year", 
-            end_date = "today",
+            end_date = "eia_code_date + 1 year",
             return_expectations={"incidence": 0.90}       
     ),
 
