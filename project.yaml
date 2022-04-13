@@ -85,6 +85,10 @@ actions:
         figure30:  output/figures/ITSA_mtx_delay_newey_psa.svg    
         figure31:  output/figures/ITSA_mtx_delay_prais_psa.gph
         figure32:  output/figures/ITSA_mtx_delay_prais_psa.svg
+        figure33:  output/figures/ITSA_referral_delay_newey.gph
+        figure34:  output/figures/ITSA_referral_delay_newey.svg
+        figure35:  output/figures/ITSA_referral_delay_prais.gph
+        figure36:  output/figures/ITSA_referral_delay_prais.svg
         doc1: output/tables/diagnostic_delay_ref_rheum_appt.csv
         doc2: output/tables/diagnostic_delay_GP_rheum_appt.csv
         doc3: output/tables/diagnostic_delay_GPref_rheum_appt.csv
@@ -92,6 +96,7 @@ actions:
         doc5: output/tables/csDMARD_delay_PsA.csv
         doc6: output/tables/MTX_delay_RA.csv
         doc7: output/tables/MTX_delay_PsA.csv
+        doc8: output/tables/referral_delay_GP_to_ref.csv
   
   run_box_plots:
     run: stata-mp:latest analysis/300_box_plots.do

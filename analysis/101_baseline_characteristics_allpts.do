@@ -53,7 +53,6 @@ table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
 		 egfr_cat_nomiss cat %5.1f \ ///
-		 esrf bin %5.1f \ ///
 		 ) clear
 restore
 		 

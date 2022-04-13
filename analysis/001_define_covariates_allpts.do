@@ -161,7 +161,7 @@ label define ethnicity 	1 "White"  					///
 						2 "Asian/Asian British"		///
 						3 "Black"  					///
 						4 "Mixed/Other"				///
-						.u "Missing"
+						.u "Not Known"
 label values ethnicity ethnicity
 lab var ethnicity "Ethnicity"
 
@@ -173,12 +173,12 @@ drop stp_old
 
 ***Regions
 encode region, gen(nuts_region)
-replace region="Missing" if region==""
+replace region="Not Known" if region==""
 
 ***IMD
 *Reverse the order (so high is more deprived)
 recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
-label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Missing"
+label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Not Known"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
 tab imd, missing
@@ -244,7 +244,7 @@ label define bmicat 1 "Underweight (<18.5)" 	///
 					4 "Obese I (30-34.9)"		///
 					5 "Obese II (35-39.9)"		///
 					6 "Obese III (40+)"			///
-					.u "Missing"
+					.u "Not Known"
 					
 label values bmicat bmicat
 lab var bmicat "BMI"
@@ -261,7 +261,7 @@ label values obese4cat obese4cat
 order obese4cat, after(bmicat)
 
 ***Smoking 
-label define smoke 1 "Never" 2 "Former" 3 "Current" .u "Missing"
+label define smoke 1 "Never" 2 "Former" 3 "Current" .u "Not Known"
 
 gen     smoke = 1  if smoking_status == "N"
 replace smoke = 2  if smoking_status == "E"
@@ -323,7 +323,7 @@ replace egfr_cat = .u if egfr >= .
 label define egfr_cat 	1 ">=60" 		///
 						2 "30-59"		///
 						3 "<30"			///
-						.u "Missing"
+						.u "Not Known"
 					
 label values egfr_cat egfr_cat
 lab var egfr_cat "eGFR"
@@ -332,7 +332,7 @@ lab var egfr_cat "eGFR"
 gen egfr_cat_nomiss = egfr_cat
 replace egfr_cat_nomiss = 1 if egfr_cat == .u
 
-label define egfr_cat_nomiss 	1 ">=60/missing" 	///
+label define egfr_cat_nomiss 	1 ">=60/not Known" 	///
 								2 "30-59"			///
 								3 "<30"	
 label values egfr_cat_nomiss egfr_cat_nomiss
@@ -404,7 +404,7 @@ replace hba1c_mmol = (hba1c_percentage*10.929)-23.5 if hba1c_percentage<. & hba1
 gen 	hba1ccatmm = 0 if hba1c_mmol < 58
 replace hba1ccatmm = 1 if hba1c_mmol >= 58 & hba1c_mmol !=.
 replace hba1ccatmm =.u if hba1ccatmm==. 
-label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Missing"
+label define hba1ccatmm 0 "HbA1c <58mmol/mol" 1 "HbA1c >=58mmol/mol" .u "Not Known"
 label values hba1ccatmm hba1ccatmm
 lab var hba1ccatmm "HbA1c"
 
