@@ -100,16 +100,11 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/itsa_models_drugs.log   
-        figure1:  output/figures/ITSA_csDMARD_delay_newey_ra.gph
-        figure2:  output/figures/ITSA_csDMARD_delay_newey_ra.svg
-        figure3:  output/figures/ITSA_csDMARD_delay_prais_ra.gph
-        figure4:  output/figures/ITSA_csDMARD_delay_prais_ra.svg
-        figure5:  output/figures/ITSA_csDMARD_delay_newey_psa.gph  
-        figure6:  output/figures/ITSA_csDMARD_delay_newey_psa.svg    
-        figure7:  output/figures/ITSA_csDMARD_delay_prais_psa.gph
-        figure8:  output/figures/ITSA_csDMARD_delay_prais_psa.svg
-        doc1: output/tables/csDMARD_delay_RA.csv
-        doc2: output/tables/csDMARD_delay_PsA.csv
+        figure1:  output/figures/ITSA_csDMARD_delay_newey_raandpsa.gph
+        figure2:  output/figures/ITSA_csDMARD_delay_newey_raandpsa.svg
+        figure3:  output/figures/ITSA_csDMARD_delay_prais_raandpsa.gph
+        figure4:  output/figures/ITSA_csDMARD_delay_prais_raandpsa.svg
+        doc1: output/tables/csDMARD_delay_raandpsa.csv
 
   run_box_plots:
     run: stata-mp:latest analysis/300_box_plots.do
