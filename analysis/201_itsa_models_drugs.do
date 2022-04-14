@@ -53,6 +53,26 @@ keep if has_6m_post_appt==1
 preserve
 keep if time_to_csdmard!=. & ra_code==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
 eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn_s) stat(count p50 p75 p25 mean sd) 
+esttab X using "$projectdir/output/tables/csDMARD_delay_raandpsa.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
+collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
+
+tsset mo_year_diagn
+
+**Newey Standard Errors with 6 lags
+itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small)) legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_newey_raandpsa.gph", replace)) posttrend 
+	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_raandpsa.svg", replace
+actest, lag(18)	
+
+**Prais-Winsten	
+itsa p50_csdmard_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Median time to csDMARD, days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(710 "Mar 2019" 716 "Sep 2019" 722 "Mar 2020" 728 "Sep 2020" 734 "Mar 2021" 740 "Sep 2021" 746 "Mar 2022", nogrid) note("", size(v.small))  legend(off) saving("$projectdir/output/figures/ITSA_csDMARD_delay_prais_raandpsa.gph", replace)) posttrend 
+	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_raandpsa.svg", replace	
+restore
+
+/*
+**Time from rheum appt to shared care csDMARD for RA patients (not including MTX high-cost drug) 
+preserve
+keep if time_to_csdmard!=. & ra_code==1 //drop those with no rheum appt and/or csDMARD prescription; must have minimum of 6m follow-up after diagnosis
+eststo X: estpost tabstat time_to_csdmard, by(mo_year_diagn_s) stat(count p50 p75 p25 mean sd) 
 esttab X using "$projectdir/output/tables/csDMARD_delay_RA.csv", cells("count p50 p75 p25 mean sd") replace plain nomtitle noobs
 collapse (p50) p50_csdmard_delay=time_to_csdmard (p75) p75_csdmard_delay=time_to_csdmard (p25) p25_csdmard_delay=time_to_csdmard (mean) mean_csdmard_delay=time_to_csdmard (sd) sd_csdmard_delay=time_to_csdmard (count) n_csdmard_delay=time_to_csdmard, by(mo_year_diagn)
 
@@ -125,7 +145,6 @@ itsa p50_mtx_delay if inrange(mo_year_diagn, tm(2019m3), tm(2022m3)), single trp
 	graph export "$projectdir/output/figures/ITSA_mtx_delay_prais_psa.svg", replace	
 restore
 
-/*
 **Time from rheum appt to biologic for all EIA patients (data available to 2020-11-27) - for patients who have at least 12 months of follow-up post-diagnosis
 
 *All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m of registration after appt

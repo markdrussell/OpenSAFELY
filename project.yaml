@@ -108,18 +108,8 @@ actions:
         figure6:  output/figures/ITSA_csDMARD_delay_newey_psa.svg    
         figure7:  output/figures/ITSA_csDMARD_delay_prais_psa.gph
         figure8:  output/figures/ITSA_csDMARD_delay_prais_psa.svg
-        figure9:  output/figures/ITSA_mtx_delay_newey_ra.gph
-        figure10:  output/figures/ITSA_mtx_delay_newey_ra.svg
-        figure11:  output/figures/ITSA_mtx_delay_prais_ra.gph
-        figure12:  output/figures/ITSA_mtx_delay_prais_ra.svg
-        figure13:  output/figures/ITSA_mtx_delay_newey_psa.gph  
-        figure14:  output/figures/ITSA_mtx_delay_newey_psa.svg    
-        figure15:  output/figures/ITSA_mtx_delay_prais_psa.gph
-        figure16:  output/figures/ITSA_mtx_delay_prais_psa.svg
         doc1: output/tables/csDMARD_delay_RA.csv
         doc2: output/tables/csDMARD_delay_PsA.csv
-        doc3: output/tables/MTX_delay_RA.csv
-        doc4: output/tables/MTX_delay_PsA.csv
 
   run_box_plots:
     run: stata-mp:latest analysis/300_box_plots.do
