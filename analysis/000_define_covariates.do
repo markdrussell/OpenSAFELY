@@ -42,7 +42,8 @@ adopath + "$projectdir/analysis/extra_ados"
 **Set index dates ===========================================================*/
 global year_preceding = "01/03/2018"
 global start_date = "01/03/2019"
-global outpatient_date = "01/10/2019"
+global outpatient_date = "01/04/2019"
+global fup_6m_date = "01/09/2021"
 global end_date = "01/03/2022"
 
 **Rename variables (some are too long for Stata to handle) =======================================*/
@@ -537,25 +538,76 @@ lab var chronic_cardiac_disease "Chronic cardiac disease"
 
 drop age
 
-*Refine diagnostic window=============================================================*/
+*Ensure everyone has EIA code=============================================================*/
 
 **All patients should have EIA code
 tab eia_code, missing
 keep if eia_code==1
 
-**Keep patients with first EIA code in GP record if code was after 1st March 2019
-keep if eia_code_date>=date("$start_date", "DMY") & eia_code_date!=. 
-tab eia_code, missing
-keep if eia_code_date<=date("$end_date", "DMY") & eia_code_date!=. 
-tab eia_code, missing
+**Check first rheum appt date was before EIA code date==================================*/
 
-**Month/Year of EIA code
-gen year_diag=year(eia_code_date)
-format year_diag %ty
-gen month_diag=month(eia_code_date)
-gen mo_year_diagn=ym(year_diag, month_diag)
-format mo_year_diagn %tm
-generate str16 mo_year_diagn_s = strofreal(mo_year_diagn,"%tmCCYY!mNN")
+**Rheumatology appt 
+tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
+
+**Check timeframe of rheum appt relative to EIA codebook
+tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
+tab rheum_appt if rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code 
+tab rheum_appt if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
+replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+
+*Check first csDMARD/biologic was after rheum appt date=====================================================*/
+
+**csDMARDs (not including high cost MTX; wouldn't be shared care)
+gen csdmard=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | sulfasalazine==1
+recode csdmard .=0 
+tab csdmard, missing
+
+**csDMARDs (including high cost MTX)
+gen csdmard_hcd=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1 | sulfasalazine==1
+recode csdmard_hcd .=0 
+tab csdmard_hcd, missing
+
+**Date of first csDMARD script (not including high cost MTX prescriptions)
+gen csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date)
+format %td csdmard_date
+
+**Date of first csDMARD script (including high cost MTX prescriptions)
+gen csdmard_hcd_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date, sulfasalazine_date)
+format %td csdmard_hcd_date
+
+**Biologic use
+gen biologic=1 if abatacept==1 | adalimumab==1 | baricitinib==1 | certolizumab==1 | etanercept==1 | golimumab==1 | guselkumab==1 | infliximab==1 | ixekizumab==1 | rituximab==1 | sarilumab==1 | secukinumab==1 | tocilizumab==1 | tofacitinib==1 | upadacitinib==1 | ustekinumab==1 
+recode biologic .=0
+tab biologic, missing
+
+**Date of first biologic script
+gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certolizumab_date, etanercept_date, golimumab_date, guselkumab_date, infliximab_date, ixekizumab_date, rituximab_date, sarilumab_date, secukinumab_date, tocilizumab_date, tofacitinib_date, upadacitinib_date, ustekinumab_date)
+format %td biologic_date
+
+**Exclude if first csdmard or biologic was before first rheum appt
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
+tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
+drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first rheum_appt_date
+tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
+tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
+drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
+
+*Generate diagnosis date===============================================================*/
+
+*Use first rheum appt date as diagnosis date unless missing, in which case use eia code date as diagnosis date
+gen diagnosis_date=rheum_appt_date if rheum_appt_date!=.
+replace diagnosis_date=eia_code_date if rheum_appt_date==.
+format diagnosis_date %td
+codebook diagnosis_date
+
+*Refine diagnostic window=============================================================*/
+
+**Keep patients with diagnosis date was after 1st March 2019 and before 1st March 2022
+keep if diagnosis_date>=date("$start_date", "DMY") & diagnosis_date!=. 
+tab eia_code, missing
+keep if diagnosis_date<date("$end_date", "DMY") & diagnosis_date!=. 
+tab eia_code, missing
 
 *Include only most recent EIA sub-diagnosis=============================================*/
 
@@ -573,69 +625,51 @@ lab val eia_diagnosis eia_diagnosis
 tab eia_diagnosis, missing
 drop if eia_diagnosis==. //should be none
 
-*Define drugs and dates=====================================================*/
-
-**csDMARDs (not including high cost MTX; wouldn't be shared care)
-gen csdmard=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | sulfasalazine==1
-recode csdmard .=0 
-tab csdmard, missing
-bys eia_diagnosis: tab csdmard
-
-**csDMARDs (including high cost MTX)
-gen csdmard_hcd=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1 | sulfasalazine==1
-recode csdmard_hcd .=0 
-tab csdmard_hcd, missing
-bys eia_diagnosis: tab csdmard_hcd, missing
-
-**Date of first csDMARD script (not including high cost MTX prescriptions)
-gen csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date)
-format %td csdmard_date
-
-**Date of first csDMARD script (including high cost MTX prescriptions)
-gen csdmard_hcd_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date, sulfasalazine_date)
-format %td csdmard_hcd_date
-
-**Biologic use
-gen biologic=1 if abatacept==1 | adalimumab==1 | baricitinib==1 | certolizumab==1 | etanercept==1 | golimumab==1 | guselkumab==1 | infliximab==1 | ixekizumab==1 | rituximab==1 | sarilumab==1 | secukinumab==1 | tocilizumab==1 | tofacitinib==1 | upadacitinib==1 | ustekinumab==1 
-recode biologic .=0
-tab biologic, missing
-bys eia_diagnosis: tab biologic, missing 
-
-**Date of first biologic script
-gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certolizumab_date, etanercept_date, golimumab_date, guselkumab_date, infliximab_date, ixekizumab_date, rituximab_date, sarilumab_date, secukinumab_date, tocilizumab_date, tofacitinib_date, upadacitinib_date, ustekinumab_date)
-format %td biologic_date
-
-**Exclude if first csdmard or biologic was before first rheum appt
-tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
-tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
-drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first rheum_appt_date
-tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
-tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
-drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
-
 *Number of EIA diagnoses in 1-year time windows=========================================*/
 
-gen diagnosis_year=1 if eia_code_date>=td(01mar2019) & eia_code_date<td(01mar2020)
-replace diagnosis_year=2 if eia_code_date>=td(01mar2020) & eia_code_date<td(01mar2021)
-replace diagnosis_year=3 if eia_code_date>=td(01mar2021) & eia_code_date<=td(01mar2022)
+**Month/Year of EIA code
+gen year_code=year(eia_code_date)
+format year_code %ty
+gen month_code=month(eia_code_date)
+gen mo_year_code=ym(year_code, month_code)
+format mo_year_code %tm
+generate str16 mo_year_code_s = strofreal(mo_year_code,"%tmCCYY!mNN")
+
+**Month/Year of rheum appt (=date of diagnosis)
+gen year_diag=year(diagnosis_date) if diagnosis_date!=.
+format year_diag %ty
+gen month_diag=month(diagnosis_date) if diagnosis_date!=. 
+gen mo_year_diagn=ym(year_diag, month_diag)
+format mo_year_diagn %tm
+generate str16 mo_year_diagn_s = strofreal(mo_year_diagn,"%tmCCYY!mNN")
+
+**Separate into time windows (for diagnosis date)
+gen diagnosis_year=1 if diagnosis_date>=td(01mar2019) & diagnosis_date<td(01mar2020)
+replace diagnosis_year=2 if diagnosis_date>=td(01mar2020) & diagnosis_date<td(01mar2021)
+replace diagnosis_year=3 if diagnosis_date>=td(01mar2021) & diagnosis_date<=td(01mar2022)
 lab define diagnosis_year 1 "March 2019-March 2020" 2 "March 2020-March 2021" 3 "March 2021-March 2022", modify
 lab val diagnosis_year diagnosis_year
 lab var diagnosis_year "Year of diagnosis"
 tab diagnosis_year, missing
 bys eia_diagnosis: tab diagnosis_year, missing
 
+**Separate into time windows (for EIA code date)
+gen code_year=1 if eia_code_date>=td(01mar2019) & eia_code_date<td(01mar2020)
+replace code_year=2 if eia_code_date>=td(01mar2020) & eia_code_date<td(01mar2021)
+replace code_year=3 if eia_code_date>=td(01mar2021) & eia_code_date<=td(01mar2022)
+replace code_year=4 if eia_code_date>td(01mar2022)
+replace code_year=0 if eia_code_date<td(01mar2019)
+lab define code_year 0 "Before March 2019" 1 "March 2019-March 2020" 2 "March 2020-March 2021" 3 "March 2021-March 2022" 4 "After March 2022", modify
+lab val code_year code_year
+lab var code_year "Year of EIA code"
+tab code_year, missing
+bys eia_diagnosis: tab code_year, missing
+
 *Define appointments and referrals======================================*/
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a code date from Oct 2019 onward with a rheum outpatient date in the two years before EIA code appeared in GP record (i.e. 6m+ preceding)
-
-**Check timeframe of rheum appt relative to EIA codebook
-tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
-tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code 
-tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
-replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
-replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+tab rheum_appt if diagnosis_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a rheum appt from April 2019 onwards
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
@@ -654,14 +688,6 @@ tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code re
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
 
-**For sensitivity analyses for those without rheum_appt, replace diagnosis date as EIA code date if rheum appt pre-code is missing or after
-gen eia_diagnosis_date_nomiss=rheum_appt_date if rheum_appt_date!=.
-format %td eia_diagnosis_date_nomiss
-replace eia_diagnosis_date_nomiss=eia_code_date if (rheum_appt_date==. | rheum_appt_date>eia_code_date) & eia_code_date!=.
-gen eia_diagnosis_nomiss=1 if eia_diagnosis_date_nomiss!=.
-recode eia_diagnosis_nomiss .=0
-tab eia_diagnosis_nomiss
-
 *Time to referral, appointment and EIA code=============================================*/
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct time order)
@@ -669,16 +695,16 @@ gen time_gp_rheum_ref_appt = (referral_rheum_prerheum_date - last_gp_refrheum_da
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all_appts)
 
 gen gp_ref_cat=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
-replace gp_ref_cat=2 if time_gp_rheum_ref_appt<=7 & time_gp_rheum_ref_appt!=. & gp_ref_cat==.
+replace gp_ref_cat=2 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt<=7 & time_gp_rheum_ref_appt!=. & gp_ref_cat==.
 replace gp_ref_cat=3 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=. & gp_ref_cat==.
-lab define gp_ref_cat 1 "Referred within 3 days" 2 "Referred within 7 days" 3 "Referral delay >7 days", modify
+lab define gp_ref_cat 1 "Within 3 days" 2 "Between 3-7 days" 3 "More than 7 days", modify
 lab val gp_ref_cat gp_ref_cat
 lab var gp_ref_cat "Time to GP referral"
 tab gp_ref_cat, missing
 
 gen gp_ref_3d=1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=. 
 replace gp_ref_3d=2 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt!=.
-lab define gp_ref_3d 1 "Referred within 3 days" 2 "Referral delay >3 days", modify
+lab define gp_ref_3d 1 "Within 3 days" 2 "More than 3 days", modify
 lab val gp_ref_3d gp_ref_3d
 lab var gp_ref_3d "Time to GP referral"
 tab gp_ref_3d, missing
@@ -710,16 +736,16 @@ gen time_ref_rheum_appt = (rheum_appt_date - referral_rheum_prerheum_date) if rh
 tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 
 gen ref_appt_cat=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
-replace ref_appt_cat=2 if time_ref_rheum_appt<=42 & time_ref_rheum_appt!=. & ref_appt_cat==.
+replace ref_appt_cat=2 if time_ref_rheum_appt>21 & time_ref_rheum_appt<=42 & time_ref_rheum_appt!=. & ref_appt_cat==.
 replace ref_appt_cat=3 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=. & ref_appt_cat==.
-lab define ref_appt_cat 1 "Seen within 3 weeks" 2 "Seen within 6 weeks" 3 "Assessment delay >6 weeks", modify
+lab define ref_appt_cat 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val ref_appt_cat ref_appt_cat
 lab var ref_appt_cat "Time to rheumatology assessment"
 tab ref_appt_cat, missing
 
 gen ref_appt_3w=1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=. 
 replace ref_appt_3w=2 if time_ref_rheum_appt>21 & time_ref_rheum_appt!=.
-lab define ref_appt_3w 1 "Seen within 3 weeks" 2 "Assessment delay >3 weeks", modify
+lab define ref_appt_3w 1 "Within 3 weeks" 2 "More than 3 weeks", modify
 lab val ref_appt_3w ref_appt_3w
 lab var ref_appt_3w "Time to rheumatology assessment"
 tab ref_appt_3w, missing
@@ -745,15 +771,17 @@ tabstat time_rheum_eia_code, stats (n mean p50 p25 p75)
 *Time from rheum appt to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
 
 *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt
-**Proportion of patients with at least 6 or 12 months of GP follow-up after rheum appt (i.e. diagnosis date)
+
+**Proportion of patients with at least 6 or 12 months of GP registration after rheum appt (i.e. diagnosis date)
 tab has_6m_follow_up
 tab has_12m_follow_up 
 tab mo_year_diagn has_6m_follow_up
 tab mo_year_diagn has_12m_follow_up
 
-gen has_6m_post_appt=1 if date("$end_date", "DMY")>(rheum_appt_date + 180) & has_6m_follow_up==1 & rheum_appt_date!=.
+*All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt
+gen has_6m_post_appt=1 if date("$end_date", "DMY")>=(rheum_appt_date + 180) & has_6m_follow_up==1 & rheum_appt_date!=.
 recode has_6m_post_appt .=0
-gen has_12m_post_appt=1 if date("$end_date", "DMY")>(rheum_appt_date + 365) & has_12m_follow_up==1 & rheum_appt_date!=.
+gen has_12m_post_appt=1 if date("$end_date", "DMY")>=(rheum_appt_date + 365) & has_12m_follow_up==1 & rheum_appt_date!=.
 recode has_12m_post_appt .=0
 
 **Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (if present; not including high cost MTX prescriptions)

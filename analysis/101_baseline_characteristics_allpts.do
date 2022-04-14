@@ -36,7 +36,6 @@ use "$projectdir/output/data/file_eia_allpts.dta", clear
 
 /*Tables=====================================================================================*/
 *Baseline table
-preserve
 table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
@@ -53,7 +52,6 @@ table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
 		 egfr_cat_nomiss cat %5.1f \ ///
-		 ) clear
-restore
+		 ) saving("$projectdir/output/tables/baseline_allpts.csv", replace)
 		 
 log close

@@ -15,8 +15,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir `c(pwd)'
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir `c(pwd)'
 di "$projectdir"
 
 capture mkdir "$projectdir/output/figures"
@@ -40,16 +40,11 @@ set scheme plotplainblind
 **Set index dates ===========================================================*/
 global year_preceding = "01/03/2018"
 global start_date = "01/03/2019"
-global outpatient_date = "01/10/2019"
+global outpatient_date = "01/04/2019"
 global fup_6m_date = "01/09/2021"
 global end_date = "01/03/2022"
 
 /*ITSA models for appt and referral times===========================================================================*/
-
-**Nb. not excluding those without 6m+ follow-up for this section
-
-**Keep those with at least 6m of GP registration prior to EIA code 
-keep if eia_code_date>=date("$outpatient_date", "DMY")
 
 **Time from last GP appt to rheum referral (all diagnoses)
 preserve

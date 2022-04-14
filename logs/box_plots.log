@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  /workspace/logs/box_plots.log
   log type:  text
- opened on:   8 Apr 2022, 12:21:34
+ opened on:  14 Apr 2022, 10:23:12
 
 . 
 . **Set Ado file path
@@ -29,37 +29,37 @@
 . preserve
 
 . gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
-(35,438 missing values generated)
+(38,003 missing values generated)
 
 . recode qs1_0 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_0: 969 changes made)
+(qs1_0: 1109 changes made)
 
 . gen qs1_1 =1 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt<=7 & time_g
 > p_rheum_ref_appt!=.
-(35,436 missing values generated)
+(38,016 missing values generated)
 
 . recode qs1_1 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_1: 967 changes made)
+(qs1_1: 1122 changes made)
 
 . gen qs1_2 = 1 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=.
-(34,491 missing values generated)
+(36,923 missing values generated)
 
 . recode qs1_2 .=0 if time_gp_rheum_ref_appt!=.
-(qs1_2: 22 changes made)
+(qs1_2: 29 changes made)
 
 . 
 . expand=2, gen(copy)
-(35,448 observations created)
+(38,024 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(35,448 real changes made)
+(38,024 real changes made)
 
 . 
 . graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(
 > 1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) leg
-> end(order(1 "Referral within 3 days" 2 "Referral within 7 days" 3 "Delay >7 d
-> ays")) title("Time to rheumatology referral") saving("$projectdir/output/figu
-> res/regional_qs1_bar.gph", replace) name(regional_qs1_bar, replace)
+> end(order(1 "Within 3 days" 2 "Within 7 days" 3 "More than 7 days")) title("T
+> ime to rheumatology referral") saving("$projectdir/output/figures/regional_qs
+> 1_bar.gph", replace) name(regional_qs1_bar, replace)
 (note: file /workspace/output/figures/regional_qs1_bar.gph not found)
 (file /workspace/output/figures/regional_qs1_bar.gph saved)
 
@@ -87,37 +87,37 @@
 . preserve
 
 . gen qs2_0 =1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=.
-(35,115 missing values generated)
+(37,835 missing values generated)
 
 . recode qs2_0 .=0 if time_ref_rheum_appt!=.
-(qs2_0: 5241 changes made)
+(qs2_0: 5048 changes made)
 
 . gen qs2_1 =1 if time_ref_rheum_appt>21 & time_ref_rheum_appt<=42 & time_ref_r
 > heum_appt!=.
-(35,165 missing values generated)
+(37,830 missing values generated)
 
 . recode qs2_1 .=0 if time_ref_rheum_appt!=.
-(qs2_1: 5291 changes made)
+(qs2_1: 5043 changes made)
 
 . gen qs2_2 = 1 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=.
-(30,490 missing values generated)
+(33,170 missing values generated)
 
 . recode qs2_2 .=0 if time_ref_rheum_appt!=.
-(qs2_2: 616 changes made)
+(qs2_2: 383 changes made)
 
 . 
 . expand=2, gen(copy)
-(35,448 observations created)
+(38,024 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(35,448 real changes made)
+(38,024 real changes made)
 
 . 
 . graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(
 > 1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) leg
-> end(order(1 "Seen within 3 weeks" 2 "Seen within 6 weeks" 3 "Delay >6 weeks")
-> ) title("Time to rheumatology assessment") saving("$projectdir/output/figures
-> /regional_qs2_bar.gph", replace) name(regional_qs2_bar, replace)
+> end(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title
+> ("Time from rheumatology referral to assessment") saving("$projectdir/output/
+> figures/regional_qs2_bar.gph", replace) name(regional_qs2_bar, replace)
 (note: file /workspace/output/figures/regional_qs2_bar.gph not found)
 (file /workspace/output/figures/regional_qs2_bar.gph saved)
 
@@ -128,47 +128,103 @@
 . restore
 
 . 
-. *csDMARD shared care performance by region===================================
-> =======================================*/
+. *Rheum assessment performance by region using last GP pre-appt ==============
+> ============================================================*/
 . 
 . preserve
 
-. keep if has_12m_follow_up==1 //only those patients with >12m of follow-up
-(3,553 observations deleted)
+. gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
+(37,844 missing values generated)
 
-. gen csdmard_0 =1 if time_to_csdmard<=180 & time_to_csdmard!=.
-(30,537 missing values generated)
+. recode qs2_0 .=0 if time_gp_rheum_appt!=.
+(qs2_0: 5013 changes made)
 
-. recode csdmard_0 .=0 if time_to_csdmard!=.
-(csdmard_0: 7849 changes made)
+. gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheu
+> m_appt!=.
+(37,855 missing values generated)
 
-. gen csdmard_1 =1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdm
-> ard!=.
-(30,166 missing values generated)
+. recode qs2_1 .=0 if time_gp_rheum_appt!=.
+(qs2_1: 5024 changes made)
 
-. recode csdmard_1 .=0 if time_to_csdmard!=.
-(csdmard_1: 7478 changes made)
+. gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
+(33,180 missing values generated)
 
-. gen csdmard_2 = 1 if time_to_csdmard>365 & time_to_csdmard!=.
-(25,775 missing values generated)
-
-. recode csdmard_2 .=0 if time_to_csdmard!=.
-(csdmard_2: 3087 changes made)
+. recode qs2_2 .=0 if time_gp_rheum_appt!=.
+(qs2_2: 349 changes made)
 
 . 
 . expand=2, gen(copy)
-(31,895 observations created)
+(38,024 observations created)
 
 . replace nuts_region = 0 if copy==1  
-(31,895 real changes made)
+(38,024 real changes made)
 
 . 
-. graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_regi
-> on, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size
-> (small)) legend(order(1 "csDMARD within 6 months" 2 "csDMARD within 1 year" 3
->  "Delay >1 year")) title("Time to shared care csDMARD") saving("$projectdir/o
-> utput/figures/regional_csdmard_bar.gph", replace) name(regional_csdmard_bar, 
-> replace)
+. graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(
+> 1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) leg
+> end(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title
+> ("Time from last GP appointment to rheumatology assessment") saving("$project
+> dir/output/figures/regional_qs2_bar_GP.gph", replace) name(regional_qs2_bar_G
+> P, replace)
+(note: file /workspace/output/figures/regional_qs2_bar_GP.gph not found)
+(file /workspace/output/figures/regional_qs2_bar_GP.gph saved)
+
+. graph export "$projectdir/output/figures/regional_qs2_bar_GP.svg", replace
+(note: file /workspace/output/figures/regional_qs2_bar_GP.svg not found)
+(file /workspace/output/figures/regional_qs2_bar_GP.svg written in SVG format)
+
+. restore
+
+. 
+. *csDMARD shared care performance by region, including no prescriptions=======
+> ===================================================================*/
+. 
+. preserve
+
+. *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m
+>  of registration after appt (12m+ for biologics)
+. keep if has_6m_post_appt==1
+(25,125 observations deleted)
+
+. gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
+(12,122 missing values generated)
+
+. recode csdmard_0 .=0
+(csdmard_0: 12122 changes made)
+
+. gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdma
+> rd!=.
+(12,408 missing values generated)
+
+. recode csdmard_1 .=0
+(csdmard_1: 12408 changes made)
+
+. gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard!=.
+(9,705 missing values generated)
+
+. recode csdmard_2 .=0 
+(csdmard_2: 9705 changes made)
+
+. gen csdmard_3 = 1 if time_to_csdmard==.
+(4,462 missing values generated)
+
+. recode csdmard_3 .=0 
+(csdmard_3: 4462 changes made)
+
+. 
+. expand=2, gen(copy)
+(12,899 observations created)
+
+. replace nuts_region = 0 if copy==1  
+(12,899 real changes made)
+
+. 
+. graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_
+> 3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patien
+> ts) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months
+> " 3 "More than 6 months" 4 "Not prescribed")) title("Time to shared care csDM
+> ARD") saving("$projectdir/output/figures/regional_csdmard_bar.gph", replace) 
+> name(regional_csdmard_bar, replace)
 (note: file /workspace/output/figures/regional_csdmard_bar.gph not found)
 (file /workspace/output/figures/regional_csdmard_bar.gph saved)
 
@@ -179,10 +235,66 @@
 . restore
 
 . 
+. *csDMARD shared care performance by region, not including no prescriptions===
+> =======================================================================*/
+. 
+. preserve
+
+. *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m
+>  of registration after appt (12m+ for biologics)
+. keep if has_6m_post_appt==1
+(25,125 observations deleted)
+
+. gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
+(12,122 missing values generated)
+
+. recode csdmard_0 .=0 if time_to_csdmard!=.
+(csdmard_0: 3685 changes made)
+
+. gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdma
+> rd!=.
+(12,408 missing values generated)
+
+. recode csdmard_1 .=0 if time_to_csdmard!=.
+(csdmard_1: 3971 changes made)
+
+. gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard!=.
+(9,705 missing values generated)
+
+. recode csdmard_2 .=0 if time_to_csdmard!=.
+(csdmard_2: 1268 changes made)
+
+. 
+. expand=2, gen(copy)
+(12,899 observations created)
+
+. replace nuts_region = 0 if copy==1  
+(12,899 real changes made)
+
+. 
+. graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_regi
+> on, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size
+> (small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 
+> months")) title("Time to shared care csDMARD") saving("$projectdir/output/fig
+> ures/regional_csdmard_bar_nomiss.gph", replace) name(regional_csdmard_bar_nom
+> iss, replace)
+(note: file /workspace/output/figures/regional_csdmard_bar_nomiss.gph not found
+> )
+(file /workspace/output/figures/regional_csdmard_bar_nomiss.gph saved)
+
+. graph export "$projectdir/output/figures/regional_csdmard_bar_nomiss.svg", re
+> place
+(note: file /workspace/output/figures/regional_csdmard_bar_nomiss.svg not found
+> )
+(file /workspace/output/figures/regional_csdmard_bar_nomiss.svg written in SVG 
+> format)
+
+. restore
+
 . 
 . log close
       name:  <unnamed>
        log:  /workspace/logs/box_plots.log
   log type:  text
- closed on:   8 Apr 2022, 12:21:37
+ closed on:  14 Apr 2022, 10:23:18
 -------------------------------------------------------------------------------

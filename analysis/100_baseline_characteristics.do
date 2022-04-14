@@ -15,8 +15,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir `c(pwd)'
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir `c(pwd)'
 di "$projectdir"
 
 capture mkdir "$projectdir/output/tables"
@@ -37,15 +37,18 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 **Set index dates ===========================================================*/
 global year_preceding = "01/03/2018"
 global start_date = "01/03/2019"
-global outpatient_date = "01/10/2019"
+global outpatient_date = "01/04/2019"
 global fup_6m_date = "01/09/2021"
 global end_date = "01/03/2022"
 
 *Descriptive statistics======================================================================*/
 
-**All patients with eia code in window after 1st March 2019 and before 1st March 2022
+**Total number of patients with diagnosis date (i.e. first rheum appt date) after 1st March 2019 and before 1st March 2022
 tab eia_code
-codebook eia_code_date
+
+**Verify that all diagnoses were in study windows
+tab diagnosis_year, missing
+tab mo_year_diagn, missing
 
 **EIA sub-diagnosis (most recent code)
 tab eia_diagnosis, missing
@@ -101,7 +104,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
 		 egfr_cat_nomiss cat %5.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/baseline_bydiagnosis.csv", replace)
 
 *Baseline table by year of diagnosis
 table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -120,7 +123,7 @@ table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqr
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
 		 egfr_cat_nomiss cat %5.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/baseline_byyear.csv", replace)
 
 *Medications pre-time windows=====================================================================================*/
 
@@ -136,22 +139,21 @@ tab biologic, missing
 bys eia_diagnosis: tab biologic, missing 
 tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date  //verify that no prescriptions were >60 days before rheumatology appt date
 
-**Number of EIA diagnoses in 1-year time windows
+**Number of EIA diagnoses in 1-year time windows (where diagnosis date defined by first rheum appt if present, and EIA code if not)================================================*/
 tab diagnosis_year, missing
 bys eia_diagnosis: tab diagnosis_year, missing
 
-*Referral and appointment performance==============================================================================*/
+**Number of EIA codes in 1-year time windows (defined by date of first eia code in notes)
+tab code_year, missing
+bys eia_diagnosis: tab code_year, missing
 
-preserve
+*Referral and appointment performance==============================================================================*/
 
 **Nb. not excluding those without 6m+ follow-up for this section
 
-**Keep those with at least 6m of GP registration prior to EIA code 
-keep if eia_code_date>=date("$outpatient_date", "DMY")
-
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt if eia_code_date>=date("$outpatient_date", "DMY") & rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm no rheum appts more than 60 days after EIA code (recoded)
+tab rheum_appt if diagnosis_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a rheum appt from April 2019 onwards
 
 **By region
 bys nuts_region: tab rheum_appt //check proportion by region
@@ -168,9 +170,6 @@ tab all_appts, missing //KEY - proportion who had a last gp appt, then rheum ref
 tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code ref); requires there to have been a rheum referral before an EIA code (i.e. rheum appt could have been missing)
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
-
-**For sensitivity analyses for those without rheum_appt, replace diagnosis date as EIA code date if rheum appt pre-code is missing or after
-tab eia_diagnosis_nomiss
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all_appts)
@@ -268,7 +267,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.csv", replace)
 
 **With missing data
 table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
@@ -276,7 +275,7 @@ table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrm
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/referral_bydiag_miss.csv", replace)
 
 *Referral standards, by year of diagnosis
 table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
@@ -284,7 +283,7 @@ table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle("
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.csv", replace)
 
 **With missing data
 table1_mc, by(diagnosis_year) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
@@ -292,7 +291,7 @@ table1_mc, by(diagnosis_year) total(before) missing onecol nospacelowpercent iqr
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 ) 
+		 ) saving("$projectdir/output/tables/referral_byyear_miss.csv", replace)
 
 *Referral standards, by region
 table1_mc, by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
@@ -300,7 +299,7 @@ table1_mc, by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.csv", replace)
 
 **With missing data
 table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -308,13 +307,9 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
-		 ) 
-
-restore 
+		 ) saving("$projectdir/output/tables/referral_byregion_miss.csv", replace)
 
 *Time to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
-
-preserve
 
 *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
 keep if has_6m_post_appt==1
@@ -411,7 +406,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 ssz_time cat %3.1f \ ///
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/drug_bydiag_miss.csv", replace)
 
 *Drug prescription table, for those with at least 6m registration for RA patients
 table1_mc if ra_code==1, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -420,7 +415,7 @@ table1_mc if ra_code==1, by(diagnosis_year) total(before) onecol missing nospace
 		 ssz_time cat %3.1f \ ///
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
-		 )
+		 ) saving("$projectdir/output/tables/drug_byyear_ra_miss.csv", replace)
 		 
 *Drug prescription table, for those with at least 6m registration for PsA patients
 table1_mc if psa_code==1, by(diagnosis_year) total(diagnosis_year) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -429,7 +424,7 @@ table1_mc if psa_code==1, by(diagnosis_year) total(diagnosis_year) onecol missin
 		 ssz_time cat %3.1f \ ///
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
-		 )	
+		 ) saving("$projectdir/output/tables/drug_byyear_psa_miss.csv", replace)
 		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high_cost drug data available to Nov 2020======================================================================*/
 
@@ -464,7 +459,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
-		 ) 
+		 ) saving("$projectdir/output/tables/biol_bydiag_miss.csv", replace)
 		 
 *Drug prescription table at 12 months, for RA patients with at least 12m registration, by year of diagnosis
 table1_mc if ra_code==1, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -474,7 +469,7 @@ table1_mc if ra_code==1, by(diagnosis_year) total(before) onecol missing nospace
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
-		 ) 
+		 ) saving("$projectdir/output/tables/biol_byyear_ra_miss.csv", replace)
 
 *Drug prescription table at 12 months, for PsA patients with at least 12m registration, by year of diagnosis
 table1_mc if psa_code==1, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -484,7 +479,7 @@ table1_mc if psa_code==1, by(diagnosis_year) total(before) onecol missing nospac
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
-		 ) 
+		 ) saving("$projectdir/output/tables/biol_byyear_psa_miss.csv", replace)
 
 *Drug prescription table at 12 months, for AxSpA patients with at least 12m registration, by year of diagnosis
 table1_mc if anksp_code==1, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -494,8 +489,6 @@ table1_mc if anksp_code==1, by(diagnosis_year) total(before) onecol missing nosp
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
-		 ) 
-		  
-restore
+		 ) saving("$projectdir/output/tables/biol_byyear_axspa_miss.csv", replace)
 
 log close
