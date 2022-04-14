@@ -46,7 +46,7 @@ def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
         date_format=date_format,
         find_first_match_in_period=True,
         return_expectations={
-            "incidence": 0.1,
+            "incidence": 0.2,
             "date": {"earliest": start_date, "latest": end_date},
         },
     )
