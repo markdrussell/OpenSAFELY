@@ -69,26 +69,16 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/itsa_models.log   
-        figure1:  output/figures/ITSA_referral_delay_newey.gph
-        figure2:  output/figures/ITSA_referral_delay_newey.svg
-        figure3:  output/figures/ITSA_referral_delay_prais.gph
-        figure4:  output/figures/ITSA_referral_delay_prais.svg
-        figure5:  output/figures/ITSA_diagnostic_delay_newey.gph
-        figure6:  output/figures/ITSA_diagnostic_delay_newey.svg
-        figure7:  output/figures/ITSA_diagnostic_delay_prais.gph  
-        figure8:  output/figures/ITSA_diagnostic_delay_prais.svg
-        figure9:  output/figures/ITSA_diagnostic_delay_newey_2cuts.gph
-        figure10:  output/figures/ITSA_diagnostic_delay_newey_2cuts.svg
-        figure11:  output/figures/ITSA_diagnostic_delay_prais_2cuts.gph  
-        figure12:  output/figures/ITSA_diagnostic_delay_prais_2cuts.svg
-        figure13:  output/figures/ITSA_diagnostic_delay_GP_newey.gph
-        figure14:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
-        figure15:  output/figures/ITSA_diagnostic_delay_GP_prais.gph  
-        figure16:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
-        figure17:  output/figures/ITSA_diagnostic_delay_GPref_newey.gph
-        figure18:  output/figures/ITSA_diagnostic_delay_GPref_newey.svg
-        figure19:  output/figures/ITSA_diagnostic_delay_GPref_prais.gph  
-        figure20:  output/figures/ITSA_diagnostic_delay_GPref_prais.svg
+        figure1:  output/figures/ITSA_referral_delay_newey.svg
+        figure2:  output/figures/ITSA_referral_delay_prais.svg
+        figure3:  output/figures/ITSA_diagnostic_delay_newey.svg
+        figure4:  output/figures/ITSA_diagnostic_delay_prais.svg
+        figure5:  output/figures/ITSA_diagnostic_delay_newey_2cuts.svg
+        figure6:  output/figures/ITSA_diagnostic_delay_prais_2cuts.svg
+        figure7:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
+        figure8:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
+        figure9:  output/figures/ITSA_diagnostic_delay_GPref_newey.svg
+        figure10:  output/figures/ITSA_diagnostic_delay_GPref_prais.svg
         doc1: output/tables/referral_delay_GP_to_ref.csv
         doc2: output/tables/diagnostic_delay_ref_rheum_appt.csv
         doc3: output/tables/diagnostic_delay_GP_rheum_appt.csv
@@ -100,10 +90,8 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/itsa_models_drugs.log   
-        figure1:  output/figures/ITSA_csDMARD_delay_newey_raandpsa.gph
-        figure2:  output/figures/ITSA_csDMARD_delay_newey_raandpsa.svg
-        figure3:  output/figures/ITSA_csDMARD_delay_prais_raandpsa.gph
-        figure4:  output/figures/ITSA_csDMARD_delay_prais_raandpsa.svg
+        figure1:  output/figures/ITSA_csDMARD_delay_newey_raandpsa.svg
+        figure2:  output/figures/ITSA_csDMARD_delay_prais_raandpsa.svg
         doc1: output/tables/csDMARD_delay_raandpsa.csv
 
   run_box_plots:
@@ -112,13 +100,8 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/box_plots.log
-        figure 1: output/figures/regional_qs1_bar.gph
-        figure 2: output/figures/regional_qs1_bar.svg
-        figure 3: output/figures/regional_qs2_bar.gph
-        figure 4: output/figures/regional_qs2_bar.svg 
-        figure 5: output/figures/regional_qs2_bar_GP.gph
-        figure 6: output/figures/regional_qs2_bar_GP.svg     
-        figure 7: output/figures/regional_csdmard_bar.gph
-        figure 8: output/figures/regional_csdmard_bar.svg  
-        figure 9: output/figures/regional_csdmard_bar_nomiss.gph
-        figure 10: output/figures/regional_csdmard_bar_nomiss.svg  
+        figure 1: output/figures/regional_qs1_bar.svg
+        figure 2: output/figures/regional_qs2_bar.svg 
+        figure 3: output/figures/regional_qs2_bar_GP.svg     
+        figure 4: output/figures/regional_csdmard_bar.svg  
+        figure 5: output/figures/regional_csdmard_bar_nomiss.svg  

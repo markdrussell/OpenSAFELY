@@ -49,7 +49,7 @@ recode qs1_2 .=0 if time_gp_rheum_ref_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 days" 2 "Within 7 days" 3 "More than 7 days")) title("Time to rheumatology referral") saving("$projectdir/output/figures/regional_qs1_bar.gph", replace) name(regional_qs1_bar, replace)
+graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 days" 2 "Within 7 days" 3 "More than 7 days")) title("Time to rheumatology referral") name(regional_qs1_bar, replace)
 graph export "$projectdir/output/figures/regional_qs1_bar.svg", replace
 restore
 
@@ -74,7 +74,7 @@ recode qs2_2 .=0 if time_ref_rheum_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from rheumatology referral to assessment") saving("$projectdir/output/figures/regional_qs2_bar.gph", replace) name(regional_qs2_bar, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from rheumatology referral to assessment") name(regional_qs2_bar, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar.svg", replace
 restore
 
@@ -91,7 +91,7 @@ recode qs2_2 .=0 if time_gp_rheum_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") saving("$projectdir/output/figures/regional_qs2_bar_GP.gph", replace) name(regional_qs2_bar_GP, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar_GP.svg", replace
 restore
 
@@ -112,7 +112,7 @@ recode csdmard_3 .=0
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months" 4 "Not prescribed")) title("Time to shared care csDMARD") saving("$projectdir/output/figures/regional_csdmard_bar.gph", replace) name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months" 4 "Not prescribed")) title("Time to shared care csDMARD") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar.svg", replace
 restore
 
@@ -131,7 +131,7 @@ recode csdmard_2 .=0 if time_to_csdmard!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months")) title("Time to shared care csDMARD") saving("$projectdir/output/figures/regional_csdmard_bar_nomiss.gph", replace) name(regional_csdmard_bar_nomiss, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months")) title("Time to shared care csDMARD") name(regional_csdmard_bar_nomiss, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_nomiss.svg", replace
 restore
 
