@@ -46,7 +46,7 @@ def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
         date_format=date_format,
         find_first_match_in_period=True,
         return_expectations={
-            "incidence": 0.1,
+            "incidence": 0.2,
             "date": {"earliest": start_date, "latest": end_date},
         },
     )
@@ -98,6 +98,19 @@ study = StudyDefinition(
     psa_code_date=first_code_in_period(psoriatic_arthritis_codes),
     anksp_code_date=first_code_in_period(ankylosing_spondylitis_codes),
 
+    # First rheumatology outpatient date in the year before EIA diagnosis code appears in GP record
+    rheum_appt_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes = ["410"],
+        date_format="YYYY-MM-DD",
+        between = ["eia_code_date - 2 years", end_date],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),
+
     # Define study population 
     population=patients.satisfying(
             """
@@ -112,18 +125,17 @@ study = StudyDefinition(
         ),
     
     has_6m_follow_up=patients.registered_with_one_practice_between(
-            start_date = "eia_code_date - 1 year", 
-            end_date = "eia_code_date + 6 months",
+            start_date = "rheum_appt_date", 
+            end_date = "rheum_appt_date + 6 months",
             return_expectations={"incidence": 0.95}       
     ),
 
     has_12m_follow_up=patients.registered_with_one_practice_between(
-            start_date = "eia_code_date - 1 year", 
-            end_date = "eia_code_date + 1 year",
+            start_date = "rheum_appt_date", 
+            end_date = "rheum_appt_date + 1 year",
             return_expectations={"incidence": 0.90}       
     ),
 
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
     age=patients.age_as_of(
         "eia_code_date",
         return_expectations={
@@ -131,7 +143,6 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
         },
     ),
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/46
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
@@ -147,7 +158,6 @@ study = StudyDefinition(
             "incidence": 0.75,
         },
     ),
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/54
     stp=patients.registered_practice_as_of(
         "eia_code_date",
         returning="stp_code",
@@ -205,20 +215,6 @@ study = StudyDefinition(
     ),
    
     # Outcomes
-    ## First rheumatology outpatient date in the year before EIA diagnosis code appears in GP record
-    ## https://github.com/opensafely-core/cohort-extractor/issues/673
-    rheum_appt_date=patients.outpatient_appointment_date(
-        returning="date",
-        find_first_match_in_period=True,
-        with_these_treatment_function_codes = ["410"],
-        date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 2 years", end_date],
-        return_expectations={
-            "incidence": 0.9,
-            "date": {"earliest": year_preceding, "latest": end_date},
-        },
-    ),
-
     ## Rheumatology referral codes (last referral in the year before rheumatology outpatient)
     referral_rheum_prerheum = patients.with_these_clinical_events(
         referral_rheumatology,
