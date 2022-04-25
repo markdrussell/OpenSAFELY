@@ -19,10 +19,10 @@
       "sha": "28044875a1f74e2d5d50be3178b6349720416e6d"
     },
     "user-markdrussell-referral-rheumatology.csv": {
-      "id": "user/markdrussell/referral-rheumatology/2a403344",
-      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/referral-rheumatology/2a403344/",
-      "downloaded_at": "2022-04-04 10:14:15.636030Z",
-      "sha": "285d07b176cd9a2a3dde703e3972683249a8ec84"
+      "id": "user/markdrussell/referral-rheumatology/6bc8e5e3",
+      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/referral-rheumatology/6bc8e5e3/",
+      "downloaded_at": "2022-04-19 15:10:55.822527Z",
+      "sha": "6905817b91b0fe74de27fd32f7ab13030c7a43df"
     },
     "opensafely-cancer-excluding-lung-and-haematological.csv": {
       "id": "opensafely/cancer-excluding-lung-and-haematological/2020-04-15",

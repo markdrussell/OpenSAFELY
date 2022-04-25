@@ -98,13 +98,39 @@ study = StudyDefinition(
     psa_code_date=first_code_in_period(psoriatic_arthritis_codes),
     anksp_code_date=first_code_in_period(ankylosing_spondylitis_codes),
 
-    # First rheumatology outpatient date in the year before EIA diagnosis code appears in GP record
+    # First rheumatology outpatient date in the 2 years before EIA diagnosis code appears in GP record
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
         between = ["eia_code_date - 2 years", end_date],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),
+
+    # First rheumatology outpatient date in the year before EIA diagnosis code appears in GP record
+    rheum_appt2_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes = ["410"],
+        date_format="YYYY-MM-DD",
+        between = ["eia_code_date - 1 year", end_date],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),
+    
+    # First rheumatology outpatient date in the 6 months before EIA diagnosis code appears in GP record
+    rheum_appt3_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes = ["410"],
+        date_format="YYYY-MM-DD",
+        between = ["eia_code_date - 6 months", end_date],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},

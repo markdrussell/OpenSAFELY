@@ -99,7 +99,8 @@ restore
 
 preserve
 *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
-keep if has_6m_post_appt==1
+**For RA and PsA patients
+keep if has_6m_post_appt==1 & (ra_code==1 | psa_code==1)
 gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
@@ -120,7 +121,8 @@ restore
 
 preserve
 *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
-keep if has_6m_post_appt==1
+**For RA and PsA patients
+keep if has_6m_post_appt==1 & (ra_code==1 | psa_code==1)
 gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0 if time_to_csdmard!=.
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.

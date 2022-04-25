@@ -98,6 +98,8 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 foreach var of varlist 	 died_date_ons						///
 					     eia_code_date 						///
 						 rheum_appt_date					///
+						 rheum_appt2_date					///
+						 rheum_appt3_date					///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -148,6 +150,8 @@ foreach var of varlist 	 died_date_ons						///
 						 
 **Rename variables with extra 'date' added to the end of variable names===========================================================*/ 
 rename rheum_appt_date_date rheum_appt_date
+rename rheum_appt2_date_date rheum_appt2_date
+rename rheum_appt3_date_date rheum_appt3_date
 rename eia_code_date_date eia_code_date
 rename ra_code_date_date ra_code_date
 rename psa_code_date_date psa_code_date
@@ -168,6 +172,8 @@ rename bmi bmi_value
 
 foreach var of varlist 	 eia_code_date 						///
 						 rheum_appt_date					///
+						 rheum_appt2_date					///
+						 rheum_appt3_date					///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -548,6 +554,8 @@ keep if eia_code==1
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 1 year before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check timeframe of rheum appt relative to EIA codebook
 tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
@@ -555,6 +563,12 @@ tab rheum_appt if rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //co
 tab rheum_appt if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
 replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
 replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+
+**Check timeframe of rheum appt relative to EIA codebook
+replace rheum_appt2=0 if rheum_appt2_date>(eia_code_date + 60) & rheum_appt2_date!=. //replace as missing those appts >60 days after EIA code
+replace rheum_appt2_date=. if rheum_appt2_date>(eia_code_date + 60) & rheum_appt2_date!=. //replace as missing those appts >60 days after EIA code_yea
+replace rheum_appt3=0 if rheum_appt3_date>(eia_code_date + 60) & rheum_appt3_date!=. //replace as missing those appts >60 days after EIA code
+replace rheum_appt3_date=. if rheum_appt3_date>(eia_code_date + 60) & rheum_appt3_date!=. //replace as missing those appts >60 days after EIA code
 
 *Check first csDMARD/biologic was after rheum appt date=====================================================*/
 
@@ -670,6 +684,8 @@ bys eia_diagnosis: tab code_year, missing
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt if diagnosis_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a rheum appt from April 2019 onwards
+tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 1 year before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)

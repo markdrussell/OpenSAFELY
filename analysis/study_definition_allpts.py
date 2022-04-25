@@ -41,7 +41,6 @@ study = StudyDefinition(
             ),
         ),
     
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/33
     age=patients.age_as_of(
         start_date,
         return_expectations={
@@ -49,7 +48,6 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
         },
     ),
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/46
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
@@ -65,7 +63,6 @@ study = StudyDefinition(
             "incidence": 0.75,
         },
     ),
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/54
     stp=patients.registered_practice_as_of(
         start_date,
         returning="stp_code",
@@ -175,7 +172,6 @@ study = StudyDefinition(
     ),
     organ_transplant=first_comorbidity_in_period(organ_transplant_codes),
 
-    # https://github.com/ebmdatalab/tpp-sql-notebook/issues/10
     bmi=patients.most_recent_bmi(
         between = ["2009-03-01", start_date],
         minimum_age_at_measurement=16,
