@@ -157,14 +157,18 @@ tab rheum_appt if diagnosis_date>=date("$outpatient_date", "DMY"), missing //pro
 tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 1 year before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 
+**Check if above criteria are picking up the same appt
+tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) //using 1-year pre-EIA code
+tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) //using 2-years pre-EIA code
+tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) //using 6-months pre-EIA code
+
 **By region
 bys nuts_region: tab rheum_appt //check proportion by region
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
-tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
+tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date 
 tab referral_rheum_precode //last rheum referral in the 2 years before EIA code (could potentially use if rheum appt missing)
-tab referral_rheum_precode //last rheum referral in the 2 years before EIA code (could use if rheum appt missing)
 
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in year before rheum referral (pre-rheum appt); requires there to have been a rheum referral

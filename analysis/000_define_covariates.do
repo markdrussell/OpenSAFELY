@@ -780,9 +780,17 @@ gen time_ref_rheum_eia_comb = time_ref_rheum_appt
 replace time_ref_rheum_eia_comb = time_ref_rheum_eia if time_ref_rheum_appt==. & time_ref_rheum_eia!=.
 tabstat time_ref_rheum_eia_comb, stats (n mean p50 p25 p75)
 
-**Time from rheum appt to EIA code
+**Time from rheum appt (1 year pre-) to EIA code
 gen time_rheum_eia_code = (eia_code_date - rheum_appt_date) if eia_code_date!=. & rheum_appt_date!=. 
 tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) 
+
+**Time from rheum appt (2 years pre-) to EIA code
+gen time_rheum2_eia_code = (eia_code_date - rheum_appt2_date) if eia_code_date!=. & rheum_appt2_date!=. 
+tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) 
+
+**Time from rheum appt (6 months pre-) to EIA code
+gen time_rheum3_eia_code = (eia_code_date - rheum_appt3_date) if eia_code_date!=. & rheum_appt3_date!=. 
+tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) 
 
 *Time from rheum appt to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
 

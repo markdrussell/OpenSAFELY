@@ -104,7 +104,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 2 years", end_date],
+        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -117,7 +117,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 1 year", end_date],
+        between = ["eia_code_date - 2 years", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -130,7 +130,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 6 months", end_date],
+        between = ["eia_code_date - 6 months", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
