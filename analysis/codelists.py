@@ -33,10 +33,15 @@ rheumatoid_arthritis_codes = codelist_from_csv(
     "codelists/user-markdrussell-new-rheumatoid-arthritis.csv", system="snomed", column="code",
 )
 
+undifferentiated_arthritis_codes = codelist_from_csv(
+    "codelists/user-markdrussell-undiff-eia.csv", system="snomed", column="code",
+)
+
 eia_diagnosis_codes = combine_codelists(
     ankylosing_spondylitis_codes,
     psoriatic_arthritis_codes,
-    rheumatoid_arthritis_codes
+    rheumatoid_arthritis_codes,
+    undifferentiated_arthritis_codes
 )
 
 chronic_cardiac_disease_codes = codelist_from_csv(

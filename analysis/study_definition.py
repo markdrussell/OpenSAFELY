@@ -2,8 +2,8 @@ from cohortextractor import StudyDefinition, patients, codelist, codelist_from_c
 
 from codelists import *
 
-year_preceding = "2018-03-01"
-start_date = "2019-03-01"
+year_preceding = "2018-04-01"
+start_date = "2019-04-01"
 end_date = "today"
 
 # Date of first EIA code in primary care record
@@ -15,7 +15,7 @@ def first_code_in_period(dx_codelist):
         date_format="YYYY-MM-DD",
         return_expectations={
             "incidence": 0.99,
-            "date": {"earliest": "2018-03-01", "latest": end_date},
+            "date": {"earliest": "2018-04-01", "latest": end_date},
         },
     )
 
@@ -97,14 +97,15 @@ study = StudyDefinition(
     ra_code_date=first_code_in_period(rheumatoid_arthritis_codes),
     psa_code_date=first_code_in_period(psoriatic_arthritis_codes),
     anksp_code_date=first_code_in_period(ankylosing_spondylitis_codes),
+    undiff_code_date=first_code_in_period(undifferentiated_arthritis_codes),
 
-    # First rheumatology outpatient date in the 2 years before EIA diagnosis code appears in GP record
+    # First rheumatology outpatient date in the 6 months before EIA diagnosis code appears in GP record
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
+        between = ["eia_code_date - 6 months", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -117,20 +118,20 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 2 years", "eia_code_date + 60 days"],
+        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
         },
     ),
     
-    # First rheumatology outpatient date in the 6 months before EIA diagnosis code appears in GP record
+    # First rheumatology outpatient date in the 2 years before EIA diagnosis code appears in GP record
     rheum_appt3_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 6 months", "eia_code_date + 60 days"],
+        between = ["eia_code_date - 2 years", "eia_code_date + 60 days"],
         return_expectations={
             "incidence": 0.9,
             "date": {"earliest": year_preceding, "latest": end_date},
@@ -241,7 +242,7 @@ study = StudyDefinition(
     ),
    
     # Outcomes
-    ## Rheumatology referral codes (last referral in the year before rheumatology outpatient)
+    ## Rheumatology referral codes (last referral in the 2 years before rheumatology outpatient)
     referral_rheum_prerheum = patients.with_these_clinical_events(
         referral_rheumatology,
         find_last_match_in_period = True,
@@ -254,7 +255,7 @@ study = StudyDefinition(
         },
     ),
 
-    ## Rheumatology referral codes (last rheum ref in the year before before EIA code)
+    ## Rheumatology referral codes (last rheum ref in the 2 years before before EIA code)
     referral_rheum_precode = patients.with_these_clinical_events(
         referral_rheumatology,
         find_last_match_in_period = True,
@@ -267,48 +268,48 @@ study = StudyDefinition(
         },
     ),
    
-    ## GP consultation date (last appt in the year before rheumatology outpatient)
+    ## GP consultation date (last appt in the 2 years before rheumatology outpatient)
     last_gp_prerheum_date=patients.with_gp_consultations(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between = ["rheum_appt_date - 1 year", "rheum_appt_date"],
+        between = ["rheum_appt_date - 2 years", "rheum_appt_date"],
         return_expectations={
             "date": {"earliest": year_preceding, "latest": end_date},
             "incidence": 0.9,
         },
     ),
 
-    ## GP consultation date (last appt in the year before EIA code)
+    ## GP consultation date (last appt in the 2 years before EIA code)
     last_gp_precode_date=patients.with_gp_consultations(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 1 year", "eia_code_date"],
+        between = ["eia_code_date - 2 years", "eia_code_date"],
         return_expectations={
             "date": {"earliest": year_preceding, "latest": end_date},
             "incidence": 0.9,
         },
     ),
 
-    ## GP consultation date (last appt in the year before rheum ref pre-appt)
+    ## GP consultation date (last appt in the 2 years before rheum ref pre-appt)
     last_gp_refrheum_date=patients.with_gp_consultations(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between = ["referral_rheum_prerheum - 1 year", "referral_rheum_prerheum"],
+        between = ["referral_rheum_prerheum - 2 years", "referral_rheum_prerheum"],
         return_expectations={
             "date": {"earliest": year_preceding, "latest": end_date},
             "incidence": 0.9,
         },
     ),
 
-    ## GP consultation date (last GP appt in the year before rheum ref pre-code)
+    ## GP consultation date (last GP appt in the 2 years before rheum ref pre-code)
     last_gp_refcode_date=patients.with_gp_consultations(
         returning="date",
         find_last_match_in_period=True,
         date_format="YYYY-MM-DD",
-        between = ["referral_rheum_precode - 1 year", "referral_rheum_precode"],
+        between = ["referral_rheum_precode - 2 years", "referral_rheum_precode"],
         return_expectations={
             "date": {"earliest": year_preceding, "latest": end_date},
             "incidence": 0.9,

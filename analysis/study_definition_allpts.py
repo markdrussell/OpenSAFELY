@@ -2,8 +2,8 @@ from cohortextractor import StudyDefinition, patients, codelist, codelist_from_c
 
 from codelists import *
 
-year_preceding = "2018-03-01"
-start_date = "2019-03-01"
+year_preceding = "2018-04-01"
+start_date = "2019-04-01"
 end_date = "today"
 
 # Presence/date of specified comorbidities
@@ -37,7 +37,7 @@ study = StudyDefinition(
             (sex = "M" OR sex = "F")
             """,
             has_follow_up=patients.registered_with_one_practice_between(
-                "2018-03-01", "2019-03-01"        
+                "2018-04-01", "2019-04-01"        
             ),
         ),
     
@@ -173,7 +173,7 @@ study = StudyDefinition(
     organ_transplant=first_comorbidity_in_period(organ_transplant_codes),
 
     bmi=patients.most_recent_bmi(
-        between = ["2009-03-01", start_date],
+        between = ["2009-04-01", start_date],
         minimum_age_at_measurement=16,
         include_measurement_date=True,
         date_format="YYYY-MM",

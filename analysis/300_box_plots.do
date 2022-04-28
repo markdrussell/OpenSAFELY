@@ -95,46 +95,24 @@ graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "
 graph export "$projectdir/output/figures/regional_qs2_bar_GP.svg", replace
 restore
 
-*csDMARD shared care performance by region, including no prescriptions==========================================================================*/
+*csDMARD shared care performance by region prescriptions==========================================================================*/
 
 preserve
-*All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
+*All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt 
 **For RA and PsA patients
 keep if has_6m_post_appt==1 & (ra_code==1 | psa_code==1)
 gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months" 4 "Not prescribed")) title("Time to shared care csDMARD") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to shared care csDMARD") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar.svg", replace
-restore
-
-*csDMARD shared care performance by region, not including no prescriptions==========================================================================*/
-
-preserve
-*All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
-**For RA and PsA patients
-keep if has_6m_post_appt==1 & (ra_code==1 | psa_code==1)
-gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
-recode csdmard_0 .=0 if time_to_csdmard!=.
-gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
-recode csdmard_1 .=0 if time_to_csdmard!=.
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard!=.
-recode csdmard_2 .=0 if time_to_csdmard!=.
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "More than 6 months")) title("Time to shared care csDMARD") name(regional_csdmard_bar_nomiss, replace)
-graph export "$projectdir/output/figures/regional_csdmard_bar_nomiss.svg", replace
 restore
 
 log close

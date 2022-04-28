@@ -57,11 +57,13 @@ actions:
         doc8: output/tables/referral_byregion_miss.csv 
         doc9: output/tables/drug_bydiag_miss.csv 
         doc10: output/tables/drug_byyear_ra_miss.csv   
-        doc11: output/tables/drug_byyear_psa_miss.csv 
-        doc12: output/tables/biol_bydiag_miss.csv 
-        doc13: output/tables/biol_byyear_ra_miss.csv 
-        doc14: output/tables/biol_byyear_psa_miss.csv   
-        doc15: output/tables/biol_byyear_axspa_miss.csv 
+        doc11: output/tables/drug_byyear_psa_miss.csv
+        doc12: output/tables/drug_byyear_undiff_miss.csv
+        doc13: output/tables/biol_bydiag_miss.csv 
+        doc14: output/tables/biol_byyear_ra_miss.csv 
+        doc15: output/tables/biol_byyear_psa_miss.csv   
+        doc16: output/tables/biol_byyear_axspa_miss.csv 
+        doc17: output/tables/biol_byyear_undiff_miss.csv
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
@@ -69,16 +71,18 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/itsa_models.log   
-        figure1:  output/figures/ITSA_referral_delay_newey.svg
-        figure2:  output/figures/ITSA_referral_delay_prais.svg
-        figure3:  output/figures/ITSA_diagnostic_delay_newey.svg
-        figure4:  output/figures/ITSA_diagnostic_delay_prais.svg
-        figure5:  output/figures/ITSA_diagnostic_delay_newey_2cuts.svg
-        figure6:  output/figures/ITSA_diagnostic_delay_prais_2cuts.svg
-        figure7:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
-        figure8:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
-        figure9:  output/figures/ITSA_diagnostic_delay_GPref_newey.svg
-        figure10:  output/figures/ITSA_diagnostic_delay_GPref_prais.svg
+        figure1:  output/figures/ITSA_referral_delay_newey_median.svg
+        figure2:  output/figures/ITSA_referral_delay_prais_median.svg
+        figure3:  output/figures/ITSA_referral_delay_newey_mean.svg
+        figure4:  output/figures/ITSA_referral_delay_prais_mean.svg
+        figure5:  output/figures/ITSA_diagnostic_delay_newey.svg
+        figure6:  output/figures/ITSA_diagnostic_delay_prais.svg
+        figure7:  output/figures/ITSA_diagnostic_delay_newey_2cuts.svg
+        figure8:  output/figures/ITSA_diagnostic_delay_prais_2cuts.svg
+        figure9:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
+        figure10:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
+        figure11:  output/figures/ITSA_diagnostic_delay_GPref_newey.svg
+        figure12:  output/figures/ITSA_diagnostic_delay_GPref_prais.svg
         doc1: output/tables/referral_delay_GP_to_ref.csv
         doc2: output/tables/diagnostic_delay_ref_rheum_appt.csv
         doc3: output/tables/diagnostic_delay_GP_rheum_appt.csv
@@ -104,4 +108,3 @@ actions:
         figure 2: output/figures/regional_qs2_bar.svg 
         figure 3: output/figures/regional_qs2_bar_GP.svg     
         figure 4: output/figures/regional_csdmard_bar.svg  
-        figure 5: output/figures/regional_csdmard_bar_nomiss.svg  

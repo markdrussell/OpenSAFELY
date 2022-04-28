@@ -35,15 +35,13 @@ adopath + "$projectdir/analysis/extra_ados"
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 **Set index dates ===========================================================*/
-global year_preceding = "01/03/2018"
-global start_date = "01/03/2019"
-global outpatient_date = "01/04/2019"
-global fup_6m_date = "01/09/2021"
-global end_date = "01/03/2022"
+global year_preceding = "01/04/2018"
+global start_date = "01/04/2019"
+global end_date = "01/10/2021"
 
 *Descriptive statistics======================================================================*/
 
-**Total number of patients with diagnosis date (i.e. first rheum appt date) after 1st March 2019 and before 1st March 2022
+**Total number of patients with diagnosis date (i.e. first rheum appt date) after 1st April 2019 and before 1st October 2021
 tab eia_code
 
 **Verify that all diagnoses were in study windows
@@ -125,49 +123,32 @@ table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqr
 		 egfr_cat_nomiss cat %5.1f \ ///
 		 ) saving("$projectdir/output/tables/baseline_byyear.csv", replace)
 
-*Medications pre-time windows=====================================================================================*/
-
-**Proportion with a csDMARD shared care prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
-tab csdmard, missing
-bys eia_diagnosis: tab csdmard
-tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
-bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
-tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //verify that no prescriptions were >60 days before rheumatology appt date
-
-**Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
-tab biologic, missing
-bys eia_diagnosis: tab biologic, missing 
-tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date  //verify that no prescriptions were >60 days before rheumatology appt date
-
-**Number of EIA diagnoses in 1-year time windows (where diagnosis date defined by first rheum appt if present, and EIA code if not)================================================*/
+**Number of EIA diagnoses in 6-month time windows (where diagnosis date defined by first rheum appt if present, and EIA code if not)================================================*/
 tab diagnosis_year, missing
 bys eia_diagnosis: tab diagnosis_year, missing
 
-**Number of EIA codes in 1-year time windows (defined by date of first eia code in notes)
+**Number of EIA codes in 6-month time windows (defined by date of first eia code in notes)
 tab code_year, missing
 bys eia_diagnosis: tab code_year, missing
 
 *Referral and appointment performance==============================================================================*/
 
-**Nb. not excluding those without 6m+ follow-up for this section
-
 **Rheumatology appt 
-tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the two years before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt if diagnosis_date>=date("$outpatient_date", "DMY"), missing //proportion of patients with a rheum appt from April 2019 onwards
+tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 1 year before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check if above criteria are picking up the same appt
-tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) //using 1-year pre-EIA code
-tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) //using 2-years pre-EIA code
-tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) //using 6-months pre-EIA code
+tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) //using 6 months pre-EIA code
+tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) //using 1 year pre-EIA code
+tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) //using 2 years pre-EIA code
 
 **By region
 bys nuts_region: tab rheum_appt //check proportion by region
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
-tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the year before rheumatology outpatient, assuming ref date before rheum appt date 
+tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the 2 years before rheumatology outpatient, assuming ref date before rheum appt date 
 tab referral_rheum_precode //last rheum referral in the 2 years before EIA code (could potentially use if rheum appt missing)
 
 **GP appointments
@@ -176,6 +157,8 @@ tab all_appts, missing //KEY - proportion who had a last gp appt, then rheum ref
 tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code ref); requires there to have been a rheum referral before an EIA code (i.e. rheum appt could have been missing)
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
+
+*Time to referral=============================================*/
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all_appts)
@@ -210,25 +193,38 @@ bys eia_diagnosis: tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
 tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 
-**Time from last GP pre-rheum appt to first rheum appt (key sensitivity analysis; includes those with no rheum ref)
+*Time to appointment=============================================*/
+
+**Time from last GP pre-rheum appt to first rheum appt ((proxy measure for referral to appt delay)
 tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by region
-
-**Time from last GP pre-code to EIA code (sensitivity analysis; includes those with no rheum ref and/or no rheum appt)
-tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
-bys eia_diagnosis: tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
-
-**Time from last GP to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
-tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
-bys eia_diagnosis: tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
 
 **Time from rheum ref to rheum appt (i.e. if appts are present and in correct time order)
 tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //by region
+
+**Time from last GP to rheum appt categorised
+tab gp_appt_cat, missing
+tab gp_appt_cat
+bys eia_diagnosis: tab gp_appt_cat, missing
+bys eia_diagnosis: tab gp_appt_cat
+bys diagnosis_year: tab gp_appt_cat, missing
+bys diagnosis_year: tab gp_appt_cat
+bys nuts_region: tab gp_appt_cat, missing
+bys nuts_region: tab gp_appt_cat
+
+tab gp_appt_3w, missing
+tab gp_appt_3w
+bys eia_diagnosis: tab gp_appt_3w, missing
+bys eia_diagnosis: tab gp_appt_3w
+bys diagnosis_year: tab gp_appt_3w, missing
+bys diagnosis_year: tab gp_appt_3w
+bys nuts_region: tab gp_appt_3w, missing
+bys nuts_region: tab gp_appt_3w
 
 **Time from rheum ref to rheum appt categorised
 tab ref_appt_cat, missing
@@ -255,6 +251,16 @@ bys eia_diagnosis: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //by region
 
+*Time to EIA code==================================================*/
+
+**Time from last GP pre-code to EIA code (sensitivity analysis; includes those with no rheum ref and/or no rheum appt)
+tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
+bys eia_diagnosis: tabstat time_gp_eia_code, stats (n mean p50 p25 p75)
+
+**Time from last GP to EIA diagnosis (combined - sensitivity analysis; includes those with no rheum appt)
+tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
+bys eia_diagnosis: tabstat time_gp_eia_diag, stats (n mean p50 p25 p75)
+
 **Time from rheum ref to EIA code (sensitivity analysis; includes those with no rheum appt)
 tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_ref_rheum_eia, stats (n mean p50 p25 p75)
@@ -273,6 +279,8 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.csv", replace)
 
 **With missing data
@@ -281,6 +289,8 @@ table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrm
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_miss.csv", replace)
 
 *Referral standards, by year of diagnosis
@@ -289,6 +299,8 @@ table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle("
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.csv", replace)
 
 **With missing data
@@ -297,6 +309,8 @@ table1_mc, by(diagnosis_year) total(before) missing onecol nospacelowpercent iqr
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byyear_miss.csv", replace)
 
 *Referral standards, by region
@@ -305,6 +319,8 @@ table1_mc, by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.csv", replace)
 
 **With missing data
@@ -313,15 +329,29 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 		 gp_ref_3d cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 ref_appt_3w cat %3.1f \ ///
+		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_3w cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_miss.csv", replace)
 
-*Time to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX_high cost drug data included======================================================================*/
+*Time to first csDMARD prescriptions - all of the below are shared care prescriptions, aside from those with MTX high cost drug data included======================================================================*/
 
 *All patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m of registration after appt (12m+ for biologics)
 keep if has_6m_post_appt==1
 tab has_12m_post_appt
 
-**Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions)
+**Proportion with a csDMARD shared care prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
+tab csdmard, missing
+tab csdmard if (csdmard_date<=rheum_appt_date+180), missing //with 6-month limit
+bys eia_diagnosis: tab csdmard
+bys eia_diagnosis: tab csdmard if (csdmard_date<=rheum_appt_date+180) //with 6-month limit
+
+**With high cost MTX data
+tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
+tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+180), missing //with 6-month limit
+bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts (not shared care)
+bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+180) //with 6-month limit
+
+**Time to first csDMARD script for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions); prescription must be within 6 months of diagnosis for all csDMARDs below (could change in future analyses)
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by region
@@ -341,29 +371,46 @@ tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by region
 
+**Time to first csDMARD script for Undiff IA patients (not including high cost MTX prescriptions)
+tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
+bys diagnosis_year: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys nuts_region: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by region
+
 **csDMARD time categories for RA and PsA patients (not including high cost MTX prescriptions)
 tab csdmard_time if ra_code==1, missing
 tab csdmard_time if psa_code==1, missing
+tab csdmard_time if undiff_code==1, missing
 
 **csDMARD time categories for RA and PsA patients (including high cost MTX prescriptions)
 tab csdmard_hcd_time if ra_code==1, missing 
 tab csdmard_hcd_time if psa_code==1, missing 
+tab csdmard_hcd_time if undiff_code==1, missing
 
 **What was first shared care csDMARD (not including high cost MTX prescriptions)
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
+tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
 **What was first csDMARD (including high cost MTX prescriptions)
 tab first_csDMARD_hcd if ra_code==1 //for RA patients
 tab first_csDMARD_hcd if psa_code==1 //for PsA patients
+tab first_csDMARD_hcd if undiff_code==1 //for Undiff IA patients
  
 **Methotrexate use (not including high cost MTX prescriptions)
 tab mtx if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
+tab mtx if ra_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if psa_code==1 //for PsA patients
+tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
+tab mtx if undiff_code==1 //for undiff IA patients
+tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 
 **Methotrexate use (including high cost MTX prescriptions)
 tab mtx_hcd if ra_code==1 //for RA patients
+tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if psa_code==1 //for PsA patients
+tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
+tab mtx_hcd if undiff_code==1 //for undiff IA patients
+tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 
 **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
@@ -385,25 +432,35 @@ tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75)
 bys diagnosis_year: tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75) //by region
 
-**Methotrexate time categories for RA and PsA patients (not including high-cost MTX)
+**Time to first methotrexate script for Undiff IA patients (not including high cost MTX prescriptions)
+tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75)
+bys diagnosis_year: tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys nuts_region: tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75) //by region
+
+**Methotrexate time categories for RA, PsA and Undiff IA patients (not including high-cost MTX)
 tab mtx_time if ra_code==1, missing 
 tab mtx_time if psa_code==1, missing 
+tab mtx_time if undiff_code==1, missing 
 
-**Methotrexate time categories for RA patients (including high-cost MTX)
+**Methotrexate time categories (including high-cost MTX)
 tab mtx_hcd_time if ra_code==1, missing 
 tab mtx_hcd_time if psa_code==1, missing 
+tab mtx_hcd_time if undiff_code==1, missing 
 
-**Sulfasalazine time categories for RA and PsA patients
+**Sulfasalazine time categories
 tab ssz_time if ra_code==1, missing 
 tab ssz_time if psa_code==1, missing 
+tab ssz_time if undiff_code==1, missing 
 
-**Hydroxychloroquine time categories for RA and PsA patients
+**Hydroxychloroquine time categories
 tab hcq_time if ra_code==1, missing 
 tab hcq_time if psa_code==1, missing 
+tab hcq_time if undiff_code==1, missing 
 
-**Leflunomide time categories for RA and PsA patients
+**Leflunomide time categories
 tab lef_time if ra_code==1, missing 
 tab lef_time if psa_code==1, missing 
+tab lef_time if undiff_code==1, missing 
 
 *Drug prescription table, for those with at least 6m registration
 table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
@@ -431,11 +488,26 @@ table1_mc if psa_code==1, by(diagnosis_year) total(diagnosis_year) onecol missin
 		 hcq_time cat %3.1f \ ///
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_psa_miss.csv", replace)
+
+*Drug prescription table, for those with at least 6m registration for Undiff IA patients
+table1_mc if undiff_code==1, by(diagnosis_year) total(diagnosis_year) onecol missing nospacelowpercent iqrmiddle(",")  ///
+	vars(csdmard_time cat %3.1f \ ///
+		 mtx_time cat %3.1f \ ///
+		 ssz_time cat %3.1f \ ///
+		 hcq_time cat %3.1f \ ///
+		 lef_time cat %3.1f \ ///
+		 ) saving("$projectdir/output/tables/drug_byyear_undiff_miss.csv", replace) 
 		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high_cost drug data available to Nov 2020======================================================================*/
 
 *All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m of registration after appt
 keep if has_12m_post_appt==1
+
+**Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
+tab biologic, missing
+tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit
+bys eia_diagnosis: tab biologic, missing 
+bys eia_diagnosis: tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit 
 
 tabstat time_to_biologic, stats (n mean p50 p25 p75) //for all EIA patients
 bys eia_diagnosis: tabstat time_to_biologic, stats (n mean p50 p25 p75) 
@@ -496,5 +568,15 @@ table1_mc if anksp_code==1, by(diagnosis_year) total(before) onecol missing nosp
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/biol_byyear_axspa_miss.csv", replace)
+		 
+*Drug prescription table at 12 months, for Undiff IA patients with at least 12m registration, by year of diagnosis
+table1_mc if undiff_code==1, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+	vars(csdmard_time cat %3.1f \ ///
+		 mtx_time cat %3.1f \ ///
+		 ssz_time cat %3.1f \ ///
+		 hcq_time cat %3.1f \ ///
+		 lef_time cat %3.1f \ ///
+		 biologic_time cat %3.1f \ ///
+		 ) saving("$projectdir/output/tables/biol_byyear_undiff_miss.csv", replace)
 
 log close
