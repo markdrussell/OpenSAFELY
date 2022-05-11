@@ -52,6 +52,9 @@ table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
 		 egfr_cat_nomiss cat %5.1f \ ///
-		 ) saving("$projectdir/output/tables/baseline_allpts.csv", replace)
+		 ) saving("$projectdir/output/tables/baseline_allpts.xls", replace)
+		 
+import excel "$projectdir/output/tables/baseline_allpts.xls", clear
+outsheet * using "$projectdir/output/tables/baseline_allpts.csv" , comma nonames replace			 
 		 
 log close

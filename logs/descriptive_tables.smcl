@@ -1,0 +1,703 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs/descriptive_tables.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}10 May 2022, 18:41:47
+{txt}
+{com}. 
+. **Set Ado file path
+. adopath + "$projectdir/analysis/extra_ados"
+{txt}  [1]  (BASE)      "{res}C:\Program Files\Stata17\ado\base/{txt}"
+  [2]  (SITE)      "{res}C:\Program Files\Stata17\ado\site/{txt}"
+  [3]              "{res}.{txt}"
+  [4]  (PERSONAL)  "{res}C:\Users\k1754142\ado\personal/{txt}"
+  [5]  (PLUS)      "{res}C:\Users\k1754142\ado\plus/{txt}"
+  [6]  (OLDPLACE)  "{res}c:\ado/{txt}"
+  [7]              "{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/analysis/extra_ados{txt}"
+
+{com}. 
+. **Use cleaned data from previous step
+. use "$projectdir/output/data/file_eia_all.dta", clear
+{txt}
+{com}. 
+. **Set index dates ===========================================================*/
+. global year_preceding = "01/04/2018"
+{txt}
+{com}. global start_date = "01/04/2019"
+{txt}
+{com}. global end_date = "01/10/2021"
+{txt}
+{com}. 
+. *Descriptive statistics======================================================================*/
+. 
+. **Total number of patients with diagnosis date (i.e. first rheum appt date) after 1st April 2019 and before 1st October 2021
+. tab eia_code
+
+   {txt}eia_code {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}     64,977      100.00      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. 
+. **Verify that all diagnoses were in study windows
+. tab diagnosis_year, missing
+
+{txt}Year of diagnosis {c |}      Freq.     Percent        Cum.
+{hline 18}{c +}{hline 35}
+Apr 2019-Oct 2019 {c |}{res}     24,640       37.92       37.92
+{txt}Oct 2019-Apr 2020 {c |}{res}     16,229       24.98       62.90
+{txt}Apr 2020-Oct 2020 {c |}{res}     11,182       17.21       80.11
+{txt}Oct 2020-Apr 2021 {c |}{res}      7,848       12.08       92.18
+{txt}Apr 2021-Oct 2021 {c |}{res}      5,078        7.82      100.00
+{txt}{hline 18}{c +}{hline 35}
+            Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab mo_year_diagn, missing
+
+{txt}mo_year_dia {c |}
+         gn {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+     2019m4 {c |}{res}      4,569        7.03        7.03
+{txt}     2019m5 {c |}{res}      4,596        7.07       14.10
+{txt}     2019m6 {c |}{res}      4,205        6.47       20.58
+{txt}     2019m7 {c |}{res}      4,089        6.29       26.87
+{txt}     2019m8 {c |}{res}      3,846        5.92       32.79
+{txt}     2019m9 {c |}{res}      3,335        5.13       37.92
+{txt}    2019m10 {c |}{res}      3,165        4.87       42.79
+{txt}    2019m11 {c |}{res}      3,013        4.64       47.43
+{txt}    2019m12 {c |}{res}      2,776        4.27       51.70
+{txt}     2020m1 {c |}{res}      2,621        4.03       55.74
+{txt}     2020m2 {c |}{res}      2,314        3.56       59.30
+{txt}     2020m3 {c |}{res}      2,340        3.60       62.90
+{txt}     2020m4 {c |}{res}      2,135        3.29       66.18
+{txt}     2020m5 {c |}{res}      2,061        3.17       69.36
+{txt}     2020m6 {c |}{res}      1,827        2.81       72.17
+{txt}     2020m7 {c |}{res}      1,889        2.91       75.07
+{txt}     2020m8 {c |}{res}      1,695        2.61       77.68
+{txt}     2020m9 {c |}{res}      1,575        2.42       80.11
+{txt}    2020m10 {c |}{res}      1,577        2.43       82.53
+{txt}    2020m11 {c |}{res}      1,415        2.18       84.71
+{txt}    2020m12 {c |}{res}      1,359        2.09       86.80
+{txt}     2021m1 {c |}{res}      1,283        1.97       88.78
+{txt}     2021m2 {c |}{res}      1,112        1.71       90.49
+{txt}     2021m3 {c |}{res}      1,102        1.70       92.18
+{txt}     2021m4 {c |}{res}        928        1.43       93.61
+{txt}     2021m5 {c |}{res}        978        1.51       95.12
+{txt}     2021m6 {c |}{res}        871        1.34       96.46
+{txt}     2021m7 {c |}{res}        864        1.33       97.79
+{txt}     2021m8 {c |}{res}        757        1.17       98.95
+{txt}     2021m9 {c |}{res}        680        1.05      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. 
+. **EIA sub-diagnosis (most recent code)
+. tab eia_diagnosis, missing
+
+{txt}eia_diagnos {c |}
+         is {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         RA {c |}{res}     16,193       24.92       24.92
+{txt}        PsA {c |}{res}     16,206       24.94       49.86
+{txt}      AxSpA {c |}{res}     16,260       25.02       74.89
+{txt}  Undiff IA {c |}{res}     16,318       25.11      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. 
+. **Demographics
+. tab agegroup, missing
+
+  {txt}Age group {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      18-39 {c |}{res}     23,440       36.07       36.07
+{txt}      40-49 {c |}{res}     10,689       16.45       52.52
+{txt}      50-59 {c |}{res}     11,192       17.22       69.75
+{txt}      60-69 {c |}{res}      8,806       13.55       83.30
+{txt}      70-79 {c |}{res}      6,825       10.50       93.81
+{txt}        80+ {c |}{res}      4,025        6.19      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab male, missing
+
+       {txt}Male {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         No {c |}{res}     33,088       50.92       50.92
+{txt}        Yes {c |}{res}     31,889       49.08      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab ethnicity, missing
+
+          {txt}Ethnicity {c |}      Freq.     Percent        Cum.
+{hline 20}{c +}{hline 35}
+              White {c |}{res}     24,333       37.45       37.45
+{txt}Asian/Asian British {c |}{res}      4,822        7.42       44.87
+{txt}              Black {c |}{res}      4,998        7.69       52.56
+{txt}        Mixed/Other {c |}{res}     14,616       22.49       75.06
+{txt}          Not known {c |}{res}     16,208       24.94      100.00
+{txt}{hline 20}{c +}{hline 35}
+              Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab imd, missing
+
+        {txt}Index of {c |}
+        multiple {c |}
+     deprivation {c |}      Freq.     Percent        Cum.
+{hline 17}{c +}{hline 35}
+1 least deprived {c |}{res}     12,377       19.05       19.05
+{txt}               2 {c |}{res}     12,217       18.80       37.85
+{txt}               3 {c |}{res}     12,501       19.24       57.09
+{txt}               4 {c |}{res}     12,247       18.85       75.94
+{txt} 5 most deprived {c |}{res}     12,374       19.04       94.98
+{txt}       Not known {c |}{res}      3,261        5.02      100.00
+{txt}{hline 17}{c +}{hline 35}
+           Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab region, missing
+
+                  {txt}region {c |}      Freq.     Percent        Cum.
+{hline 25}{c +}{hline 35}
+           East Midlands {c |}{res}      6,467        9.95        9.95
+{txt}         East of England {c |}{res}      6,494        9.99       19.95
+{txt}                  London {c |}{res}     12,800       19.70       39.65
+{txt}              North East {c |}{res}      6,436        9.91       49.55
+{txt}              North West {c |}{res}      6,444        9.92       59.47
+{txt}               Not known {c |}{res}        665        1.02       60.49
+{txt}              South East {c |}{res}     12,890       19.84       80.33
+{txt}           West Midlands {c |}{res}      6,407        9.86       90.19
+{txt}Yorkshire and the Humber {c |}{res}      6,374        9.81      100.00
+{txt}{hline 25}{c +}{hline 35}
+                   Total {c |}{res}     64,977      100.00
+{txt}
+{com}. 
+. **Comorbidities
+. tab smoke, missing
+
+    {txt}Smoking {c |}
+     status {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      Never {c |}{res}      6,476        9.97        9.97
+{txt}     Former {c |}{res}      3,341        5.14       15.11
+{txt}    Current {c |}{res}     19,557       30.10       45.21
+{txt}  Not known {c |}{res}     35,603       54.79      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tabstat bmi_value, stats (n mean p50 p25 p75)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:bmi_value} {...}
+{c |}{...}
+ {res}     3541  34.99788  34.92626  28.17785  41.63056
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tab bmicat, missing
+
+                 {txt}BMI {c |}      Freq.     Percent        Cum.
+{hline 21}{c +}{hline 35}
+ Underweight (<18.5) {c |}{res}        174        0.27        0.27
+{txt}  Normal (18.5-24.9) {c |}{res}        398        0.61        0.88
+{txt}Overweight (25-29.9) {c |}{res}        508        0.78        1.66
+{txt}   Obese I (30-34.9) {c |}{res}        702        1.08        2.74
+{txt}  Obese II (35-39.9) {c |}{res}        679        1.04        3.79
+{txt}     Obese III (40+) {c |}{res}      1,080        1.66        5.45
+{txt}           Not known {c |}{res}     61,436       94.55      100.00
+{txt}{hline 21}{c +}{hline 35}
+               Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tabstat creatinine_value, stats (n mean p50 p25 p75)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:creatinin~ue} {...}
+{c |}{...}
+ {res}    48727   136.575  125.9526  76.72887  185.2376
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tabstat egfr, stats (n mean p50 p25 p75)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:egfr} {...}
+{c |}{...}
+ {res}    48727  62.69215  50.04668   30.8044  89.68363
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tab egfr_cat, missing
+
+       {txt}eGFR {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       >=60 {c |}{res}     20,116       30.96       30.96
+{txt}      30-59 {c |}{res}     17,079       26.28       57.24
+{txt}        <30 {c |}{res}     11,532       17.75       74.99
+{txt}  Not known {c |}{res}     16,250       25.01      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab egfr_cat_nomiss, missing
+
+          {txt}eGFR {c |}      Freq.     Percent        Cum.
+{hline 15}{c +}{hline 35}
+>=60/not known {c |}{res}     36,366       55.97       55.97
+{txt}         30-59 {c |}{res}     17,079       26.28       82.25
+{txt}           <30 {c |}{res}     11,532       17.75      100.00
+{txt}{hline 15}{c +}{hline 35}
+         Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab esrf, missing
+
+  {txt}End-stage {c |}
+      renal {c |}
+    failure {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     52,025       80.07       80.07
+{txt}          1 {c |}{res}     12,952       19.93      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab ckd, missing //combination of creatinine and esrf codes
+
+    {txt}Chronic {c |}
+     kidney {c |}
+    disease {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+     No CKD {c |}{res}     29,084       44.76       44.76
+{txt}        CKD {c |}{res}     35,893       55.24      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab diabetes, missing 
+
+   {txt}Diabetes {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     51,997       80.02       80.02
+{txt}          1 {c |}{res}     12,980       19.98      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tabstat hba1c_percentage, stats (n mean p50 p25 p75)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:hba1c_per~ge} {...}
+{c |}{...}
+ {res}     1897   5.13092  5.121298   3.82264  6.392574
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tabstat hba1c_mmol_per_mol, stats (n mean p50 p25 p75)
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:hba1c_mmol~l} {...}
+{c |}{...}
+ {res}     1732  43.32214  42.47268  29.13099  55.56184
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tabstat hba1c_pct, stats (n mean p50 p25 p75) //with conversion of mmol values
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:hba1c_pct} {...}
+{c |}{...}
+ {res}     3582  5.606226       5.5       4.3       6.9
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tab hba1ccat, missing
+
+   {txt}hba1ccat {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+      <6.5% {c |}{res}      2,442        3.76        3.76
+{txt}  >=6.5-7.4 {c |}{res}        580        0.89        4.65
+{txt}  >=7.5-7.9 {c |}{res}        202        0.31        4.96
+{txt}    >=8-8.9 {c |}{res}        224        0.34        5.31
+{txt}        >=9 {c |}{res}        134        0.21        5.51
+{txt}          . {c |}{res}     61,395       94.49      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tabstat hba1c_mmol, stats (n mean p50 p25 p75) //with conversion of % values
+
+{txt}{ralign 12:Variable} {...}
+{c |}         N      Mean       p50       p25       p75
+{hline 13}{c +}{hline 50}
+{ralign 12:hba1c_mmol} {...}
+{c |}{...}
+ {res}     3582  37.76656  37.05303  24.00453  51.73226
+{txt}{hline 13}{c BT}{hline 50}
+
+{com}. tab hba1ccatmm, missing
+
+             {txt}HbA1c {c |}      Freq.     Percent        Cum.
+{hline 19}{c +}{hline 35}
+ HbA1c <58mmol/mol {c |}{res}      3,024        4.65        4.65
+{txt}HbA1c >=58mmol/mol {c |}{res}        558        0.86        5.51
+{txt}         Not known {c |}{res}     61,395       94.49      100.00
+{txt}{hline 19}{c +}{hline 35}
+             Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab diabcatm, missing //on basis of converted %
+
+                       {txt}Diabetes {c |}      Freq.     Percent        Cum.
+{hline 32}{c +}{hline 35}
+                    No diabetes {c |}{res}     51,997       80.02       80.02
+{txt}Diabetes with HbA1c <58mmol/mol {c |}{res}        621        0.96       80.98
+{txt}Diabetes with HbA1c >58mmol/mol {c |}{res}        135        0.21       81.19
+{txt} Diabetes with no HbA1c measure {c |}{res}     12,224       18.81      100.00
+{txt}{hline 32}{c +}{hline 35}
+                          Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab cancer, missing //lung, haem or other cancer
+
+     {txt}Cancer {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     33,611       51.73       51.73
+{txt}          1 {c |}{res}     31,366       48.27      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab hypertension, missing
+
+{txt}Hypertensio {c |}
+          n {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     52,040       80.09       80.09
+{txt}          1 {c |}{res}     12,937       19.91      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab stroke, missing
+
+     {txt}Stroke {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     51,890       79.86       79.86
+{txt}          1 {c |}{res}     13,087       20.14      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab chronic_resp_disease, missing
+
+    {txt}Chronic {c |}
+respiratory {c |}
+    disease {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     52,080       80.15       80.15
+{txt}          1 {c |}{res}     12,897       19.85      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab copd, missing
+
+       {txt}COPD {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     51,833       79.77       79.77
+{txt}          1 {c |}{res}     13,144       20.23      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab chronic_liver_disease, missing
+
+    {txt}Chronic {c |}
+      liver {c |}
+    disease {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     52,058       80.12       80.12
+{txt}          1 {c |}{res}     12,919       19.88      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. tab chronic_cardiac_disease, missing
+
+    {txt}Chronic {c |}
+    cardiac {c |}
+    disease {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}     51,946       79.95       79.95
+{txt}          1 {c |}{res}     13,031       20.05      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     64,977      100.00
+{txt}
+{com}. 
+. /*Tables=====================================================================================*/
+. *Baseline table by eia diagnosis
+. table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+>         vars(agegroup cat %5.1f \ ///
+>                  male bin %5.1f \ ///
+>                  ethnicity cat %5.1f \ ///
+>                  imd cat %5.1f \ ///
+>                  bmicat cat %5.1f \ ///
+>                  smoke cat %5.1f \ ///
+>                  hypertension bin %5.1f \ ///
+>                  diabcatm cat %5.1f \ ///
+>                  chronic_cardiac_disease bin %5.1f \ /// 
+>                  stroke bin %5.1f \ ///
+>                  cancer bin %5.1f \ ///
+>                  chronic_resp_disease bin  %5.1f \ ///
+>                  chronic_liver_disease bin %5.1f \ ///
+>                  ckd cat %5.1f \ ///
+>                  egfr_cat_nomiss cat %5.1f \ ///
+>                  ) saving("$projectdir/output/tables/baseline_bydiagnosis.xls", replace)
+{res}{txt}
+  {c TLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+  {c |} {res}factor                             N_T      N_1      N_2      N_3      N_4   m_T   m_1   m_2   m_3   m_4 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Age group                       64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Male                            64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Ethnicity                       64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Index of multiple deprivation   64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}BMI                             64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Smoking status                  64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Hypertension                    64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Diabetes                        64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic cardiac disease         64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Stroke                          64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Cancer                          64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic respiratory disease     64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic liver disease           64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}Chronic kidney disease          64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c LT}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  {c |} {res}eGFR                            64,977   16,193   16,206   16,260   16,318     0     0     0     0     0 {txt}{c |}
+  {c BLC}{hline 31}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+   N_ ... #records used below,   m_ ... #records not used
+ 
+  {c TLC}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c TRC}
+  {c |} {res}                                     Total            RA               PsA              AxSpA            Undiff IA        p-value {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}                                     N=64,977         N=16,193         N=16,206         N=16,260         N=16,318                 {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Age group                                                                                                                  0.081  {txt}{c |}
+  {c |} {res}   18-39                             23,440 (36.1%)   5,852 (36.1%)    5,702 (35.2%)    5,934 (36.5%)    5,952 (36.5%)            {txt}{c |}
+  {c |} {res}   40-49                             10,689 (16.5%)   2,671 (16.5%)    2,632 (16.2%)    2,712 (16.7%)    2,674 (16.4%)            {txt}{c |}
+  {c |} {res}   50-59                             11,192 (17.2%)   2,765 (17.1%)    2,826 (17.4%)    2,730 (16.8%)    2,871 (17.6%)            {txt}{c |}
+  {c |} {res}   60-69                             8,806 (13.6%)    2,152 (13.3%)    2,315 (14.3%)    2,161 (13.3%)    2,178 (13.3%)            {txt}{c |}
+  {c |} {res}   70-79                             6,825 (10.5%)    1,739 (10.7%)    1,695 (10.5%)    1,725 (10.6%)    1,666 (10.2%)            {txt}{c |}
+  {c |} {res}   80+                               4,025 (6.2%)     1,014 (6.3%)     1,036 (6.4%)     998 (6.1%)       977 (6.0%)               {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Male                                 31,889 (49.1%)   7,927 (49.0%)    7,947 (49.0%)    8,043 (49.5%)    7,972 (48.9%)     0.70   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Ethnicity                                                                                                                  0.015  {txt}{c |}
+  {c |} {res}   White                             24,333 (37.4%)   5,975 (36.9%)    6,041 (37.3%)    6,065 (37.3%)    6,252 (38.3%)            {txt}{c |}
+  {c |} {res}   Asian/Asian British               4,822 (7.4%)     1,246 (7.7%)     1,203 (7.4%)     1,225 (7.5%)     1,148 (7.0%)             {txt}{c |}
+  {c |} {res}   Black                             4,998 (7.7%)     1,193 (7.4%)     1,314 (8.1%)     1,247 (7.7%)     1,244 (7.6%)             {txt}{c |}
+  {c |} {res}   Mixed/Other                       14,616 (22.5%)   3,744 (23.1%)    3,565 (22.0%)    3,661 (22.5%)    3,646 (22.3%)            {txt}{c |}
+  {c |} {res}                                     16,208 (24.9%)   4,035 (24.9%)    4,083 (25.2%)    4,062 (25.0%)    4,028 (24.7%)            {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Index of multiple deprivation                                                                                              0.87   {txt}{c |}
+  {c |} {res}   1 least deprived                  12,377 (19.0%)   3,049 (18.8%)    3,113 (19.2%)    3,041 (18.7%)    3,174 (19.5%)            {txt}{c |}
+  {c |} {res}   2                                 12,217 (18.8%)   3,079 (19.0%)    3,027 (18.7%)    3,085 (19.0%)    3,026 (18.5%)            {txt}{c |}
+  {c |} {res}   3                                 12,501 (19.2%)   3,170 (19.6%)    3,127 (19.3%)    3,111 (19.1%)    3,093 (19.0%)            {txt}{c |}
+  {c |} {res}   4                                 12,247 (18.8%)   3,029 (18.7%)    3,088 (19.1%)    3,059 (18.8%)    3,071 (18.8%)            {txt}{c |}
+  {c |} {res}   5 most deprived                   12,374 (19.0%)   3,070 (19.0%)    3,073 (19.0%)    3,112 (19.1%)    3,119 (19.1%)            {txt}{c |}
+  {c |} {res}                                     3,261 (5.0%)     796 (4.9%)       778 (4.8%)       852 (5.2%)       835 (5.1%)               {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}BMI                                                                                                                        0.24   {txt}{c |}
+  {c |} {res}   Underweight (<18.5)               174 (0.3%)       35 (0.2%)        53 (0.3%)        45 (0.3%)        41 (0.3%)                {txt}{c |}
+  {c |} {res}   Normal (18.5-24.9)                398 (0.6%)       110 (0.7%)       80 (0.5%)        115 (0.7%)       93 (0.6%)                {txt}{c |}
+  {c |} {res}   Overweight (25-29.9)              508 (0.8%)       136 (0.8%)       126 (0.8%)       126 (0.8%)       120 (0.7%)               {txt}{c |}
+  {c |} {res}   Obese I (30-34.9)                 702 (1.1%)       174 (1.1%)       177 (1.1%)       195 (1.2%)       156 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese II (35-39.9)                679 (1.0%)       170 (1.0%)       183 (1.1%)       166 (1.0%)       160 (1.0%)               {txt}{c |}
+  {c |} {res}   Obese III (40+)                   1,080 (1.7%)     255 (1.6%)       272 (1.7%)       268 (1.6%)       285 (1.7%)               {txt}{c |}
+  {c |} {res}                                     61,436 (94.6%)   15,313 (94.6%)   15,315 (94.5%)   15,345 (94.4%)   15,463 (94.8%)           {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Smoking status                                                                                                             0.53   {txt}{c |}
+  {c |} {res}   Never                             6,476 (10.0%)    1,614 (10.0%)    1,601 (9.9%)     1,657 (10.2%)    1,604 (9.8%)             {txt}{c |}
+  {c |} {res}   Former                            3,341 (5.1%)     823 (5.1%)       799 (4.9%)       883 (5.4%)       836 (5.1%)               {txt}{c |}
+  {c |} {res}   Current                           19,557 (30.1%)   4,852 (30.0%)    4,885 (30.1%)    4,869 (29.9%)    4,951 (30.3%)            {txt}{c |}
+  {c |} {res}                                     35,603 (54.8%)   8,904 (55.0%)    8,921 (55.0%)    8,851 (54.4%)    8,927 (54.7%)            {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Hypertension                         12,937 (19.9%)   3,211 (19.8%)    3,247 (20.0%)    3,240 (19.9%)    3,239 (19.8%)     0.97   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Diabetes                                                                                                                   0.051  {txt}{c |}
+  {c |} {res}   No diabetes                       51,997 (80.0%)   12,916 (79.8%)   12,971 (80.0%)   13,050 (80.3%)   13,060 (80.0%)           {txt}{c |}
+  {c |} {res}   Diabetes with HbA1c <58mmol/mol   621 (1.0%)       143 (0.9%)       130 (0.8%)       159 (1.0%)       189 (1.2%)               {txt}{c |}
+  {c |} {res}   Diabetes with HbA1c >58mmol/mol   135 (0.2%)       39 (0.2%)        30 (0.2%)        28 (0.2%)        38 (0.2%)                {txt}{c |}
+  {c |} {res}   Diabetes with no HbA1c measure    12,224 (18.8%)   3,095 (19.1%)    3,075 (19.0%)    3,023 (18.6%)    3,031 (18.6%)            {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic cardiac disease              13,031 (20.1%)   3,330 (20.6%)    3,217 (19.9%)    3,214 (19.8%)    3,270 (20.0%)     0.27   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Stroke                               13,087 (20.1%)   3,257 (20.1%)    3,217 (19.9%)    3,318 (20.4%)    3,295 (20.2%)     0.66   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Cancer                               31,366 (48.3%)   7,755 (47.9%)    7,926 (48.9%)    7,816 (48.1%)    7,869 (48.2%)     0.28   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic respiratory disease          12,897 (19.8%)   3,281 (20.3%)    3,237 (20.0%)    3,178 (19.5%)    3,201 (19.6%)     0.33   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic liver disease                12,919 (19.9%)   3,185 (19.7%)    3,267 (20.2%)    3,244 (20.0%)    3,223 (19.8%)     0.69   {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}Chronic kidney disease                                                                                                     0.082  {txt}{c |}
+  {c |} {res}   No CKD                            29,084 (44.8%)   7,373 (45.5%)    7,273 (44.9%)    7,222 (44.4%)    7,216 (44.2%)            {txt}{c |}
+  {c |} {res}   CKD                               35,893 (55.2%)   8,820 (54.5%)    8,933 (55.1%)    9,038 (55.6%)    9,102 (55.8%)            {txt}{c |}
+  {c LT}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c RT}
+  {c |} {res}eGFR                                                                                                                       0.028  {txt}{c |}
+  {c |} {res}   >=60/not known                    36,366 (56.0%)   9,186 (56.7%)    9,063 (55.9%)    9,080 (55.8%)    9,037 (55.4%)            {txt}{c |}
+  {c |} {res}   30-59                             17,079 (26.3%)   4,125 (25.5%)    4,205 (25.9%)    4,349 (26.7%)    4,400 (27.0%)            {txt}{c |}
+  {c |} {res}   <30                               11,532 (17.7%)   2,882 (17.8%)    2,938 (18.1%)    2,831 (17.4%)    2,881 (17.7%)            {txt}{c |}
+  {c BLC}{hline 36}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 16}{c -}{hline 9}{c BRC}
+Data are presented as n (%).
+ 
+{res}{txt}file {bf:C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/baseline_bydiagnosis.xls} saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. import excel  "$projectdir/output/tables/baseline_byyear.xls", clear
+{res}{err}file C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/output/tables/baseline_byyear.xls not found
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+
+{search r(601), local:r(601);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. import excel "$projectdir/output/tables/baseline_byyear.xls", clear
+{res}{err}file C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/output/tables/baseline_byyear.xls not found
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+
+{search r(601), local:r(601);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. import excel "$projectdir/output/tables/baseline_byyear", clear
+{res}{err}file C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice/output/tables/baseline_byyear not found
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+
+{search r(601), local:r(601);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. import excel "$projectdir/output/tables/baseline_bydiagnosis.xls", clear
+{res}{text}(27 vars, 54 obs)
+
+{com}. 
+{txt}end of do-file
+
+{com}. br
+
+. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. outsheet * using "$projectdir/output/tables/baseline_bydiagnosis.csv" , comma            
+{err}{p 0 4 2}
+file {bf:{err}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/baseline_bydiagnosis.csv}
+already exists
+{p_end}
+{txt}{search r(602), local:r(602);}
+
+end of do-file
+
+{search r(602), local:r(602);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. outsheet * using "$projectdir/output/tables/baseline_bydiagnosis.csv" , comma replace            
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. help saving
+
+. help table1_mc
+
+. help outsheet
+
+. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. import excel "$projectdir/output/tables/baseline_bydiagnosis.xls", clear
+{res}{text}(27 vars, 54 obs)
+
+{com}. outsheet * using "$projectdir/output/tables/baseline_bydiagnosis.csv" , comma nonames replace            
+{err}{p 0 4 2}
+file {bf:{err}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/output/tables/baseline_bydiagnosis.csv}
+is read-only; cannot be modified or erased
+{p_end}
+{txt}{search r(608), local:r(608);}
+
+end of do-file
+
+{search r(608), local:r(608);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. outsheet * using "$projectdir/output/tables/baseline_bydiagnosis.csv" , comma nonames replace            
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. tab diagnosis_year, missing
+{err}variable {bf}diagnosis_year{sf} not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "C:\Users\k1754142\AppData\Local\Temp\STD3914_000000.tmp"
+{txt}
+{com}. version 16
+{txt}
+{com}. 
+. /*==============================================================================
+> DO FILE NAME:                   baseline tables
+> PROJECT:                                EIA OpenSAFELY project
+> DATE:                                   07/03/2022
+> AUTHOR:                                 J Galloway / M Russell
+>                                                 adapted from C Rentsch                                                                          
+> DESCRIPTION OF FILE:    baseline tables
+> DATASETS USED:                  main data file
+> DATASETS CREATED:               tables
+> OTHER OUTPUT:                   logfiles, printed to folder $Logdir
+> USER-INSTALLED ADO:      
+>   (place .ado file(s) in analysis folder)                                               
+> ==============================================================================*/
+. 
+. **Set filepaths
+. global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+{txt}
+{com}. *global projectdir `c(pwd)'
+. di "$projectdir"
+{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice
+{txt}
+{com}. 
+. capture mkdir "$projectdir/output/tables"
+{txt}
+{com}. 
+. global logdir "$projectdir/logs"
+{txt}
+{com}. di "$logdir"
+{res}C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice/logs
+{txt}
+{com}. 
+. **Open a log file
+. cap log close
+{smcl}
+{com}{sf}{ul off}
