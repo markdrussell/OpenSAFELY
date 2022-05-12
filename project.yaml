@@ -96,12 +96,12 @@ actions:
         figure 2: output/figures/regional_qs1_bar_2019.svg 
         figure 3: output/figures/regional_qs1_bar_2020.svg     
         figure 4: output/figures/regional_qs2_bar_overall.svg  
-        figure 2: output/figures/regional_qs2_bar_2019.svg 
-        figure 3: output/figures/regional_qs2_bar_2020.svg     
-        figure 4: output/figures/regional_qs2_bar_GP_overall.svg  
-        figure 3: output/figures/regional_qs2_bar_GP_2019.svg     
-        figure 4: output/figures/regional_qs2_bar_GP_2020.svg 
-        figure 4: output/figures/regional_csdmard_bar_overall.svg  
-        figure 3: output/figures/regional_csdmard_bar_2019.svg     
-        figure 4: output/figures/regional_csdmard_bar_2020.svg  
+        figure 5: output/figures/regional_qs2_bar_2019.svg 
+        figure 6: output/figures/regional_qs2_bar_2020.svg     
+        figure 7: output/figures/regional_qs2_bar_GP_overall.svg  
+        figure 8: output/figures/regional_qs2_bar_GP_2019.svg     
+        figure 9: output/figures/regional_qs2_bar_GP_2020.svg 
+        figure 10: output/figures/regional_csdmard_bar_overall.svg  
+        figure 11: output/figures/regional_csdmard_bar_2019.svg     
+        figure 12: output/figures/regional_csdmard_bar_2020.svg  
  

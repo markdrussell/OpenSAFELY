@@ -18,8 +18,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepathsdiabe
-*global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
-global projectdir `c(pwd)'
+global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
+*global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/figures"
@@ -55,23 +55,23 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 						 hba1c_percentage_date				///
 						 creatinine_date      				///
 						 bmi_date_measured		            ///
-						 abatacept							///
-						 adalimumab							///	
-						 baricitinib						///
-						 certolizumab						///
-						 etanercept							///
-						 golimumab							///
-						 guselkumab							///	
-						 infliximab							///
-						 ixekizumab							///
-						 methotrexate_hcd					///
-						 rituximab							///
-						 sarilumab							///
-						 secukinumab						///	
-						 tocilizumab						///
-						 tofacitinib						///
-						 upadacitinib						///
-						 ustekinumab						///
+						 abatacept_date						///
+						 adalimumab_date					///	
+						 baricitinib_date					///
+						 certolizumab_date					///
+						 etanercept_date					///
+						 golimumab_date						///
+						 guselkumab_date					///	
+						 infliximab_date					///
+						 ixekizumab_date					///
+						 methotrexate_hcd_date				///
+						 rituximab_date						///
+						 sarilumab_date						///
+						 secukinumab_date					///	
+						 tocilizumab_date					///
+						 tofacitinib_date					///
+						 upadacitinib_date					///
+						 ustekinumab_date					///
 						 {
 						 	
 		capture confirm string variable `var'
@@ -121,11 +121,11 @@ foreach var of varlist 	 died_date_ons						///
 						 other_cancer						///
 						 esrf								///
 						 organ_transplant					///
-						 hydroxychloroquine					///
-						 leflunomide						///
-						 methotrexate						///
-						 methotrexate_inj					///
-						 sulfasalazine						///
+						 hydroxychloroquine_date			///
+						 leflunomide_date					///
+						 methotrexate_date					///
+						 methotrexate_inj_date				///
+						 sulfasalazine_date					///
 						 {
 						 		 
 		capture confirm string variable `var'
@@ -168,6 +168,28 @@ rename creatinine_date_date creatinine_date
 rename creatinine creatinine_value 
 rename bmi_date_measured_date bmi_date
 rename bmi bmi_value
+rename hydroxychloroquine_date_date hydroxychloroquine_date	
+rename leflunomide_date_date leflunomide_date					
+rename methotrexate_date_date methotrexate_date					
+rename methotrexate_inj_date_date methotrexate_inj_date				
+rename sulfasalazine_date_date sulfasalazine_date		
+rename abatacept_date_date abatacept_date
+rename adalimumab_date_date	adalimumab_date
+rename baricitinib_date_date baricitinib_date	
+rename certolizumab_date_date certolizumab_date
+rename etanercept_date_date	etanercept_date
+rename golimumab_date_date golimumab_date
+rename guselkumab_date_date guselkumab_date	
+rename infliximab_date_date infliximab_date	
+rename ixekizumab_date_date ixekizumab_date	
+rename methotrexate_hcd_date_date methotrexate_hcd_date	
+rename rituximab_date_date rituximab_date
+rename sarilumab_date_date sarilumab_date
+rename secukinumab_date_date secukinumab_date
+rename tocilizumab_date_date tocilizumab_date	
+rename tofacitinib_date_date tofacitinib_date	
+rename upadacitinib_date_date upadacitinib_date 
+rename ustekinumab_date_date ustekinumab_date	
 
 **Create binary indicator variables for relevant conditions ====================================================*/
 
@@ -923,20 +945,6 @@ drop first_csD_hcd
 tab first_csDMARD_hcd if ra_code==1 //for RA patients
 tab first_csDMARD_hcd if psa_code==1 //for PsA patients
 tab first_csDMARD_hcd if undiff_code==1 //for Undiff IA patients
-
-**What was second csDMARD in GP record (not including high cost MTX prescriptions)
-gen second_csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date) if 
-format %td csdmard_date
-
-gen second_csD=""
-foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date sulfasalazine_date {
-	replace second_csD="`var'" if csdmard_date==`var' & csdmard_date!=. & (`var'<=(rheum_appt_date+365)) & time_to_csdmard!=.
-	}
-gen first_csDMARD = substr(first_csD, 1, length(first_csD) - 5) if first_csD!="" 
-drop first_csD
-tab first_csDMARD if ra_code==1 //for RA patients
-tab first_csDMARD if psa_code==1 //for PsA patients
-tab first_csDMARD if undiff_code==1 //for Undiff IA patients
  
 **Methotrexate use (not including high cost MTX prescriptions)
 gen mtx=1 if methotrexate==1 | methotrexate_inj==1

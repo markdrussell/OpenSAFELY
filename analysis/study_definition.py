@@ -33,7 +33,7 @@ def first_comorbidity_in_period(dx_codelist):
         },
     )
 
-# Presence of medications (first prescription)
+# Presence of medications (first prescription date)
 def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
     if (high_cost):
         date_format="YYYY-MM"
@@ -51,7 +51,23 @@ def get_medication_for_dates(med_codelist, with_med_func, high_cost, dates):
         },
     )
 
-def medication_counts_and_dates(var_name, med_codelist_file, high_cost):
+# Medication count
+def get_medcounts_for_dates(med_codelist, with_med_func, high_cost, dates):
+    if (high_cost):
+        returning="number_of_matches_in_period"
+    else:
+        returning="number_of_matches_in_period"
+    return with_med_func(
+        med_codelist,
+        between = dates,
+        returning="number_of_matches_in_period",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 3, "stddev": 2},
+            "incidence": 0.2,
+        },
+    )    
+
+def medication_dates(var_name, med_codelist_file, high_cost, return_count):
     """
     Generates dictionary of covariates for a medication and dates
     Takes a variable prefix and medication codelist filename (minus .csv)
@@ -60,10 +76,7 @@ def medication_counts_and_dates(var_name, med_codelist_file, high_cost):
     """
     definitions={}
     
-    if (med_codelist_file[0:5] == "cross"):
-        med_codelist_file = "crossimid-codelists/" + med_codelist_file
-    else:
-        med_codelist_file = "codelists/" + med_codelist_file
+    med_codelist_file = "codelists/" + med_codelist_file
     if (high_cost):
         med_codelist=codelist_from_csv(med_codelist_file + ".csv", system="high_cost_drugs", column="olddrugname")
         with_med_func=patients.with_high_cost_drugs
@@ -77,10 +90,13 @@ def medication_counts_and_dates(var_name, med_codelist_file, high_cost):
         with_med_func=patients.with_these_medications
         high_cost=False
     
-    med_functions=[get_medication_for_dates, {"dates": ["1900-01-01", end_date]}],
-
-    for (fun, params) in med_functions:
-        definitions[var_name] = fun(med_codelist, with_med_func, high_cost, **params)
+    med_functions=[
+        ("date", get_medication_for_dates, {"dates": ["1900-01-01", end_date]}),
+    ]
+    if (return_count):
+        med_functions += [("count", get_medcounts_for_dates, {"dates": ["1900-01-01", end_date]})]
+    for (suffix, fun, params) in med_functions:
+        definitions[var_name + "_" + suffix] = fun(med_codelist, with_med_func, high_cost, **params)
     return definitions
 
 study = StudyDefinition(
@@ -415,27 +431,27 @@ study = StudyDefinition(
         ),
     ),
 
-    # Medications
-    **medication_counts_and_dates("hydroxychloroquine", "opensafely-hydroxychloroquine", False),
-    **medication_counts_and_dates("leflunomide", "opensafely-leflunomide-dmd", False),
-    **medication_counts_and_dates("methotrexate", "opensafely-methotrexate-oral", False),
-    **medication_counts_and_dates("methotrexate_inj", "opensafely-methotrexate-injectable", False),
-    **medication_counts_and_dates("sulfasalazine", "opensafely-sulfasalazine-oral-dmd", False),
-    **medication_counts_and_dates("abatacept", "opensafely-high-cost-drugs-abatacept", True),
-    **medication_counts_and_dates("adalimumab", "opensafely-high-cost-drugs-adalimumab", True),
-    **medication_counts_and_dates("baricitinib", "opensafely-high-cost-drugs-baricitinib", True),
-    **medication_counts_and_dates("certolizumab", "opensafely-high-cost-drugs-certolizumab", True),
-    **medication_counts_and_dates("etanercept", "opensafely-high-cost-drugs-etanercept", True),
-    **medication_counts_and_dates("golimumab", "opensafely-high-cost-drugs-golimumab", True),
-    **medication_counts_and_dates("guselkumab", "opensafely-high-cost-drugs-guselkumab", True),
-    **medication_counts_and_dates("infliximab", "opensafely-high-cost-drugs-infliximab", True),
-    **medication_counts_and_dates("ixekizumab", "opensafely-high-cost-drugs-ixekizumab", True),
-    **medication_counts_and_dates("methotrexate_hcd", "opensafely-high-cost-drugs-methotrexate", True),
-    **medication_counts_and_dates("rituximab", "opensafely-high-cost-drugs-rituximab", True),
-    **medication_counts_and_dates("sarilumab", "opensafely-high-cost-drugs-sarilumab", True),
-    **medication_counts_and_dates("secukinumab", "opensafely-high-cost-drugs-secukinumab", True),
-    **medication_counts_and_dates("tocilizumab", "opensafely-high-cost-drugs-tocilizumab", True),
-    **medication_counts_and_dates("tofacitinib", "opensafely-high-cost-drugs-tofacitinib", True),
-    **medication_counts_and_dates("upadacitinib", "opensafely-high-cost-drugs-upadacitinib", True),
-    **medication_counts_and_dates("ustekinumab", "opensafely-high-cost-drugs-ustekinumab", True),
+    # Medications dates 
+    **medication_dates("hydroxychloroquine", "opensafely-hydroxychloroquine", False, True),
+    **medication_dates("leflunomide", "opensafely-leflunomide-dmd", False, True),
+    **medication_dates("methotrexate", "opensafely-methotrexate-oral", False, True),
+    **medication_dates("methotrexate_inj", "opensafely-methotrexate-injectable", False, True),
+    **medication_dates("sulfasalazine", "opensafely-sulfasalazine-oral-dmd", False, True),
+    **medication_dates("abatacept", "opensafely-high-cost-drugs-abatacept", True, False),
+    **medication_dates("adalimumab", "opensafely-high-cost-drugs-adalimumab", True, False),
+    **medication_dates("baricitinib", "opensafely-high-cost-drugs-baricitinib", True, False),
+    **medication_dates("certolizumab", "opensafely-high-cost-drugs-certolizumab", True, False),
+    **medication_dates("etanercept", "opensafely-high-cost-drugs-etanercept", True, False),
+    **medication_dates("golimumab", "opensafely-high-cost-drugs-golimumab", True, False),
+    **medication_dates("guselkumab", "opensafely-high-cost-drugs-guselkumab", True, False),
+    **medication_dates("infliximab", "opensafely-high-cost-drugs-infliximab", True, False),
+    **medication_dates("ixekizumab", "opensafely-high-cost-drugs-ixekizumab", True, False),
+    **medication_dates("methotrexate_hcd", "opensafely-high-cost-drugs-methotrexate", True, False),
+    **medication_dates("rituximab", "opensafely-high-cost-drugs-rituximab", True, False),
+    **medication_dates("sarilumab", "opensafely-high-cost-drugs-sarilumab", True, False),
+    **medication_dates("secukinumab", "opensafely-high-cost-drugs-secukinumab", True, False),
+    **medication_dates("tocilizumab", "opensafely-high-cost-drugs-tocilizumab", True, False),
+    **medication_dates("tofacitinib", "opensafely-high-cost-drugs-tofacitinib", True, False),
+    **medication_dates("upadacitinib", "opensafely-high-cost-drugs-upadacitinib", True, False),
+    **medication_dates("ustekinumab", "opensafely-high-cost-drugs-ustekinumab", True, False),
 )
