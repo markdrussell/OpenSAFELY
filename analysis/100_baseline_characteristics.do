@@ -653,6 +653,9 @@ outsheet * using "$projectdir/output/tables/referral_byregion_nomiss.csv" , comm
 import excel "$projectdir/output/tables/drug_bydiag_miss.xls", clear
 outsheet * using "$projectdir/output/tables/drug_bydiag_miss.csv" , comma nonames replace	
 
+import excel "$projectdir/output/tables/drug_byyear_miss.xls", clear
+outsheet * using "$projectdir/output/tables/drug_byyear_miss.csv" , comma nonames replace	
+
 import excel "$projectdir/output/tables/drug_byyear_ra_miss.xls", clear
 outsheet * using "$projectdir/output/tables/drug_byyear_ra_miss.csv" , comma nonames replace	
 
