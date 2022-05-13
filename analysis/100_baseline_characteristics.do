@@ -353,6 +353,10 @@ tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365), missing //with 12-mo
 bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts 
 bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365) //with 12-month limit
 
+**Compare proportion with more than one script issued for csDMARDs
+tab csdmard, missing //all prescriptions, for comparison
+tab csdmard_shared, missing //issued more than once (shared care)
+
 **Time to first csDMARD in GP record for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions); prescription must be within 12 months of diagnosis for all csDMARDs below (could change in future analyses)
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 bys diagnosis_6m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
@@ -410,6 +414,11 @@ tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 tab mtx if undiff_code==1 //for undiff IA patients
 tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 
+**Compare proportion with more than one script issued for csDMARDs
+tab mtx, missing //all prescriptions (for comparison)
+tab mtx_shared, missing //issued more than once (shared care)
+tab mtx_issue, missing //issed none vs. once vs. more than once
+
 /*
 **Methotrexate use (including high cost MTX prescriptions)
 tab mtx_hcd if ra_code==1 //for RA patients
@@ -464,15 +473,30 @@ tab ssz_time if ra_code==1, missing
 tab ssz_time if psa_code==1, missing 
 tab ssz_time if undiff_code==1, missing 
 
+**Compare proportion with more than one script issued for csDMARDs
+tab ssz, missing //all prescriptions (for comparison)
+tab ssz_shared, missing //issued more than once (shared care)
+tab ssz_issue, missing //issed none vs. once vs. more than once
+
 **Hydroxychloroquine time categories
 tab hcq_time if ra_code==1, missing 
 tab hcq_time if psa_code==1, missing 
 tab hcq_time if undiff_code==1, missing 
 
+**Compare proportion with more than one script issued for csDMARDs
+tab hcq, missing //all prescriptions (for comparison)
+tab hcq_shared, missing //issued more than once (shared care)
+tab hcq_issue, missing //issed none vs. once vs. more than once
+
 **Leflunomide time categories
 tab lef_time if ra_code==1, missing 
 tab lef_time if psa_code==1, missing 
 tab lef_time if undiff_code==1, missing 
+
+**Compare proportion with more than one script issued for csDMARDs
+tab lef, missing //all prescriptions (for comparison)
+tab lef_shared, missing //issued more than once (shared care)
+tab lef_issue, missing //issed none vs. once vs. more than once
 
 *Drug prescription table, for those with at least 12m registration
 table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///

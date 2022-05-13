@@ -18,8 +18,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepathsdiabe
-global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
-*global projectdir `c(pwd)'
+*global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
+global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/figures"
@@ -978,6 +978,25 @@ tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month
 tab mtx_hcd if undiff_code==1 //for undiff IA patients
 tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
 
+**Check if medication issued >once
+gen mtx_shared=1 if mtx==1 & (methotrexate_count>1 | methotrexate_inj_count>1)
+recode mtx_shared .=0
+tab mtx_shared
+
+**Methotrexate use (shared care)
+tab mtx_shared if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
+tab mtx_shared if ra_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_shared if psa_code==1 //for PsA patients
+tab mtx_shared if psa_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_shared if undiff_code==1 //for undiff IA patients
+tab mtx_shared if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+
+**Check medication issue number
+gen mtx_issue=0 if mtx==1 & (methotrexate_count==0 | methotrexate_inj_count==0)
+replace mtx_issue=1 if mtx==1 & (methotrexate_count==1 | methotrexate_inj_count==1)
+replace mtx_issue=2 if mtx==1 & (methotrexate_count>1 | methotrexate_inj_count>1)
+tab mtx_issue
+
 **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
 gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & (mtx_date<=rheum_appt_date+365)
 tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
@@ -1040,6 +1059,25 @@ tab ssz_time if ra_code==1, missing
 tab ssz_time if psa_code==1, missing
 tab ssz_time if undiff_code==1, missing 
 
+**Check if medication issued >once
+gen ssz_shared=1 if ssz==1 & sulfasalazine_count>1
+recode ssz_shared .=0
+tab ssz_shared
+
+**sulfasalazine use (shared care)
+tab ssz_shared if ra_code==1 
+tab ssz_shared if ra_code==1 & (sulfasalazine_date<=rheum_appt_date+365)
+tab ssz_shared if psa_code==1 
+tab ssz_shared if psa_code==1 & (sulfasalazine_date<=rheum_appt_date+365) 
+tab ssz_shared if undiff_code==1
+tab ssz_shared if undiff_code==1 & (sulfasalazine_date<=rheum_appt_date+365)
+
+**Check medication issue number
+gen ssz_issue=0 if ssz==1 & sulfasalazine_count==0 
+replace ssz_issue=1 if ssz==1 & sulfasalazine_count==1 
+replace ssz_issue=2 if ssz==1 & sulfasalazine_count>1
+tab ssz_issue
+
 **Hydroxychloroquine use
 gen hcq=1 if hydroxychloroquine==1
 recode hcq .=0 
@@ -1061,6 +1099,25 @@ tab hcq_time if ra_code==1, missing
 tab hcq_time if psa_code==1, missing
 tab hcq_time if undiff_code==1, missing 
 
+**Check if medication issued >once
+gen hcq_shared=1 if hcq==1 & hydroxychloroquine_count>1
+recode hcq_shared .=0
+tab hcq_shared
+
+**hydroxychloroquine use (shared care)
+tab hcq_shared if ra_code==1 
+tab hcq_shared if ra_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365)
+tab hcq_shared if psa_code==1 
+tab hcq_shared if psa_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365) 
+tab hcq_shared if undiff_code==1
+tab hcq_shared if undiff_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365)
+
+**Check medication issue number
+gen hcq_issue=0 if hcq==1 & hydroxychloroquine_count==0 
+replace hcq_issue=1 if hcq==1 & hydroxychloroquine_count==1 
+replace hcq_issue=2 if hcq==1 & hydroxychloroquine_count>1
+tab hcq_issue
+
 **Leflunomide use
 gen lef=1 if leflunomide==1
 recode lef .=0 
@@ -1081,6 +1138,31 @@ lab var lef_time "Leflunomide in GP record"
 tab lef_time if ra_code==1, missing 
 tab lef_time if psa_code==1, missing
 tab lef_time if undiff_code==1, missing 
+
+**Check if medication issued >once
+gen lef_shared=1 if lef==1 & leflunomide_count>1
+recode lef_shared .=0
+tab lef_shared
+
+**leflunomide use (shared care)
+tab lef_shared if ra_code==1 
+tab lef_shared if ra_code==1 & (leflunomide_date<=rheum_appt_date+365)
+tab lef_shared if psa_code==1 
+tab lef_shared if psa_code==1 & (leflunomide_date<=rheum_appt_date+365) 
+tab lef_shared if undiff_code==1
+tab lef_shared if undiff_code==1 & (leflunomide_date<=rheum_appt_date+365)
+
+**Check medication issue number
+gen lef_issue=0 if lef==1 & leflunomide_count==0 
+replace lef_issue=1 if lef==1 & leflunomide_count==1 
+replace lef_issue=2 if lef==1 & leflunomide_count>1
+tab lef_issue
+
+**For all csDMARDs, check if issued more than once 
+gen csdmard_shared=1 if lef_shared==1 | mtx_shared==1 | hcq_shared==1 | ssz_shared==1 
+recode csdmard_shared .=0
+tab csdmard_shared
+tab csdmard //for comparison
 
 **Time to first biologic script; high_cost drug data available to Nov 2020======================================================================*/
 
