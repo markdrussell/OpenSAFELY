@@ -20,6 +20,7 @@ global projectdir `c(pwd)'
 di "$projectdir"
 
 capture mkdir "$projectdir/output/tables"
+capture mkdir "$projectdir/output/figures"
 
 global logdir "$projectdir/logs"
 di "$logdir"
