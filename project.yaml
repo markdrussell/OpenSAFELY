@@ -66,6 +66,7 @@ actions:
         doc17: output/tables/diag_count_bymonth.csv
         doc18: output/tables/appt_count_bymonth.csv
         figure1: output/figures/incidence_twoway.svg
+        figure2: output/figures/incidence_twoway.gph
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
