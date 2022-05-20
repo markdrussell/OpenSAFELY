@@ -34,23 +34,52 @@ adopath + "$projectdir/analysis/extra_ados"
 **Use cleaned data from previous step
 use "$projectdir/output/data/file_eia_all.dta", clear
 
+set scheme plotplainblind
+
 **Set index dates ===========================================================*/
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
-global end_date = "01/04/2021"
+global appt_date = "01/04/2021"
+global end_date = "01/04/2022"
 
 *Descriptive statistics======================================================================*/
 
-**Total number of patients with diagnosis date (i.e. first rheum appt date) after 1st April 2019 and before 1st October 2021
+**Total number of patients with diagnosis date after 1st April 2019 and before 1st April 2022
 tab eia_code
 
 **Verify that all diagnoses were in study windows
-tab diagnosis_6m, missing
 tab mo_year_diagn, missing
+eststo X: estpost tab mo_year_diagn_s
+esttab X using "$projectdir/output/tables/diag_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
+tab diagnosis_6m, missing
 tab diagnosis_year, missing
 
 **EIA sub-diagnosis (most recent code)
 tab eia_diagnosis, missing
+bys eia_diagnosis: tab diagnosis_6m, missing
+bys eia_diagnosis: tab diagnosis_year, missing
+
+*Graph of diagnoses by month, by disease
+preserve
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+
+twoway connected total_diag mo_year_diagn, ytitle("Number of patients", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway.svg", replace
+	
+restore	
+
+**For first rheumatology appt date
+tab mo_year_appt, missing
+eststo Y: estpost tab mo_year_appt_s if mo_year_appt!=.
+esttab Y using "$projectdir/output/tables/appt_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
+tab appt_6m, missing
+tab appt_year, missing
+bys eia_diagnosis: tab appt_6m, missing
+bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
 tab agegroup, missing
@@ -102,11 +131,10 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 chronic_resp_disease bin  %5.1f \ ///
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
-		 egfr_cat_nomiss cat %5.1f \ ///
 		 ) saving("$projectdir/output/tables/baseline_bydiagnosis.xls", replace)
 
 *Baseline table by year of diagnosis
-table1_mc, by(diagnosis_6m) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
 	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
@@ -121,24 +149,7 @@ table1_mc, by(diagnosis_6m) total(before) onecol missing nospacelowpercent iqrmi
 		 chronic_resp_disease bin  %5.1f \ ///
 		 chronic_liver_disease bin %5.1f \ ///
 		 ckd cat %5.1f \ ///
-		 egfr_cat_nomiss cat %5.1f \ ///
 		 ) saving("$projectdir/output/tables/baseline_byyear.xls", replace)
-
-**Number of EIA diagnoses in 6-month time windows (where diagnosis date defined by first rheum appt if present, and EIA code if not)================================================*/
-tab diagnosis_6m, missing
-bys eia_diagnosis: tab diagnosis_6m, missing
-
-**And 12 month windows
-tab diagnosis_year, missing
-bys eia_diagnosis: tab diagnosis_year, missing
-
-**Number of EIA codes in 6-month time windows (defined by date of first eia code in notes)
-tab code_6m, missing
-bys eia_diagnosis: tab code_6m, missing
-
-**And 12 month windows
-tab code_year, missing
-bys eia_diagnosis: tab code_year, missing
 
 *Referral and appointment performance==============================================================================*/
 
@@ -167,12 +178,21 @@ tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code re
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
 
+**Check number of rheumatology appts in the year before EIA code
+tab rheum_appt_count, missing
+bys diagnosis_year: tab rheum_appt_count, missing
+bys appt_year: tab rheum_appt_count, missing
+
 *Time to referral=============================================*/
 
+*Restrict all analyses below to patients with rheum appt
+keep if rheum_appt_date!=.
+
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
-tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all_appts)
+tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
 bys eia_diagnosis: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by eia diagnosis
-bys diagnosis_6m: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_ref_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time from GP to rheum ref categorised
@@ -180,8 +200,10 @@ tab gp_ref_cat, missing
 tab gp_ref_cat
 bys eia_diagnosis: tab gp_ref_cat, missing
 bys eia_diagnosis: tab gp_ref_cat
-bys diagnosis_6m: tab gp_ref_cat, missing
-bys diagnosis_6m: tab gp_ref_cat
+bys appt_6m: tab gp_ref_cat, missing
+bys appt_6m: tab gp_ref_cat
+bys appt_year: tab gp_ref_cat, missing
+bys appt_year: tab gp_ref_cat
 bys nuts_region: tab gp_ref_cat if nuts_region!=., missing
 bys nuts_region: tab gp_ref_cat if nuts_region!=.
 
@@ -190,8 +212,8 @@ tab gp_ref_3d, missing
 tab gp_ref_3d
 bys eia_diagnosis: tab gp_ref_3d, missing
 bys eia_diagnosis: tab gp_ref_3d
-bys diagnosis_6m: tab gp_ref_3d, missing
-bys diagnosis_6m: tab gp_ref_3d
+bys appt_6m: tab gp_ref_3d, missing
+bys appt_6m: tab gp_ref_3d
 bys nuts_region: tab gp_ref_3d if nuts_region!=., missing
 bys nuts_region: tab gp_ref_3d if nuts_region!=.
 */
@@ -209,13 +231,15 @@ bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 **Time from last GP pre-rheum appt to first rheum appt (proxy measure for referral to appt delay)
 tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time from rheum ref to rheum appt (i.e. if appts are present and in correct time order)
 tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
+bys appt_6m: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
+bys appt_year: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_ref_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time from last GP to rheum appt categorised
@@ -223,8 +247,10 @@ tab gp_appt_cat, missing
 tab gp_appt_cat
 bys eia_diagnosis: tab gp_appt_cat, missing
 bys eia_diagnosis: tab gp_appt_cat
-bys diagnosis_6m: tab gp_appt_cat, missing
-bys diagnosis_6m: tab gp_appt_cat
+bys appt_6m: tab gp_appt_cat, missing
+bys appt_6m: tab gp_appt_cat
+bys appt_year: tab gp_appt_cat, missing
+bys appt_year: tab gp_appt_cat
 bys nuts_region: tab gp_appt_cat if nuts_region!=., missing
 bys nuts_region: tab gp_appt_cat if nuts_region!=.
 
@@ -233,8 +259,8 @@ tab gp_appt_3w, missing
 tab gp_appt_3w
 bys eia_diagnosis: tab gp_appt_3w, missing
 bys eia_diagnosis: tab gp_appt_3w
-bys diagnosis_6m: tab gp_appt_3w, missing
-bys diagnosis_6m: tab gp_appt_3w 
+bys appt_6m: tab gp_appt_3w, missing
+bys appt_6m: tab gp_appt_3w 
 bys nuts_region: tab gp_appt_3w if nuts_region!=., missing
 bys nuts_region: tab gp_appt_3w if nuts_region!=.
 */
@@ -244,8 +270,10 @@ tab ref_appt_cat, missing
 tab ref_appt_cat
 bys eia_diagnosis: tab ref_appt_cat, missing
 bys eia_diagnosis: tab ref_appt_cat
-bys diagnosis_6m: tab ref_appt_cat, missing
-bys diagnosis_6m: tab ref_appt_cat
+bys appt_6m: tab ref_appt_cat, missing
+bys appt_6m: tab ref_appt_cat
+bys appt_year: tab ref_appt_cat, missing
+bys appt_year: tab ref_appt_cat
 bys nuts_region: tab ref_appt_cat if nuts_region!=., missing
 bys nuts_region: tab ref_appt_cat if nuts_region!=.
 
@@ -254,8 +282,8 @@ tab ref_appt_3w, missing
 tab ref_appt_3w
 bys eia_diagnosis: tab ref_appt_3w, missing
 bys eia_diagnosis: tab ref_appt_3w
-bys diagnosis_6m: tab ref_appt_3w, missing
-bys diagnosis_6m: tab ref_appt_3w
+bys appt_6m: tab ref_appt_3w, missing
+bys appt_6m: tab ref_appt_3w
 bys nuts_region: tab ref_appt_3w if nuts_region!=., missing
 bys nuts_region: tab ref_appt_3w if nuts_region!=.
 */
@@ -263,7 +291,7 @@ bys nuts_region: tab ref_appt_3w if nuts_region!=.
 **Time from rheum ref or last GP to rheum appt (combined - sensitivity analysis; includes those with no rheum ref)
 tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
+bys appt_6m: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_refgp_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 *Time to EIA code==================================================*/
@@ -293,7 +321,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 	vars(gp_ref_cat cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 gp_appt_cat cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)
+		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		 
 
 /*
 **With missing data
@@ -304,16 +332,16 @@ table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrm
 		 ) saving("$projectdir/output/tables/referral_bydiag_miss.xls", replace)
 */ 
 		 
-*Referral standards, by year of diagnosis
-table1_mc, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+*Referral standards, by 12 months periods - date of first appt rather than date of EIA code
+table1_mc, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 gp_appt_cat cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.xls", replace)
+		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.xls", replace) 
 		 
 /*
 **With missing data
-table1_mc, by(diagnosis_6m) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 gp_appt_cat cat %3.1f \ ///
@@ -340,6 +368,8 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 
 *All patients must have 1) rheum appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
 keep if has_12m_post_appt==1
+tab mo_year_diagn, missing
+tab mo_year_appt, missing
 
 **Proportion with a csDMARD prescription in GP record at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
 tab csdmard, missing
@@ -359,29 +389,32 @@ tab csdmard_shared, missing //issued more than once (shared care)
 
 **Time to first csDMARD in GP record for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions); prescription must be within 12 months of diagnosis for all csDMARDs below (could change in future analyses)
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 /*
 **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
-bys diagnosis_6m: tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard_hcd if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) 
-bys diagnosis_6m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard_hcd if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 */
 
 **Time to first csDMARD script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if undiff_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **csDMARD time categories for RA and PsA patients (not including high cost MTX prescriptions)
@@ -397,6 +430,8 @@ tab csdmard_hcd_time if undiff_code==1, missing
 */
 
 **What was first shared care csDMARD (not including high cost MTX prescriptions)
+tab first_csDMARD
+bys appt_year: tab first_csDMARD //did choice of first drug vary by year
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
@@ -431,29 +466,29 @@ tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-mo
 
 **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first methotrexate script for PsA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if psa_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_mtx if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_mtx if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 /*
 **Time to first methotrexate script for RA patients (including high cost MTX prescriptions)
 tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx_hcd if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first methotrexate script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx_hcd if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 */
 
 **Time to first methotrexate script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75)
-bys diagnosis_6m: tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_mtx if undiff_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Methotrexate time categories for RA, PsA and Undiff IA patients (not including high-cost MTX)
@@ -508,7 +543,7 @@ table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelow
 		 ) saving("$projectdir/output/tables/drug_bydiag_miss.xls", replace)
 		 
 *Drug prescription table, for those with at least 12m registration; all diagnoses but for AxSpA
-table1_mc if eia_diagnosis!=3, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if eia_diagnosis!=3, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -517,7 +552,7 @@ table1_mc if eia_diagnosis!=3, by(diagnosis_6m) total(before) onecol nospacelowp
 		 ) saving("$projectdir/output/tables/drug_byyear_miss.xls", replace)		 
 
 *Drug prescription table, for those with at least 12m registration for RA patients
-table1_mc if ra_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if ra_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -526,7 +561,7 @@ table1_mc if ra_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent
 		 ) saving("$projectdir/output/tables/drug_byyear_ra_miss.xls", replace)
 		 
 *Drug prescription table, for those with at least 12m registration for PsA patients
-table1_mc if psa_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if psa_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -535,7 +570,7 @@ table1_mc if psa_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercen
 		 ) saving("$projectdir/output/tables/drug_byyear_psa_miss.xls", replace)
 
 *Drug prescription table, for those with at least 12m registration for Undiff IA patients
-table1_mc if undiff_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -551,19 +586,20 @@ tab has_12m_post_appt
 **Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
 tab biologic, missing
 tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit
+
+/*Suppress due to small numbers
 bys eia_diagnosis: tab biologic, missing 
 bys eia_diagnosis: tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit 
 
 tabstat time_to_biologic, stats (n mean p50 p25 p75) //for all EIA patients
 bys eia_diagnosis: tabstat time_to_biologic, stats (n mean p50 p25 p75) 
-bys diagnosis_6m: tabstat time_to_biologic, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_6m: tabstat time_to_biologic, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_biologic if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
-**What was first biologic - suppress due to small numbers
-/*
+**What was first biologic
+
 tab first_biologic //for all EIA patients
 bys eia_diagnosis: tab first_biologic
-*/
 
 **Biologic time categories (for all patients)
 tab biologic_time 
@@ -572,7 +608,7 @@ tab biologic_time
 bys eia_diagnosis: tab biologic_time 
 
 **Biologic time categories (by time period)
-bys diagnosis_6m: tab biologic_time
+bys appt_6m: tab biologic_time
 
 *Drug prescription table at 12 months, for those with at least 12m registration
 table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
@@ -585,7 +621,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 ) saving("$projectdir/output/tables/biol_bydiag_miss.xls", replace)
 		 
 *Drug prescription table at 12 months, for all patients with at least 12m registration, by year of diagnosis
-table1_mc, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(appt_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -595,7 +631,7 @@ table1_mc, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(","
 		 ) saving("$projectdir/output/tables/biol_byyear_miss.xls", replace)
 		 
 *Drug prescription table at 12 months, for RA patients with at least 12m registration, by year of diagnosis
-table1_mc if ra_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if ra_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -605,7 +641,7 @@ table1_mc if ra_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent
 		 ) saving("$projectdir/output/tables/biol_byyear_ra_miss.xls", replace)
 
 *Drug prescription table at 12 months, for PsA patients with at least 12m registration, by year of diagnosis
-table1_mc if psa_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if psa_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -615,7 +651,7 @@ table1_mc if psa_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercen
 		 ) saving("$projectdir/output/tables/biol_byyear_psa_miss.xls", replace)
 
 *Drug prescription table at 12 months, for AxSpA patients with at least 12m registration, by year of diagnosis
-table1_mc if anksp_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if anksp_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -625,7 +661,7 @@ table1_mc if anksp_code==1, by(diagnosis_6m) total(before) onecol nospacelowperc
 		 ) saving("$projectdir/output/tables/biol_byyear_axspa_miss.xls", replace)
 		 
 *Drug prescription table at 12 months, for Undiff IA patients with at least 12m registration, by year of diagnosis
-table1_mc if undiff_code==1, by(diagnosis_6m) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
 		 ssz_time cat %3.1f \ ///
@@ -633,6 +669,7 @@ table1_mc if undiff_code==1, by(diagnosis_6m) total(before) onecol nospacelowper
 		 lef_time cat %3.1f \ ///
 		 biologic_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/biol_byyear_undiff_miss.xls", replace)
+*/		 
 
 *Output tables as CSVs		 
 import excel "$projectdir/output/tables/baseline_bydiagnosis.xls", clear
@@ -646,6 +683,9 @@ outsheet * using "$projectdir/output/tables/referral_bydiag_nomiss.csv" , comma 
 
 import excel "$projectdir/output/tables/referral_byyear_nomiss.xls", clear
 outsheet * using "$projectdir/output/tables/referral_byyear_nomiss.csv" , comma nonames replace	
+
+import excel "$projectdir/output/tables/referral_byfullyear_nomiss.xls", clear
+outsheet * using "$projectdir/output/tables/referral_byfullyear_nomiss.csv" , comma nonames replace
 
 import excel "$projectdir/output/tables/referral_byregion_nomiss.xls", clear
 outsheet * using "$projectdir/output/tables/referral_byregion_nomiss.csv" , comma nonames replace	
@@ -665,6 +705,7 @@ outsheet * using "$projectdir/output/tables/drug_byyear_psa_miss.csv" , comma no
 import excel "$projectdir/output/tables/drug_byyear_undiff_miss.xls", clear
 outsheet * using "$projectdir/output/tables/drug_byyear_undiff_miss.csv" , comma nonames replace	
 
+/*
 import excel "$projectdir/output/tables/biol_bydiag_miss.xls", clear
 outsheet * using "$projectdir/output/tables/biol_bydiag_miss.csv" , comma nonames replace	
 
@@ -681,6 +722,7 @@ import excel "$projectdir/output/tables/biol_byyear_axspa_miss.xls", clear
 outsheet * using "$projectdir/output/tables/biol_byyear_axspa_miss.csv" , comma nonames replace	
 
 import excel "$projectdir/output/tables/biol_byyear_undiff_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_undiff_miss.csv" , comma nonames replace	
+outsheet * using "$projectdir/output/tables/biol_byyear_undiff_miss.csv" , comma nonames replace
+*/	
 
 log close

@@ -63,6 +63,9 @@ actions:
         doc14: output/tables/biol_byyear_psa_miss.csv   
         doc15: output/tables/biol_byyear_axspa_miss.csv 
         doc16: output/tables/biol_byyear_undiff_miss.csv
+        doc17: output/tables/diag_count_bymonth.csv
+        doc18: output/tables/appt_count_bymonth.csv
+        figure1: output/figures/incidence_twoway.svg
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
@@ -94,14 +97,17 @@ actions:
         log1: logs/box_plots.log
         figure 1: output/figures/regional_qs1_bar_overall.svg
         figure 2: output/figures/regional_qs1_bar_2019.svg 
-        figure 3: output/figures/regional_qs1_bar_2020.svg     
-        figure 4: output/figures/regional_qs2_bar_overall.svg  
-        figure 5: output/figures/regional_qs2_bar_2019.svg 
-        figure 6: output/figures/regional_qs2_bar_2020.svg     
-        figure 7: output/figures/regional_qs2_bar_GP_overall.svg  
-        figure 8: output/figures/regional_qs2_bar_GP_2019.svg     
-        figure 9: output/figures/regional_qs2_bar_GP_2020.svg 
-        figure 10: output/figures/regional_csdmard_bar_overall.svg  
-        figure 11: output/figures/regional_csdmard_bar_2019.svg     
-        figure 12: output/figures/regional_csdmard_bar_2020.svg  
+        figure 3: output/figures/regional_qs1_bar_2020.svg 
+        figure 4: output/figures/regional_qs1_bar_2021.svg       
+        figure 5: output/figures/regional_qs2_bar_overall.svg  
+        figure 6: output/figures/regional_qs2_bar_2019.svg 
+        figure 7: output/figures/regional_qs2_bar_2020.svg    
+        figure 8: output/figures/regional_qs2_bar_2021.svg  
+        figure 9: output/figures/regional_qs2_bar_GP_overall.svg  
+        figure 10: output/figures/regional_qs2_bar_GP_2019.svg     
+        figure 11: output/figures/regional_qs2_bar_GP_2020.svg 
+        figure 12: output/figures/regional_qs2_bar_GP_2021.svg 
+        figure 13: output/figures/regional_csdmard_bar_overall.svg  
+        figure 14: output/figures/regional_csdmard_bar_2019.svg     
+        figure 15: output/figures/regional_csdmard_bar_2020.svg  
  
