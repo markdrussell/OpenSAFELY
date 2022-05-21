@@ -50,8 +50,6 @@ tab eia_code
 
 **Verify that all diagnoses were in study windows
 tab mo_year_diagn, missing
-eststo X: estpost tab mo_year_diagn_s
-esttab X using "$projectdir/output/tables/diag_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
 tab diagnosis_6m, missing
 tab diagnosis_year, missing
 
@@ -66,17 +64,33 @@ recode ra_code 0=.
 recode psa_code 0=.
 recode anksp_code 0=.
 recode undiff_code 0=.
+*eststo X: estpost tab mo_year_diagn_s by(eia_diagnosis)
+*esttab X using "$projectdir/output/tables/diag_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
 twoway connected total_diag mo_year_diagn, ytitle("Number of patients", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway.svg", replace
 	
 restore	
 
+*Graph of rheumatology appointments by month, by disease
+preserve
+keep if rheum_appt_date!=.
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_appt)
+export delimited using "$projectdir/output/tables/appt_count_bymonth.csv", replace
+
+twoway connected total_diag mo_year_appt, ytitle("Number of patients", size(medsmall)) || connected ra_diag mo_year_appt, color(sky) || connected psa_diag mo_year_appt, color(red) || connected axspa_diag mo_year_appt, color(green) || connected undiff_diag mo_year_appt, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway_appt, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_appt.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_appt.svg", replace
+	
+restore
+
 **For first rheumatology appt date
 tab mo_year_appt, missing
-eststo Y: estpost tab mo_year_appt_s if mo_year_appt!=.
-esttab Y using "$projectdir/output/tables/appt_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
 tab appt_6m, missing
 tab appt_year, missing
 bys eia_diagnosis: tab appt_6m, missing
@@ -180,14 +194,14 @@ tab last_gp_prerheum //last GP appointment before rheum appt; requires there to 
 tab last_gp_precode //last GP appointment before EIA code
 
 **Check number of rheumatology appts in the year before EIA code
-tab rheum_appt_count, missing
-bys diagnosis_year: tab rheum_appt_count, missing
-bys appt_year: tab rheum_appt_count, missing
+tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
+bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
+bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25 p75)
 
 *Time to referral=============================================*/
 
 *Restrict all analyses below to patients with rheum appt
-keep if rheum_appt_date!=.
+keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2022) //note code + 60 day upper limit in study definition
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
@@ -255,16 +269,11 @@ bys appt_year: tab gp_appt_cat
 bys nuts_region: tab gp_appt_cat if nuts_region!=., missing
 bys nuts_region: tab gp_appt_cat if nuts_region!=.
 
-/*
-tab gp_appt_3w, missing
+**Below is what is used for ITSA models (on a month by month basis)
 tab gp_appt_3w
-bys eia_diagnosis: tab gp_appt_3w, missing
 bys eia_diagnosis: tab gp_appt_3w
-bys appt_6m: tab gp_appt_3w, missing
-bys appt_6m: tab gp_appt_3w 
-bys nuts_region: tab gp_appt_3w if nuts_region!=., missing
+bys appt_year: tab gp_appt_3w 
 bys nuts_region: tab gp_appt_3w if nuts_region!=.
-*/
 
 **Time from rheum ref to rheum appt categorised
 tab ref_appt_cat, missing
@@ -322,7 +331,12 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 	vars(gp_ref_cat cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_cat_19 cat %3.1f \ ///
+		 gp_appt_cat_20 cat %3.1f \ ///
+		 gp_appt_cat_21 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		 
+		 
+**Check if total is sum of years - remember, +60 limit after code date		 
 
 /*
 **With missing data
@@ -340,6 +354,8 @@ table1_mc, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  
 		 gp_appt_cat cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.xls", replace) 
 		 
+**May not need this table, if same as above		 
+		 
 /*
 **With missing data
 table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
@@ -350,10 +366,13 @@ table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(
 */ 
 
 *Referral standards, by region
-table1_mc, by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
 		 ref_appt_cat cat %3.1f \ ///
 		 gp_appt_cat cat %3.1f \ ///
+		 gp_appt_cat_19 cat %3.1f \ ///
+		 gp_appt_cat_20 cat %3.1f \ ///
+		 gp_appt_cat_21 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
 
 /*		 
@@ -368,7 +387,7 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
 *All patients must have 1) rheum appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
-keep if has_12m_post_appt==1
+keep if has_12m_post_appt==1 & rheum_appt_date<td(01apr2021)
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
@@ -579,10 +598,24 @@ table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercen
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_undiff_miss.xls", replace) 
 		 
+*Drug prescription table, for those with at least 12m registration for all diagnoses, by year
+table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+	vars(csdmard_time cat %3.1f \ ///
+		 csdmard_time_19 cat %3.1f \ ///
+		 csdmard_time_20 cat %3.1f \ ///
+		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 		
+		 
+*Drug prescription table, for those with at least 12m registration for all diagnoses, by region and year
+table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+	vars(csdmard_time cat %3.1f \ ///
+		 csdmard_time_19 cat %3.1f \ ///
+		 csdmard_time_20 cat %3.1f \ ///
+		 ) saving("$projectdir/output/tables/drug_byyearandregion.xls", replace) 			 
+		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020======================================================================*/
 
 *All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m of registration after appt
-tab has_12m_post_appt
+tab has_12m_post_appt & rheum_appt_date<td(01apr2022)
 
 **Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
 tab biologic, missing
@@ -685,9 +718,6 @@ outsheet * using "$projectdir/output/tables/referral_bydiag_nomiss.csv" , comma 
 import excel "$projectdir/output/tables/referral_byyear_nomiss.xls", clear
 outsheet * using "$projectdir/output/tables/referral_byyear_nomiss.csv" , comma nonames replace	
 
-import excel "$projectdir/output/tables/referral_byfullyear_nomiss.xls", clear
-outsheet * using "$projectdir/output/tables/referral_byfullyear_nomiss.csv" , comma nonames replace
-
 import excel "$projectdir/output/tables/referral_byregion_nomiss.xls", clear
 outsheet * using "$projectdir/output/tables/referral_byregion_nomiss.csv" , comma nonames replace	
 
@@ -705,6 +735,12 @@ outsheet * using "$projectdir/output/tables/drug_byyear_psa_miss.csv" , comma no
 
 import excel "$projectdir/output/tables/drug_byyear_undiff_miss.xls", clear
 outsheet * using "$projectdir/output/tables/drug_byyear_undiff_miss.csv" , comma nonames replace	
+
+import excel "$projectdir/output/tables/drug_byyearanddisease.xls", clear
+outsheet * using "$projectdir/output/tables/drug_byyearanddisease.csv" , comma nonames replace	
+
+import excel "$projectdir/output/tables/drug_byyearandregion.xls", clear
+outsheet * using "$projectdir/output/tables/drug_byyearandregion.csv" , comma nonames replace	
 
 /*
 import excel "$projectdir/output/tables/biol_bydiag_miss.xls", clear

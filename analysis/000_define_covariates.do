@@ -675,7 +675,7 @@ gen year_diag=year(eia_code_date)
 format year_diag %ty
 gen month_diag=month(eia_code_date)
 gen mo_year_diagn=ym(year_diag, month_diag)
-format mo_year_diagn %tm
+format mo_year_diagn %tmMon_CCYY
 generate str16 mo_year_diagn_s = strofreal(mo_year_diagn,"%tmCCYY!mNN")
 
 **Month/Year of rheum appt
@@ -683,7 +683,7 @@ gen year_appt=year(rheum_appt_date) if rheum_appt_date!=.
 format year_appt %ty
 gen month_appt=month(rheum_appt_date) if rheum_appt_date!=. 
 gen mo_year_appt=ym(year_appt, month_appt)
-format mo_year_appt %tm
+format mo_year_appt %tmMon_CCYY
 generate str16 mo_year_appt_s = strofreal(mo_year_appt,"%tmCCYY!mNN")
 
 **Separate into 6-month time windows (for diagnosis date)
@@ -716,7 +716,7 @@ replace appt_6m=3 if rheum_appt_date>=td(01apr2020) & rheum_appt_date<td(01oct20
 replace appt_6m=4 if rheum_appt_date>=td(01oct2020) & rheum_appt_date<td(01apr2021)
 replace appt_6m=5 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01oct2021)
 replace appt_6m=6 if rheum_appt_date>=td(01oct2021) & rheum_appt_date<td(01apr2022)
-lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "1 Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022", modify
+lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022", modify
 lab val appt_6m appt_6m
 lab var appt_6m "Time period for first rheumatology appt"
 tab appt_6m, missing
@@ -740,9 +740,9 @@ tab rheum_appt2, missing //proportion of patients with a rheum outpatient date i
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check number of rheumatology appts in the year before EIA code
-tab rheum_appt_count, missing
-bys diagnosis_year: tab rheum_appt_count, missing
-bys appt_year: tab rheum_appt_count, missing
+tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
+bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
+bys appt_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 
 **Rheumatology referrals
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
@@ -808,6 +808,19 @@ lab define gp_appt_cat 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 w
 lab val gp_appt_cat gp_appt_cat
 lab var gp_appt_cat "Time from last GP appointment to rheumatology assessment"
 tab gp_appt_cat, missing
+
+gen gp_appt_cat_19=gp_appt_cat if appt_year==1
+gen gp_appt_cat_20=gp_appt_cat if appt_year==2
+gen gp_appt_cat_21=gp_appt_cat if appt_year==3
+lab define gp_appt_cat_19 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_19 gp_appt_cat_19
+lab var gp_appt_cat_19 "Time from last GP appointment to rheumatology assessment, Apr 2019-2020"
+lab define gp_appt_cat_20 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_20 gp_appt_cat_20
+lab var gp_appt_cat_20 "Time from last GP appointment to rheumatology assessment, Apr 2020-2021"
+lab define gp_appt_cat_21 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_21 gp_appt_cat_21
+lab var gp_appt_cat_21 "Time from last GP appointment to rheumatology assessment, Apr 2021-2022"
 
 gen gp_appt_3w=1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=. 
 replace gp_appt_3w=2 if time_gp_rheum_appt>21 & time_gp_rheum_appt!=.
@@ -910,6 +923,16 @@ lab var csdmard_time "csDMARD in GP record"
 tab csdmard_time if ra_code==1, missing 
 tab csdmard_time if psa_code==1, missing
 tab csdmard_time if undiff_code==1, missing
+
+gen csdmard_time_19=csdmard_time if appt_year==1
+gen csdmard_time_20=csdmard_time if appt_year==2
+gen csdmard_time_21=csdmard_time if appt_year==3
+lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+lab val csdmard_time_19 csdmard_time_19
+lab var csdmard_time_19 "csDMARD in GP record, Apr 2019-2020" 
+lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+lab val csdmard_time_20 csdmard_time_20
+lab var csdmard_time_20 "csDMARD in GP record, Apr 2020-2021" 
 
 **csDMARD time categories - binary 6 months
 gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 

@@ -1,7 +1,7 @@
 version: '3.0'
 
 expectations:
-  population_size: 700000
+  population_size: 400000
 
 actions:
 
@@ -57,16 +57,12 @@ actions:
         doc8: output/tables/drug_byyear_ra_miss.csv   
         doc9: output/tables/drug_byyear_psa_miss.csv
         doc10: output/tables/drug_byyear_undiff_miss.csv
-        doc11: output/tables/biol_bydiag_miss.csv 
-        doc12: output/tables/biol_byyear_miss.csv         
-        doc13: output/tables/biol_byyear_ra_miss.csv 
-        doc14: output/tables/biol_byyear_psa_miss.csv   
-        doc15: output/tables/biol_byyear_axspa_miss.csv 
-        doc16: output/tables/biol_byyear_undiff_miss.csv
-        doc17: output/tables/diag_count_bymonth.csv
-        doc18: output/tables/appt_count_bymonth.csv
+        doc11: output/tables/drug_byyearanddisease.csv
+        doc12: output/tables/drug_byyearandregion.csv
+        doc13: output/tables/diag_count_bymonth.csv
+        doc14: output/tables/appt_count_bymonth.csv
         figure1: output/figures/incidence_twoway.svg
-        figure2: output/figures/incidence_twoway.gph
+        figure2: output/figures/incidence_twoway_appt.svg
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
@@ -74,12 +70,11 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/itsa_models.log   
-        figure1:  output/figures/ITSA_referral_delay_newey.svg
-        figure2:  output/figures/ITSA_referral_delay_prais.svg
-        figure3:  output/figures/ITSA_diagnostic_delay_newey.svg
-        figure4:  output/figures/ITSA_diagnostic_delay_prais.svg
-        figure5:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
-        figure6:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
+        figure1:  output/figures/ITSA_diagnostic_delay_newey.svg
+        figure2:  output/figures/ITSA_diagnostic_delay_prais.svg
+        figure3:  output/figures/ITSA_diagnostic_delay_GP_newey.svg
+        figure4:  output/figures/ITSA_diagnostic_delay_GP_prais.svg
+        doc1: output/tables/gp_to_appt_ITSA_table.csv
   
   run_itsa_models_drugs:
     run: stata-mp:latest analysis/201_itsa_models_drugs.do
@@ -89,6 +84,7 @@ actions:
         log1: logs/itsa_models_drugs.log   
         figure1:  output/figures/ITSA_csDMARD_delay_newey.svg
         figure2:  output/figures/ITSA_csDMARD_delay_prais.svg
+        doc1: output/tables/appt_to_csdmard_ITSA_table.csv
 
   run_box_plots:
     run: stata-mp:latest analysis/300_box_plots.do
