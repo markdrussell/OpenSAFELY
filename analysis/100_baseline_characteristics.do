@@ -614,9 +614,6 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020======================================================================*/
 
-*All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m of registration after appt
-tab has_12m_post_appt & rheum_appt_date<td(01apr2022)
-
 **Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
 tab biologic, missing
 tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit
