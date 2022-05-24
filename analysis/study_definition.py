@@ -154,6 +154,17 @@ study = StudyDefinition(
         },
     ),
 
+    # Rheumatology outpatient count in the 1 year before EIA diagnosis code appears in GP record
+    rheum_appt_count=patients.outpatient_appointment_date(
+        returning="number_of_matches_in_period",
+        with_these_treatment_function_codes = ["410"],
+        between = ["eia_code_date - 1 years", "eia_code_date"],
+        return_expectations={
+            "incidence": 0.9,
+            "int": {"distribution": "normal", "mean": 2, "stddev": 2},
+        },
+    ),    
+
     # Define study population 
     population=patients.satisfying(
             """
