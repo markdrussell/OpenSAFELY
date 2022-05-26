@@ -40,7 +40,7 @@ set scheme plotplainblind
 /*GP referral performance by region, all years===========================================================================*/
 
 **For all the below, only using data for patients with rheumatology appt 
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2022)
+keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021)
 
 preserve
 gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
@@ -92,25 +92,6 @@ replace nuts_region = 0 if copy==1
 graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 days" 2 "Within 7 days" 3 "More than 7 days")) title("Time to rheumatology referral") name(regional_qs1_bar, replace)
 graph export "$projectdir/output/figures/regional_qs1_bar_2020.svg", replace
 restore
-
-/*GP referral performance by region, Apr 2021 to Apr 2022===========================================================================*/
-
-preserve
-keep if appt_year==3
-gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
-recode qs1_0 .=0 if time_gp_rheum_ref_appt!=.
-gen qs1_1 =1 if time_gp_rheum_ref_appt>3 & time_gp_rheum_ref_appt<=7 & time_gp_rheum_ref_appt!=.
-recode qs1_1 .=0 if time_gp_rheum_ref_appt!=.
-gen qs1_2 = 1 if time_gp_rheum_ref_appt>7 & time_gp_rheum_ref_appt!=.
-recode qs1_2 .=0 if time_gp_rheum_ref_appt!=.
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) qs1_0 (mean) qs1_1 (mean) qs1_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 days" 2 "Within 7 days" 3 "More than 7 days")) title("Time to rheumatology referral") name(regional_qs1_bar, replace)
-graph export "$projectdir/output/figures/regional_qs1_bar_2021.svg", replace
-restore
-
 
 /*
 *Regional GP referral performance
@@ -173,24 +154,6 @@ graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "
 graph export "$projectdir/output/figures/regional_qs2_bar_2020.svg", replace
 restore
 
-*Rheum ref to appt performance by region, Apr 2021 to Apr 2022==========================================================================*/
-
-preserve
-keep if appt_year==3
-gen qs2_0 =1 if time_ref_rheum_appt<=21 & time_ref_rheum_appt!=.
-recode qs2_0 .=0 if time_ref_rheum_appt!=.
-gen qs2_1 =1 if time_ref_rheum_appt>21 & time_ref_rheum_appt<=42 & time_ref_rheum_appt!=.
-recode qs2_1 .=0 if time_ref_rheum_appt!=.
-gen qs2_2 = 1 if time_ref_rheum_appt>42 & time_ref_rheum_appt!=.
-recode qs2_2 .=0 if time_ref_rheum_appt!=.
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from rheumatology referral to assessment") name(regional_qs2_bar, replace)
-graph export "$projectdir/output/figures/regional_qs2_bar_2021.svg", replace
-restore
-
 *Last GP to rheum appt performance by region, all years==========================================================================*/
 
 preserve
@@ -246,26 +209,6 @@ replace nuts_region = 0 if copy==1
 
 graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar_GP_2020.svg", replace
-restore
-
-//for output checking tables for boxplot - see output/tables/referral_byregion_nomiss.csv
-
-*Last GP to rheum appt performance by region, Apr 2021 to Apr 2022==========================================================================*/
-
-preserve
-keep if appt_year==3
-gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
-recode qs2_0 .=0 if time_gp_rheum_appt!=.
-gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
-recode qs2_1 .=0 if time_gp_rheum_appt!=.
-gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
-recode qs2_2 .=0 if time_gp_rheum_appt!=.
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
-graph export "$projectdir/output/figures/regional_qs2_bar_GP_2021.svg", replace
 restore
 
 //for output checking tables for boxplot - see output/tables/referral_byregion_nomiss.csv

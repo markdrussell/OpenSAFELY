@@ -69,7 +69,7 @@ recode undiff_code 0=.
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
-twoway connected total_diag mo_year_diagn, ytitle("Number of patients", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
+twoway connected total_diag mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway.svg", replace
 	
 restore	
@@ -82,9 +82,9 @@ recode psa_code 0=.
 recode anksp_code 0=.
 recode undiff_code 0=.
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_appt)
-export delimited using "$projectdir/output/tables/appt_count_bymonth.csv", replace
+export delimited using "$projectdir/output/tables/appt_count_bymonth.csv", replace 
 
-twoway connected total_diag mo_year_appt, ytitle("Number of patients", size(medsmall)) || connected ra_diag mo_year_appt, color(sky) || connected psa_diag mo_year_appt, color(red) || connected axspa_diag mo_year_appt, color(green) || connected undiff_diag mo_year_appt, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway_appt, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_appt.gph", replace)
+twoway connected total_diag mo_year_appt, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_appt, color(sky) || connected psa_diag mo_year_appt, color(red) || connected axspa_diag mo_year_appt, color(green) || connected undiff_diag mo_year_appt, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway_appt, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_appt.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway_appt.svg", replace
 	
 restore
@@ -97,6 +97,8 @@ bys eia_diagnosis: tab appt_6m, missing
 bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
+tabstat age, stats (mean sd)
+bys eia_diagnosis: tabstat age, stats (mean sd)
 tab agegroup, missing
 tab male, missing
 tab ethnicity, missing
@@ -131,7 +133,7 @@ tab chronic_cardiac_disease, missing
 
 /*Tables=====================================================================================*/
 *Baseline table by eia diagnosis
-table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
@@ -149,7 +151,7 @@ table1_mc, by(eia_diagnosis) total(before) onecol missing nospacelowpercent iqrm
 		 ) saving("$projectdir/output/tables/baseline_bydiagnosis.xls", replace)
 
 *Baseline table by year of diagnosis
-table1_mc, by(diagnosis_year) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
+table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
@@ -201,7 +203,7 @@ bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25
 *Time to referral=============================================*/
 
 *Restrict all analyses below to patients with rheum appt
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2022) //note code + 60 day upper limit in study definition
+keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) //note code + 60 day upper limit in study definition
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
@@ -333,7 +335,6 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
-		 gp_appt_cat_21 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		 
 		 
 **Check if total is sum of years - remember, +60 limit after code date		 
@@ -372,7 +373,6 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 		 gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
-		 gp_appt_cat_21 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
 
 /*		 
@@ -601,6 +601,9 @@ table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercen
 *Drug prescription table, for those with at least 12m registration for all diagnoses, by year
 table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
+		 mtx_time cat %3.1f \ ///
+		 ssz_time cat %3.1f \ ///
+		 hcq_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 		
