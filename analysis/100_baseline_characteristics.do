@@ -97,8 +97,8 @@ bys eia_diagnosis: tab appt_6m, missing
 bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
-tabstat age, stats (mean sd)
-bys eia_diagnosis: tabstat age, stats (mean sd)
+tabstat age, stats (n mean sd)
+bys eia_diagnosis: tabstat age, stats (n mean sd)
 tab agegroup, missing
 tab male, missing
 tab ethnicity, missing

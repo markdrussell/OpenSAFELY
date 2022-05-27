@@ -35,7 +35,7 @@ adopath + "$projectdir/analysis/extra_ados"
 use "$projectdir/output/data/file_eia_allpts.dta", clear
 
 /*Tables=====================================================================================*/
-tabstat age, stats (mean sd)
+tabstat age, stats (n mean sd)
 
 *Baseline table
 table1_mc, onecol nospacelowpercent iqrmiddle(",")  ///
