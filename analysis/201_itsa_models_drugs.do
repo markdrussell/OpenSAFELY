@@ -52,14 +52,23 @@ collapse (mean) mean_csdmard_delay=csdmard_6m, by(mo_year_appt)
 
 tsset mo_year_appt
 
-**Newey Standard Errors with 6 lags
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(6) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 3 lags
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey.svg", as(svg) replace
 actest, lag(18)	
 
 **Prais-Winsten	
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(small)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais.svg", as(svg) replace	
+	
+**Newey Standard Errors with 3 lags - sensitivity with second cut point
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_sensitivity.svg", as(svg) replace
+actest, lag(18)	
+
+**Prais-Winsten	- sensitivity with second cut point
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_sensitivity.svg", as(svg) replace	
 restore
 
 /*

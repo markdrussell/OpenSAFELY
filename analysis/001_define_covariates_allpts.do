@@ -431,7 +431,7 @@ gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
 recode combined_cv_comorbid .=0
 
 *Delete unneeded variables
-drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol age
+drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
 
 *Label variables
 lab var hypertension "Hypertension"

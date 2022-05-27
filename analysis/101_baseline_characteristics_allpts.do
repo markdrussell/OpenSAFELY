@@ -35,8 +35,10 @@ adopath + "$projectdir/analysis/extra_ados"
 use "$projectdir/output/data/file_eia_allpts.dta", clear
 
 /*Tables=====================================================================================*/
+tabstat age, stats (n mean sd)
+
 *Baseline table
-table1_mc, onecol missing nospacelowpercent iqrmiddle(",")  ///
+table1_mc, onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(agegroup cat %5.1f \ ///
 		 male bin %5.1f \ ///
 		 ethnicity cat %5.1f \ ///
