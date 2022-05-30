@@ -15,8 +15,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-global projectdir `c(pwd)'
+global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir `c(pwd)'
 di "$projectdir"
 
 capture mkdir "$projectdir/output/tables"
@@ -195,6 +195,18 @@ tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code re
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
 
+**Number with rheumatology appt and >12 months of follow-up
+tab rheum_appt if rheum_appt_date<td(01apr2021), missing
+
+**Number with GP appointment prior to rheum appointment and >12 months of follow-up
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021), missing 
+
+**Number with GP appointment prior to rheum appointment and >12 months of follow-up and >12m of continuous registration after appointment
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1, missing 
+
+**As above
+tab has_12m_post_appt, missing
+
 **Check number of rheumatology appts in the year before EIA code
 tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
@@ -202,8 +214,8 @@ bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25
 
 *Time to referral=============================================*/
 
-*Restrict all analyses below to patients with rheum appt
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) //note code + 60 day upper limit in study definition
+*Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
+keep if has_12m_post_appt==1
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
@@ -368,9 +380,7 @@ table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(
 
 *Referral standards, by region
 table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
-	vars(gp_ref_cat cat %3.1f \ ///
-		 ref_appt_cat cat %3.1f \ ///
-		 gp_appt_cat cat %3.1f \ ///
+	vars(gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
@@ -386,8 +396,7 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
-*All patients must have 1) rheum appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
-keep if has_12m_post_appt==1 & rheum_appt_date<td(01apr2021)
+*As above, all patients must have 1) rheum appt and GP appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
@@ -431,6 +440,12 @@ bys appt_6m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p
 bys nuts_region: tabstat time_to_csdmard_hcd if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 */
 
+**Time to first csDMARD script for axSpA patients (not including high cost MTX prescriptions)
+tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75)
+bys appt_6m: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys nuts_region: tabstat time_to_csdmard if anksp_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
+
 **Time to first csDMARD script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
 bys appt_6m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
@@ -440,12 +455,14 @@ bys nuts_region: tabstat time_to_csdmard if undiff_code==1 & nuts_region!=., sta
 **csDMARD time categories for RA and PsA patients (not including high cost MTX prescriptions)
 tab csdmard_time if ra_code==1, missing
 tab csdmard_time if psa_code==1, missing
+tab csdmard_time if anksp_code==1, missing
 tab csdmard_time if undiff_code==1, missing
 
 /*
 **csDMARD time categories for RA and PsA patients (including high cost MTX prescriptions)
 tab csdmard_hcd_time if ra_code==1, missing 
-tab csdmard_hcd_time if psa_code==1, missing 
+tab csdmard_hcd_time if psa_code==1, missing
+tab csdmard_hcd_time if anksp_code==1, missing  
 tab csdmard_hcd_time if undiff_code==1, missing
 */
 
@@ -454,6 +471,7 @@ tab first_csDMARD
 bys appt_year: tab first_csDMARD //did choice of first drug vary by year
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
+tab first_csDMARD if anksp_code==1 //for axSpA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
 **What was first csDMARD (including high cost MTX prescriptions)
@@ -553,7 +571,7 @@ tab lef, missing //all prescriptions (for comparison)
 tab lef_shared, missing //issued more than once (shared care)
 tab lef_issue, missing //issed none vs. once vs. more than once
 
-*Drug prescription table, for those with at least 12m registration
+*Drug prescription table, for those with at least 12m registration - excluding axSpA (low counts)
 table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///

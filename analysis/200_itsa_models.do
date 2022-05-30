@@ -39,7 +39,8 @@ set scheme plotplainblind
 
 /*ITSA models for appt and referral times===========================================================================*/
 
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021)
+*Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
+keep if has_12m_post_appt==1
 
 /*
 **Time from last GP appt to rheum referral (all diagnoses)
@@ -53,8 +54,8 @@ collapse (mean) mean_ref_delay=gp_ref_3d, by(mo_year_appt)
 
 tsset mo_year_appt
 
-**Newey Standard Errors with 3 lags
-itsa mean_ref_delay if inrange(mo_year_appt, tm(2019m4), tm(2022m4)), single trperiod(2020m3) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion of patients referred within 3 days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 5 lags
+itsa mean_ref_delay if inrange(mo_year_appt, tm(2019m4), tm(2022m4)), single trperiod(2020m3) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion of patients referred within 3 days", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_referral_delay_newey.svg", as(svg) replace
 actest, lag(18)	
 
@@ -75,8 +76,8 @@ collapse (mean) mean_ref_appt_delay=ref_appt_3w, by(mo_year_appt)
 
 tsset mo_year_appt
 
-**Newey Standard Errors with 3 lags
-itsa mean_ref_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of referral", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 5 lags
+itsa mean_ref_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of referral", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey.svg", as(svg) replace
 actest, lag(18)	
 
@@ -87,8 +88,8 @@ restore
 
 /*
 **Time from rheum referral to rheum appt (all diagnoses) with second cut point corresponding to Jan 2021 lockdown
-**Newey Standard Errors with 3 lags
-itsa mean_ref_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2022m4)), single trperiod(2020m3; 2021m1) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion of patients seen within 3 weeks of referral", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 5 lags
+itsa mean_ref_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2022m4)), single trperiod(2020m3; 2021m1) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion of patients seen within 3 weeks of referral", size(medsmall) margin(small)) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_diagnostic_delay_newey_2cuts.svg", as(svg) replace
 actest, lag(18)	
 
@@ -110,13 +111,13 @@ collapse (mean) mean_gp_appt_delay=gp_appt_3w, by(mo_year_appt)
 
 tsset mo_year_appt
 
-**Newey Standard Errors with 3 lags
-itsa mean_gp_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of last GP appointment", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 5 lags
+itsa mean_gp_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of referral", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GP_newey.svg", as(svg) replace
 actest, lag(18)	
 
 **Prais-Winsten	
-itsa mean_gp_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of last GP appointment", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+itsa mean_gp_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion assessed within 3 weeks of referral", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_diagnostic_delay_GP_prais.svg", as(svg) replace	
 restore
 

@@ -39,35 +39,35 @@ set scheme plotplainblind
 
 /*ITSA models for csDMARD prescriptions===========================================================================*/
 
-*All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt
-keep if has_12m_post_appt==1 & rheum_appt_date<td(01apr2021)
+*All patients must have 1) rheum appt and GP appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt
+keep if has_12m_post_appt==1
 
 **Time from rheum appt to first csDMARD in GP record for RA, PsA and Undiff IA patients combined (not high-cost drugs) 
 preserve
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 tab mo_year_appt csdmard_6m if mo_year_appt!=., row  //proportion of patients with csDMARD prescription in GP record within 6 months of diagnosis
 eststo X: estpost tabstat csdmard_6m, stat(n mean) by(mo_year_appt_s)
-esttab X using "$projectdir/output/tables/appt_to_csdmard_ITSA_table.csv", cells("count mean") collabels("Count" "Mean attaintment") replace plain nomtitle noobs
+esttab X using "$projectdir/output/tables/appt_to_csdmard_ITSA_table.csv", cells("count mean") collabels("Count" "Mean attainment") replace plain nomtitle noobs
 collapse (mean) mean_csdmard_delay=csdmard_6m, by(mo_year_appt)
 
 tsset mo_year_appt
 
-**Newey Standard Errors with 3 lags
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+**Newey Standard Errors with 5 lags
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in primary care within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey.svg", as(svg) replace
 actest, lag(18)	
 
 **Prais-Winsten	
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(small)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(small)) ytitle("Proportion with csDMARD in primary care within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais.svg", as(svg) replace	
 	
 **Newey Standard Errors with 3 lags - sensitivity with second cut point
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) lag(3) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) lag(5) replace figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in primary care within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_newey_sensitivity.svg", as(svg) replace
 actest, lag(18)	
 
 **Prais-Winsten	- sensitivity with second cut point
-itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in GP record within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
+itsa mean_csdmard_delay if inrange(mo_year_appt, tm(2019m4), tm(2021m4)), single trperiod(2020m3; 2020m5) replace prais rhotype(tscorr) vce(robust) figure(title("", size(small)) subtitle("", size(medsmall)) ytitle("Proportion with csDMARD in primary care within 6 months", size(small) margin(small)) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021", nogrid) note("", size(v.small)) legend(off)) posttrend 
 	graph export "$projectdir/output/figures/ITSA_csDMARD_delay_prais_sensitivity.svg", as(svg) replace	
 restore
 
@@ -75,7 +75,6 @@ restore
 **Time from rheum appt to biologic for all EIA patients (data available to 2020-11-27) - for patients who have at least 12 months of follow-up post-diagnosis
 
 *All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m of registration after appt
-keep if has_12m_post_appt==1
 
 preserve
 keep if time_to_biologic!=. //drop those with no rheum appt and/or biologic prescription; must have a minimum of 12m follow-up after diagnosis
