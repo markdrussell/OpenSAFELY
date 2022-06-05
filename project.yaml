@@ -61,7 +61,7 @@ actions:
         doc12: output/tables/drug_byyearandregion.csv
         doc13: output/tables/diag_count_bymonth.csv
         doc14: output/tables/appt_count_bymonth.csv
-        figure1: output/figures/incidence_twoway.svg
+        figure1: output/figures/incidence_twoway_rounded.svg
         figure2: output/figures/incidence_twoway_appt.svg
   
   run_itsa_models:
