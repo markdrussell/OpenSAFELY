@@ -472,10 +472,10 @@ save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_6m {
 	preserve
-	keep if ra_code==1 | psa_code==1 | undiff_code==1
 	collapse (count) "`var'_count"=`var' (mean) mean=`var', by(mo_year_appt_s)
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
@@ -501,7 +501,6 @@ foreach var of varlist csdmard_6m {
 	save "$projectdir/output/data/ITSA_tables_rounded.dta", replace
 	restore
 	preserve
-	keep if ra_code==1 | psa_code==1 | undiff_code==1
 	collapse (count) "`var'_count"=`var' (mean) mean=`var'
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
@@ -538,6 +537,7 @@ save "$projectdir/output/data/drug_byyearanddisease_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
 	preserve
@@ -577,6 +577,7 @@ export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", repl
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 local index=0
 levelsof eia_diag, local(levels)
@@ -608,6 +609,7 @@ foreach i of local levels {
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
 	preserve
@@ -652,6 +654,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist first_csDMARD {
 	preserve
@@ -689,6 +692,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -724,6 +728,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -771,10 +776,10 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_20 csdmard_time_19 csdmard_time {
 	preserve
-	keep if ra_code==1 | psa_code==1 | undiff_code==1
 	contract `var'
 	local v : variable label `var' 
 	gen variable = `"`v'"'
@@ -821,6 +826,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 local index=0
 levelsof region_nospace, local(levels)
@@ -864,10 +870,10 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
+keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_20 csdmard_time_19 csdmard_time {
 	preserve
-	keep if ra_code==1 | psa_code==1 | undiff_code==1
 	keep if region_nospace=="`i'"
 	contract `var'
 	local v : variable label `var' 
