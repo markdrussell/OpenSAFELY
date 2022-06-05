@@ -16,11 +16,13 @@ USER-INSTALLED ADO:
 
 **Set filepaths
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-global projectdir `c(pwd)'
+global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir `c(pwd)'
 di "$projectdir"
 
-capture mkdir "$projectdir/output/figures"
+capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/tables"
+capture mkdir "$projectdir/output/figures"
 
 global logdir "$projectdir/logs"
 di "$logdir"
@@ -47,7 +49,7 @@ preserve
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 tab mo_year_appt csdmard_6m if mo_year_appt!=., row  //proportion of patients with csDMARD prescription in GP record within 6 months of diagnosis
 eststo X: estpost tabstat csdmard_6m, stat(n mean) by(mo_year_appt_s)
-esttab X using "$projectdir/output/tables/appt_to_csdmard_ITSA_table.csv", cells("count mean") collabels("Count" "Mean attainment") replace plain nomtitle noobs
+esttab X using "$projectdir/output/tables/appt_to_csdmard_ITSA_table.csv", cells("count Mean") collabels("Count" "Mean attainment") replace plain nomtitle noobs
 collapse (mean) mean_csdmard_delay=csdmard_6m, by(mo_year_appt)
 
 tsset mo_year_appt

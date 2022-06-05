@@ -16,11 +16,13 @@ USER-INSTALLED ADO:
 
 **Set filepaths
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-global projectdir `c(pwd)'
+global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir `c(pwd)'
 di "$projectdir"
 
-capture mkdir "$projectdir/output/figures"
+capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/tables"
+capture mkdir "$projectdir/output/figures"
 
 global logdir "$projectdir/logs"
 di "$logdir"
@@ -101,13 +103,15 @@ itsa mean_ref_appt_delay if inrange(mo_year_appt, tm(2019m4), tm(2022m4)), singl
 **Time from last GP (pre-rheum appt) to rheum appt (all diagnoses)
 preserve
 recode gp_appt_3w 2=0
-lab var gp_appt_3w "Rheumatology appointment within 3 weeks of last GP appointment"
+lab var gp_appt_3w "Rheumatology assessment within 3 weeks of referral"
 lab def gp_appt_3w 0 "No" 1 "Yes", modify
 lab val gp_appt_3w gp_appt_3w
 tab mo_year_appt gp_appt_3w, row  //proportion of patients with rheum appointment within 3 weeks of last GP appointment
 eststo X: estpost tabstat gp_appt_3w, stat(n mean) by(mo_year_appt_s)
-esttab X using "$projectdir/output/tables/gp_to_appt_ITSA_table.csv", cells("count mean") collabels("Count" "Mean attainment") replace plain nomtitle noobs
+esttab X using "$projectdir/output/tables/gp_to_appt_ITSA_table.csv", cells("count Mean") collabels("Count" "Mean attainment") replace plain nomtitle noobs
 collapse (mean) mean_gp_appt_delay=gp_appt_3w, by(mo_year_appt)
+
+**for table with rounded values - see ITSA_tables_rounded
 
 tsset mo_year_appt
 

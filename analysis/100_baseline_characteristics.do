@@ -15,7 +15,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -64,13 +65,16 @@ recode ra_code 0=.
 recode psa_code 0=.
 recode anksp_code 0=.
 recode undiff_code 0=.
-*eststo X: estpost tab mo_year_diagn_s by(eia_diagnosis)
-*esttab X using "$projectdir/output/tables/diag_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
-twoway connected total_diag mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
-	graph export "$projectdir/output/figures/incidence_twoway.svg", replace
+twoway connected total_diag_round mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag_round mo_year_diagn, color(sky) || connected psa_diag_round mo_year_diagn, color(red) || connected axspa_diag_round mo_year_diagn, color(green) || connected undiff_diag_round mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", replace	
 	
 restore	
 
@@ -98,6 +102,8 @@ bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
 tabstat age, stats (n mean sd)
+eststo X: estpost tabstat age, stat(n mean sd) by(eia_diagnosis) 
+esttab X using "$projectdir/output/tables/stats_by_diagnosis.csv", cells("count Mean(fmt(1)) SD(fmt(1))") collabels("Count" "Mean" "SD") replace plain nomtitle noobs
 bys eia_diagnosis: tabstat age, stats (n mean sd)
 tab agegroup, missing
 tab male, missing
@@ -176,9 +182,9 @@ tab rheum_appt2, missing //proportion of patients with a rheum outpatient date i
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check if above criteria are picking up the same appt
-tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) //using 12 months pre-EIA code
-tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) //using 6 months pre-EIA code
-tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) //using 2 years pre-EIA code
+tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code
+tabstat time_rheum2_eia_code, stats (n p50 p25 p75) //using 6 months pre-EIA code
+tabstat time_rheum3_eia_code, stats (n p50 p25 p75) //using 2 years pre-EIA code
 
 **By region
 bys nuts_region: tab rheum_appt if nuts_region!=. //check proportion by region
@@ -197,9 +203,11 @@ tab last_gp_precode //last GP appointment before EIA code
 
 **Number with rheumatology appt and >12 months of follow-up
 tab rheum_appt if rheum_appt_date<td(01apr2021), missing
+tab rheum_appt_to21
 
 **Number with GP appointment prior to rheum appointment and >12 months of follow-up
 tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021), missing 
+tab last_gp_prerheum_to21
 
 **Number with GP appointment prior to rheum appointment and >12 months of follow-up and >12m of continuous registration after appointment
 tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1, missing 
@@ -624,10 +632,10 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 hcq_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 		
+		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 
 		 
 *Drug prescription table, for those with at least 12m registration for all diagnoses, by region and year
-table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if nuts_region!=. & (ra_code==1 | psa_code==1 | undiff_code==1), by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///

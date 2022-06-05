@@ -18,7 +18,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepathsdiabe
-global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
@@ -289,6 +290,14 @@ drop stp_old
 encode region, gen(nuts_region)
 tab region, missing
 replace region="Not known" if region==""
+gen region_nospace=region
+replace region_nospace="EastMidlands" if region=="East Midlands"
+replace region_nospace="EastofEngland" if region=="East of England"
+replace region_nospace="NorthEast" if region=="North East"
+replace region_nospace="NorthWest" if region=="North West"
+replace region_nospace="SouthEast" if region=="South East"
+replace region_nospace="WestMidlands" if region=="West Midlands"
+replace region_nospace="YorkshireandtheHumber" if region=="Yorkshire and the Humber"
 
 ***IMD
 *Reverse the order (so high is more deprived)
@@ -469,7 +478,7 @@ gen ckd = 0
 replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
 replace ckd = 1 if esrf == 1
 
-label define ckd 0 "No CKD" 1 "CKD"
+label define ckd 0 "No" 1 "Yes"
 label values ckd ckd
 label var ckd "Chronic kidney disease"
 tab ckd, missing
@@ -550,6 +559,8 @@ lab var diabcatm "Diabetes"
 gen cancer =0
 replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
 lab var cancer "Cancer"
+lab define cancer 0 "No" 1 "Yes", modify
+lab val cancer cancer
 tab cancer, missing
 
 *Create other comorbid variables
@@ -558,13 +569,32 @@ recode combined_cv_comorbid .=0
 
 *Label variables
 lab var hypertension "Hypertension"
+lab define hypertension 0 "No" 1 "Yes", modify
+lab val hypertension hypertension
 lab var diabetes "Diabetes"
+lab define diabetes 0 "No" 1 "Yes", modify
+lab val diabetes diabetes
 lab var stroke "Stroke"
+lab define stroke 0 "No" 1 "Yes", modify
+lab val stroke stroke
 lab var chronic_resp_disease "Chronic respiratory disease"
+lab define chronic_resp_disease 0 "No" 1 "Yes", modify
+lab val chronic_resp_disease chronic_resp_disease
 lab var copd "COPD"
+lab define copd 0 "No" 1 "Yes", modify
+lab val copd copd
 lab var esrf "End-stage renal failure"
+lab define esrf 0 "No" 1 "Yes", modify
+lab val esrf esrf
 lab var chronic_liver_disease "Chronic liver disease"
+lab define chronic_liver_disease 0 "No" 1 "Yes", modify
+lab val chronic_liver_disease chronic_liver_disease
 lab var chronic_cardiac_disease "Chronic cardiac disease"
+lab define chronic_cardiac_disease 0 "No" 1 "Yes", modify
+lab val chronic_cardiac_disease chronic_cardiac_disease
+lab var rheum_appt "Rheumatology appointment"
+lab define rheum_appt 0 "No" 1 "Yes", modify
+lab val rheum_appt rheum_appt
 
 *Ensure everyone has EIA code=============================================================*/
 
@@ -666,6 +696,9 @@ lab val eia_diagnosis eia_diagnosis
 tab eia_diagnosis, missing
 drop if eia_diagnosis==. //should be none
 
+decode eia_diagnosis, gen(eia_diag)
+replace eia_diag="Undiff_IA" if eia_diagnosis==4
+
 *Number of EIA diagnoses in 6-month time windows=========================================*/
 
 **Month/Year of EIA code
@@ -745,11 +778,21 @@ gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01oct2021) & h
 recode has_6m_post_appt .=0
 gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1 & last_gp_prerheum!=.
 recode has_12m_post_appt .=0
+lab var has_12m_post_appt "GP/rheum/registration < Apr 21"
+lab define has_12m_post_appt 0 "No" 1 "Yes", modify
+lab val has_12m_post_appt has_12m_post_appt
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
+
+*Gen rheum appt var only for those with 12m follow-up
+gen rheum_appt_to21=rheum_appt if rheum_appt_date<td(01apr2021) 
+recode rheum_appt_to21 .=0
+lab var rheum_appt_to21 "Rheumatology appt < Apr 21 "
+lab define rheum_appt_to21 0 "No" 1 "Yes", modify
+lab val rheum_appt_to21 rheum_appt_to21
 
 **Check number of rheumatology appts in the year before EIA code
 tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
@@ -766,6 +809,11 @@ format %td referral_rheum_comb_date
 
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in 2 years before rheum referral (pre-rheum appt); requires there to have been a rheum referral, before a rheum appt
+gen last_gp_prerheum_to21=last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021)
+recode last_gp_prerheum_to21 .=0
+lab var last_gp_prerheum_to21 "GP and rheum appt < Apr 21"
+lab define last_gp_prerheum_to21 0 "No" 1 "Yes", modify
+lab val last_gp_prerheum_to21 last_gp_prerheum_to21
 gen all_appts=1 if last_gp_refrheum==1 & referral_rheum_prerheum==1 & rheum_appt==1 & last_gp_refrheum_date<=referral_rheum_prerheum_date & referral_rheum_prerheum_date<=rheum_appt_date
 recode all_appts .=0
 tab all_appts, missing //KEY - proportion who had a last gp appt, then rheum ref, then rheum appt
@@ -918,7 +966,7 @@ replace csdmard_time=3 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_c
 replace csdmard_time=4 if time_to_csdmard>365 | time_to_csdmard==.
 lab define csdmard_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
 lab val csdmard_time csdmard_time
-lab var csdmard_time "csDMARD in primary care" 
+lab var csdmard_time "csDMARD in primary care, overall" 
 tab csdmard_time if ra_code==1, missing 
 tab csdmard_time if psa_code==1, missing
 tab csdmard_time if anksp_code==1, missing
