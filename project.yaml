@@ -61,7 +61,7 @@ actions:
         doc12: output/tables/drug_byyearandregion.csv
         doc13: output/tables/diag_count_bymonth.csv
         doc14: output/tables/appt_count_bymonth.csv
-        figure1: output/figures/incidence_twoway.svg
+        figure1: output/figures/incidence_twoway_rounded.svg
         figure2: output/figures/incidence_twoway_appt.svg
   
   run_itsa_models:
@@ -107,3 +107,27 @@ actions:
         figure 11: output/figures/regional_csdmard_bar_2019.svg     
         figure 12: output/figures/regional_csdmard_bar_2020.svg  
  
+  run_redacted_tables:
+    run: stata-mp:latest analysis/400_redacted_tables.do
+    needs: [create_cohorts]
+    outputs:
+      moderately_sensitive:
+        log1: logs/redacted_tables.log   
+        doc1: output/tables/table_1_rounded_bydiag.csv   
+        doc2: output/tables/table_mean_bydiag_rounded.csv 
+        doc3: output/tables/table_median_bydiag_rounded.csv   
+        doc4: output/tables/table_median_bydiag_rounded_to21.csv   
+        doc5: output/tables/ITSA_tables_appt_delay_rounded.csv   
+        doc6: output/tables/ITSA_tables_csdmard_delay_rounded.csv 
+        doc7: output/tables/drug_byyearanddisease_rounded.csv 
+        doc8: output/tables/first_csdmard_rounded.csv   
+        doc9: output/tables/drug_byyearandregion_rounded.csv
+        doc10: output/tables/referral_byregion_rounded.csv
+
+  run_redacted_tables_allpts:
+    run: stata-mp:latest analysis/401_redacted_tables_allpts.do
+    needs: [create_cohorts_allpts]
+    outputs:
+      moderately_sensitive:
+        log1: logs/redacted_tables_allpts.log   
+        doc1: output/tables/table_1_rounded_allpts.csv        

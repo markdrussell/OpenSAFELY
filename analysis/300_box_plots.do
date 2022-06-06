@@ -16,6 +16,7 @@ USER-INSTALLED ADO:
 
 **Set filepaths
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -39,8 +40,8 @@ set scheme plotplainblind
 
 /*GP referral performance by region, all years===========================================================================*/
 
-**For all the below, only using data for patients with rheumatology appt 
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021)
+***Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
+keep if has_12m_post_appt==1
 
 preserve
 gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
@@ -167,11 +168,11 @@ recode qs2_2 .=0 if time_gp_rheum_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar_GP_overall.svg", replace
 restore
 
-//for output checking tables for boxplot - see output/tables/referral_byregion_nomiss.csv
+//for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
 *Last GP to rheum appt performance by region, Apr 2019 to Apr 2020==========================================================================*/
 
@@ -187,11 +188,11 @@ recode qs2_2 .=0 if time_gp_rheum_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar_GP_2019.svg", replace
 restore
 
-//for output checking tables for boxplot - see output/tables/referral_byregion_nomiss.csv
+//for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
 *Last GP to rheum appt performance by region, Apr 2020 to Apr 2021==========================================================================*/
 
@@ -207,16 +208,16 @@ recode qs2_2 .=0 if time_gp_rheum_appt!=.
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from last GP appointment to rheumatology assessment") name(regional_qs2_bar_GP, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace)
 graph export "$projectdir/output/figures/regional_qs2_bar_GP_2020.svg", replace
 restore
 
-//for output checking tables for boxplot - see output/tables/referral_byregion_nomiss.csv
+//for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
 *csDMARD shared care performance by region prescriptions, all years==========================================================================*/
 
-*All patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt 
-keep if has_12m_post_appt==1 & rheum_appt_date<td(01apr2021)
+*As above, all patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt 
+
 **For RA, PsA and Undiff IA patients combined (not including AxSpA)
 keep if (ra_code==1 | psa_code==1 | undiff_code==1)
 
@@ -233,10 +234,11 @@ recode csdmard_3 .=0
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in GP record") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
+
 graph export "$projectdir/output/figures/regional_csdmard_bar_overall.svg", replace
 
-//for output checking table for boxplot - see output/tables/drug_byyearandregion.csv
+//for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
 restore
 
@@ -256,11 +258,11 @@ recode csdmard_3 .=0
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in GP record") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_2019.svg", replace
 restore
 
-//for output checking table for boxplot - see output/tables/drug_byyearandregion.csv
+//for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
 *csDMARD shared care performance by region prescriptions, Apr 2020 to Apr 2021==========================================================================*/
 
@@ -278,10 +280,10 @@ recode csdmard_3 .=0
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in GP record") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_2020.svg", replace
 restore
 
-//for output checking table for boxplot - see output/tables/drug_byyearandregion.csv
+//for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
 log close

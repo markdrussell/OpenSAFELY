@@ -18,13 +18,14 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:/Users/k1754142/OneDrive/PhD Project/OpenSAFELY/Github Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
 capture mkdir "$projectdir/output/data"
-capture mkdir "$projectdir/output/figures"
 capture mkdir "$projectdir/output/tables"
+capture mkdir "$projectdir/output/figures"
 
 global logdir "$projectdir/logs"
 di "$logdir"
@@ -347,7 +348,7 @@ gen ckd = 0
 replace ckd = 1 if ckd_egfr != . & ckd_egfr >= 1
 replace ckd = 1 if esrf == 1
 
-label define ckd 0 "No CKD" 1 "CKD"
+label define ckd 0 "No" 1 "Yes"
 label values ckd ckd
 label var ckd "Chronic kidney disease"
 
@@ -425,6 +426,8 @@ lab var diabcatm "Diabetes"
 gen cancer =0
 replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
 lab var cancer "Cancer"
+lab define cancer 0 "No" 1 "Yes", modify
+lab val cancer cancer
 
 *Create other comorbid variables
 gen combined_cv_comorbid =1 if chronic_cardiac_disease ==1 | stroke==1
@@ -435,13 +438,29 @@ drop hba1c_pct hba1c_percentage hba1c_mmol_per_mol
 
 *Label variables
 lab var hypertension "Hypertension"
+lab define hypertension 0 "No" 1 "Yes", modify
+lab val hypertension hypertension
 lab var diabetes "Diabetes"
+lab define diabetes 0 "No" 1 "Yes", modify
+lab val diabetes diabetes
 lab var stroke "Stroke"
+lab define stroke 0 "No" 1 "Yes", modify
+lab val stroke stroke
 lab var chronic_resp_disease "Chronic respiratory disease"
+lab define chronic_resp_disease 0 "No" 1 "Yes", modify
+lab val chronic_resp_disease chronic_resp_disease
 lab var copd "COPD"
+lab define copd 0 "No" 1 "Yes", modify
+lab val copd copd
 lab var esrf "End-stage renal failure"
+lab define esrf 0 "No" 1 "Yes", modify
+lab val esrf esrf
 lab var chronic_liver_disease "Chronic liver disease"
+lab define chronic_liver_disease 0 "No" 1 "Yes", modify
+lab val chronic_liver_disease chronic_liver_disease
 lab var chronic_cardiac_disease "Chronic cardiac disease"
+lab define chronic_cardiac_disease 0 "No" 1 "Yes", modify
+lab val chronic_cardiac_disease chronic_cardiac_disease
 
 save "$projectdir/output/data/file_eia_allpts", replace	
 

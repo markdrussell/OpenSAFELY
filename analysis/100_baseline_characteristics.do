@@ -16,6 +16,7 @@ USER-INSTALLED ADO:
 
 **Set filepaths
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -64,13 +65,16 @@ recode ra_code 0=.
 recode psa_code 0=.
 recode anksp_code 0=.
 recode undiff_code 0=.
-*eststo X: estpost tab mo_year_diagn_s by(eia_diagnosis)
-*esttab X using "$projectdir/output/tables/diag_count_bymonth.csv", cells("b pct cumpct") collabels("Count" "Percentage" "Cumulative Percentage") replace plain nomtitle noobs
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
-twoway connected total_diag mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_diagn, color(sky) || connected psa_diag mo_year_diagn, color(red) || connected axspa_diag mo_year_diagn, color(green) || connected undiff_diag mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway.gph", replace)
-	graph export "$projectdir/output/figures/incidence_twoway.svg", replace
+twoway connected total_diag_round mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag_round mo_year_diagn, color(sky) || connected psa_diag_round mo_year_diagn, color(red) || connected axspa_diag_round mo_year_diagn, color(green) || connected undiff_diag_round mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", replace	
 	
 restore	
 
@@ -98,6 +102,8 @@ bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
 tabstat age, stats (n mean sd)
+eststo X: estpost tabstat age, stat(n mean sd) by(eia_diagnosis) 
+esttab X using "$projectdir/output/tables/stats_by_diagnosis.csv", cells("count Mean(fmt(1)) SD(fmt(1))") collabels("Count" "Mean" "SD") replace plain nomtitle noobs
 bys eia_diagnosis: tabstat age, stats (n mean sd)
 tab agegroup, missing
 tab male, missing
@@ -176,9 +182,9 @@ tab rheum_appt2, missing //proportion of patients with a rheum outpatient date i
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check if above criteria are picking up the same appt
-tabstat time_rheum_eia_code, stats (n mean p50 p25 p75) //using 12 months pre-EIA code
-tabstat time_rheum2_eia_code, stats (n mean p50 p25 p75) //using 6 months pre-EIA code
-tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75) //using 2 years pre-EIA code
+tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code
+tabstat time_rheum2_eia_code, stats (n p50 p25 p75) //using 6 months pre-EIA code
+tabstat time_rheum3_eia_code, stats (n p50 p25 p75) //using 2 years pre-EIA code
 
 **By region
 bys nuts_region: tab rheum_appt if nuts_region!=. //check proportion by region
@@ -195,6 +201,20 @@ tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code re
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
 
+**Number with rheumatology appt and >12 months of follow-up
+tab rheum_appt if rheum_appt_date<td(01apr2021), missing
+tab rheum_appt_to21
+
+**Number with GP appointment prior to rheum appointment and >12 months of follow-up
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021), missing 
+tab last_gp_prerheum_to21
+
+**Number with GP appointment prior to rheum appointment and >12 months of follow-up and >12m of continuous registration after appointment
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1, missing 
+
+**As above
+tab has_12m_post_appt, missing
+
 **Check number of rheumatology appts in the year before EIA code
 tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
@@ -202,8 +222,8 @@ bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25
 
 *Time to referral=============================================*/
 
-*Restrict all analyses below to patients with rheum appt
-keep if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) //note code + 60 day upper limit in study definition
+*Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
+keep if has_12m_post_appt==1
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
@@ -368,9 +388,7 @@ table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(
 
 *Referral standards, by region
 table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
-	vars(gp_ref_cat cat %3.1f \ ///
-		 ref_appt_cat cat %3.1f \ ///
-		 gp_appt_cat cat %3.1f \ ///
+	vars(gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
@@ -386,8 +404,7 @@ table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmid
 
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
-*All patients must have 1) rheum appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
-keep if has_12m_post_appt==1 & rheum_appt_date<td(01apr2021)
+*As above, all patients must have 1) rheum appt and GP appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
@@ -431,6 +448,12 @@ bys appt_6m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p
 bys nuts_region: tabstat time_to_csdmard_hcd if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 */
 
+**Time to first csDMARD script for axSpA patients (not including high cost MTX prescriptions)
+tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75)
+bys appt_6m: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys nuts_region: tabstat time_to_csdmard if anksp_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
+
 **Time to first csDMARD script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
 bys appt_6m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
@@ -440,12 +463,14 @@ bys nuts_region: tabstat time_to_csdmard if undiff_code==1 & nuts_region!=., sta
 **csDMARD time categories for RA and PsA patients (not including high cost MTX prescriptions)
 tab csdmard_time if ra_code==1, missing
 tab csdmard_time if psa_code==1, missing
+tab csdmard_time if anksp_code==1, missing
 tab csdmard_time if undiff_code==1, missing
 
 /*
 **csDMARD time categories for RA and PsA patients (including high cost MTX prescriptions)
 tab csdmard_hcd_time if ra_code==1, missing 
-tab csdmard_hcd_time if psa_code==1, missing 
+tab csdmard_hcd_time if psa_code==1, missing
+tab csdmard_hcd_time if anksp_code==1, missing  
 tab csdmard_hcd_time if undiff_code==1, missing
 */
 
@@ -454,6 +479,7 @@ tab first_csDMARD
 bys appt_year: tab first_csDMARD //did choice of first drug vary by year
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
+tab first_csDMARD if anksp_code==1 //for axSpA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
 **What was first csDMARD (including high cost MTX prescriptions)
@@ -553,7 +579,7 @@ tab lef, missing //all prescriptions (for comparison)
 tab lef_shared, missing //issued more than once (shared care)
 tab lef_issue, missing //issed none vs. once vs. more than once
 
-*Drug prescription table, for those with at least 12m registration
+*Drug prescription table, for those with at least 12m registration - excluding axSpA (low counts)
 table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -606,10 +632,10 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 hcq_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 		
+		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 
 		 
 *Drug prescription table, for those with at least 12m registration for all diagnoses, by region and year
-table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
+table1_mc if nuts_region!=. & (ra_code==1 | psa_code==1 | undiff_code==1), by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
