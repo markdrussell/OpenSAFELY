@@ -57,25 +57,14 @@ foreach var of varlist ckd chronic_liver_disease chronic_resp_disease cancer str
     decode `var', gen(categories)
 	gen count = round(_freq, 5)
 	egen total = total(count)
-	gen percent = round((count/total)*100, 0.1)
+	egen non_missing=sum(count) if categories!="Not Known"
+	drop if categories=="Not Known"
+	gen percent = round((count/non_missing)*100, 0.1)
+	gen missing=(total-non_missing)
 	order total, after(percent)
-	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
-	order countstr, after(count)
-	drop count
-	rename countstr count
-	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
-	order percentstr, after(percent)
-	drop percent
-	rename percentstr percent
-	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
-	order totalstr, after(total)
-	drop total
-	rename totalstr total
-	list variable categories count percent total
-	keep variable categories count percent total
+	order missing, after(total)
+	list variable categories count percent total missing
+	keep variable categories count percent total missing
 	append using "$projectdir/output/data/table_1_rounded_allpts.dta"
 	save "$projectdir/output/data/table_1_rounded_allpts.dta", replace
 	restore
