@@ -57,8 +57,12 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
     decode `var', gen(categories)
 	gen count = round(_freq, 5)
 	egen total = total(count)
-	gen percent = round((count/total)*100, 0.1)
+	egen non_missing=sum(count) if categories!="Not known"
+	drop if categories=="Not known"
+	gen percent = round((count/non_missing)*100, 0.1)
+	gen missing=(total-non_missing)
 	order total, after(percent)
+	order missing, after(total)
 	gen countstr = string(count)
 	replace countstr = "<6" if count<=5
 	order countstr, after(count)
@@ -74,8 +78,13 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
-	list variable categories count percent total
-	keep variable categories count percent total
+	gen missingstr = string(missing)
+	replace missingstr = "-" if count =="<6"
+	order missingstr, after(missing)
+	drop missing
+	rename missingstr missing
+	list variable categories count percent total missing
+	keep variable categories count percent total missing
 	append using "$projectdir/output/data/table_1_rounded_all.dta"
 	save "$projectdir/output/data/table_1_rounded_all.dta", replace
 	restore
@@ -105,9 +114,11 @@ foreach i of local levels {
 		local `index++'
 		local `index++'
 		local `index++'
+		local `index++'
 	}
 	else {
 	    local `index++'
+		local `index++'
 		local `index++'
 		local `index++'
 	}
@@ -124,8 +135,12 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
     decode `var', gen(categories)
 	gen count = round(_freq, 5)
 	egen total = total(count)
-	gen percent = round((count/total)*100, 0.1)
+	egen non_missing=sum(count) if categories!="Not known"
+	drop if categories=="Not known"
+	gen percent = round((count/non_missing)*100, 0.1)
+	gen missing=(total-non_missing)
 	order total, after(percent)
+	order missing, after(total)
 	gen countstr = string(count)
 	replace countstr = "<6" if count<=5
 	order countstr, after(count)
@@ -141,8 +156,13 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
-	list count percent total
-	keep count percent total
+	gen missingstr = string(missing)
+	replace missingstr = "-" if count =="<6"
+	order missingstr, after(missing)
+	drop missing
+	rename missingstr missing_`i'
+	list count percent total missing
+	keep count percent total missing
 	append using "$projectdir/output/data/table_1_rounded_`i'.dta"
 	save "$projectdir/output/data/table_1_rounded_`i'.dta", replace
 	restore
@@ -1076,7 +1096,7 @@ import excel "$projectdir/output/tables/table_median_bydiag_rounded.xls", clear
 export delimited using "$projectdir/output/tables/table_median_bydiag_rounded.csv" , novarnames  replace		
 
 import excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", clear
-export delimited using "$projectdir/output/tables/table_median_bydiag_rounded_to21.csv" , novarnames  replace		
+export delimited using "$projectdir/output/tables/table_median_bydiag_rounded_to21.csv" , novarnames  replace	
 
 import excel "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.xls", clear
 export delimited using "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.csv" , novarnames  replace		
