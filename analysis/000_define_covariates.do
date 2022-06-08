@@ -18,9 +18,9 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepathsdiabe
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-global projectdir `c(pwd)'
+global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
 capture mkdir "$projectdir/output/figures"
@@ -291,13 +291,15 @@ encode region, gen(nuts_region)
 tab region, missing
 replace region="Not known" if region==""
 gen region_nospace=region
+replace region_nospace="SouthWest" if region=="South West"
 replace region_nospace="EastMidlands" if region=="East Midlands"
-replace region_nospace="EastofEngland" if region=="East of England"
+replace region_nospace="East" if region=="East"
+replace region_nospace="London" if region=="London"
 replace region_nospace="NorthEast" if region=="North East"
 replace region_nospace="NorthWest" if region=="North West"
 replace region_nospace="SouthEast" if region=="South East"
 replace region_nospace="WestMidlands" if region=="West Midlands"
-replace region_nospace="YorkshireandtheHumber" if region=="Yorkshire and the Humber"
+replace region_nospace="YorkshireandTheHumber" if region=="Yorkshire and The Humber"
 
 ***IMD
 *Reverse the order (so high is more deprived)
@@ -774,9 +776,9 @@ tab mo_year_diagn has_6m_follow_up
 tab mo_year_diagn has_12m_follow_up
 
 *For appt and csDMARD analyses, all patients must have 1) rheum appt 2) GP appt before rheum appt 3) 12m follow-up after rheum appt 4) 12m of registration after appt
-gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01oct2021) & has_6m_follow_up==1 & last_gp_prerheum!=.
+gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01oct2021) & has_6m_follow_up==1 & last_gp_prerheum==1
 recode has_6m_post_appt .=0
-gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1 & last_gp_prerheum!=.
+gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1 & last_gp_prerheum==1
 recode has_12m_post_appt .=0
 lab var has_12m_post_appt "GP/rheum/registration < Apr 21"
 lab define has_12m_post_appt 0 "No" 1 "Yes", modify
