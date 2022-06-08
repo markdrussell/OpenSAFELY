@@ -868,6 +868,9 @@ foreach i of local levels {
 	}	
 	else if `index'==30 {
 	    local col = "AI"	
+	}	
+	else if `index'==34 {
+	    local col = "AM"
 	}
 	di "`col'"
 	if `index'==0 {
@@ -1016,6 +1019,9 @@ foreach i of local levels {
 	}	
 	else if `index'==30 {
 	    local col = "AI"	
+	}	
+	else if `index'==34 {
+	    local col = "AM"
 	}
 	di "`col'"
 	if `index'==0 {
