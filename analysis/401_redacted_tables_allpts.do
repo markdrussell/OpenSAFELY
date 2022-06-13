@@ -55,12 +55,19 @@ foreach var of varlist ckd chronic_liver_disease chronic_resp_disease cancer str
 	local v : variable label `var' 
 	gen variable = `"`v'"'
     decode `var', gen(categories)
-	gen count = round(_freq, 5)
-	egen total = total(count)
-	egen non_missing=sum(count) if categories!="Not Known"
+	egen total_un = total(_freq)
+	egen non_missing_un=sum(_freq) if categories!="Not Known"
+	gen missing_un=(total_un-non_missing_un)
 	drop if categories=="Not Known"
+	gen count = round(_freq, 5)
+	gen total = round(total_un, 5)
+	gen missing = round(missing_un, 5)
+	gen non_missing = round(non_missing_un, 5)
 	gen percent = round((count/non_missing)*100, 0.1)
-	gen missing=(total-non_missing)
+	order variable, first
+	order categories, after(variable)
+	order count, after(categories)
+	order percent, after(count)
 	order total, after(percent)
 	order missing, after(total)
 	list variable categories count percent total missing
