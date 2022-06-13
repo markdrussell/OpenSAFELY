@@ -446,6 +446,7 @@ lab val diabetes diabetes
 lab var stroke "Stroke"
 lab define stroke 0 "No" 1 "Yes", modify
 lab val stroke stroke
+recode chronic_resp_disease .=0
 lab var chronic_resp_disease "Chronic respiratory disease"
 lab define chronic_resp_disease 0 "No" 1 "Yes", modify
 lab val chronic_resp_disease chronic_resp_disease
@@ -455,6 +456,7 @@ lab val copd copd
 lab var esrf "End-stage renal failure"
 lab define esrf 0 "No" 1 "Yes", modify
 lab val esrf esrf
+recode chronic_liver_disease .=0
 lab var chronic_liver_disease "Chronic liver disease"
 lab define chronic_liver_disease 0 "No" 1 "Yes", modify
 lab val chronic_liver_disease chronic_liver_disease
