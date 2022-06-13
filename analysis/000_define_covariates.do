@@ -975,11 +975,13 @@ tab csdmard_time if anksp_code==1, missing
 tab csdmard_time if undiff_code==1, missing
 
 gen csdmard_time_19=csdmard_time if appt_year==1
+recode csdmard_time_19 .=5
 gen csdmard_time_20=csdmard_time if appt_year==2
-lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+recode csdmard_time_20 .=5
+lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2019", modify
 lab val csdmard_time_19 csdmard_time_19
 lab var csdmard_time_19 "csDMARD in primary care, Apr 2019-2020" 
-lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2020", modify
 lab val csdmard_time_20 csdmard_time_20
 lab var csdmard_time_20 "csDMARD in primary care, Apr 2020-2021" 
 

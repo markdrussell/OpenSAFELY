@@ -253,12 +253,15 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 
 foreach var of varlist time_gp_rheum_appt time_rheum_eia_code {
 	preserve
-	collapse (count) "`var'_count"=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var', by(eia_diagnosis)
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var', by(eia_diagnosis)
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
 	drop varn
 	rename *count freq
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
     decode eia_diagnosis, gen(diagnosis)
 	order count, first
 	order diagnosis, first
@@ -269,12 +272,15 @@ foreach var of varlist time_gp_rheum_appt time_rheum_eia_code {
 	save "$projectdir/output/data/table_median_bydiag_rounded.dta", replace
 	restore
 	preserve
-	collapse (count) "`var'_count"=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var'
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var'
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
 	drop varn
 	rename *count freq
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
 	gen diagnosis = "Total"
 	order count, first
 	order diagnosis, first
@@ -300,12 +306,15 @@ keep if has_12m_post_appt==1
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	preserve
-	collapse (count) "`var'_count"=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var', by(eia_diagnosis)
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var', by(eia_diagnosis)
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
 	drop varn
 	rename *count freq
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
     decode eia_diagnosis, gen(diagnosis)
 	order count, first
 	order diagnosis, first
@@ -316,12 +325,15 @@ foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	save "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", replace
 	restore
 	preserve
-	collapse (count) "`var'_count"=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var'
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var'
 	gen varn = "`var'_count"
 	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
 	drop varn
 	rename *count freq
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
 	gen diagnosis = "Total"
 	order count, first
 	order diagnosis, first
@@ -384,8 +396,12 @@ keep if appt_year==`i'
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	preserve
-	collapse (count) freq=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var', by(eia_diagnosis)
+	collapse (count) freq=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var', by(eia_diagnosis)
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
+	drop p50_un p25_un p75_un
 	rename count count_`i'
 	rename p50 p50_`i'
 	rename p25 p25_`i'
@@ -397,8 +413,12 @@ foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	save "$projectdir/output/data/table_median_bydiag_rounded_to21_`i'.dta", replace
 	restore
 		preserve
-	collapse (count) freq=`var' (p50) p50=`var' (p25) p25=`var' (p75) p75=`var'
+	collapse (count) freq=`var' (p50) p50_un=`var' (p25) p25_un=`var' (p75) p75_un=`var'
 	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	gen p25 = round(p25_un, 1)
+	gen p75 = round(p75_un, 1)
+	drop p50_un p25_un p75_un
 	rename count count_`i'
 	rename p50 p50_`i'
 	rename p25 p25_`i'
@@ -446,12 +466,12 @@ foreach var of varlist gp_appt_3w {
 	replace meanstr = "-" if count =="<6"
 	order meanstr, after(mean)
 	drop mean
-	rename meanstr mean
+	rename meanstr mean_proportion
 	order count, first
 	order mo_year_appt_s, first
 	order variable, first
-	list variable mo_year_appt_s count mean 
-	keep variable mo_year_appt_s count mean 
+	list variable mo_year_appt_s count mean_proportion 
+	keep variable mo_year_appt_s count mean_proportion 
 	append using "$projectdir/output/data/ITSA_tables_rounded.dta"
 	save "$projectdir/output/data/ITSA_tables_rounded.dta", replace
 	restore
@@ -471,13 +491,13 @@ foreach var of varlist gp_appt_3w {
 	replace meanstr = "-" if count =="<6"
 	order meanstr, after(mean)
 	drop mean
-	rename meanstr mean
+	rename meanstr mean_proportion
 	gen mo_year_appt_s = "Overall"
 	order count, first
 	order mo_year_appt_s, first
 	order variable, first
-	list variable mo_year_appt_s count mean 
-	keep variable mo_year_appt_s count mean 
+	list variable mo_year_appt_s count mean_proportion 
+	keep variable mo_year_appt_s count mean_proportion 
 	append using "$projectdir/output/data/ITSA_tables_rounded.dta"
 	save "$projectdir/output/data/ITSA_tables_rounded.dta", replace
 	restore
@@ -511,12 +531,12 @@ foreach var of varlist csdmard_6m {
 	replace meanstr = "-" if count =="<6"
 	order meanstr, after(mean)
 	drop mean
-	rename meanstr mean
+	rename meanstr mean_proportion
 	order count, first
 	order mo_year_appt_s, first
 	order variable, first
-	list variable mo_year_appt_s count mean 
-	keep variable mo_year_appt_s count mean 
+	list variable mo_year_appt_s count mean_proportion 
+	keep variable mo_year_appt_s count mean_proportion 
 	append using "$projectdir/output/data/ITSA_tables_rounded.dta"
 	save "$projectdir/output/data/ITSA_tables_rounded.dta", replace
 	restore
@@ -536,13 +556,13 @@ foreach var of varlist csdmard_6m {
 	replace meanstr = "-" if count =="<6"
 	order meanstr, after(mean)
 	drop mean
-	rename meanstr mean
+	rename meanstr mean_proportion
 	gen mo_year_appt_s = "Overall"
 	order count, first
 	order mo_year_appt_s, first
 	order variable, first
-	list variable mo_year_appt_s count mean 
-	keep variable mo_year_appt_s count mean 
+	list variable mo_year_appt_s count mean_proportion 
+	keep variable mo_year_appt_s count mean_proportion 
 	append using "$projectdir/output/data/ITSA_tables_rounded.dta"
 	save "$projectdir/output/data/ITSA_tables_rounded.dta", replace
 	restore
