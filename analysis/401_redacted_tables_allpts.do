@@ -51,7 +51,7 @@ use "$projectdir/output/data/file_eia_allpts.dta", clear
 
 set type double
 
-foreach var of varlist ckd chronic_liver_disease chronic_r_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
+foreach var of varlist ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
 	contract `var'
 	local v : variable label `var' 
