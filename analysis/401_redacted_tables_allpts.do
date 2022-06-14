@@ -49,7 +49,16 @@ clear *
 save "$projectdir/output/data/table_1_rounded_allpts.dta", replace emptyok
 use "$projectdir/output/data/file_eia_allpts.dta", clear
 
-foreach var of varlist ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
+codebook chronic_resp_disease
+set type double
+codebook chronic_resp_disease
+generate double chronic_r_disease = chronic_resp_disease
+codebook chronic_r_disease
+lab define chronic_r_disease 0 "No" 1 "Yes", modify
+lab val chronic_r_disease chronic_r_disease
+lab var chronic_r_disease "Chronic resp disease"
+
+foreach var of varlist ckd chronic_liver_disease chronic_r_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
 	contract `var'
 	local v : variable label `var' 
