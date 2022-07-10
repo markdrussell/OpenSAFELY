@@ -185,14 +185,34 @@ tab rheum_appt3, missing //proportion of patients with a rheum outpatient date i
 tab rheum_appt1st, missing
 
 **First rheum appt over time
+***First 6 months
 tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing  
 tab rheum_appt1st if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing 
+***Second 6 months
 tab rheum_appt if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing  
-tab rheum_appt1st if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing 
-tab rheum_appt if diagnosis_year==1, missing  
-tab rheum_appt1st if diagnosis_year==2, missing 
-tab rheum_appt if diagnosis_year==1, missing  
-tab rheum_appt1st if diagnosis_year==2, missing 
+tab rheum_appt1st if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing
+***Third 6 months
+tab rheum_appt if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oct2020), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oct2020), missing 
+***Fourth 6 months
+tab rheum_appt if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021), missing  
+tab rheum_appt1st if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021), missing
+***Fifth 6 months
+tab rheum_appt if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021), missing 
+***Sixth 6 months
+tab rheum_appt if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022), missing  
+tab rheum_appt1st if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022), missing
+
+***First year
+tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing 
+**Second year
+tab rheum_appt if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing 
+**Third year
+tab rheum_appt if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing 
 
 **Check if above criteria are picking up the same appt
 tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code
