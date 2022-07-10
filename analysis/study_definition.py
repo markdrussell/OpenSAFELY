@@ -115,8 +115,8 @@ study = StudyDefinition(
     anksp_code_date=first_code_in_period(ankylosing_spondylitis_codes),
     undiff_code_date=first_code_in_period(undifferentiated_arthritis_codes),
 
-    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record
-    rheum_appt_date=patients.outpatient_appointment_date(
+    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (original)
+    rheum_appt1st_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
         with_these_treatment_function_codes = ["410"],
@@ -128,8 +128,8 @@ study = StudyDefinition(
         },
     ),
 
-    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record
-    rheum_appt1st_date=patients.outpatient_appointment_date(
+    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (with first option ticked)
+    rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
         is_first_attendance=True,
