@@ -181,6 +181,19 @@ tab rheum_appt, missing //proportion of patients with a rheum outpatient date in
 tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
+**First rheumatology appt tag
+tab rheum_appt1st, missing
+
+**First rheum appt over time
+tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing  
+tab rheum_appt1st if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing 
+tab rheum_appt if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing  
+tab rheum_appt1st if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing 
+tab rheum_appt if diagnosis_year==1, missing  
+tab rheum_appt1st if diagnosis_year==2, missing 
+tab rheum_appt if diagnosis_year==1, missing  
+tab rheum_appt1st if diagnosis_year==2, missing 
+
 **Check if above criteria are picking up the same appt
 tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code
 tabstat time_rheum2_eia_code, stats (n p50 p25 p75) //using 6 months pre-EIA code

@@ -98,6 +98,7 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 foreach var of varlist 	 died_date_ons						///
 					     eia_code_date 						///
 						 rheum_appt_date					///
+						 rheum_appt1st_date					///
 						 rheum_appt2_date					///
 						 rheum_appt3_date					///
 					     ra_code_date						///
@@ -153,6 +154,7 @@ foreach var of varlist 	 died_date_ons						///
 rename rheum_appt_date_date rheum_appt_date
 rename rheum_appt2_date_date rheum_appt2_date
 rename rheum_appt3_date_date rheum_appt3_date
+rename rheum_appt1st_date_date rheum_appt1st_date
 rename eia_code_date_date eia_code_date
 rename ra_code_date_date ra_code_date
 rename psa_code_date_date psa_code_date
@@ -198,6 +200,7 @@ foreach var of varlist 	 eia_code_date 						///
 						 rheum_appt_date					///
 						 rheum_appt2_date					///
 						 rheum_appt3_date					///
+						 rheum_appt1st_date					///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -611,12 +614,19 @@ tab rheum_appt, missing //proportion of patients with a rheum outpatient date in
 tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
+**First rheumatology appt tag
+tab rheum_appt1st, missing
+
 **Check timeframe of rheum appt relative to EIA code
 tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
 tab rheum_appt if rheum_appt_date>(eia_code_date + 30) & rheum_appt_date!=. //confirm proportion who had rheum appt 30 days after EIA code 
 tab rheum_appt if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //confirm proportion who had rheum appt 60 days after EIA code 
 replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
 replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
+
+**As above
+replace rheum_appt1st=0 if rheum_appt1st_date>(eia_code_date + 60) & rheum_appt1st_date!=. //replace as missing those appts >60 days after EIA code
+replace rheum_appt1st_date=. if rheum_appt1st_date>(eia_code_date + 60) & rheum_appt1st_date!=. //replace as missing those appts >60 days after EIA code
 
 **Check timeframe of rheum appt relative to EIA code
 replace rheum_appt2=0 if rheum_appt2_date>(eia_code_date + 60) & rheum_appt2_date!=. //replace as missing those appts >60 days after EIA code
