@@ -667,9 +667,13 @@ format %td biologic_date
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first rheum_appt_date
+tab csdmard if rheum_appt_date==. & rheum_appt1st_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt1st_date
+drop if rheum_appt_date==. & rheum_appt1st_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt1st_date //drop if first csDMARD more than 60 days before first captured (non-first attendance) rheum_appt_date
 tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
+tab biologic if rheum_appt_date==. & rheum_appt1st_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt1st_date
+drop if rheum_appt_date==. & rheum_appt1st_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt1st_date //drop if first biologic more than 60 days before first captured (non-first attendance) rheum_appt_date
 
 *Generate diagnosis date===============================================================*/
 
