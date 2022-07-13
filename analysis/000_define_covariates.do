@@ -98,7 +98,7 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 foreach var of varlist 	 died_date_ons						///
 					     eia_code_date 						///
 						 rheum_appt_date					///
-						 rheum_appt1st_date					///
+						 rheum_appt_any_date				///
 						 rheum_appt2_date					///
 						 rheum_appt3_date					///
 					     ra_code_date						///
@@ -154,7 +154,7 @@ foreach var of varlist 	 died_date_ons						///
 rename rheum_appt_date_date rheum_appt_date
 rename rheum_appt2_date_date rheum_appt2_date
 rename rheum_appt3_date_date rheum_appt3_date
-rename rheum_appt1st_date_date rheum_appt1st_date
+rename rheum_appt_any_date_date rheum_appt_any_date
 rename eia_code_date_date eia_code_date
 rename ra_code_date_date ra_code_date
 rename psa_code_date_date psa_code_date
@@ -200,7 +200,7 @@ foreach var of varlist 	 eia_code_date 						///
 						 rheum_appt_date					///
 						 rheum_appt2_date					///
 						 rheum_appt3_date					///
-						 rheum_appt1st_date					///
+						 rheum_appt_any_date				///
 					     ra_code_date						///
 						 psa_code_date						///
 						 anksp_code_date					///
@@ -283,6 +283,16 @@ label values ethnicity ethnicity
 lab var ethnicity "Ethnicity"
 tab ethnicity, missing
 
+gen ethnicity_bme=0 if ethnicity==1
+replace ethnicity_bme=1 if ethnicity>1 & ethnicity<5
+replace ethnicity_bme=.u if ethnicity==.u
+label define ethnicity_bme 	0 "White"  		///
+						1 "Non-white"		///
+						.u "Not known"
+label values ethnicity_bme ethnicity_bme
+lab var ethnicity_bme "Ethnicity"
+tab ethnicity_bme, missing
+
 ***STP 
 rename stp stp_old
 bysort stp_old: gen stp = 1 if _n==1
@@ -305,9 +315,8 @@ replace region_nospace="WestMidlands" if region=="West Midlands"
 replace region_nospace="YorkshireandTheHumber" if region=="Yorkshire and The Humber"
 
 ***IMD
-*Reverse the order (so high is more deprived)
-recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
-label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Not known"
+recode imd 0 = .u
+label define imd 1 "1 most deprived" 2 "2" 3 "3" 4 "4" 5 "5 least deprived" .u "Not known"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
 tab imd, missing
@@ -610,12 +619,10 @@ keep if eia_code==1
 **Check first rheum appt date was before EIA code date==================================*/
 
 **Rheumatology appt 
-tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
-
-**First rheumatology appt tag
-tab rheum_appt1st, missing
+tab rheum_appt, missing //proportion of patients with an rheum outpatient date (with first attendance option selected) in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt_any, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt2, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **Check timeframe of rheum appt relative to EIA code
 tab rheum_appt if rheum_appt_date>eia_code_date & rheum_appt_date!=. //confirm proportion who had rheum appt (i.e. not missing) and appt after EIA code
@@ -625,10 +632,8 @@ replace rheum_appt=0 if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=
 replace rheum_appt_date=. if rheum_appt_date>(eia_code_date + 60) & rheum_appt_date!=. //replace as missing those appts >60 days after EIA code
 
 **As above
-replace rheum_appt1st=0 if rheum_appt1st_date>(eia_code_date + 60) & rheum_appt1st_date!=. //replace as missing those appts >60 days after EIA code
-replace rheum_appt1st_date=. if rheum_appt1st_date>(eia_code_date + 60) & rheum_appt1st_date!=. //replace as missing those appts >60 days after EIA code
-
-**Check timeframe of rheum appt relative to EIA code
+replace rheum_appt_any=0 if rheum_appt_any_date>(eia_code_date + 60) & rheum_appt_any_date!=. //replace as missing those appts >60 days after EIA code
+replace rheum_appt_any_date=. if rheum_appt_any_date>(eia_code_date + 60) & rheum_appt_any_date!=. //replace as missing those appts >60 days after EIA code
 replace rheum_appt2=0 if rheum_appt2_date>(eia_code_date + 60) & rheum_appt2_date!=. //replace as missing those appts >60 days after EIA code
 replace rheum_appt2_date=. if rheum_appt2_date>(eia_code_date + 60) & rheum_appt2_date!=. //replace as missing those appts >60 days after EIA code_yea
 replace rheum_appt3=0 if rheum_appt3_date>(eia_code_date + 60) & rheum_appt3_date!=. //replace as missing those appts >60 days after EIA code
@@ -666,14 +671,14 @@ format %td biologic_date
 **Exclude if first csdmard or biologic was before first rheum appt
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date 
-drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first rheum_appt_date
-tab csdmard if rheum_appt_date==. & rheum_appt1st_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt1st_date
-drop if rheum_appt_date==. & rheum_appt1st_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt1st_date //drop if first csDMARD more than 60 days before first captured (non-first attendance) rheum_appt_date
+drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_date //drop if first csDMARD more than 60 days before first attendance at a rheum appt 
+tab csdmard if rheum_appt_date==. & rheum_appt_any_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_any_date
+drop if rheum_appt_date==. & rheum_appt_any_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_any_date //drop if first csDMARD more than 60 days before first captured rheum appt that did not have first attendance tag
 tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
-tab biologic if rheum_appt_date==. & rheum_appt1st_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt1st_date
-drop if rheum_appt_date==. & rheum_appt1st_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt1st_date //drop if first biologic more than 60 days before first captured (non-first attendance) rheum_appt_date
+tab biologic if rheum_appt_date==. & rheum_appt_any_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_any_date
+drop if rheum_appt_date==. & rheum_appt_any_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_any_date //drop if first biologic more than 60 days before first captured rheum appt that did not have first attendance tag
 
 *Generate diagnosis date===============================================================*/
 

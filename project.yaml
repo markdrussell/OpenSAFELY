@@ -60,7 +60,10 @@ actions:
         doc11: output/tables/drug_byyearanddisease.csv
         doc12: output/tables/drug_byyearandregion.csv
         doc13: output/tables/diag_count_bymonth.csv
-        doc14: output/tables/appt_count_bymonth.csv
+        doc14: output/tables/diag_count_byyear.csv
+        doc15: output/tables/appt_count_bymonth.csv
+        doc16: output/tables/diag_count_byyear_ethn.csv
+        doc17: output/tables/diag_count_byyear_imd.csv
         figure1: output/figures/incidence_twoway_rounded.svg
         figure2: output/figures/incidence_twoway_appt.svg
   
@@ -103,10 +106,17 @@ actions:
         figure 7: output/figures/regional_qs2_bar_GP_overall.svg  
         figure 8: output/figures/regional_qs2_bar_GP_2019.svg     
         figure 9: output/figures/regional_qs2_bar_GP_2020.svg 
-        figure 10: output/figures/regional_csdmard_bar_overall.svg  
-        figure 11: output/figures/regional_csdmard_bar_2019.svg     
-        figure 12: output/figures/regional_csdmard_bar_2020.svg  
- 
+        figure 10: output/figures/regional_qs2_bar_GP_merged.svg
+        figure 11: output/figures/regional_qs2_bar_GP_ethnicity.svg
+        figure 12: output/figures/regional_qs2_bar_GP_imd.svg
+        figure 13: output/figures/regional_csdmard_bar_overall.svg  
+        figure 14: output/figures/regional_csdmard_bar_2019.svg     
+        figure 15: output/figures/regional_csdmard_bar_2020.svg 
+        figure 16: output/figures/regional_csdmard_bar_merged.svg
+        figure 17: output/figures/regional_csdmard_bar_ethnicity.svg
+        figure 18: output/figures/regional_csdmard_bar_imd.svg
+        figure 19: output/figures/regional_csdmard_bar_compare.svg
+
   run_redacted_tables:
     run: stata-mp:latest analysis/400_redacted_tables.do
     needs: [create_cohorts]

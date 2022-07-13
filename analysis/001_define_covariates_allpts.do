@@ -177,9 +177,8 @@ encode region, gen(nuts_region)
 replace region="Not Known" if region==""
 
 ***IMD
-*Reverse the order (so high is more deprived)
-recode imd 5 = 1 4 = 2 3 = 3 2 = 4 1 = 5 0 = .u
-label define imd 1 "1 least deprived" 2 "2" 3 "3" 4 "4" 5 "5 most deprived" .u "Not Known"
+recode imd 0 = .u
+label define imd 1 "1 most deprived" 2 "2" 3 "3" 4 "4" 5 "5 least deprived" .u "Not known"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
 tab imd, missing

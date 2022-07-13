@@ -59,6 +59,26 @@ tab eia_diagnosis, missing
 bys eia_diagnosis: tab diagnosis_6m, missing
 bys eia_diagnosis: tab diagnosis_year, missing
 
+*Diagnostic incidence by year, by disease
+preserve
+rename year_diag year_diagn
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by year (baseline population 17,683,500)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/17683500)*10000)
+}
+export delimited using "$projectdir/output/tables/diag_count_byyear.csv", replace
+restore
+
 *Graph of diagnoses by month, by disease
 preserve
 recode ra_code 0=.
@@ -71,12 +91,66 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
+**Generate incidences by month (baseline population 17,683,500)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/17683500)*10000)
+}
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
-twoway connected total_diag_round mo_year_diagn, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag_round mo_year_diagn, color(sky) || connected psa_diag_round mo_year_diagn, color(red) || connected axspa_diag_round mo_year_diagn, color(green) || connected undiff_diag_round mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", replace	
 	
 restore	
+
+*Incidence of rheumatology diagnoses, by ethnicity
+preserve
+rename year_diag year_diagn
+gen total=1 if imd!=.u
+gen white=1 if ethnicity==1
+gen asian=1 if ethnicity==2
+gen black=1 if ethnicity==3
+gen mixed=1 if ethnicity==4
+collapse (count) total_diag=total white_diag=white asian_diag=asian black_diag=black mixed_diag=mixed, by(year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by year
+gen incidence_total=((total_diag_round/13892705)*10000) //all non-missing ethnicities
+gen incidence_white=((white_diag_round/12025695)*10000)
+gen incidence_asian=((asian_diag_round/1029955)*10000)
+gen incidence_black=((black_diag_round/343885)*10000)
+gen incidence_mixed=((mixed_diag_round/493170)*10000)
+export delimited using "$projectdir/output/tables/diag_count_byyear_ethn.csv", replace
+
+restore
+
+*Incidence of rheumatology diagnoses, by imd quintile
+preserve
+rename year_diag year_diagn
+gen imd_all=1 if imd!=.u
+gen imd_1=1 if imd==1
+gen imd_2=1 if imd==2
+gen imd_3=1 if imd==3
+gen imd_4=1 if imd==4
+gen imd_5=1 if imd==5
+collapse (count) imd_all_diag=imd_all imd_1_diag=imd_1 imd_2_diag=imd_2 imd_3_diag=imd_3 imd_4_diag=imd_4 imd_5_diag=imd_5, by(year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by year
+gen incidence_imd_all=((imd_all_diag_round/17415045)*10000) //all non-missing imds
+gen incidence_imd_1=((imd_1_diag_round/3285410)*10000)
+gen incidence_imd_2=((imd_2_diag_round/3557860)*10000)
+gen incidence_imd_3=((imd_3_diag_round/3762515)*10000)
+gen incidence_imd_4=((imd_4_diag_round/3448770)*10000)
+gen incidence_imd_5=((imd_5_diag_round/3360490)*10000)
+export delimited using "$projectdir/output/tables/diag_count_byyear_imd.csv", replace
+
+restore
 
 *Graph of rheumatology appointments by month, by disease
 preserve
@@ -177,42 +251,40 @@ table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle("
 *Referral and appointment performance==============================================================================*/
 
 **Rheumatology appt 
-tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt2, missing //proportion of patients with a rheum outpatient date in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
-
-**First rheumatology appt tag
-tab rheum_appt1st, missing
+tab rheum_appt, missing //proportion of patients with an rheum outpatient date (with first attendance option selected) in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt_any, missing ////proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt2, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
 
 **First rheum appt over time
 ***First 6 months
 tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019), missing 
 ***Second 6 months
 tab rheum_appt if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing  
-tab rheum_appt1st if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing
+tab rheum_appt_any if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020), missing
 ***Third 6 months
 tab rheum_appt if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oct2020), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oct2020), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oct2020), missing 
 ***Fourth 6 months
 tab rheum_appt if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021), missing  
-tab rheum_appt1st if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021), missing
+tab rheum_appt_any if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021), missing
 ***Fifth 6 months
 tab rheum_appt if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021), missing 
 ***Sixth 6 months
 tab rheum_appt if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022), missing  
-tab rheum_appt1st if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022), missing
+tab rheum_appt_any if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022), missing
 
 ***First year
 tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing 
 **Second year
 tab rheum_appt if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing 
 **Third year
 tab rheum_appt if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing  
-tab rheum_appt1st if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing 
+tab rheum_appt_any if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing 
 
 **Check if above criteria are picking up the same appt
 tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code

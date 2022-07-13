@@ -115,20 +115,7 @@ study = StudyDefinition(
     anksp_code_date=first_code_in_period(ankylosing_spondylitis_codes),
     undiff_code_date=first_code_in_period(undifferentiated_arthritis_codes),
 
-    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (original)
-    rheum_appt1st_date=patients.outpatient_appointment_date(
-        returning="date",
-        find_first_match_in_period=True,
-        with_these_treatment_function_codes = ["410"],
-        date_format="YYYY-MM-DD",
-        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
-        return_expectations={
-            "incidence": 0.9,
-            "date": {"earliest": year_preceding, "latest": end_date},
-        },
-    ),
-
-    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (with first option ticked)
+    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (with first attendance option selected)
     rheum_appt_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
@@ -142,7 +129,20 @@ study = StudyDefinition(
         },
     ),
 
-    # First rheumatology outpatient date in the 6 months before EIA diagnosis code appears in GP record
+    # First rheumatology outpatient date in the 12 months before EIA diagnosis code appears in GP record (without first attendance option selected)
+    rheum_appt_any_date=patients.outpatient_appointment_date(
+        returning="date",
+        find_first_match_in_period=True,
+        with_these_treatment_function_codes = ["410"],
+        date_format="YYYY-MM-DD",
+        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
+        return_expectations={
+            "incidence": 0.9,
+            "date": {"earliest": year_preceding, "latest": end_date},
+        },
+    ),
+
+    # First rheumatology outpatient date in the 6 months before EIA diagnosis code appears in GP record (without first attendance option selected)
     rheum_appt2_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
@@ -155,7 +155,7 @@ study = StudyDefinition(
         },
     ),
     
-    # First rheumatology outpatient date in the 2 years before EIA diagnosis code appears in GP record
+    # First rheumatology outpatient date in the 2 years before EIA diagnosis code appears in GP record (without first attendance option selected)
     rheum_appt3_date=patients.outpatient_appointment_date(
         returning="date",
         find_first_match_in_period=True,
@@ -168,7 +168,7 @@ study = StudyDefinition(
         },
     ),
 
-    # Rheumatology outpatient count in the 1 year before EIA diagnosis code appears in GP record
+    # Rheumatology outpatient count in the 1 year before EIA diagnosis code appears in GP record (without first attendance option selected)
     rheum_appt_count=patients.outpatient_appointment_date(
         returning="number_of_matches_in_period",
         with_these_treatment_function_codes = ["410"],

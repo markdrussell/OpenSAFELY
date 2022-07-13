@@ -214,6 +214,78 @@ restore
 
 //for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
+/*GP referral performance by region, merged===========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
+recode qs2_0 .=0 if time_gp_rheum_appt!=.
+gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
+recode qs2_1 .=0 if time_gp_rheum_appt!=.
+gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
+recode qs2_2 .=0 if time_gp_rheum_appt!=.
+
+expand=2, gen(copy)
+replace nuts_region = 0 if copy==1  
+
+lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
+lab val nuts_region nuts_region
+
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(appt_year, gap(20) label(labsize(*0.9))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace)
+graph export "$projectdir/output/figures/regional_qs2_bar_GP_merged.svg", replace
+restore
+
+/*GP referral performance by ethnicity, merged===========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
+recode qs2_0 .=0 if time_gp_rheum_appt!=.
+gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
+recode qs2_1 .=0 if time_gp_rheum_appt!=.
+gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
+recode qs2_2 .=0 if time_gp_rheum_appt!=.
+
+expand=2, gen(copy)
+replace ethnicity = 0 if copy==1  
+
+lab define ethnicity 0 "Overall" 2 "Asian", modify
+lab val ethnicity ethnicity
+
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(appt_year, gap(20) label(labsize(*0.9))) over(ethnicity, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment, by ethnicity") name(regional_qs2_bar_GP_ethnicity, replace)
+graph export "$projectdir/output/figures/regional_qs2_bar_GP_ethnicity.svg", replace
+restore
+
+/*GP referral performance by IMD quintile, merged===========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
+recode qs2_0 .=0 if time_gp_rheum_appt!=.
+gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
+recode qs2_1 .=0 if time_gp_rheum_appt!=.
+gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
+recode qs2_2 .=0 if time_gp_rheum_appt!=.
+
+expand=2, gen(copy)
+replace imd = 0 if copy==1  
+
+lab define imd 0 "Overall" 1 "1st Quintile" 2 "2nd Quintile" 3 "3rd Quintile" 4 "4th Quintile" 5 "5th Quintile", modify
+lab val imd imd
+
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(appt_year, gap(20) label(labsize(*0.9))) over(imd, gap(60) label(labsize(*0.8)) relabel(2 `" "1st Quintile" "(most deprived)" "' 6 `" "5th Quintile" "(least deprived)" "')) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment, by IMD quintile") name(regional_qs2_bar_GP_imd, replace)
+graph export "$projectdir/output/figures/regional_qs2_bar_GP_imd.svg", replace
+restore
+
 *csDMARD shared care performance by region prescriptions, all years==========================================================================*/
 
 *As above, all patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt 
@@ -286,4 +358,186 @@ restore
 
 //for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
-log close
+*csDMARD shared care performance by region prescriptions, merged==========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
+recode csdmard_0 .=0
+gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
+recode csdmard_1 .=0
+gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+recode csdmard_2 .=0 
+gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
+recode csdmard_3 .=0 
+
+expand=2, gen(copy)
+replace nuts_region = 0 if copy==1  
+
+lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
+lab val nuts_region nuts_region
+
+graph hbar csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
+graph export "$projectdir/output/figures/regional_csdmard_bar_merged.svg", replace
+restore
+
+/*csDMARD shared care performance by ethnicity, merged===========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
+recode csdmard_0 .=0
+gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
+recode csdmard_1 .=0
+gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+recode csdmard_2 .=0 
+gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
+recode csdmard_3 .=0 
+
+expand=2, gen(copy)
+replace ethnicity = 0 if copy==1  
+
+lab define ethnicity 0 "Overall" 2 "Asian", modify
+lab val ethnicity ethnicity
+
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(ethnicity, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, by ethnicity") name(regional_csdmard_bar_ethnicity, replace)
+graph export "$projectdir/output/figures/regional_csdmard_bar_ethnicity.svg", replace
+restore
+
+/*csDMARD shared care performance by IMD quintile, merged===========================================================================*/
+
+preserve
+keep if appt_year==1 | appt_year==2
+lab define appt_year 1 "Year 1" 2 "Year 2", modify
+lab val appt_year appt_year
+
+gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
+recode csdmard_0 .=0
+gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
+recode csdmard_1 .=0
+gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+recode csdmard_2 .=0 
+gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
+recode csdmard_3 .=0 
+
+expand=2, gen(copy)
+replace imd = 0 if copy==1  
+
+lab define imd 0 "Overall" 1 "1st Quintile" 2 "2nd Quintile" 3 "3rd Quintile" 4 "4th Quintile" 5 "5th Quintile", modify
+lab val imd imd
+
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(imd, gap(60) label(labsize(*0.8)) relabel(2 `" "1st Quintile" "(most deprived)" "' 6 `" "5th Quintile" "(least deprived)" "')) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, by IMD quintile") name(regional_csdmard_bar_imd, replace)
+graph export "$projectdir/output/figures/regional_csdmard_bar_imd.svg", replace
+restore
+
+*Produce bar chart, with comparison of OpenSafely and NEIAA 2019-2020 QS2 data======================================================================================================*/
+
+/*Code for extracting aggregate NEIAA QS2 data
+preserve
+clear
+graph use "$projectdir/output/figures/RegionalQS2stackedbarchart.gph"
+serset dir
+serset use
+reshape wide _values, i(Region) j(_variables)
+rename _values1 qs2_0_mean
+rename _values2 qs2_1_mean
+rename _values3 qs2_2_mean
+gen nuts_region=0 if Region==12
+replace nuts_region=1 if Region==7
+replace nuts_region=2 if Region==5
+replace nuts_region=3 if Region==8
+replace nuts_region=4 if Region==2
+replace nuts_region=5 if Region==3
+replace nuts_region=6 if Region==9
+replace nuts_region=7 if Region==10
+replace nuts_region=8 if Region==6
+replace nuts_region=9 if Region==4
+lab define nuts_region 0 "National" 1 "East" 2 "East Midlands" 3 "London" 4 "North East" 5 "North West" 6 "South East" 7 "South West" 8 "West Midlands" 9 "Yorkshire/Humber", modify
+lab val nuts_region nuts_region
+drop if nuts_region==.
+drop Region
+
+graph hbar qs2_0_mean qs2_1_mean qs2_2_mean, over(nuts_region) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment, NEIAA") name(regional_qs2_bar_GP_NEIAA, replace)
+restore
+*/
+
+//OpenSAFELY data
+preserve
+keep if appt_year==1
+
+gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
+recode qs2_0 .=0 if time_gp_rheum_appt!=.
+gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
+recode qs2_1 .=0 if time_gp_rheum_appt!=.
+gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
+recode qs2_2 .=0 if time_gp_rheum_appt!=.
+
+expand=2, gen(copy)
+replace nuts_region = 0 if copy==1  
+
+lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
+lab val nuts_region nuts_region
+drop if nuts_region==.
+
+collapse (mean) qs2_0_mean=qs2_0 (mean) qs2_1_mean=qs2_1 (mean) qs2_2_mean=qs2_2, by(nuts_region)
+gen dataset=1
+
+**Merge in NEIAA values here, so that we can produce combined graphs
+set obs 20
+replace nuts_region = 0 in 11
+replace qs2_0_mean = .63125194 in 11
+replace qs2_1_mean = .22056539 in 11
+replace qs2_2_mean = .14818267 in 11
+replace nuts_region = 1 in 12
+replace qs2_0_mean = .61135693 in 12
+replace qs2_1_mean = .24336283 in 12
+replace qs2_2_mean = .14528024 in 12
+replace nuts_region = 2 in 13
+replace qs2_0_mean = .73106796 in 13
+replace qs2_1_mean = .19126214 in 13
+replace qs2_2_mean = .0776699 in 13
+replace nuts_region = 3 in 14
+replace qs2_0_mean = .55017301 in 14
+replace qs2_1_mean = .23068051 in 14
+replace qs2_2_mean = .21914648 in 14
+replace nuts_region = 4 in 15
+replace qs2_0_mean = .75471698 in 15
+replace qs2_1_mean = .13945857 in 15
+replace qs2_2_mean = .10582445 in 15
+replace nuts_region = 5 in 16
+replace qs2_0_mean = .64396285 in 16
+replace qs2_1_mean = .21620227 in 16
+replace qs2_2_mean = .13983488 in 16
+replace nuts_region = 6 in 17
+replace qs2_0_mean = .60198135 in 17
+replace qs2_1_mean = .23951049 in 17
+replace qs2_2_mean = .15850816 in 17
+replace nuts_region = 7 in 18
+replace qs2_0_mean = .57068876 in 18
+replace qs2_1_mean = .26204039 in 18
+replace qs2_2_mean = .16727084 in 18
+replace nuts_region = 8 in 19
+replace qs2_0_mean = .63809524 in 19
+replace qs2_1_mean = .24232804 in 19
+replace qs2_2_mean = .11957672 in 19
+replace nuts_region = 9 in 20
+replace qs2_0_mean = .68123138 in 20
+replace qs2_1_mean = .17676266 in 20
+replace qs2_2_mean = .14200596 in 20
+
+recode dataset .=2
+lab define dataset 1 "OpenS" 2 "NEIAA", modify
+lab val dataset dataset
+
+graph hbar qs2_0_mean qs2_1_mean qs2_2_mean, over(dataset, gap(20) label(labsize(*0.9))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP_compare, replace)
+graph export "$projectdir/output/figures/regional_csdmard_bar_compare.svg", replace
+
+restore
+
+
