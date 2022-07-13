@@ -115,7 +115,7 @@ actions:
         figure 16: output/figures/regional_csdmard_bar_merged.svg
         figure 17: output/figures/regional_csdmard_bar_ethnicity.svg
         figure 18: output/figures/regional_csdmard_bar_imd.svg
-        figure 19: output/figures/regional_csdmard_bar_compare.svg
+        figure 19: output/figures/regional_qs2_bar_GP_compare.svg
 
   run_redacted_tables:
     run: stata-mp:latest analysis/400_redacted_tables.do

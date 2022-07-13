@@ -61,12 +61,11 @@ bys eia_diagnosis: tab diagnosis_year, missing
 
 *Diagnostic incidence by year, by disease
 preserve
-rename year_diag year_diagn
 recode ra_code 0=.
 recode psa_code 0=.
 recode anksp_code 0=.
 recode undiff_code 0=.
-collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(year_diagn) 
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(diagnosis_year) 
 **Round to nearest 5
 foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
@@ -104,13 +103,12 @@ restore
 
 *Incidence of rheumatology diagnoses, by ethnicity
 preserve
-rename year_diag year_diagn
-gen total=1 if imd!=.u
+gen total=1 if ethnicity!=.u
 gen white=1 if ethnicity==1
 gen asian=1 if ethnicity==2
 gen black=1 if ethnicity==3
 gen mixed=1 if ethnicity==4
-collapse (count) total_diag=total white_diag=white asian_diag=asian black_diag=black mixed_diag=mixed, by(year_diagn) 
+collapse (count) total_diag=total white_diag=white asian_diag=asian black_diag=black mixed_diag=mixed, by(diagnosis_year) 
 **Round to nearest 5
 foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
@@ -128,14 +126,13 @@ restore
 
 *Incidence of rheumatology diagnoses, by imd quintile
 preserve
-rename year_diag year_diagn
 gen imd_all=1 if imd!=.u
 gen imd_1=1 if imd==1
 gen imd_2=1 if imd==2
 gen imd_3=1 if imd==3
 gen imd_4=1 if imd==4
 gen imd_5=1 if imd==5
-collapse (count) imd_all_diag=imd_all imd_1_diag=imd_1 imd_2_diag=imd_2 imd_3_diag=imd_3 imd_4_diag=imd_4 imd_5_diag=imd_5, by(year_diagn) 
+collapse (count) imd_all_diag=imd_all imd_1_diag=imd_1 imd_2_diag=imd_2 imd_3_diag=imd_3 imd_4_diag=imd_4 imd_5_diag=imd_5, by(diagnosis_year) 
 **Round to nearest 5
 foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
