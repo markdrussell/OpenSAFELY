@@ -465,7 +465,7 @@ drop Region
 
 graph hbar qs2_0_mean qs2_1_mean qs2_2_mean, over(nuts_region) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment, NEIAA") name(regional_qs2_bar_GP_NEIAA, replace)
 restore
-*/
+
 
 //OpenSAFELY data
 preserve
@@ -540,4 +540,4 @@ graph export "$projectdir/output/figures/regional_qs2_bar_GP_compare.svg", repla
 
 restore
 
-
+*/
