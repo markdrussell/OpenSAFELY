@@ -1,5 +1,6 @@
 *~
 *.log
+*.smcl
 */input.csv
 __pycache__
 .python-version

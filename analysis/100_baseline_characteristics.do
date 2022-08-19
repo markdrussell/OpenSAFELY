@@ -15,8 +15,6 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -248,10 +246,10 @@ table1_mc, by(diagnosis_year) total(before) onecol nospacelowpercent iqrmiddle("
 *Referral and appointment performance==============================================================================*/
 
 **Rheumatology appt 
-tab rheum_appt, missing //proportion of patients with an rheum outpatient date (with first attendance option selected) in the 12 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt_any, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt2, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; but, data only from April 2019 onwards
-tab rheum_appt3, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 2 years before EIA code appeared in GP record; but, data only from April 2019 onwards
+tab rheum_appt, missing //proportion of patients with an rheum outpatient date (with first attendance option selected) in the 12 months before EIA code appeared in GP record; data only April 2019 onwards
+tab rheum_appt_any, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; data only April 2019 onwards
+tab rheum_appt2, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 6 months before EIA code appeared in GP record; data only April 2019 onwards
+tab rheum_appt3, missing //proportion of patients with a rheum outpatient date (without first attendance option selected) in the 2 years before EIA code appeared in GP record; data only April 2019 onwards
 
 **First rheum appt over time
 ***First 6 months
@@ -291,15 +289,15 @@ tabstat time_rheum3_eia_code, stats (n p50 p25 p75) //using 2 years pre-EIA code
 **By region
 bys nuts_region: tab rheum_appt if nuts_region!=. //check proportion by region
 
-**Rheumatology referrals
+**Rheumatology referrals (Nb. low capture of coded rheumatology referrals at present, therefore last GP appt used as proxy of referral date currently - see below)
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
 tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the 2 years before rheumatology outpatient, assuming ref date before rheum appt date 
-tab referral_rheum_precode //last rheum referral in the 2 years before EIA code (could potentially use if rheum appt missing)
+tab referral_rheum_precode //last rheum referral in the 2 years before EIA code
 
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in year before rheum referral (pre-rheum appt); requires there to have been a rheum referral
-tab all_appts, missing //KEY - proportion who had a last gp appt, then rheum ref, then rheum appt
-tab last_gp_refcode //last GP appointment before rheum ref (i.e. pre-eia code ref); requires there to have been a rheum referral before an EIA code (i.e. rheum appt could have been missing)
+tab all_appts, missing //proportion who had a last gp appt, then rheum ref, then rheum appt
+tab last_gp_refcode //last GP appointment before rheum ref (pre-eia code ref); requires there to have been a rheum referral before an EIA code (i.e. rheum appt could have been missing)
 tab last_gp_prerheum //last GP appointment before rheum appt; requires there to have been a rheum appt before and EIA code
 tab last_gp_precode //last GP appointment before EIA code
 
@@ -322,7 +320,7 @@ tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25 p75)
 
-*Time to referral=============================================*/
+*Time to rheum referral (see notes above)=============================================*/
 
 *Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
 keep if has_12m_post_appt==1
@@ -365,7 +363,7 @@ bys eia_diagnosis: tabstat time_gp_rheum_ref_code, stats (n mean p50 p25 p75)
 tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 
-*Time to appointment=============================================*/
+*Time to rheum appointment=============================================*/
 
 **Time from last GP pre-rheum appt to first rheum appt (proxy measure for referral to appt delay)
 tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
@@ -422,7 +420,7 @@ bys nuts_region: tab ref_appt_3w if nuts_region!=., missing
 bys nuts_region: tab ref_appt_3w if nuts_region!=.
 */
 
-**Time from rheum ref or last GP to rheum appt (combined - sensitivity analysis; includes those with no rheum ref)
+**Time from rheum ref or last GP to rheum appt (combined; includes those with no rheum ref)
 tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
 bys appt_6m: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
@@ -457,19 +455,8 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		 
-		 
-**Check if total is sum of years - remember, +60 limit after code date		 
-
-/*
-**With missing data
-table1_mc, by(eia_diagnosis) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
-	vars(gp_ref_cat cat %3.1f \ ///
-		 ref_appt_cat cat %3.1f \ ///
-		 gp_appt_cat cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_bydiag_miss.xls", replace)
-*/ 
-		 
+		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		  
+ 
 *Referral standards, by 12 months periods - date of first appt rather than date of EIA code
 table1_mc, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_ref_cat cat %3.1f \ ///
@@ -477,17 +464,6 @@ table1_mc, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  
 		 gp_appt_cat cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byyear_nomiss.xls", replace) 
 		 
-**May not need this table, if same as above		 
-		 
-/*
-**With missing data
-table1_mc, by(appt_6m) total(before) missing onecol nospacelowpercent iqrmiddle(",")  ///
-	vars(gp_ref_cat cat %3.1f \ ///
-		 ref_appt_cat cat %3.1f \ ///
-		 gp_appt_cat cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_byyear_miss.xls", replace)
-*/ 
-
 *Referral standards, by region
 table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(gp_appt_cat cat %3.1f \ ///
@@ -495,22 +471,13 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 		 gp_appt_cat_20 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
 
-/*		 
-**With missing data
-table1_mc, by(nuts_region) total(before) onecol missing nospacelowpercent iqrmiddle(",")  ///
-	vars(gp_ref_cat cat %3.1f \ ///
-		 ref_appt_cat cat %3.1f \ ///
-		 gp_appt_cat cat %3.1f \ ///
-		 ) saving("$projectdir/output/tables/referral_byregion_miss.xls", replace)
-*/ 
-
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
 *As above, all patients must have 1) rheum appt and GP appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
-**Proportion with a csDMARD prescription in GP record at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
+**Proportion with a csDMARD prescription in GP record at any point after diagnosis; patients excluded if csDMARD or biologic was >60 days before rheumatology appt date
 tab csdmard, missing
 tab csdmard if (csdmard_date<=rheum_appt_date+365), missing //with 12-month limit
 bys eia_diagnosis: tab csdmard
@@ -526,7 +493,7 @@ bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365) //
 tab csdmard, missing //all prescriptions, for comparison
 tab csdmard_shared, missing //issued more than once (shared care)
 
-**Time to first csDMARD in GP record for RA patients, whereby first rheum appt is classed as diagnosis date (if rheum appt present and before csDMARD date; not including high cost MTX prescriptions); prescription must be within 12 months of diagnosis for all csDMARDs below (could change in future analyses)
+**Time to first csDMARD in GP record for RA patients not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis for all csDMARDs below 
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 bys appt_6m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys appt_year: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
@@ -743,13 +710,13 @@ table1_mc if nuts_region!=. & (ra_code==1 | psa_code==1 | undiff_code==1), by(nu
 		 csdmard_time_20 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearandregion.xls", replace) 			 
 		 
-**Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020======================================================================*/
+**Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020. Not for analysis currently due to small numbers======================================================================*/
 
+/*
 **Proportion with a bDMARD or tsDMARD prescription at any point after diagnosis (unequal follow-up); patients excluded if csDMARD or biologic was >60 days before rheumatology appt date (if present)
 tab biologic, missing
 tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit
 
-/*Suppress due to small numbers
 bys eia_diagnosis: tab biologic, missing 
 bys eia_diagnosis: tab biologic if (biologic_date<=rheum_appt_date+365), missing //with 12-month limit 
 
@@ -869,25 +836,5 @@ outsheet * using "$projectdir/output/tables/drug_byyearanddisease.csv" , comma n
 
 import excel "$projectdir/output/tables/drug_byyearandregion.xls", clear
 outsheet * using "$projectdir/output/tables/drug_byyearandregion.csv" , comma nonames replace	
-
-/*
-import excel "$projectdir/output/tables/biol_bydiag_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_bydiag_miss.csv" , comma nonames replace	
-
-import excel "$projectdir/output/tables/biol_byyear_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_miss.csv" , comma nonames replace	
-
-import excel "$projectdir/output/tables/biol_byyear_ra_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_ra_miss.csv" , comma nonames replace	
-
-import excel "$projectdir/output/tables/biol_byyear_psa_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_psa_miss.csv" , comma nonames replace	
-
-import excel "$projectdir/output/tables/biol_byyear_axspa_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_axspa_miss.csv" , comma nonames replace	
-
-import excel "$projectdir/output/tables/biol_byyear_undiff_miss.xls", clear
-outsheet * using "$projectdir/output/tables/biol_byyear_undiff_miss.csv" , comma nonames replace
-*/	
 
 log close
