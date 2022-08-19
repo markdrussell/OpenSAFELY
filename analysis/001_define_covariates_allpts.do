@@ -18,8 +18,6 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
-*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
-*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -421,7 +419,7 @@ label define diabcatm 	1 "No diabetes" 			///
 label values diabcatm diabcatm
 lab var diabcatm "Diabetes"
 
-*Create cancer variable 'other cancer currently', includes carcinoma of the head and neck - need to confirm if this excludes NMSC
+*Create cancer variable
 gen cancer =0
 replace cancer =1 if lung_cancer ==1 | haem_cancer ==1 | other_cancer ==1
 lab var cancer "Cancer"
