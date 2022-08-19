@@ -1,20 +1,20 @@
 {
   "files": {
     "user-markdrussell-psoriatic-arthritis.csv": {
-      "id": "user/markdrussell/psoriatic-arthritis/5f11d9a4",
-      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/psoriatic-arthritis/5f11d9a4/",
+      "id": "user/markdrussell/psoriatic-arthritis/6c69f57e",
+      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/psoriatic-arthritis/6c69f57e/",
       "downloaded_at": "2022-04-04 10:14:14.758241Z",
       "sha": "78ddeb25b661ae4e2c9f2aff79a7d519989888ca"
     },
     "user-markdrussell-axial-spondyloarthritis.csv": {
-      "id": "user/markdrussell/axial-spondyloarthritis/1130c00f",
-      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/axial-spondyloarthritis/1130c00f/",
+      "id": "user/markdrussell/axial-spondyloarthritis/057968b4",
+      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/axial-spondyloarthritis/057968b4/",
       "downloaded_at": "2022-04-04 10:14:14.955907Z",
       "sha": "dd31e0813e19ce9818d6fe909d2104395abaf480"
     },
     "user-markdrussell-new-rheumatoid-arthritis.csv": {
-      "id": "user/markdrussell/new-rheumatoid-arthritis/78214cd9",
-      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/new-rheumatoid-arthritis/78214cd9/",
+      "id": "user/markdrussell/new-rheumatoid-arthritis/535a8249",
+      "url": "https://codelists.opensafely.org/codelist/user/markdrussell/new-rheumatoid-arthritis/535a8249/",
       "downloaded_at": "2022-04-04 10:14:15.131930Z",
       "sha": "28044875a1f74e2d5d50be3178b6349720416e6d"
     },
