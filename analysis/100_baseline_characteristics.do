@@ -320,6 +320,12 @@ tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25 p75)
 
+**Check medium used for rheumatology appointment
+tab rheum_appt_medium, missing
+tab rheum_appt_medium if has_12m_post_appt==1, missing
+bys appt_year: tab rheum_appt_medium, missing
+bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
+
 *Time to rheum referral (see notes above)=============================================*/
 
 *Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
