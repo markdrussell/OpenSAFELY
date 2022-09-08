@@ -177,7 +177,32 @@ study = StudyDefinition(
             "incidence": 0.9,
             "int": {"distribution": "normal", "mean": 2, "stddev": 2},
         },
-    ),    
+    ),  
+
+    # Method of rheumatology outpatient e.g. telemedicine (with first attendance option selected)
+    rheum_appt_medium=patients.outpatient_appointment_date(
+        returning="consultation_medium_used",
+        find_first_match_in_period=True,
+        is_first_attendance=True,
+        with_these_treatment_function_codes = ["410"],
+        date_format="YYYY-MM-DD",
+        between = ["eia_code_date - 1 year", "eia_code_date + 60 days"],
+        return_expectations={
+           "incidence": 0.9,
+           "category": { "ratios":{ 
+                "1": 0.2,
+                "2": 0.1,
+                "3": 0.1,
+                "4": 0.1,
+                "5": 0.1,
+                "6": 0.1,
+                "7": 0.1,
+                "8": 0.1,
+                "98": 0.1, 
+                },
+            },
+        },    
+    ),  
 
     # Define study population 
     population=patients.satisfying(

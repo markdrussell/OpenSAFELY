@@ -818,6 +818,12 @@ tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys diagnosis_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 bys appt_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 
+**Check medium used for rheumatology appointment
+tab rheum_appt_medium, missing
+tab rheum_appt_medium if has_12m_post_appt==1, missing
+bys appt_year: tab rheum_appt_medium, missing
+bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
+
 **Rheumatology referrals (Nb. low capture of coded rheumatology referrals at present, therefore last GP appt used as proxy of referral date currently - see below)
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
 tab referral_rheum_prerheum if rheum_appt!=0 & referral_rheum_prerheum_date<=rheum_appt_date  //last rheum referral in the 2 years before rheumatology outpatient, assuming ref date before rheum appt date (should be accounted for by Python code)
