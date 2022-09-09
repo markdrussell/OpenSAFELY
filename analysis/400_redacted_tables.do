@@ -1109,6 +1109,122 @@ use "$projectdir/output/data/referral_byregion_rounded_`i'.dta", clear
 export excel "$projectdir/output/tables/referral_byregion_rounded.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
+**Rheumatology appointment consultation medium for all years
+clear *
+save "$projectdir/output/data/consultation_medium.dta", replace emptyok
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+
+foreach var of varlist rheum_appt_medium {
+	preserve
+	contract `var'
+	gen count = round(_freq, 5)
+	egen total = total(count)
+	gen percent = round((count/total)*100, 0.1)
+	order total, after(percent)
+	gen countstr = string(count)
+	replace countstr = "<6" if count<=5
+	order countstr, after(count)
+	drop count
+	rename countstr count_all
+	tostring percent, gen(percentstr) force format(%9.1f)
+	replace percentstr = "-" if count =="<6"
+	order percentstr, after(percent)
+	drop percent
+	rename percentstr percent_all
+	gen totalstr = string(total)
+	replace totalstr = "-" if count =="<6"
+	order totalstr, after(total)
+	drop total
+	rename totalstr total_all
+	list rheum_appt_medium count percent total
+	keep rheum_appt_medium count percent total
+	append using "$projectdir/output/data/consultation_medium.dta"
+	save "$projectdir/output/data/consultation_medium.dta", replace
+	restore
+}
+use "$projectdir/output/data/consultation_medium.dta", clear
+export excel "$projectdir/output/tables/consultation_medium_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
+
+**Rheumatology appointment consultation medium table by year
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+
+recode appt_year 1=2019
+recode appt_year 2=2020
+drop if appt_year==.
+
+local index=0
+levelsof appt_year, local(levels)
+foreach i of local levels {
+	clear *
+	save "$projectdir/output/data/consultation_medium_`i'.dta", replace emptyok
+di `index'
+	if `index'==0 {
+		local col = word("`c(ALPHA)'", `index'+5)
+	}
+	else if `index'>0 & `index'<=21 {
+	    local col = word("`c(ALPHA)'", `index'+4)
+	}
+	di "`col'"
+	if `index'==0 {
+		local `index++'
+		local `index++'
+		local `index++'
+		local `index++'
+	}
+	else {
+	    local `index++'
+		local `index++'
+		local `index++'
+	}
+	di `index'
+	
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+
+recode appt_year 1=2019
+recode appt_year 2=2020
+
+foreach var of varlist rheum_appt_medium {
+	preserve
+	keep if appt_year==`i'
+	contract `var'
+	gen count = round(_freq, 5)
+	egen total = total(count)
+	gen percent = round((count/total)*100, 0.1)
+	order total, after(percent)
+	gen countstr = string(count)
+	replace countstr = "<6" if count<=5
+	order countstr, after(count)
+	drop count
+	rename countstr count_`i'
+	tostring percent, gen(percentstr) force format(%9.1f)
+	replace percentstr = "-" if count =="<6"
+	order percentstr, after(percent)
+	drop percent
+	rename percentstr percent_`i'
+	gen totalstr = string(total)
+	replace totalstr = "-" if count =="<6"
+	order totalstr, after(total)
+	drop total
+	rename totalstr total_`i'
+	list count percent total
+	keep count percent total
+	append using "$projectdir/output/data/consultation_medium_`i'.dta"
+	save "$projectdir/output/data/consultation_medium_`i'.dta", replace
+	restore
+}
+
+display `index'
+display "`col'"
+use "$projectdir/output/data/consultation_medium_`i'.dta", clear
+export excel "$projectdir/output/tables/consultation_medium_rounded.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
+}
+
 *Output tables as CSVs		 
 import excel "$projectdir/output/tables/table_1_rounded_bydiag.xls", clear
 export delimited using "$projectdir/output/tables/table_1_rounded_bydiag.csv" , novarnames  replace		
@@ -1138,6 +1254,9 @@ import excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", clear
 export delimited using "$projectdir/output/tables/drug_byyearandregion_rounded.csv" , novarnames  replace	
 
 import excel "$projectdir/output/tables/referral_byregion_rounded.xls", clear
-export delimited using "$projectdir/output/tables/referral_byregion_rounded.csv" , novarnames  replace			
+export delimited using "$projectdir/output/tables/referral_byregion_rounded.csv" , novarnames  replace		
+
+import excel "$projectdir/output/tables/consultation_medium_rounded.xls", clear
+export delimited using "$projectdir/output/tables/consultation_medium_rounded.csv" , novarnames  replace		
 
 log close

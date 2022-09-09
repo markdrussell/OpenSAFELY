@@ -323,7 +323,6 @@ bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25
 **Check medium used for rheumatology appointment
 tab rheum_appt_medium, missing
 tab rheum_appt_medium if has_12m_post_appt==1, missing
-bys appt_year: tab rheum_appt_medium, missing
 bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
 
 *Time to rheum referral (see notes above)=============================================*/

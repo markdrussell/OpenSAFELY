@@ -820,8 +820,13 @@ bys appt_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 
 **Check medium used for rheumatology appointment
 tab rheum_appt_medium, missing
+recode rheum_appt_medium 3=2 //recode telemedicine=telephone
+replace rheum_appt_medium=10 if rheum_appt_medium>2 & rheum_appt_medium!=.
+recode rheum_appt_medium .=.u
+lab define rheum_appt_medium 1 "Face-to-face" 2 "Telephone" 10 "Other" .u "Missing", modify
+lab val rheum_appt_medium rheum_appt_medium
+lab var rheum_appt_medium "Rheumatology consultation medium"
 tab rheum_appt_medium if has_12m_post_appt==1, missing
-bys appt_year: tab rheum_appt_medium, missing
 bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
 
 **Rheumatology referrals (Nb. low capture of coded rheumatology referrals at present, therefore last GP appt used as proxy of referral date currently - see below)
