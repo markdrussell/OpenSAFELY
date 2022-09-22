@@ -76,6 +76,46 @@ foreach var of varlist *_diag_round {
 export delimited using "$projectdir/output/tables/diag_count_byyear.csv", replace
 restore
 
+*Diagnostic incidence by year, by disease; female patients
+preserve
+keep if male==0
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(diagnosis_year) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by year (baseline female population 8,866,535)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/8866535)*10000)
+}
+export delimited using "$projectdir/output/tables/diag_count_byyear_female.csv", replace
+restore
+
+*Diagnostic incidence by year, by disease; male patients
+preserve
+keep if male==1
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(diagnosis_year) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by year (baseline male population 8,816,965)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/8816965)*10000)
+}
+export delimited using "$projectdir/output/tables/diag_count_byyear_male.csv", replace
+restore
+
 *Graph of diagnoses by month, by disease
 preserve
 recode ra_code 0=.
@@ -98,6 +138,54 @@ twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incid
 	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", replace	
 	
 restore	
+
+*Graph of diagnoses by month, by disease; female patients
+preserve
+keep if male==0
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by month (baseline female population 8,866,535)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/8866535)*10000)
+}
+export delimited using "$projectdir/output/tables/diag_count_bymonth_female.csv", replace
+
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 female population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.6)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway_rounded_female, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_female.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_rounded_female.svg", replace	
+	
+restore	
+
+*Graph of diagnoses by month, by disease; male patients
+preserve
+keep if male==1
+recode ra_code 0=.
+recode psa_code 0=.
+recode anksp_code 0=.
+recode undiff_code 0=.
+collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_diagn) 
+**Round to nearest 5
+foreach var of varlist *_diag {
+	gen `var'_round=round(`var', 5)
+	drop `var'
+}
+**Generate incidences by month (baseline male population 8,816,965)
+foreach var of varlist *_diag_round {
+	gen incidence_`var'=((`var'/8816965)*10000)
+}
+export delimited using "$projectdir/output/tables/diag_count_bymonth_male.csv", replace
+
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 male population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.6)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022", nogrid ) title("", size(small)) name(incidence_twoway_rounded_male, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_male.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_rounded_male.svg", replace	
+	
+restore
 
 *Incidence of rheumatology diagnoses, by ethnicity
 preserve

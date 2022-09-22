@@ -64,8 +64,14 @@ actions:
         doc15: output/tables/appt_count_bymonth.csv
         doc16: output/tables/diag_count_byyear_ethn.csv
         doc17: output/tables/diag_count_byyear_imd.csv
+        doc18: output/tables/diag_count_bymonth_female.csv
+        doc19: output/tables/diag_count_bymonth_male.csv
+        doc20: output/tables/diag_count_byyear_female.csv
+        doc21: output/tables/diag_count_byyear_male.csv
         figure1: output/figures/incidence_twoway_rounded.svg
         figure2: output/figures/incidence_twoway_appt.svg
+        figure3: output/figures/incidence_twoway_rounded_female.svg
+        figure4: output/figures/incidence_twoway_rounded_male.svg
   
   run_itsa_models:
     run: stata-mp:latest analysis/200_itsa_models.do
