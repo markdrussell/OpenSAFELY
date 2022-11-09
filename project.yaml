@@ -146,4 +146,11 @@ actions:
     outputs:
       moderately_sensitive:
         log1: logs/redacted_tables_allpts.log   
-        doc1: output/tables/table_1_rounded_allpts.csv        
+        doc1: output/tables/table_1_rounded_allpts.csv  
+
+  generate_notebook:
+    run: jupyter:latest jupyter nbconvert /workspace/analysis/report.ipynb --execute --to html --template basic --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
+    needs: [run_baseline_tables]
+    outputs:
+      moderately_sensitive:
+        notebook: output/report.html            
