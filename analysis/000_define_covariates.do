@@ -18,6 +18,7 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 
 capture mkdir "$projectdir/output/data"
@@ -42,7 +43,7 @@ adopath + "$projectdir/analysis/extra_ados"
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
 global appt_date = "01/04/2021"
-global end_date = "01/04/2022"
+global end_date = "01/10/2022"
 
 **Rename variables (some are too long for Stata to handle) =======================================*/
 rename chronic_respiratory_disease chronic_resp_disease
@@ -686,7 +687,7 @@ format diagnosis_date %td
 
 *Refine diagnostic window=============================================================*/
 
-**Keep patients with diagnosis date was after 1st April 2019 and before 1st April 2022
+**Keep patients with diagnosis date was after 1st April 2019 and before end date
 keep if diagnosis_date>=date("$start_date", "DMY") & diagnosis_date!=. 
 tab eia_code, missing
 keep if diagnosis_date<date("$end_date", "DMY") & diagnosis_date!=. 
@@ -745,7 +746,8 @@ replace diagnosis_6m=3 if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01oc
 replace diagnosis_6m=4 if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01apr2021)
 replace diagnosis_6m=5 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oct2021)
 replace diagnosis_6m=6 if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022)
-lab define diagnosis_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022", modify
+replace diagnosis_6m=7 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022)
+lab define diagnosis_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022", modify
 lab val diagnosis_6m diagnosis_6m
 lab var diagnosis_6m "Time period for diagnosis"
 tab diagnosis_6m, missing
@@ -768,7 +770,8 @@ replace appt_6m=3 if rheum_appt_date>=td(01apr2020) & rheum_appt_date<td(01oct20
 replace appt_6m=4 if rheum_appt_date>=td(01oct2020) & rheum_appt_date<td(01apr2021)
 replace appt_6m=5 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01oct2021)
 replace appt_6m=6 if rheum_appt_date>=td(01oct2021) & rheum_appt_date<td(01apr2022)
-lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022", modify
+replace appt_6m=7 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01oct2022)
+lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022", modify
 lab val appt_6m appt_6m
 lab var appt_6m "Time period for first rheumatology appt"
 tab appt_6m, missing
@@ -793,11 +796,11 @@ tab mo_year_diagn has_6m_follow_up
 tab mo_year_diagn has_12m_follow_up
 
 *For appt and csDMARD analyses, all patients must have 1) rheum appt 2) GP appt before rheum appt 3) 12m follow-up after rheum appt 4) 12m of registration after appt
-gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01oct2021) & has_6m_follow_up==1 & last_gp_prerheum==1
+gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-180) & has_6m_follow_up==1 & last_gp_prerheum==1
 recode has_6m_post_appt .=0
-gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<td(01apr2021) & has_12m_follow_up==1 & last_gp_prerheum==1
+gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365) & has_12m_follow_up==1 & last_gp_prerheum==1
 recode has_12m_post_appt .=0
-lab var has_12m_post_appt "GP/rheum/registration < Apr 21"
+lab var has_12m_post_appt "GP/rheum/registration 12m+"
 lab define has_12m_post_appt 0 "No" 1 "Yes", modify
 lab val has_12m_post_appt has_12m_post_appt
 
@@ -807,9 +810,9 @@ tab rheum_appt2, missing //proportion of patients with a rheum outpatient date i
 tab rheum_appt3, missing //proportion of patients with a rheum outpatient date in the 2 years before EIA code appeared in GP record; data only April 2019 onwards
 
 *Gen rheum appt var only for those with 12m follow-up
-gen rheum_appt_to21=rheum_appt if rheum_appt_date<td(01apr2021) 
+gen rheum_appt_to21=rheum_appt if rheum_appt_date<(date("$end_date", "DMY")-365) 
 recode rheum_appt_to21 .=0
-lab var rheum_appt_to21 "Rheumatology appt < Apr 21 "
+lab var rheum_appt_to21 "Rheumatology appt 12m+"
 lab define rheum_appt_to21 0 "No" 1 "Yes", modify
 lab val rheum_appt_to21 rheum_appt_to21
 
@@ -840,9 +843,9 @@ format %td referral_rheum_comb_date
 **GP appointments
 tab last_gp_refrheum //proportion with last GP appointment in 2 years before rheum referral (pre-rheum appt); requires there to have been a rheum referral before a rheum appt
 
-gen last_gp_prerheum_to21=last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<td(01apr2021)
+gen last_gp_prerheum_to21=last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365)
 recode last_gp_prerheum_to21 .=0
-lab var last_gp_prerheum_to21 "GP and rheum appt < Apr 21"
+lab var last_gp_prerheum_to21 "GP and rheum appt 12m+"
 lab define last_gp_prerheum_to21 0 "No" 1 "Yes", modify
 lab val last_gp_prerheum_to21 last_gp_prerheum_to21
 gen all_appts=1 if last_gp_refrheum==1 & referral_rheum_prerheum==1 & rheum_appt==1 & last_gp_refrheum_date<=referral_rheum_prerheum_date & referral_rheum_prerheum_date<=rheum_appt_date
