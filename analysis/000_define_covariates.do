@@ -758,7 +758,7 @@ bys eia_diagnosis: tab diagnosis_6m, missing
 gen diagnosis_year=1 if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020)
 replace diagnosis_year=2 if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021)
 replace diagnosis_year=3 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022)
-replace diagnosis_year=4 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022)
+replace diagnosis_year=4 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01apr2023)
 lab define diagnosis_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023", modify
 lab val diagnosis_year diagnosis_year
 lab var diagnosis_year "Year of diagnosis"

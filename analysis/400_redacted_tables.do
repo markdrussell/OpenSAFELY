@@ -580,7 +580,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 keep if has_12m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
-foreach var of varlist csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
+foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
 	preserve
 	contract `var'
 	local v : variable label `var' 
@@ -652,7 +652,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 keep if has_12m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
-foreach var of varlist csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
+foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
 	preserve
 	keep if eia_diag=="`i'"
 	contract `var'
@@ -821,7 +821,7 @@ keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
-foreach var of varlist csdmard_time_20 csdmard_time_19 csdmard_time {
+foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 csdmard_time {
 	preserve
 	contract `var'
 	local v : variable label `var' 
@@ -918,7 +918,7 @@ keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
-foreach var of varlist csdmard_time_20 csdmard_time_19 csdmard_time {
+foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 csdmard_time {
 	preserve
 	keep if region_nospace=="`i'"
 	contract `var'
@@ -973,7 +973,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
 
-foreach var of varlist gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
+foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
 	preserve
 	contract `var'
 	local v : variable label `var' 
@@ -1067,7 +1067,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 keep if has_12m_post_appt==1
 drop if region_nospace=="Not known"
 
-foreach var of varlist gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
+foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
 	preserve
 	keep if region_nospace=="`i'"
 	contract `var'
