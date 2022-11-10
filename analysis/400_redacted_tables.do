@@ -15,6 +15,7 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -354,6 +355,7 @@ keep if has_12m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 drop if appt_year==.
 
 local index=0
@@ -390,6 +392,7 @@ use "$projectdir/output/data/file_eia_all.dta", clear
 keep if has_12m_post_appt==1
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 keep if appt_year==`i'
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
@@ -734,6 +737,7 @@ keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 drop if appt_year==.
 
 local index=0
@@ -770,6 +774,7 @@ keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 
 foreach var of varlist first_csDMARD {
 	preserve
@@ -1154,6 +1159,7 @@ keep if has_12m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 drop if appt_year==.
 
 local index=0
@@ -1188,6 +1194,7 @@ keep if has_12m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
+recode appt_year 3=2021
 
 foreach var of varlist rheum_appt_medium {
 	preserve

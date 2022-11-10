@@ -362,15 +362,18 @@ tab rheum_appt_any if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr202
 tab rheum_appt if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022), missing  
 tab rheum_appt_any if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022), missing
 
-***First year
+**By year
 tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing  
 tab rheum_appt_any if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing 
-**Second year
+
 tab rheum_appt if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing  
 tab rheum_appt_any if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021), missing 
-**Third year
+
 tab rheum_appt if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing  
 tab rheum_appt_any if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022), missing 
+
+tab rheum_appt if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01apr2023), missing  
+tab rheum_appt_any if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01apr2023), missing 
 
 **Check if above criteria are picking up the same appt
 tabstat time_rheum_eia_code, stats (n p50 p25 p75) //using 12 months pre-EIA code

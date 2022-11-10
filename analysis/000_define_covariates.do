@@ -18,6 +18,7 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 
@@ -757,7 +758,8 @@ bys eia_diagnosis: tab diagnosis_6m, missing
 gen diagnosis_year=1 if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020)
 replace diagnosis_year=2 if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021)
 replace diagnosis_year=3 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022)
-lab define diagnosis_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022", modify
+replace diagnosis_year=4 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022)
+lab define diagnosis_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023", modify
 lab val diagnosis_year diagnosis_year
 lab var diagnosis_year "Year of diagnosis"
 tab diagnosis_year, missing
@@ -781,7 +783,8 @@ bys eia_diagnosis: tab appt_6m, missing
 gen appt_year=1 if rheum_appt_date>=td(01apr2019) & rheum_appt_date<td(01apr2020)
 replace appt_year=2 if rheum_appt_date>=td(01apr2020) & rheum_appt_date<td(01apr2021)
 replace appt_year=3 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01apr2022)
-lab define appt_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022", modify
+replace appt_year=4 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01apr2023)
+lab define appt_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023", modify
 lab val appt_year appt_year
 lab var appt_year "Year of first rheumatology appt"
 tab appt_year, missing
@@ -905,12 +908,16 @@ tab gp_appt_cat, missing
 
 gen gp_appt_cat_19=gp_appt_cat if appt_year==1
 gen gp_appt_cat_20=gp_appt_cat if appt_year==2
+gen gp_appt_cat_21=gp_appt_cat if appt_year==3
 lab define gp_appt_cat_19 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_19 gp_appt_cat_19
 lab var gp_appt_cat_19 "Time to rheumatology assessment, Apr 2019-2020"
 lab define gp_appt_cat_20 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_20 gp_appt_cat_20
 lab var gp_appt_cat_20 "Time to rheumatology assessment, Apr 2020-2021"
+lab define gp_appt_cat_21 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_21 gp_appt_cat_21
+lab var gp_appt_cat_21 "Time to rheumatology assessment, Apr 2021-2022"
 
 gen gp_appt_3w=1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=. 
 replace gp_appt_3w=2 if time_gp_rheum_appt>21 & time_gp_rheum_appt!=.
@@ -1006,12 +1013,17 @@ gen csdmard_time_19=csdmard_time if appt_year==1
 recode csdmard_time_19 .=5
 gen csdmard_time_20=csdmard_time if appt_year==2
 recode csdmard_time_20 .=5
+gen csdmard_time_21=csdmard_time if appt_year==3
+recode csdmard_time_21 .=5
 lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2019", modify
 lab val csdmard_time_19 csdmard_time_19
 lab var csdmard_time_19 "csDMARD in primary care, Apr 2019-2020" 
 lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2020", modify
 lab val csdmard_time_20 csdmard_time_20
 lab var csdmard_time_20 "csDMARD in primary care, Apr 2020-2021" 
+lab define csdmard_time_21 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2021", modify
+lab val csdmard_time_21 csdmard_time_21
+lab var csdmard_time_21 "csDMARD in primary care, Apr 2021-2022" 
 
 **csDMARD time categories - binary 6 months
 gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
