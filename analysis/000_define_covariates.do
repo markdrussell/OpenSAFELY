@@ -1053,6 +1053,10 @@ foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_dat
 	}
 gen first_csDMARD = substr(first_csD, 1, length(first_csD) - 5) if first_csD!="" 
 drop first_csD
+replace first_csDMARD="Methotrexate" if first_csDMARD=="methotrexate" | first_csDMARD=="methotrexate_inj" //combine oral and s/c MTX
+replace first_csDMARD="Sulfasalazine" if first_csDMARD=="sulfasalazine" 
+replace first_csDMARD="Leflunomide" if first_csDMARD=="leflunomide" 
+replace first_csDMARD="Hydroxychloroquine" if first_csDMARD=="hydroxychloroquine" 
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
 tab first_csDMARD if anksp_code==1 //for axSpA patients
