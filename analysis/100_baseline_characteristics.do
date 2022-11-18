@@ -254,9 +254,9 @@ restore
 
 **For first rheumatology appt date
 tab mo_year_appt, missing
-tab appt_6m, missing
+tab appt_3m, missing
 tab appt_year, missing
-bys eia_diagnosis: tab appt_6m, missing
+bys eia_diagnosis: tab appt_3m, missing
 bys eia_diagnosis: tab appt_year, missing
 
 **Demographics
@@ -400,15 +400,27 @@ tab last_gp_precode //last GP appointment before EIA code
 tab rheum_appt if rheum_appt_date<(date("$end_date", "DMY")-365), missing
 tab rheum_appt_to21
 
+**Number with rheumatology appt and >6 months of follow-up
+tab rheum_appt if rheum_appt_date<(date("$end_date", "DMY")-180), missing
+tab rheum_appt_to6m
+
 **Number with GP appointment prior to rheum appointment and >12 months of follow-up
 tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365), missing 
 tab last_gp_prerheum_to21
 
+**Number with GP appointment prior to rheum appointment and >6 months of follow-up
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-180), missing 
+tab last_gp_prerheum_to6m
+
 **Number with GP appointment prior to rheum appointment and >12 months of follow-up and >12m of continuous registration after appointment
 tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365) & has_12m_follow_up==1, missing 
 
+**Number with GP appointment prior to rheum appointment and >6 months of follow-up and >6m of continuous registration after appointment
+tab last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-180) & has_6m_follow_up==1, missing 
+
 **As above
 tab has_12m_post_appt, missing
+tab has_6m_post_appt, missing
 
 **Check number of rheumatology appts in the year before EIA code
 tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
@@ -419,17 +431,19 @@ bys appt_year: tabstat rheum_appt_count if appt_year!=., stat (n mean sd p50 p25
 tab rheum_appt_medium, missing
 tab rheum_appt_medium if has_12m_post_appt==1, missing
 bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
+tab rheum_appt_medium if has_6m_post_appt==1, missing
+bys appt_year: tab rheum_appt_medium if has_6m_post_appt==1, missing
 
 *Time to rheum referral (see notes above)=============================================*/
 
-*Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
-keep if has_12m_post_appt==1
+*Restrict all analyses below to patients with rheum appt, GP appt and 6m follow-up and registration (changed from 12m for purposes of OpenSAFELY report)
+keep if has_6m_post_appt==1
 keep if appt_3m!=. //only keep appointments within pre-specified timeframe (should be accounted for by line above)
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
 bys eia_diagnosis: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by eia diagnosis
-bys appt_6m: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_ref_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
@@ -438,8 +452,8 @@ tab gp_ref_cat, missing
 tab gp_ref_cat
 bys eia_diagnosis: tab gp_ref_cat, missing
 bys eia_diagnosis: tab gp_ref_cat
-bys appt_6m: tab gp_ref_cat, missing
-bys appt_6m: tab gp_ref_cat
+bys appt_3m: tab gp_ref_cat, missing
+bys appt_3m: tab gp_ref_cat
 bys appt_year: tab gp_ref_cat, missing
 bys appt_year: tab gp_ref_cat
 bys nuts_region: tab gp_ref_cat if nuts_region!=., missing
@@ -470,14 +484,13 @@ bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys appt_3m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis 3m
-bys appt_6m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis 6m
 bys appt_year: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time from rheum ref to rheum appt (i.e. if appts are present and in correct time order)
 tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
+bys appt_3m: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis 3m
 bys appt_year: tabstat time_ref_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_ref_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
@@ -486,8 +499,8 @@ tab gp_appt_cat, missing
 tab gp_appt_cat
 bys eia_diagnosis: tab gp_appt_cat, missing
 bys eia_diagnosis: tab gp_appt_cat
-bys appt_6m: tab gp_appt_cat, missing
-bys appt_6m: tab gp_appt_cat
+bys appt_3m: tab gp_appt_cat, missing
+bys appt_3m: tab gp_appt_cat
 bys appt_year: tab gp_appt_cat, missing
 bys appt_year: tab gp_appt_cat
 bys nuts_region: tab gp_appt_cat if nuts_region!=., missing
@@ -504,8 +517,8 @@ tab ref_appt_cat, missing
 tab ref_appt_cat
 bys eia_diagnosis: tab ref_appt_cat, missing
 bys eia_diagnosis: tab ref_appt_cat
-bys appt_6m: tab ref_appt_cat, missing
-bys appt_6m: tab ref_appt_cat
+bys appt_3m: tab ref_appt_cat, missing
+bys appt_3m: tab ref_appt_cat
 bys appt_year: tab ref_appt_cat, missing
 bys appt_year: tab ref_appt_cat
 bys nuts_region: tab ref_appt_cat if nuts_region!=., missing
@@ -516,8 +529,8 @@ tab ref_appt_3w, missing
 tab ref_appt_3w
 bys eia_diagnosis: tab ref_appt_3w, missing
 bys eia_diagnosis: tab ref_appt_3w
-bys appt_6m: tab ref_appt_3w, missing
-bys appt_6m: tab ref_appt_3w
+bys appt_3m: tab ref_appt_3w, missing
+bys appt_3m: tab ref_appt_3w
 bys nuts_region: tab ref_appt_3w if nuts_region!=., missing
 bys nuts_region: tab ref_appt_3w if nuts_region!=.
 */
@@ -525,7 +538,7 @@ bys nuts_region: tab ref_appt_3w if nuts_region!=.
 **Time from rheum ref or last GP to rheum appt (combined; includes those with no rheum ref)
 tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
+bys appt_3m: tabstat time_refgp_rheum_appt, stats (n mean p50 p25 p75) //all patients by diagnosis year
 bys nuts_region: tabstat time_refgp_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 *Time to EIA code==================================================*/
@@ -557,6 +570,8 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
+		 gp_appt_cat_21 cat %3.1f \ ///
+		 gp_appt_cat_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		  
  
 *Referral standards, by 12 months periods - date of first appt rather than date of EIA code
@@ -571,70 +586,77 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 	vars(gp_appt_cat cat %3.1f \ ///
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
+		 gp_appt_cat_21 cat %3.1f \ ///
+		 gp_appt_cat_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
 
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
-*As above, all patients must have 1) rheum appt and GP appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
+*As above, all patients must have 1) rheum appt and GP appt 2) 6m follow-up after rheum appt 3) 6m of registration after appt
 **Note: in final redacted tables, axSpA patients are excluded (due to potential for small counts)
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
 **Proportion with a csDMARD prescription in GP record at any point after diagnosis; patients excluded if csDMARD or biologic was >60 days before rheumatology appt date
 tab csdmard, missing
+tab csdmard if (csdmard_date<=rheum_appt_date+180), missing //with 6-month limit
 tab csdmard if (csdmard_date<=rheum_appt_date+365), missing //with 12-month limit
 bys eia_diagnosis: tab csdmard
+bys eia_diagnosis: tab csdmard if (csdmard_date<=rheum_appt_date+180) //with 6-month limit
 bys eia_diagnosis: tab csdmard if (csdmard_date<=rheum_appt_date+365) //with 12-month limit
+
 
 **With high cost MTX data
 tab csdmard_hcd, missing //including high cost MTX scripts 
+tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+180), missing //with 6-month limit
 tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365), missing //with 12-month limit
 bys eia_diagnosis: tab csdmard_hcd, missing //including high cost MTX scripts 
+bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+180) //with 6-month limit
 bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365) //with 12-month limit
 
 **Compare proportion with more than one script issued for csDMARDs
 tab csdmard, missing //all prescriptions, for comparison
 tab csdmard_shared, missing //issued more than once (shared care)
 
-**Time to first csDMARD in GP record for RA/PsA/undiff IA patients, not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis for all csDMARDs below 
+**Time to first csDMARD in GP record for RA/PsA/undiff IA patients, not including high cost MTX prescriptions; prescription must be within 6 months of diagnosis for all csDMARDs below 
 tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75)
-bys appt_3m: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
-**Time to first csDMARD in GP record for RA patients not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis for all csDMARDs below 
+**Time to first csDMARD in GP record for RA patients not including high cost MTX prescriptions; prescription must be within 6 months of diagnosis for all csDMARDs below 
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 /*
 **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
-bys appt_6m: tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys nuts_region: tabstat time_to_csdmard_hcd if ra_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) 
-bys appt_6m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys nuts_region: tabstat time_to_csdmard_hcd if psa_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 */
 
 **Time to first csDMARD script for axSpA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if anksp_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis period
 bys appt_year: tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_to_csdmard if undiff_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
@@ -653,12 +675,12 @@ tab csdmard_hcd_time if undiff_code==1, missing
 */
 
 **What was first shared care csDMARD (not including high cost MTX prescriptions)
-***Exclude axSpA patients due to potentially small counts
+***Exclude axSpA patients due to potentially small counts; exclude leflunomide due to small counts by more granular time periods
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 tab first_csDMARD
 bys appt_year: tab first_csDMARD //did choice of first drug vary by year
-bys appt_3m: tab first_csDMARD //did choice of first drug vary by year
+bys appt_3m: tab first_csDMARD //did choice of first drug vary by time period
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
@@ -670,11 +692,11 @@ tab first_csDMARD_hcd if undiff_code==1 //for Undiff IA patients
  
 **Methotrexate use (not including high cost MTX prescriptions)
 tab mtx if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
-tab mtx if ra_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx if ra_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if psa_code==1 //for PsA patients
-tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if undiff_code==1 //for undiff IA patients
-tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 
 **Compare proportion with more than one script issued for csDMARDs
 tab mtx, missing //all prescriptions (for comparison)
@@ -684,11 +706,11 @@ tab mtx_issue, missing //issed none vs. once vs. more than once
 /*
 **Methotrexate use (including high cost MTX prescriptions)
 tab mtx_hcd if ra_code==1 //for RA patients
-tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if psa_code==1 //for PsA patients
-tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if undiff_code==1 //for undiff IA patients
-tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 */
 
 **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
@@ -760,7 +782,7 @@ tab lef, missing //all prescriptions (for comparison)
 tab lef_shared, missing //issued more than once (shared care)
 tab lef_issue, missing //issed none vs. once vs. more than once
 
-*Drug prescription table, for those with at least 12m registration - excluding axSpA (low counts)
+*Drug prescription table, for those with at least 6m follow-up - excluding axSpA (low counts)
 table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -769,7 +791,7 @@ table1_mc if eia_diagnosis!=3, by(eia_diagnosis) total(before) onecol nospacelow
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_bydiag_miss.xls", replace)
 		 
-*Drug prescription table, for those with at least 12m registration; all diagnoses but for AxSpA
+*Drug prescription table, for those with at least 6m follow-up; all diagnoses but for AxSpA
 table1_mc if eia_diagnosis!=3, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -778,7 +800,7 @@ table1_mc if eia_diagnosis!=3, by(appt_year) total(before) onecol nospacelowperc
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_miss.xls", replace)		 
 
-*Drug prescription table, for those with at least 12m registration for RA patients
+*Drug prescription table, for those with at least 6m follow-up for RA patients
 table1_mc if ra_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -787,7 +809,7 @@ table1_mc if ra_code==1, by(appt_year) total(before) onecol nospacelowpercent iq
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_ra_miss.xls", replace)
 		 
-*Drug prescription table, for those with at least 12m registration for PsA patients
+*Drug prescription table, for those with at least 6m follow-up for PsA patients
 table1_mc if psa_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -796,7 +818,7 @@ table1_mc if psa_code==1, by(appt_year) total(before) onecol nospacelowpercent i
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_psa_miss.xls", replace)
 
-*Drug prescription table, for those with at least 12m registration for Undiff IA patients
+*Drug prescription table, for those with at least 6m follow-up for Undiff IA patients
 table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -805,7 +827,7 @@ table1_mc if undiff_code==1, by(appt_year) total(before) onecol nospacelowpercen
 		 lef_time cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyear_undiff_miss.xls", replace) 
 		 
-*Drug prescription table, for those with at least 12m registration for all diagnoses, by year
+*Drug prescription table, for those with at least 6m follow-up for all diagnoses, by year
 table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 mtx_time cat %3.1f \ ///
@@ -813,13 +835,17 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 hcq_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
+		 csdmard_time_21 cat %3.1f \ ///
+		 csdmard_time_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 
 		 
-*Drug prescription table, for those with at least 12m registration for all diagnoses, by region and year
+*Drug prescription table, for those with at least 6m follow-up for all diagnoses, by region and year
 table1_mc if nuts_region!=. & (ra_code==1 | psa_code==1 | undiff_code==1), by(nuts_region) total(before) onecol nospacelowpercent iqrmiddle(",")  ///
 	vars(csdmard_time cat %3.1f \ ///
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
+		 csdmard_time_21 cat %3.1f \ ///
+		 csdmard_time_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearandregion.xls", replace) 			 
 		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020. Not for analysis currently due to small numbers======================================================================*/

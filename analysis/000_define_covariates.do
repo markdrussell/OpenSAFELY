@@ -843,6 +843,9 @@ tab mo_year_diagn has_12m_follow_up
 *For appt and csDMARD analyses, all patients must have 1) rheum appt 2) GP appt before rheum appt 3) 12m follow-up after rheum appt 4) 12m of registration after appt
 gen has_6m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-180) & has_6m_follow_up==1 & last_gp_prerheum==1
 recode has_6m_post_appt .=0
+lab var has_6m_post_appt "GP/rheum/registration 6m+"
+lab define has_6m_post_appt 0 "No" 1 "Yes", modify
+lab val has_6m_post_appt has_6m_post_appt
 gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365) & has_12m_follow_up==1 & last_gp_prerheum==1
 recode has_12m_post_appt .=0
 lab var has_12m_post_appt "GP/rheum/registration 12m+"
@@ -860,6 +863,13 @@ recode rheum_appt_to21 .=0
 lab var rheum_appt_to21 "Rheumatology appt 12m+"
 lab define rheum_appt_to21 0 "No" 1 "Yes", modify
 lab val rheum_appt_to21 rheum_appt_to21
+
+*Gen rheum appt var only for those with 6m+ follow-up
+gen rheum_appt_to6m=rheum_appt if rheum_appt_date<(date("$end_date", "DMY")-180) 
+recode rheum_appt_to6m .=0
+lab var rheum_appt_to6m "Rheumatology appt 6m+"
+lab define rheum_appt_to6m 0 "No" 1 "Yes", modify
+lab val rheum_appt_to6m rheum_appt_to6m
 
 **Check number of rheumatology appts in the year before EIA code
 tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
@@ -893,6 +903,13 @@ recode last_gp_prerheum_to21 .=0
 lab var last_gp_prerheum_to21 "GP and rheum appt 12m+"
 lab define last_gp_prerheum_to21 0 "No" 1 "Yes", modify
 lab val last_gp_prerheum_to21 last_gp_prerheum_to21
+
+gen last_gp_prerheum_to6m=last_gp_prerheum if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-180)
+recode last_gp_prerheum_to6m .=0
+lab var last_gp_prerheum_to6m "GP and rheum appt 6m+"
+lab define last_gp_prerheum_to6m 0 "No" 1 "Yes", modify
+lab val last_gp_prerheum_to6m last_gp_prerheum_to6m
+
 gen all_appts=1 if last_gp_refrheum==1 & referral_rheum_prerheum==1 & rheum_appt==1 & last_gp_refrheum_date<=referral_rheum_prerheum_date & referral_rheum_prerheum_date<=rheum_appt_date
 recode all_appts .=0
 tab all_appts, missing //proportion who had a last gp appt, then rheum ref, then rheum appt
@@ -951,6 +968,7 @@ tab gp_appt_cat, missing
 gen gp_appt_cat_19=gp_appt_cat if appt_year==1
 gen gp_appt_cat_20=gp_appt_cat if appt_year==2
 gen gp_appt_cat_21=gp_appt_cat if appt_year==3
+gen gp_appt_cat_22=gp_appt_cat if appt_year==4
 lab define gp_appt_cat_19 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_19 gp_appt_cat_19
 lab var gp_appt_cat_19 "Time to rheumatology assessment, Apr 2019-2020"
@@ -960,6 +978,9 @@ lab var gp_appt_cat_20 "Time to rheumatology assessment, Apr 2020-2021"
 lab define gp_appt_cat_21 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_21 gp_appt_cat_21
 lab var gp_appt_cat_21 "Time to rheumatology assessment, Apr 2021-2022"
+lab define gp_appt_cat_22 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_22 gp_appt_cat_22
+lab var gp_appt_cat_22 "Time to rheumatology assessment, Apr 2022-2023"
 
 gen gp_appt_3w=1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=. 
 replace gp_appt_3w=2 if time_gp_rheum_appt>21 & time_gp_rheum_appt!=.
@@ -1018,12 +1039,12 @@ tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75)
 
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
-**Time to first csDMARD script for RA patients not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis all csDMARDs below ==================*/
-gen time_to_csdmard=(csdmard_date-rheum_appt_date) if csdmard==1 & rheum_appt_date!=. & (csdmard_date<=rheum_appt_date+365)
+**Time to first csDMARD script for RA patients not including high cost MTX prescriptions; prescription must be within 6 months of first rheum appt for all csDMARDs below ==================*/
+gen time_to_csdmard=(csdmard_date-rheum_appt_date) if csdmard==1 & rheum_appt_date!=. & (csdmard_date<=rheum_appt_date+180)
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 
 **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
-gen time_to_csdmard_hcd=(csdmard_hcd_date-rheum_appt_date) if csdmard_hcd==1 & rheum_appt_date!=. & (csdmard_hcd_date<=rheum_appt_date+365)
+gen time_to_csdmard_hcd=(csdmard_hcd_date-rheum_appt_date) if csdmard_hcd==1 & rheum_appt_date!=. & (csdmard_hcd_date<=rheum_appt_date+180)
 tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
 
 **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
@@ -1041,9 +1062,8 @@ tabstat time_to_csdmard if undiff_code==1, stats (n mean p50 p25 p75)
 **csDMARD time categories (not including high cost MTX prescriptions)
 gen csdmard_time=1 if time_to_csdmard<=90 & time_to_csdmard!=. 
 replace csdmard_time=2 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
-replace csdmard_time=3 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
-replace csdmard_time=4 if time_to_csdmard>365 | time_to_csdmard==.
-lab define csdmard_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace csdmard_time=3 if time_to_csdmard>180 | time_to_csdmard==.
+lab define csdmard_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val csdmard_time csdmard_time
 lab var csdmard_time "csDMARD in primary care, overall" 
 tab csdmard_time if ra_code==1, missing 
@@ -1052,20 +1072,25 @@ tab csdmard_time if anksp_code==1, missing
 tab csdmard_time if undiff_code==1, missing
 
 gen csdmard_time_19=csdmard_time if appt_year==1
-recode csdmard_time_19 .=5
+recode csdmard_time_19 .=4
 gen csdmard_time_20=csdmard_time if appt_year==2
-recode csdmard_time_20 .=5
+recode csdmard_time_20 .=4
 gen csdmard_time_21=csdmard_time if appt_year==3
-recode csdmard_time_21 .=5
-lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2019", modify
+recode csdmard_time_21 .=4
+gen csdmard_time_22=csdmard_time if appt_year==4
+recode csdmard_time_22 .=4
+lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2019", modify
 lab val csdmard_time_19 csdmard_time_19
 lab var csdmard_time_19 "csDMARD in primary care, Apr 2019-2020" 
-lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2020", modify
+lab define csdmard_time_20 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2020", modify
 lab val csdmard_time_20 csdmard_time_20
 lab var csdmard_time_20 "csDMARD in primary care, Apr 2020-2021" 
-lab define csdmard_time_21 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months" 5 "Outside 2021", modify
+lab define csdmard_time_21 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2021", modify
 lab val csdmard_time_21 csdmard_time_21
 lab var csdmard_time_21 "csDMARD in primary care, Apr 2021-2022" 
+lab define csdmard_time_22 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2021", modify
+lab val csdmard_time_22 csdmard_time_22
+lab var csdmard_time_22 "csDMARD in primary care, Apr 2022-2023" 
 
 **csDMARD time categories - binary 6 months
 gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 
@@ -1078,9 +1103,8 @@ tab csdmard_6m, missing
 **csDMARD time categories (including high cost MTX prescriptions)
 gen csdmard_hcd_time=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=. 
 replace csdmard_hcd_time=2 if time_to_csdmard_hcd>90 & time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=.
-replace csdmard_hcd_time=3 if time_to_csdmard_hcd>180 & time_to_csdmard_hcd<=365 & time_to_csdmard_hcd!=.
-replace csdmard_hcd_time=4 if time_to_csdmard_hcd>365 | time_to_csdmard_hcd==.
-lab define csdmard_hcd_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace csdmard_hcd_time=3 if time_to_csdmard_hcd>180 | time_to_csdmard_hcd==.
+lab define csdmard_hcd_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val csdmard_hcd_time csdmard_hcd_time
 lab var csdmard_hcd_time "csDMARD in primary care" 
 tab csdmard_hcd_time if ra_code==1, missing 
@@ -1088,16 +1112,15 @@ tab csdmard_hcd_time if psa_code==1, missing
 tab csdmard_hcd_time if anksp_code==1, missing 
 tab csdmard_hcd_time if undiff_code==1, missing
 
-**What was first csDMARD in GP record (not including high cost MTX prescriptions)
+**What was first csDMARD in GP record (not including high cost MTX prescriptions) - removed leflunomide (for OpenSAFELY report) due to small counts at more granular time periods
 gen first_csD=""
-foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date sulfasalazine_date {
-	replace first_csD="`var'" if csdmard_date==`var' & csdmard_date!=. & (`var'<=(rheum_appt_date+365)) & time_to_csdmard!=.
+foreach var of varlist hydroxychloroquine_date methotrexate_date methotrexate_inj_date sulfasalazine_date {
+	replace first_csD="`var'" if csdmard_date==`var' & csdmard_date!=. & (`var'<=(rheum_appt_date+180)) & time_to_csdmard!=.
 	}
 gen first_csDMARD = substr(first_csD, 1, length(first_csD) - 5) if first_csD!="" 
 drop first_csD
 replace first_csDMARD="Methotrexate" if first_csDMARD=="methotrexate" | first_csDMARD=="methotrexate_inj" //combine oral and s/c MTX
-replace first_csDMARD="Sulfasalazine" if first_csDMARD=="sulfasalazine" 
-replace first_csDMARD="Leflunomide" if first_csDMARD=="leflunomide" 
+replace first_csDMARD="Sulfasalazine" if first_csDMARD=="sulfasalazine"
 replace first_csDMARD="Hydroxychloroquine" if first_csDMARD=="hydroxychloroquine" 
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
@@ -1106,8 +1129,8 @@ tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
 **What was first csDMARD in GP record (including high cost MTX prescriptions)
 gen first_csD_hcd=""
-foreach var of varlist hydroxychloroquine_date leflunomide_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {
-	replace first_csD_hcd="`var'" if csdmard_hcd_date==`var' & csdmard_hcd_date!=. & (csdmard_hcd_date<=rheum_appt_date+365) & time_to_csdmard_hcd!=.
+foreach var of varlist hydroxychloroquine_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {
+	replace first_csD_hcd="`var'" if csdmard_hcd_date==`var' & csdmard_hcd_date!=. & (csdmard_hcd_date<=rheum_appt_date+180) & time_to_csdmard_hcd!=.
 	}
 gen first_csDMARD_hcd = substr(first_csD_hcd, 1, length(first_csD_hcd) - 5) if first_csD_hcd!=""
 drop first_csD_hcd
@@ -1134,18 +1157,24 @@ format %td mtx_hcd_date
 
 **Methotrexate use (not including high cost MTX prescriptions)
 tab mtx if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
+tab mtx if ra_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if ra_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 tab mtx if psa_code==1 //for PsA patients
+tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if psa_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 tab mtx if undiff_code==1 //for undiff IA patients
+tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 
 **Methotrexate use (including high cost MTX prescriptions)
 tab mtx_hcd if ra_code==1 //for RA patients
+tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
 tab mtx_hcd if psa_code==1 //for PsA patients
+tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
 tab mtx_hcd if undiff_code==1 //for undiff IA patients
+tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
 
 **Check if medication issued >once
@@ -1155,11 +1184,11 @@ tab mtx_shared
 
 **Methotrexate use (shared care)
 tab mtx_shared if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
-tab mtx_shared if ra_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_shared if ra_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_shared if psa_code==1 //for PsA patients
-tab mtx_shared if psa_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_shared if psa_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_shared if undiff_code==1 //for undiff IA patients
-tab mtx_shared if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
+tab mtx_shared if undiff_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 
 **Check medication issue number
 gen mtx_issue=0 if mtx==1 & (methotrexate_count==0 | methotrexate_inj_count==0)
@@ -1168,11 +1197,11 @@ replace mtx_issue=2 if mtx==1 & (methotrexate_count>1 | methotrexate_inj_count>1
 tab mtx_issue
 
 **Time to first methotrexate script for RA patients (not including high cost MTX prescriptions)
-gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & (mtx_date<=rheum_appt_date+365)
+gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & (mtx_date<=rheum_appt_date+180)
 tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
 
 **Time to first methotrexate script for RA patients (including high cost MTX prescriptions)
-gen time_to_mtx_hcd=(mtx_hcd_date-rheum_appt_date) if mtx_hcd==1 & rheum_appt_date!=. & (mtx_hcd_date<=rheum_appt_date+365)
+gen time_to_mtx_hcd=(mtx_hcd_date-rheum_appt_date) if mtx_hcd==1 & rheum_appt_date!=. & (mtx_hcd_date<=rheum_appt_date+180)
 tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75)
 
 **Time to first methotrexate script for PsA patients (not including high cost MTX prescriptions)
@@ -1187,9 +1216,8 @@ tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75)
 **Methotrexate time categories (not including high-cost MTX)  
 gen mtx_time=1 if time_to_mtx<=90 & time_to_mtx!=. 
 replace mtx_time=2 if time_to_mtx>90 & time_to_mtx<=180 & time_to_mtx!=.
-replace mtx_time=3 if time_to_mtx>180 & time_to_mtx<=365 & time_to_mtx!=.
-replace mtx_time=4 if time_to_mtx>365 | time_to_mtx==.
-lab define mtx_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace mtx_time=3 if time_to_mtx>180 | time_to_mtx==.
+lab define mtx_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val mtx_time mtx_time
 lab var mtx_time "Methotrexate in primary care" 
 tab mtx_time if ra_code==1, missing 
@@ -1199,9 +1227,8 @@ tab mtx_time if undiff_code==1, missing
 **Methotrexate time categories for RA patients (including high-cost MTX)
 gen mtx_hcd_time=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=. 
 replace mtx_hcd_time=2 if time_to_mtx_hcd>90 & time_to_mtx_hcd<=180 & time_to_mtx_hcd!=.
-replace mtx_hcd_time=3 if time_to_mtx_hcd>180 & time_to_mtx_hcd<=365 & time_to_mtx_hcd!=.
-replace mtx_hcd_time=4 if time_to_mtx_hcd>365 | time_to_mtx_hcd==.
-lab define mtx_hcd_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace mtx_hcd_time=3 if time_to_mtx_hcd>180 | time_to_mtx_hcd==.
+lab define mtx_hcd_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val mtx_hcd_time mtx_hcd_time
 lab var mtx_hcd_time "Methotrexate in primary care" 
 tab mtx_hcd_time if ra_code==1, missing 
@@ -1213,16 +1240,15 @@ gen ssz=1 if sulfasalazine==1
 recode ssz .=0 
 
 **Time to first sulfasalazine script for RA patients
-gen time_to_ssz=(sulfasalazine_date-rheum_appt_date) if sulfasalazine_date!=. & rheum_appt_date!=. & (sulfasalazine_date<=rheum_appt_date+365)
+gen time_to_ssz=(sulfasalazine_date-rheum_appt_date) if sulfasalazine_date!=. & rheum_appt_date!=. & (sulfasalazine_date<=rheum_appt_date+180)
 tabstat time_to_ssz if ra_code==1, stats (n mean p50 p25 p75)
 tabstat time_to_ssz if psa_code==1, stats (n mean p50 p25 p75)
 
 **Sulfasalazine time categories  
 gen ssz_time=1 if time_to_ssz<=90 & time_to_ssz!=. 
 replace ssz_time=2 if time_to_ssz>90 & time_to_ssz<=180 & time_to_ssz!=.
-replace ssz_time=3 if time_to_ssz>180 & time_to_ssz<=365 & time_to_ssz!=.
-replace ssz_time=4 if time_to_ssz>365 | time_to_ssz==.
-lab define ssz_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace ssz_time=3 if time_to_ssz>180 | time_to_ssz==.
+lab define ssz_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val ssz_time ssz_time
 lab var ssz_time "Sulfasalazine in primary care" 
 tab ssz_time if ra_code==1, missing 
@@ -1236,11 +1262,11 @@ tab ssz_shared
 
 **sulfasalazine use (shared care)
 tab ssz_shared if ra_code==1 
-tab ssz_shared if ra_code==1 & (sulfasalazine_date<=rheum_appt_date+365)
+tab ssz_shared if ra_code==1 & (sulfasalazine_date<=rheum_appt_date+180)
 tab ssz_shared if psa_code==1 
-tab ssz_shared if psa_code==1 & (sulfasalazine_date<=rheum_appt_date+365) 
+tab ssz_shared if psa_code==1 & (sulfasalazine_date<=rheum_appt_date+180) 
 tab ssz_shared if undiff_code==1
-tab ssz_shared if undiff_code==1 & (sulfasalazine_date<=rheum_appt_date+365)
+tab ssz_shared if undiff_code==1 & (sulfasalazine_date<=rheum_appt_date+180)
 
 **Check medication issue number
 gen ssz_issue=0 if ssz==1 & sulfasalazine_count==0 
@@ -1253,16 +1279,15 @@ gen hcq=1 if hydroxychloroquine==1
 recode hcq .=0 
 
 **Time to first hydroxychloroquine script for RA patients
-gen time_to_hcq=(hydroxychloroquine_date-rheum_appt_date) if hydroxychloroquine_date!=. & rheum_appt_date!=. & (hydroxychloroquine_date<=rheum_appt_date+365)
+gen time_to_hcq=(hydroxychloroquine_date-rheum_appt_date) if hydroxychloroquine_date!=. & rheum_appt_date!=. & (hydroxychloroquine_date<=rheum_appt_date+180)
 tabstat time_to_hcq if ra_code==1, stats (n mean p50 p25 p75)
 tabstat time_to_hcq if psa_code==1, stats (n mean p50 p25 p75)
 
 **Hydroxychloroquine time categories  
 gen hcq_time=1 if time_to_hcq<=90 & time_to_hcq!=. 
 replace hcq_time=2 if time_to_hcq>90 & time_to_hcq<=180 & time_to_hcq!=.
-replace hcq_time=3 if time_to_hcq>180 & time_to_hcq<=365 & time_to_hcq!=.
-replace hcq_time=4 if time_to_hcq>365 | time_to_hcq==.
-lab define hcq_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace hcq_time=3 if time_to_hcq>180 | time_to_hcq==.
+lab define hcq_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val hcq_time hcq_time
 lab var hcq_time "Hydroxychloroquine in primary care" 
 tab hcq_time if ra_code==1, missing 
@@ -1276,11 +1301,11 @@ tab hcq_shared
 
 **hydroxychloroquine use (shared care)
 tab hcq_shared if ra_code==1 
-tab hcq_shared if ra_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365)
+tab hcq_shared if ra_code==1 & (hydroxychloroquine_date<=rheum_appt_date+180)
 tab hcq_shared if psa_code==1 
-tab hcq_shared if psa_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365) 
+tab hcq_shared if psa_code==1 & (hydroxychloroquine_date<=rheum_appt_date+180) 
 tab hcq_shared if undiff_code==1
-tab hcq_shared if undiff_code==1 & (hydroxychloroquine_date<=rheum_appt_date+365)
+tab hcq_shared if undiff_code==1 & (hydroxychloroquine_date<=rheum_appt_date+180)
 
 **Check medication issue number
 gen hcq_issue=0 if hcq==1 & hydroxychloroquine_count==0 
@@ -1293,16 +1318,15 @@ gen lef=1 if leflunomide==1
 recode lef .=0 
 
 **Time to first leflunomide script for RA patients
-gen time_to_lef=(leflunomide_date-rheum_appt_date) if leflunomide_date!=. & rheum_appt_date!=. & (leflunomide_date<=rheum_appt_date+365)
+gen time_to_lef=(leflunomide_date-rheum_appt_date) if leflunomide_date!=. & rheum_appt_date!=. & (leflunomide_date<=rheum_appt_date+180)
 tabstat time_to_lef if ra_code==1, stats (n mean p50 p25 p75)
 tabstat time_to_lef if psa_code==1, stats (n mean p50 p25 p75)
 
 **Leflunomide time categories  
 gen lef_time=1 if time_to_lef<=90 & time_to_lef!=. 
 replace lef_time=2 if time_to_lef>90 & time_to_lef<=180 & time_to_lef!=.
-replace lef_time=3 if time_to_lef>180 & time_to_lef<=365 & time_to_lef!=.
-replace lef_time=4 if time_to_lef>365 | time_to_lef==.
-lab define lef_time 1 "Within 3 months" 2 "3-6 months" 3 "6-12 months" 4 "No prescription within 12 months", modify
+replace lef_time=3 if time_to_lef>180 | time_to_lef==.
+lab define lef_time 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months", modify
 lab val lef_time lef_time
 lab var lef_time "Leflunomide in primary care" 
 tab lef_time if ra_code==1, missing 
@@ -1316,11 +1340,11 @@ tab lef_shared
 
 **leflunomide use (shared care)
 tab lef_shared if ra_code==1 
-tab lef_shared if ra_code==1 & (leflunomide_date<=rheum_appt_date+365)
+tab lef_shared if ra_code==1 & (leflunomide_date<=rheum_appt_date+180)
 tab lef_shared if psa_code==1 
-tab lef_shared if psa_code==1 & (leflunomide_date<=rheum_appt_date+365) 
+tab lef_shared if psa_code==1 & (leflunomide_date<=rheum_appt_date+180) 
 tab lef_shared if undiff_code==1
-tab lef_shared if undiff_code==1 & (leflunomide_date<=rheum_appt_date+365)
+tab lef_shared if undiff_code==1 & (leflunomide_date<=rheum_appt_date+180)
 
 **Check medication issue number
 gen lef_issue=0 if lef==1 & leflunomide_count==0 

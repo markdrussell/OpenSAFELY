@@ -15,6 +15,8 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
+*global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
 
@@ -38,8 +40,8 @@ set scheme plotplainblind
 
 /*GP referral performance by region, all years; low capture of rheum referrals presently, therefore using last GP appt as proxy measure currently - see below===========================================================================*/
 
-***Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
-keep if has_12m_post_appt==1
+***Restrict all analyses below to patients with rheum appt, GP appt and 6m follow-up and registration (changed from 12m requirement, for purposes of OpenSAFELY report)
+keep if has_6m_post_appt==1
 
 preserve
 gen qs1_0 =1 if time_gp_rheum_ref_appt<=3 & time_gp_rheum_ref_appt!=.
@@ -335,7 +337,7 @@ restore
 
 *csDMARD shared care performance by region prescriptions, all years==========================================================================*/
 
-*As above, all patients must have 1) rheum appt 2) 12m+ follow-up after rheum appt 3) 12m+ of registration after appt 
+*As above, all patients must have 1) rheum appt 2) 6m+ follow-up after rheum appt 3) 6m+ of registration after appt (changed from 12m requirement, for purposes of OpenSAFELY report)
 
 **For RA, PsA and Undiff IA patients combined (not including AxSpA - low counts)
 keep if (ra_code==1 | psa_code==1 | undiff_code==1)
@@ -345,15 +347,13 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, overall") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, overall") name(regional_csdmard_bar, replace)
 
 graph export "$projectdir/output/figures/regional_csdmard_bar_overall.svg", replace
 
@@ -369,15 +369,13 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, Apr 2019 to Apr 2020") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, Apr 2019 to Apr 2020") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_2019.svg", replace
 restore
 
@@ -391,15 +389,13 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, Apr 2020 to Apr 2021") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, Apr 2020 to Apr 2021") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_2020.svg", replace
 restore
 
@@ -413,15 +409,13 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, Apr 2021 to Apr 2022") name(regional_csdmard_bar, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, Apr 2021 to Apr 2022") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_2021.svg", replace
 restore
 
@@ -438,10 +432,8 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace nuts_region = 0 if copy==1  
@@ -449,7 +441,7 @@ replace nuts_region = 0 if copy==1
 lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
 lab val nuts_region nuts_region
 
-graph hbar csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
+graph hbar csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(appt_year, gap(20) label(labsize(*0.9))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_merged.svg", replace
 restore
 
@@ -464,10 +456,8 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace ethnicity = 0 if copy==1  
@@ -475,7 +465,7 @@ replace ethnicity = 0 if copy==1
 lab define ethnicity 0 "Overall" 2 "Asian", modify
 lab val ethnicity ethnicity
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(ethnicity, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, by ethnicity") name(regional_csdmard_bar_ethnicity, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(appt_year, gap(20) label(labsize(*0.9))) over(ethnicity, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, by ethnicity") name(regional_csdmard_bar_ethnicity, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_ethnicity.svg", replace
 restore
 
@@ -490,10 +480,8 @@ gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
 recode csdmard_0 .=0
 gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
 recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 & time_to_csdmard<=365 & time_to_csdmard!=.
+gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
 recode csdmard_2 .=0 
-gen csdmard_3 = 1 if time_to_csdmard>365 | time_to_csdmard==.
-recode csdmard_3 .=0 
 
 expand=2, gen(copy)
 replace imd = 0 if copy==1  
@@ -501,7 +489,7 @@ replace imd = 0 if copy==1
 lab define imd 0 "Overall" 1 "1st Quintile" 2 "2nd Quintile" 3 "3rd Quintile" 4 "4th Quintile" 5 "5th Quintile", modify
 lab val imd imd
 
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2 (mean) csdmard_3, over(appt_year, gap(20) label(labsize(*0.9))) over(imd, gap(60) label(labsize(*0.8)) relabel(2 `" "1st Quintile" "(most deprived)" "' 6 `" "5th Quintile" "(least deprived)" "')) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "Within 12 months" 4 "None within 12 months")) title("Time to first csDMARD in primary care, by IMD quintile") name(regional_csdmard_bar_imd, replace)
+graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(appt_year, gap(20) label(labsize(*0.9))) over(imd, gap(60) label(labsize(*0.8)) relabel(2 `" "1st Quintile" "(most deprived)" "' 6 `" "5th Quintile" "(least deprived)" "')) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, by IMD quintile") name(regional_csdmard_bar_imd, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_imd.svg", replace
 restore
 

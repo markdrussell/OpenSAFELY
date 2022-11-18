@@ -49,7 +49,7 @@ clear *
 save "$projectdir/output/data/table_1_rounded_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
+foreach var of varlist has_12m_post_appt has_6m_post_appt last_gp_prerheum_to21 last_gp_prerheum_to6m rheum_appt_to21 rheum_appt_to6m rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
 	contract `var'
 	local v : variable label `var' 
@@ -126,7 +126,7 @@ foreach i of local levels {
 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
+foreach var of varlist has_12m_post_appt has_6m_post_appt last_gp_prerheum_to21 last_gp_prerheum_to6m rheum_appt_to21 rheum_appt_to6m rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
 	keep if eia_diag=="`i'"
 	contract `var'
@@ -217,7 +217,7 @@ foreach var of varlist rheum_appt_count age {
 	drop varn
 	rename *count freq
 	gen count = round(freq, 5)
-		gen countstr = string(count)
+	gen countstr = string(count)
 	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
@@ -295,14 +295,14 @@ foreach var of varlist time_gp_rheum_appt time_rheum_eia_code {
 use "$projectdir/output/data/table_median_bydiag_rounded.dta", clear
 export excel "$projectdir/output/tables/table_median_bydiag_rounded.xls", replace keepcellfmt firstrow(variables)
 
-**All below analyses are for those with rheum appt + GP appt + 12m+ of follow-up
+**All below analyses are for those with rheum appt + GP appt + 6m+ of follow-up (changed from 12m requirement, for purposes of OpenSAFELY report)
 
-**Table of median/IQR outputs - limited to those with 12m follow-up and rheum/GP appt
+**Table of median/IQR outputs - limited to those with 6m follow-up and rheum/GP appt
 clear *
 save "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if appt_year==.
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
@@ -349,11 +349,11 @@ foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 use "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", clear
 export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
-**Table of median/IQR outputs by appt year - limited to those with 12m follow-up and rheum/GP appt - tagged to above excel
+**Table of median/IQR outputs by appt year - limited to those with 6m follow-up and rheum/GP appt - tagged to above excel
 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -391,7 +391,7 @@ di `index'
 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
@@ -440,12 +440,12 @@ use "$projectdir/output/data/table_median_bydiag_rounded_to21_`i'.dta", clear
 export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
-**Table of median/IQR outputs - for OpenSAFELY Report - limited to those with 12m follow-up and rheum/GP appt
+**Table of median/IQR outputs - for OpenSAFELY Report (3 monthly periods) - limited to those with 6m follow-up and rheum/GP appt
 clear *
 save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if appt_3m==.
 
 foreach var of varlist time_gp_rheum_appt {
@@ -488,11 +488,11 @@ foreach var of varlist time_gp_rheum_appt {
 use "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", clear
 export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
-**Table of median/IQR outputs by appt year - for OpenSAFELY Report - limited to those with 12m follow-up and rheum/GP appt - tagged to above excel
+**Table of median/IQR outputs by appt year - for OpenSAFELY Report - limited to those with 6m follow-up and rheum/GP appt - tagged to above excel
 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if appt_3m==.
 
 local index=0
@@ -521,7 +521,7 @@ di `index'
 	di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 keep if appt_3m==`i'
 
 foreach var of varlist time_gp_rheum_appt {
@@ -559,12 +559,12 @@ use "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta", c
 export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
-**ITSA outputs for appt delays - 12m+ only
+**ITSA outputs for appt delays - 6m+ only
 clear *
 save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 
 recode gp_appt_3w 2=0
 lab var gp_appt_3w "Rheum appt within 3 weeks"
@@ -628,12 +628,12 @@ foreach var of varlist gp_appt_3w {
 use "$projectdir/output/data/ITSA_tables_rounded.dta", clear
 export excel "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.xls", replace sheet ("GP to Appt") keepcellfmt firstrow(variables)
 
-**ITSA outputs for csDMARDs - 12m+ only
+**ITSA outputs for csDMARDs - 6m+ only
 clear *
 save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_6m {
@@ -698,7 +698,7 @@ clear *
 save "$projectdir/output/data/drug_byyearanddisease_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -738,7 +738,7 @@ export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", repl
 **Baseline table for EIA subdiagnoses - tagged to above excel
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 local index=0
@@ -770,7 +770,7 @@ foreach i of local levels {
 	
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -809,12 +809,12 @@ use "$projectdir/output/data/drug_byyearanddisease_`i'.dta", clear
 export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
-**First csDMARD table for all EIA patients
+**First csDMARD table for all EIA patients (removed leflunomide for OpenSAFELY report due to small counts with more granular time periods)
 clear *
 save "$projectdir/output/data/first_csdmard.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -852,7 +852,7 @@ export excel "$projectdir/output/tables/first_csdmard_rounded.xls", replace shee
 **First csDMARD table for EIA subdiagnoses - tagged to above excel
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -889,7 +889,7 @@ di `index'
 	
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -933,12 +933,12 @@ use "$projectdir/output/data/first_csdmard_`i'.dta", clear
 export excel "$projectdir/output/tables/first_csdmard_rounded.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
-**First csDMARD table for all EIA patients - version used for report
+**First csDMARD table for all EIA patients - version used for report (removed leflunomide due to small counts with more granular time periods)
 clear *
 save "$projectdir/output/data/first_csdmard_report.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -976,7 +976,7 @@ export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", repla
 **First csDMARD table for EIA subdiagnoses - tagged to above excel
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1008,7 +1008,7 @@ di `index'
 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1055,7 +1055,7 @@ clear *
 save "$projectdir/output/data/drug_byyearandregion_rounded_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1105,7 +1105,7 @@ export excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", repla
 **Boxplot outputs - csDMARD outputs by region
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1152,7 +1152,7 @@ foreach i of local levels {
 	
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1208,7 +1208,7 @@ clear *
 save "$projectdir/output/data/referral_byregion_rounded_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1257,7 +1257,7 @@ export excel "$projectdir/output/tables/referral_byregion_rounded.xls", replace 
 **Boxplot outputs - referral standards, by regions - tagged to above excel
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 
 local index=0
@@ -1302,7 +1302,7 @@ foreach i of local levels {
 	di `index'	
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1357,7 +1357,7 @@ clear *
 save "$projectdir/output/data/consultation_medium.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 
 foreach var of varlist rheum_appt_medium {
 	preserve
@@ -1393,7 +1393,7 @@ export excel "$projectdir/output/tables/consultation_medium_rounded.xls", replac
 **Rheumatology appointment consultation medium table by year
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -1428,7 +1428,7 @@ di `index'
 	
 use "$projectdir/output/data/file_eia_all.dta", clear
 
-keep if has_12m_post_appt==1
+keep if has_6m_post_appt==1
 
 recode appt_year 1=2019
 recode appt_year 2=2020
