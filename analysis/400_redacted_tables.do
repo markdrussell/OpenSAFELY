@@ -15,6 +15,7 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
@@ -63,22 +64,22 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing
@@ -141,22 +142,22 @@ foreach var of varlist has_12m_post_appt last_gp_prerheum_to21 rheum_appt_to21 r
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing_`i'
@@ -187,17 +188,17 @@ foreach var of varlist rheum_appt_count age {
 	gen count = round(freq, 5)
     decode eia_diagnosis, gen(diagnosis)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.1f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean
 	tostring stdev, gen(stdevstr) force format(%9.1f)
-	replace stdevstr = "-" if count =="<6"
+	replace stdevstr = "-" if count =="<8"
 	order stdevstr, after(stdev)
 	drop stdev
 	rename stdevstr stdev
@@ -217,17 +218,17 @@ foreach var of varlist rheum_appt_count age {
 	rename *count freq
 	gen count = round(freq, 5)
 		gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.1f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean
 	tostring stdev, gen(stdevstr) force format(%9.1f)
-	replace stdevstr = "-" if count =="<6"
+	replace stdevstr = "-" if count =="<8"
 	order stdevstr, after(stdev)
 	drop stdev
 	rename stdevstr stdev
@@ -302,6 +303,7 @@ save "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", replace emp
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_12m_post_appt==1
+drop if appt_year==.
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	preserve
@@ -438,6 +440,125 @@ use "$projectdir/output/data/table_median_bydiag_rounded_to21_`i'.dta", clear
 export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
+**Table of median/IQR outputs - for OpenSAFELY Report - limited to those with 12m follow-up and rheum/GP appt
+clear *
+save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", replace emptyok
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+drop if appt_3m==.
+
+foreach var of varlist time_gp_rheum_appt {
+	preserve
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var', by(eia_diagnosis)
+	gen varn = "`var'_count"
+	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
+	drop varn
+	rename *count freq
+	gen count_all = round(freq, 5)
+	gen p50_all = round(p50_un, 1)
+    decode eia_diagnosis, gen(diagnosis)
+	order count, first
+	order diagnosis, first
+	order variable, first
+	list variable diagnosis count_all p50_all
+	keep variable diagnosis count_all p50_all
+	append using "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta"
+	save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", replace
+	restore
+	preserve
+	collapse (count) "`var'_count"=`var' (p50) p50_un=`var'
+	gen varn = "`var'_count"
+	gen variable = substr(varn, 1, strpos(varn, "_count") - 1)
+	drop varn
+	rename *count freq
+	gen count_all = round(freq, 5)
+	gen p50_all = round(p50_un, 1)
+	gen diagnosis = "Total"
+	order count, first
+	order diagnosis, first
+	order variable, first
+	list variable diagnosis count_all p50_all
+	keep variable diagnosis count_all p50_all
+	append using "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta"
+	save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", replace
+	restore
+} 
+
+use "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", clear
+export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
+
+**Table of median/IQR outputs by appt year - for OpenSAFELY Report - limited to those with 12m follow-up and rheum/GP appt - tagged to above excel
+
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+drop if appt_3m==.
+
+local index=0
+levelsof appt_3m, local(levels)
+foreach i of local levels {
+	clear *
+	save "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta", replace emptyok
+di `index'
+	if `index'==0 {
+		local col = word("`c(ALPHA)'", `index'+5)
+	}
+	else if `index'>0 & `index'<=21 {
+	    local col = word("`c(ALPHA)'", `index'+3)
+	}
+	di "`col'"
+	if `index'==0 {
+		local `index++'
+		local `index++'
+		local `index++'
+		local `index++'
+	}
+	else {
+	    local `index++'
+		local `index++'
+	}
+	di `index'
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+keep if appt_3m==`i'
+
+foreach var of varlist time_gp_rheum_appt {
+	preserve
+	collapse (count) freq=`var' (p50) p50_un=`var', by(eia_diagnosis)
+	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	drop p50_un
+	rename count count_period`i'
+	rename p50 p50_period`i'
+   	order count, first
+	list count p50
+	keep count p50
+	append using "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta"
+	save "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta", replace
+	restore
+		preserve
+	collapse (count) freq=`var' (p50) p50_un=`var'
+	gen count = round(freq, 5)
+	gen p50 = round(p50_un, 1)
+	drop p50_un
+	rename count count_period`i'
+	rename p50 p50_period`i'
+   	order count, first
+	list count p50
+	keep count p50
+	append using "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta"
+	save "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta", replace
+	restore
+} 
+
+display `index'
+display "`col'"
+use "$projectdir/output/data/table_median_bydiag_rounded_to21_report_`i'.dta", clear
+export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
+}
+
 **ITSA outputs for appt delays - 12m+ only
 clear *
 save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
@@ -459,12 +580,12 @@ foreach var of varlist gp_appt_3w {
 	rename *count freq
 	gen count = round(freq, 5)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.3f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean_proportion
@@ -484,12 +605,12 @@ foreach var of varlist gp_appt_3w {
 	rename *count freq
 	gen count = round(freq, 5)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.3f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean_proportion
@@ -524,12 +645,12 @@ foreach var of varlist csdmard_6m {
 	rename *count freq
 	gen count = round(freq, 5)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.3f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean_proportion
@@ -549,12 +670,12 @@ foreach var of varlist csdmard_6m {
 	rename *count freq
 	gen count = round(freq, 5)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count
 	tostring mean, gen(meanstr) force format(%9.3f)
-	replace meanstr = "-" if count =="<6"
+	replace meanstr = "-" if count =="<8"
 	order meanstr, after(mean)
 	drop mean
 	rename meanstr mean_proportion
@@ -591,17 +712,17 @@ foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time 
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
@@ -664,17 +785,17 @@ foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time 
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
@@ -705,17 +826,17 @@ foreach var of varlist first_csDMARD {
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
@@ -785,17 +906,17 @@ foreach var of varlist first_csDMARD {
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
@@ -810,6 +931,123 @@ display `index'
 display "`col'"
 use "$projectdir/output/data/first_csdmard_`i'.dta", clear
 export excel "$projectdir/output/tables/first_csdmard_rounded.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
+}
+
+**First csDMARD table for all EIA patients - version used for report
+clear *
+save "$projectdir/output/data/first_csdmard_report.dta", replace emptyok
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
+
+foreach var of varlist first_csDMARD {
+	preserve
+	contract `var'
+	gen count = round(_freq, 5)
+	egen total = total(count)
+	gen percent = round((count/total)*100, 0.1)
+	order total, after(percent)
+	gen countstr = string(count)
+	replace countstr = "<8" if count<=7
+	order countstr, after(count)
+	drop count
+	rename countstr count_all
+	tostring percent, gen(percentstr) force format(%9.1f)
+	replace percentstr = "-" if count =="<8"
+	order percentstr, after(percent)
+	drop percent
+	rename percentstr percent_all
+	gen totalstr = string(total)
+	replace totalstr = "-" if count =="<8"
+	order totalstr, after(total)
+	drop total
+	rename totalstr total_all
+	list first_csDMARD count percent
+	keep first_csDMARD count percent
+	append using "$projectdir/output/data/first_csdmard_report.dta"
+	save "$projectdir/output/data/first_csdmard_report.dta", replace
+	restore
+}
+use "$projectdir/output/data/first_csdmard_report.dta", clear
+export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
+
+**First csDMARD table for EIA subdiagnoses - tagged to above excel
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
+
+drop if appt_3m==.
+
+local index=0
+levelsof appt_3m, local(levels)
+foreach i of local levels {
+	clear *
+	save "$projectdir/output/data/first_csdmard_`i'_report.dta", replace emptyok
+di `index'
+	if `index'==0 {
+		local col = word("`c(ALPHA)'", `index'+4)
+	}
+	else if `index'>0 & `index'<=21 {
+	    local col = word("`c(ALPHA)'", `index'+3)
+	}
+	di "`col'"
+	if `index'==0 {
+		local `index++'
+		local `index++'
+		local `index++'
+	}
+	else {
+	    local `index++'
+		local `index++'
+	}
+	di `index'
+
+use "$projectdir/output/data/file_eia_all.dta", clear
+
+keep if has_12m_post_appt==1
+drop if first_csDMARD==""
+keep if ra_code==1 | psa_code==1 | undiff_code==1
+
+drop if appt_3m==.
+
+foreach var of varlist first_csDMARD {
+	preserve
+	keep if appt_3m==`i'
+	contract `var'
+	gen count = round(_freq, 5)
+	egen total = total(count)
+	gen percent = round((count/total)*100, 0.1)
+	order total, after(percent)
+	gen countstr = string(count)
+	replace countstr = "<8" if count<=7
+	order countstr, after(count)
+	drop count
+	rename countstr count_period`i'
+	tostring percent, gen(percentstr) force format(%9.1f)
+	replace percentstr = "-" if count =="<8"
+	order percentstr, after(percent)
+	drop percent
+	rename percentstr percent_period`i'
+	gen totalstr = string(total)
+	replace totalstr = "-" if count =="<8"
+	order totalstr, after(total)
+	drop total
+	rename totalstr total_period`i'
+	list count percent
+	keep count percent
+	append using "$projectdir/output/data/first_csdmard_`i'_report.dta"
+	save "$projectdir/output/data/first_csdmard_`i'_report.dta", replace
+	restore
+}
+
+display `index'
+display "`col'"
+use "$projectdir/output/data/first_csdmard_`i'_report.dta", clear
+export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", sheet("Overall", modify) cell("`col'1") keepcellfmt firstrow(variables)
 }
 
 **Boxplot outputs - csDMARD standards, all regions
@@ -836,22 +1074,22 @@ foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 csdmard_t
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing_all
@@ -934,22 +1172,22 @@ foreach var of varlist csdmard_time_21 csdmard_time_20 csdmard_time_19 csdmard_t
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing_`i'
@@ -988,22 +1226,22 @@ foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat 
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing_all
@@ -1083,22 +1321,22 @@ foreach var of varlist gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat 
 	order total, after(percent)
 	order missing, after(total)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
 	gen missingstr = string(missing)
-	replace missingstr = "-" if count =="<6"
+	replace missingstr = "-" if count =="<8"
 	order missingstr, after(missing)
 	drop missing
 	rename missingstr missing_`i'
@@ -1129,17 +1367,17 @@ foreach var of varlist rheum_appt_medium {
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_all
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_all
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_all
@@ -1205,17 +1443,17 @@ foreach var of varlist rheum_appt_medium {
 	gen percent = round((count/total)*100, 0.1)
 	order total, after(percent)
 	gen countstr = string(count)
-	replace countstr = "<6" if count<=5
+	replace countstr = "<8" if count<=7
 	order countstr, after(count)
 	drop count
 	rename countstr count_`i'
 	tostring percent, gen(percentstr) force format(%9.1f)
-	replace percentstr = "-" if count =="<6"
+	replace percentstr = "-" if count =="<8"
 	order percentstr, after(percent)
 	drop percent
 	rename percentstr percent_`i'
 	gen totalstr = string(total)
-	replace totalstr = "-" if count =="<6"
+	replace totalstr = "-" if count =="<8"
 	order totalstr, after(total)
 	drop total
 	rename totalstr total_`i'
@@ -1243,7 +1481,10 @@ import excel "$projectdir/output/tables/table_median_bydiag_rounded.xls", clear
 export delimited using "$projectdir/output/tables/table_median_bydiag_rounded.csv" , novarnames  replace		
 
 import excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", clear
-export delimited using "$projectdir/output/tables/table_median_bydiag_rounded_to21.csv" , novarnames  replace	
+export delimited using "$projectdir/output/tables/table_median_bydiag_rounded_to21.csv" , novarnames  replace
+
+import excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.xls", clear
+export delimited using "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.csv" , novarnames  replace		
 
 import excel "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.xls", clear
 export delimited using "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.csv" , novarnames  replace		
@@ -1256,6 +1497,9 @@ export delimited using "$projectdir/output/tables/drug_byyearanddisease_rounded.
 
 import excel "$projectdir/output/tables/first_csdmard_rounded.xls", clear
 export delimited using "$projectdir/output/tables/first_csdmard_rounded.csv" , novarnames  replace	
+
+import excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", clear
+export delimited using "$projectdir/output/tables/first_csdmard_rounded_report.csv" , novarnames  replace	
 
 import excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", clear
 export delimited using "$projectdir/output/tables/drug_byyearandregion_rounded.csv" , novarnames  replace	

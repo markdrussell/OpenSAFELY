@@ -15,6 +15,7 @@ USER-INSTALLED ADO:
 ==============================================================================*/
 
 **Set filepaths
+*global projectdir "C:\Users\Mark\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 *global projectdir "C:\Users\k1754142\OneDrive\PhD Project\OpenSAFELY\Github Practice"
 global projectdir `c(pwd)'
 di "$projectdir"
@@ -423,6 +424,7 @@ bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
 
 *Restrict all analyses below to patients with rheum appt, GP appt and 12m follow-up and registration
 keep if has_12m_post_appt==1
+keep if appt_3m!=. //only keep appointments within pre-specified timeframe (should be accounted for by line above)
 
 **Time from last GP to rheum ref before rheum appt (i.e. if appts are present and in correct order)
 tabstat time_gp_rheum_ref_appt, stats (n mean p50 p25 p75) //all patients (should be same number as all appts)
@@ -467,7 +469,8 @@ bys eia_diagnosis: tabstat time_gp_rheum_ref_comb, stats (n mean p50 p25 p75)
 **Time from last GP pre-rheum appt to first rheum appt (proxy measure for referral to appt delay)
 tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
 bys eia_diagnosis: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75)
-bys appt_6m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_3m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis 3m
+bys appt_6m: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis 6m
 bys appt_year: tabstat time_gp_rheum_appt, stats (n mean p50 p25 p75) //by diagnosis year
 bys nuts_region: tabstat time_gp_rheum_appt if nuts_region!=., stats (n mean p50 p25 p75) //by region
 
@@ -573,6 +576,7 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
 
 *As above, all patients must have 1) rheum appt and GP appt 2) 12m follow-up after rheum appt 3) 12m of registration after appt
+**Note: in final redacted tables, axSpA patients are excluded (due to potential for small counts)
 tab mo_year_diagn, missing
 tab mo_year_appt, missing
 
@@ -591,6 +595,12 @@ bys eia_diagnosis: tab csdmard_hcd if (csdmard_hcd_date<=rheum_appt_date+365) //
 **Compare proportion with more than one script issued for csDMARDs
 tab csdmard, missing //all prescriptions, for comparison
 tab csdmard_shared, missing //issued more than once (shared care)
+
+**Time to first csDMARD in GP record for RA/PsA/undiff IA patients, not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis for all csDMARDs below 
+tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75)
+bys appt_3m: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys appt_year: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1, stats (n mean p50 p25 p75) //by diagnosis year
+bys nuts_region: tabstat time_to_csdmard if ra_code==1 | psa_code==1 | undiff_code==1 & nuts_region!=., stats (n mean p50 p25 p75) //by region
 
 **Time to first csDMARD in GP record for RA patients not including high cost MTX prescriptions; prescription must be within 12 months of diagnosis for all csDMARDs below 
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
@@ -643,11 +653,14 @@ tab csdmard_hcd_time if undiff_code==1, missing
 */
 
 **What was first shared care csDMARD (not including high cost MTX prescriptions)
+***Exclude axSpA patients due to potentially small counts
+keep if ra_code==1 | psa_code==1 | undiff_code==1
+
 tab first_csDMARD
 bys appt_year: tab first_csDMARD //did choice of first drug vary by year
+bys appt_3m: tab first_csDMARD //did choice of first drug vary by year
 tab first_csDMARD if ra_code==1 //for RA patients
 tab first_csDMARD if psa_code==1 //for PsA patients
-tab first_csDMARD if anksp_code==1 //for axSpA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
 **What was first csDMARD (including high cost MTX prescriptions)

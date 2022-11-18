@@ -139,6 +139,8 @@ actions:
         doc9: output/tables/drug_byyearandregion_rounded.csv
         doc10: output/tables/referral_byregion_rounded.csv
         doc11: output/tables/consultation_medium_rounded.csv
+        doc12: output/tables/table_median_bydiag_rounded_to21_report.csv 
+        doc13: output/tables/first_csdmard_rounded_report.csv  
 
   run_redacted_tables_allpts:
     run: stata-mp:latest analysis/401_redacted_tables_allpts.do

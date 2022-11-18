@@ -740,6 +740,27 @@ gen mo_year_appt=ym(year_appt, month_appt)
 format mo_year_appt %tmMon-CCYY
 generate str16 mo_year_appt_s = strofreal(mo_year_appt,"%tmCCYY!mNN")
 
+**Separate into 3-month time windows (for diagnosis date)
+gen diagnosis_3m=1 if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01jul2019)
+replace diagnosis_3m=2 if diagnosis_date>=td(01jul2019) & diagnosis_date<td(01oct2019)
+replace diagnosis_3m=3 if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01jan2020)
+replace diagnosis_3m=4 if diagnosis_date>=td(01jan2020) & diagnosis_date<td(01apr2020)
+replace diagnosis_3m=5 if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01jul2020)
+replace diagnosis_3m=6 if diagnosis_date>=td(01jul2020) & diagnosis_date<td(01oct2020)
+replace diagnosis_3m=7 if diagnosis_date>=td(01oct2020) & diagnosis_date<td(01jan2021)
+replace diagnosis_3m=8 if diagnosis_date>=td(01jan2021) & diagnosis_date<td(01apr2021)
+replace diagnosis_3m=9 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01jul2021)
+replace diagnosis_3m=10 if diagnosis_date>=td(01jul2021) & diagnosis_date<td(01oct2021)
+replace diagnosis_3m=11 if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01jan2022)
+replace diagnosis_3m=12 if diagnosis_date>=td(01jan2022) & diagnosis_date<td(01apr2022)
+replace diagnosis_3m=13 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01jul2022)
+replace diagnosis_3m=14 if diagnosis_date>=td(01jul2022) & diagnosis_date<td(01oct2022)
+lab define diagnosis_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022", modify
+lab val diagnosis_3m diagnosis_3m
+lab var diagnosis_3m "Time period for diagnosis"
+tab diagnosis_3m, missing
+bys eia_diagnosis: tab diagnosis_3m, missing
+
 **Separate into 6-month time windows (for diagnosis date)
 gen diagnosis_6m=1 if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01oct2019)
 replace diagnosis_6m=2 if diagnosis_date>=td(01oct2019) & diagnosis_date<td(01apr2020)
@@ -764,6 +785,27 @@ lab val diagnosis_year diagnosis_year
 lab var diagnosis_year "Year of diagnosis"
 tab diagnosis_year, missing
 bys eia_diagnosis: tab diagnosis_year, missing
+
+**Separate into 3-month time windows (for appt date)
+gen appt_3m=1 if rheum_appt_date>=td(01apr2019) & rheum_appt_date<td(01jul2019)
+replace appt_3m=2 if rheum_appt_date>=td(01jul2019) & rheum_appt_date<td(01oct2019)
+replace appt_3m=3 if rheum_appt_date>=td(01oct2019) & rheum_appt_date<td(01jan2020)
+replace appt_3m=4 if rheum_appt_date>=td(01jan2020) & rheum_appt_date<td(01apr2020)
+replace appt_3m=5 if rheum_appt_date>=td(01apr2020) & rheum_appt_date<td(01jul2020)
+replace appt_3m=6 if rheum_appt_date>=td(01jul2020) & rheum_appt_date<td(01oct2020)
+replace appt_3m=7 if rheum_appt_date>=td(01oct2020) & rheum_appt_date<td(01jan2021)
+replace appt_3m=8 if rheum_appt_date>=td(01jan2021) & rheum_appt_date<td(01apr2021)
+replace appt_3m=9 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01jul2021)
+replace appt_3m=10 if rheum_appt_date>=td(01jul2021) & rheum_appt_date<td(01oct2021)
+replace appt_3m=11 if rheum_appt_date>=td(01oct2021) & rheum_appt_date<td(01jan2022)
+replace appt_3m=12 if rheum_appt_date>=td(01jan2022) & rheum_appt_date<td(01apr2022)
+replace appt_3m=13 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01jul2022)
+replace appt_3m=14 if rheum_appt_date>=td(01jul2022) & rheum_appt_date<td(01oct2022)
+lab define appt_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022", modify
+lab val appt_3m appt_3m
+lab var appt_3m "Time period for first rheumatology appt"
+tab appt_3m, missing
+bys eia_diagnosis: tab appt_3m, missing
 
 **Separate into 6-month time windows (for appt date)
 gen appt_6m=1 if rheum_appt_date>=td(01apr2019) & rheum_appt_date<td(01oct2019)
