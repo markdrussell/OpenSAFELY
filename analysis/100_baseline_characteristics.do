@@ -571,7 +571,6 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
 		 gp_appt_cat_21 cat %3.1f \ ///
-		 gp_appt_cat_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_bydiag_nomiss.xls", replace)		  
  
 *Referral standards, by 12 months periods - date of first appt rather than date of EIA code
@@ -587,7 +586,6 @@ table1_mc if nuts_region!=., by(nuts_region) total(before) onecol nospacelowperc
 		 gp_appt_cat_19 cat %3.1f \ ///
 		 gp_appt_cat_20 cat %3.1f \ ///
 		 gp_appt_cat_21 cat %3.1f \ ///
-		 gp_appt_cat_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/referral_byregion_nomiss.xls", replace)
 
 *Time from rheum appt to first csDMARD prescriptions on primary care record======================================================================*/
@@ -836,7 +834,6 @@ table1_mc, by(eia_diagnosis) total(before) onecol nospacelowpercent iqrmiddle(",
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
 		 csdmard_time_21 cat %3.1f \ ///
-		 csdmard_time_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearanddisease.xls", replace) 
 		 
 *Drug prescription table, for those with at least 6m follow-up for all diagnoses, by region and year
@@ -845,7 +842,6 @@ table1_mc if nuts_region!=. & (ra_code==1 | psa_code==1 | undiff_code==1), by(nu
 		 csdmard_time_19 cat %3.1f \ ///
 		 csdmard_time_20 cat %3.1f \ ///
 		 csdmard_time_21 cat %3.1f \ ///
-		 csdmard_time_22 cat %3.1f \ ///
 		 ) saving("$projectdir/output/tables/drug_byyearandregion.xls", replace) 			 
 		 
 **Time to first biologic script, whereby first rheum appt is classed as diagnosis date; high cost drug data available to Nov 2020. Not for analysis currently due to small numbers======================================================================*/
