@@ -137,7 +137,7 @@ foreach var of varlist *_diag_round {
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
 twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.6)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid ) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
-	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", replace
+	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", width(12in)replace
 	
 restore	
 
@@ -185,7 +185,7 @@ foreach var of varlist *_diag_round {
 export delimited using "$projectdir/output/tables/diag_count_bymonth_male.csv", replace
 
 twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 male population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.8)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6" 0.7 "0.7" 0.8 "0.8", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid ) title("", size(small)) name(incidence_twoway_rounded_male, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_male.gph", replace)
-	graph export "$projectdir/output/figures/incidence_twoway_rounded_male.svg", replace	
+	graph export "$projectdir/output/figures/incidence_twoway_rounded_male.svg" width(8in), replace	
 	
 restore
 
