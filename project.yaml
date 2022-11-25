@@ -151,7 +151,7 @@ actions:
         doc1: output/tables/table_1_rounded_allpts.csv  
 
   convert_image_formats:
-    run: python:latest python analysis/convert_images.py --input_dir output/figures --output_dir/figures
+    run: python:latest python analysis/convert_images.py --input_dir output/figures --output_dir output/figures
     needs: [run_baseline_tables, run_itsa_models, run_itsa_models_drugs, run_box_plots, run_redacted_tables]
     outputs:
       moderately_sensitive:
