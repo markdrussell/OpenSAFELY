@@ -301,7 +301,7 @@ replace nuts_region = 0 if copy==1
 lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
 lab val nuts_region nuts_region
 
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(appt_year, gap(20) label(labsize(*0.75))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace)
+graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(appt_year, gap(20) label(labsize(*0.65))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients)  ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment") name(regional_qs2_bar_GP, replace) 
 graph export "$projectdir/output/figures/regional_qs2_bar_GP_merged.svg", width(12in) replace
 restore
 
@@ -479,7 +479,7 @@ replace nuts_region = 0 if copy==1
 lab define nuts_region 0 "National" 9 "Yorkshire/Humber", modify
 lab val nuts_region nuts_region
 
-graph hbar csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(appt_year, gap(20) label(labsize(*0.75))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
+graph hbar csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(appt_year, gap(20) label(labsize(*0.65))) over(nuts_region, gap(60) label(labsize(*0.8))) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care") name(regional_csdmard_bar, replace)
 graph export "$projectdir/output/figures/regional_csdmard_bar_merged.svg", width(12in) replace
 restore
 
