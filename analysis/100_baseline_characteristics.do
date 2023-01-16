@@ -42,7 +42,7 @@ set scheme plotplainblind
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
 global appt_date = "01/04/2021"
-global end_date = "01/10/2022"
+global end_date = "01/01/2023"
 
 *Descriptive statistics======================================================================*/
 
@@ -136,8 +136,8 @@ foreach var of varlist *_diag_round {
 }
 export delimited using "$projectdir/output/tables/diag_count_bymonth.csv", replace
 
-twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.6)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6", nogrid labsize(vsmall)) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid labsize(vsmall)) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total IA diagnoses" 2 "RA" 3 "PsA" 4 "axSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
-	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", width(12in)replace
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.6)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6", nogrid labsize(vsmall)) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022" 759 "Apr 2023", nogrid labsize(vsmall)) title("", size(small)) name(incidence_twoway, replace) legend(region(fcolor(white%0)) order(1 "Total IA diagnoses" 2 "RA" 3 "PsA" 4 "axSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded.gph", replace)
+	graph export "$projectdir/output/figures/incidence_twoway_rounded.svg", width(12in) replace
 	
 restore	
 
@@ -160,7 +160,7 @@ foreach var of varlist *_diag_round {
 }
 export delimited using "$projectdir/output/tables/diag_count_bymonth_female.csv", replace
 
-twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 female population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.8)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6" 0.7 "0.7" 0.8 "0.8", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid ) title("", size(small)) name(incidence_twoway_rounded_female, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_female.gph", replace)
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 female population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.8)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6" 0.7 "0.7" 0.8 "0.8", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022" 759 "Apr 2023", nogrid ) title("", size(small)) name(incidence_twoway_rounded_female, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_female.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway_rounded_female.svg", replace	
 	
 restore	
@@ -184,7 +184,7 @@ foreach var of varlist *_diag_round {
 }
 export delimited using "$projectdir/output/tables/diag_count_bymonth_male.csv", replace
 
-twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 male population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.8)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6" 0.7 "0.7" 0.8 "0.8", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid ) title("", size(small)) name(incidence_twoway_rounded_male, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_male.gph", replace)
+twoway connected incidence_total_diag_round mo_year_diagn, ytitle("Monthly incidence of IA diagnoses per 10,000 male population", size(small)) || connected incidence_ra_diag_round mo_year_diagn, color(sky) || connected incidence_psa_diag_round mo_year_diagn, color(red) || connected incidence_axspa_diag_round mo_year_diagn, color(green) || connected incidence_undiff_diag_round mo_year_diagn, color(gold) xline(722) yscale(range(0(0.1)0.8)) ylabel(0 "0" 0.1 "0.1" 0.2 "0.2" 0.3 "0.3" 0.4 "0.4" 0.5 "0.5" 0.6 "0.6" 0.7 "0.7" 0.8 "0.8", nogrid) xtitle("Date of diagnosis", size(small) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022" 759 "Apr 2023", nogrid ) title("", size(small)) name(incidence_twoway_rounded_male, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undifferentiated IA")) saving("$projectdir/output/figures/incidence_twoway_rounded_male.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway_rounded_male.svg", replace	
 	
 restore
@@ -247,7 +247,7 @@ recode undiff_code 0=.
 collapse (count) total_diag=eia_code ra_diag=ra_code psa_diag=psa_code axspa_diag=anksp_code undiff_diag=undiff_code, by(mo_year_appt)
 export delimited using "$projectdir/output/tables/appt_count_bymonth.csv", replace 
 
-twoway connected total_diag mo_year_appt, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_appt, color(sky) || connected psa_diag mo_year_appt, color(red) || connected axspa_diag mo_year_appt, color(green) || connected undiff_diag mo_year_appt, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022", nogrid ) title("", size(small)) name(incidence_twoway_appt, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_appt.gph", replace)
+twoway connected total_diag mo_year_appt, ytitle("Number of new diagnoses per month", size(medsmall)) || connected ra_diag mo_year_appt, color(sky) || connected psa_diag mo_year_appt, color(red) || connected axspa_diag mo_year_appt, color(green) || connected undiff_diag mo_year_appt, color(gold) xline(722) ylabel(, nogrid) xtitle("Date of first rheumatology appointment", size(medsmall) margin(medsmall)) xlabel(711 "Apr 2019" 717 "Oct 2019" 723 "Apr 2020" 729 "Oct 2020" 735 "Apr 2021" 741 "Oct 2021" 747 "Apr 2022" 753 "Oct 2022" 759 "Apr 2023", nogrid ) title("", size(small)) name(incidence_twoway_appt, replace) legend(region(fcolor(white%0)) order(1 "Total EIA diagnoses" 2 "RA" 3 "PsA" 4 "AxSpA" 5 "Undiff IA")) saving("$projectdir/output/figures/incidence_twoway_appt.gph", replace)
 	graph export "$projectdir/output/figures/incidence_twoway_appt.svg", replace
 	
 restore
@@ -362,6 +362,9 @@ tab rheum_appt_any if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr202
 
 tab rheum_appt if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022), missing  
 tab rheum_appt_any if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022), missing
+
+tab rheum_appt if diagnosis_date>=td(01oct2022) & diagnosis_date<td(01apr2023), missing  
+tab rheum_appt_any if diagnosis_date>=td(01oct2022) & diagnosis_date<td(01apr2023), missing
 
 **By year
 tab rheum_appt if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2020), missing  
