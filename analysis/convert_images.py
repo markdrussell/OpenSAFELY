@@ -3,7 +3,7 @@ import cairosvg
 from pathlib import Path
 
 def convert_image(image_path, output_path):
-    cairosvg.svg2png(url=str(image_path), write_to=str(output_path))
+    cairosvg.svg2png(url=str(image_path), write_to=str(output_path), output_width=1200, output_height=600)
 
 def parse_args():
     parser = argparse.ArgumentParser()
