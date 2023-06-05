@@ -38,7 +38,7 @@ set scheme plotplainblind
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
 global appt_date = "01/04/2021"
-global end_date = "01/10/2022"
+global end_date = "01/04/2023"
 
 *Descriptive statistics======================================================================*/
 

@@ -40,7 +40,7 @@ set scheme plotplainblind
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
 global appt_date = "01/04/2021"
-global end_date = "01/01/2023"
+global end_date = "01/04/2023"
 
 *Descriptive statistics======================================================================*/
 
@@ -303,7 +303,7 @@ save "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", replace emp
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	preserve
@@ -354,7 +354,7 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", r
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -393,7 +393,7 @@ di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -451,7 +451,7 @@ save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", repl
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist time_gp_rheum_appt {
 	preserve
@@ -498,7 +498,7 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022 
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022 
 
 local index=0
 levelsof appt_3m, local(levels)
@@ -521,6 +521,9 @@ di `index'
 	else if `index'==26 {
 	    local col = "AC"
 	}	
+	else if `index'==28 {
+	    local col = "AE"
+	}	
 	di "`col'"
 	if `index'==0 {
 		local `index++'
@@ -537,7 +540,7 @@ di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if appt_3m==`i'
 
 foreach var of varlist time_gp_rheum_appt {
@@ -581,7 +584,7 @@ save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode gp_appt_3w 2=0
 lab var gp_appt_3w "Rheum appt within 3 weeks"
@@ -651,7 +654,7 @@ save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_6m {
@@ -717,7 +720,7 @@ save "$projectdir/output/data/drug_byyearanddisease_all.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_22 csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -758,7 +761,7 @@ export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", repl
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 local index=0
@@ -791,7 +794,7 @@ foreach i of local levels {
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_22 csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -836,7 +839,7 @@ save "$projectdir/output/data/first_csdmard.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -875,7 +878,7 @@ export excel "$projectdir/output/tables/first_csdmard_rounded.xls", replace shee
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -913,7 +916,7 @@ di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -964,7 +967,7 @@ save "$projectdir/output/data/first_csdmard_report.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1003,7 +1006,7 @@ export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", repla
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1024,6 +1027,9 @@ di `index'
 	}
 	else if `index'==25 {
 	    local col = "AB"
+	}
+	else if `index'==27 {
+	    local col = "AD"
 	}	
 	di "`col'"
 	if `index'==0 {
@@ -1040,7 +1046,7 @@ di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1086,7 +1092,7 @@ save "$projectdir/output/data/drug_byyearandregion_rounded_all.dta", replace emp
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1137,7 +1143,7 @@ export excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", repla
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1185,7 +1191,7 @@ foreach i of local levels {
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1242,7 +1248,7 @@ save "$projectdir/output/data/referral_byregion_rounded_all.dta", replace emptyo
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_22 gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1292,7 +1298,7 @@ export excel "$projectdir/output/tables/referral_byregion_rounded.xls", replace 
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 local index=0
@@ -1338,7 +1344,7 @@ foreach i of local levels {
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_22 gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1394,7 +1400,7 @@ save "$projectdir/output/data/consultation_medium.dta", replace emptyok
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist rheum_appt_medium {
 	preserve
@@ -1431,7 +1437,7 @@ export excel "$projectdir/output/tables/consultation_medium_rounded.xls", replac
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
@@ -1467,7 +1473,7 @@ di `index'
 use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>13 | appt_3m==. //up to June 2022
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
