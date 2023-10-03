@@ -1,7 +1,7 @@
 from ehrql import Dataset, days, months, years, case, when
 from ehrql.tables.beta.tpp import patients, medications, practice_registrations, clinical_events, addresses, ons_deaths, appointments, opa
 from datetime import date
-import codelists as codelists
+import codelists_ehrQL as codelists
 
 # Dates for study
 start_date = "2019-04-01"

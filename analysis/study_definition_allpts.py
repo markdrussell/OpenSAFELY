@@ -1,6 +1,6 @@
 from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv, combine_codelists, filter_codes_by_category
 
-from codelists import *
+from codelists_ce import *
 
 year_preceding = "2018-04-01"
 start_date = "2019-04-01"
