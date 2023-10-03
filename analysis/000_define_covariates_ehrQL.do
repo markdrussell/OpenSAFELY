@@ -1,16 +1,15 @@
 version 16
 
 /*==============================================================================
-DO FILE NAME:			define covariates
+DO FILE NAME:			define covariates using ehrQL definition
 PROJECT:				EIA OpenSAFELY project
-DATE: 					07/03/2022
-AUTHOR:					J Galloway / M Russell
-						adapted from C Rentsch										
+DATE: 					03/10/2023
+AUTHOR:					M Russell									
 DESCRIPTION OF FILE:	data management for EIA project  
 						reformat variables 
 						categorise variables
 						label variables 
-DATASETS USED:			data in memory (from output/input.csv)
+DATASETS USED:			data in memory (from output/dataset.csv)
 DATASETS CREATED: 		analysis files
 OTHER OUTPUT: 			logfiles, printed to folder $Logdir
 USER-INSTALLED ADO: 	 
@@ -29,13 +28,13 @@ capture mkdir "$projectdir/output/tables"
 global logdir "$projectdir/logs"
 
 **Open a log file
-cap log close
-log using "$logdir/cleaning_dataset.log", replace
+cap log closeF
+log using "$logdir/cleaning_dataset_ehr.log", replace
 
 di "$projectdir"
 di "$logdir"
 
-import delimited "$projectdir/output/input.csv", clear
+import delimited "$projectdir/output/dataset.csv", clear
 
 **Set Ado file path
 adopath + "$projectdir/analysis/extra_ados"
@@ -49,14 +48,11 @@ global end_date = "01/04/2023"
 **Rename variables (some are too long for Stata to handle) =======================================*/
 rename chronic_respiratory_disease chronic_resp_disease
 
-**Convert date strings to dates ====================================================*/
+/*
+**Convert date strings to dates ====================================================*
 ***Some dates are given with month/year only, so adding day 15 to enable them to be processed as dates 
 
-foreach var of varlist 	 hba1c_mmol_per_mol_date			///
-						 hba1c_percentage_date				///
-						 creatinine_date      				///
-						 bmi_date_measured		            ///
-						 abatacept_date						///
+foreach var of varlist 	 abatacept_date						///
 						 adalimumab_date					///	
 						 baricitinib_date					///
 						 certolizumab_date					///
@@ -93,9 +89,12 @@ foreach var of varlist 	 hba1c_mmol_per_mol_date			///
 	format `var'_date %td
 }
 
-**Conversion for dates with day already included ====================================================*/
+*/
 
-foreach var of varlist 	 died_date_ons						///
+**Conversion for dates ====================================================*
+
+foreach var of varlist 	 died_date							///
+						 died_date_ons						///
 					     eia_code_date 						///
 						 rheum_appt_date					///
 						 rheum_appt_any_date				///
@@ -109,10 +108,14 @@ foreach var of varlist 	 died_date_ons						///
 						 last_gp_precode_date				///	
 						 last_gp_refrheum_date				///
 						 last_gp_refcode_date				///
+						 curr_reg_start						///
+						 curr_reg_end						///
 						 referral_rheum_prerheum			///
 						 referral_rheum_precode				///	
 						 chronic_cardiac_disease			///
 						 diabetes							///
+						 hba1c_mmol_per_mol_date 			///
+						 hba1c_percentage_date				///
 						 hypertension						///	
 						 chronic_resp_disease				///
 						 copd								///
@@ -122,7 +125,8 @@ foreach var of varlist 	 died_date_ons						///
 						 haem_cancer						///
 						 other_cancer						///
 						 esrf								///
-						 organ_transplant					///
+						 creatinine_date					///
+						 bmi_date							///
 						 hydroxychloroquine_date			///
 						 leflunomide_date					///
 						 methotrexate_date					///
@@ -141,15 +145,15 @@ foreach var of varlist 	 died_date_ons						///
 				gen `var'_date = date(`var'_dstr, "YMD") 
 				order `var'_date, after(`var'_dstr)
 				drop `var'_dstr
-				gen `var'_date15 = `var'_date+15
-				order `var'_date15, after(`var'_date)
-				drop `var'_date
-				rename `var'_date15 `var'_date
+				*gen `var'_date15 = `var'_date+15
+				*order `var'_date15, after(`var'_date)
+				*drop `var'_date
+				*rename `var'_date15 `var'_date
 		}
 	
 	format `var'_date %td
 }
-						 
+
 **Rename variables with extra 'date' added to the end of variable names===========================================================*/ 
 rename rheum_appt_date_date rheum_appt_date
 rename rheum_appt2_date_date rheum_appt2_date
@@ -160,6 +164,7 @@ rename ra_code_date_date ra_code_date
 rename psa_code_date_date psa_code_date
 rename anksp_code_date_date anksp_code_date
 rename undiff_code_date_date undiff_code_date
+rename died_date_date died_date
 rename died_date_ons_date died_ons_date
 rename last_gp_prerheum_date_date last_gp_prerheum_date
 rename last_gp_refrheum_date_date last_gp_refrheum_date
@@ -169,32 +174,17 @@ rename hba1c_mmol_per_mol_date_date hba1c_mmol_per_mol_date
 rename hba1c_percentage_date_date hba1c_percentage_date
 rename creatinine_date_date creatinine_date
 rename creatinine creatinine_value 
-rename bmi_date_measured_date bmi_date
+rename bmi_date_date bmi_date
 rename bmi bmi_value
 rename hydroxychloroquine_date_date hydroxychloroquine_date	
 rename leflunomide_date_date leflunomide_date					
 rename methotrexate_date_date methotrexate_date					
 rename methotrexate_inj_date_date methotrexate_inj_date				
 rename sulfasalazine_date_date sulfasalazine_date		
-rename abatacept_date_date abatacept_date
-rename adalimumab_date_date	adalimumab_date
-rename baricitinib_date_date baricitinib_date	
-rename certolizumab_date_date certolizumab_date
-rename etanercept_date_date	etanercept_date
-rename golimumab_date_date golimumab_date
-rename guselkumab_date_date guselkumab_date	
-rename infliximab_date_date infliximab_date	
-rename ixekizumab_date_date ixekizumab_date	
-rename methotrexate_hcd_date_date methotrexate_hcd_date	
-rename rituximab_date_date rituximab_date
-rename sarilumab_date_date sarilumab_date
-rename secukinumab_date_date secukinumab_date
-rename tocilizumab_date_date tocilizumab_date	
-rename tofacitinib_date_date tofacitinib_date	
-rename upadacitinib_date_date upadacitinib_date 
-rename ustekinumab_date_date ustekinumab_date	
 
+						 
 **Create binary indicator variables for relevant conditions ====================================================*/
+//High-cost drugs removed from below
 
 foreach var of varlist 	 eia_code_date 						///
 						 rheum_appt_date					///
@@ -205,6 +195,7 @@ foreach var of varlist 	 eia_code_date 						///
 						 psa_code_date						///
 						 anksp_code_date					///
 						 undiff_code_date					///
+						 died_date							///
 						 died_ons_date						///
 						 last_gp_prerheum_date				///
 						 last_gp_precode_date				///	
@@ -224,30 +215,13 @@ foreach var of varlist 	 eia_code_date 						///
 						 other_cancer_date					///
 						 esrf_date							///
 						 creatinine_date					///
-						 organ_transplant_date				///
 						 hydroxychloroquine_date			///	
 						 leflunomide_date					///
 						 methotrexate_date					///
 						 methotrexate_inj_date				///		
 						 sulfasalazine_date					///
-						 abatacept_date						///
-						 adalimumab_date					///
-						 baricitinib_date					///
-						 certolizumab_date					///
-						 etanercept_date					///
-						 golimumab_date						///
-						 guselkumab_date					///
-						 infliximab_date					///
-						 ixekizumab_date					///
-						 methotrexate_hcd_date				///
-						 rituximab_date						///		
-						 sarilumab_date						///
-						 secukinumab_date					///
-						 tocilizumab_date					///		
-						 tofacitinib_date					///
-						 upadacitinib_date					///
-						 ustekinumab_date   {				
-	/*date ranges are applied in python, so presence of date indicates presence of 
+ {				
+	/*date ranges are applied in definition, so presence of date indicates presence of 
 	  disease in the correct time frame*/ 
 	local newvar =  substr("`var'", 1, length("`var'") - 5)
 	gen `newvar' = (`var'!=. )
@@ -258,8 +232,8 @@ foreach var of varlist 	 eia_code_date 						///
 
 **Demographics
 ***Sex
-gen male = 1 if sex == "M"
-replace male = 0 if sex == "F"
+gen male = 1 if sex == "male"
+replace male = 0 if sex == "female"
 lab var male "Male"
 lab define male 0 "No" 1 "Yes", modify
 lab val male male
@@ -293,11 +267,13 @@ label values ethnicity_bme ethnicity_bme
 lab var ethnicity_bme "Ethnicity"
 tab ethnicity_bme, missing
 
+/*
 ***STP 
 rename stp stp_old
 bysort stp_old: gen stp = 1 if _n==1
 replace stp = sum(stp) //
 drop stp_old
+*/
 
 ***Regions
 encode region, gen(nuts_region)
@@ -315,7 +291,6 @@ replace region_nospace="WestMidlands" if region=="West Midlands"
 replace region_nospace="YorkshireandTheHumber" if region=="Yorkshire and The Humber"
 
 ***IMD
-recode imd 0 = .u
 label define imd 1 "1 most deprived" 2 "2" 3 "3" 4 "4" 5 "5 least deprived" .u "Not known"
 label values imd imd 
 lab var imd "Index of multiple deprivation"
@@ -646,15 +621,18 @@ gen csdmard=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | meth
 recode csdmard .=0 
 tab csdmard, missing
 
+/*
 **csDMARDs (including high cost MTX)
 gen csdmard_hcd=1 if hydroxychloroquine==1 | leflunomide==1 | methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1 | sulfasalazine==1
 recode csdmard_hcd .=0 
 tab csdmard_hcd, missing
+*/
 
 **Date of first csDMARD script (not including high cost MTX prescriptions)
 gen csdmard_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, sulfasalazine_date)
 format %td csdmard_date
 
+/*
 **Date of first csDMARD script (including high cost MTX prescriptions)
 gen csdmard_hcd_date=min(hydroxychloroquine_date, leflunomide_date, methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date, sulfasalazine_date)
 format %td csdmard_hcd_date
@@ -667,6 +645,7 @@ tab biologic, missing
 **Date of first biologic script
 gen biologic_date=min(abatacept_date, adalimumab_date, baricitinib_date, certolizumab_date, etanercept_date, golimumab_date, guselkumab_date, infliximab_date, ixekizumab_date, rituximab_date, sarilumab_date, secukinumab_date, tocilizumab_date, tofacitinib_date, upadacitinib_date, ustekinumab_date)
 format %td biologic_date
+*/
 
 **Exclude if first csdmard or biologic was before first rheum appt
 tab csdmard if rheum_appt_date!=. & csdmard_date!=. & csdmard_date<rheum_appt_date
@@ -675,12 +654,13 @@ drop if rheum_appt_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_da
 tab csdmard if rheum_appt_date==. & rheum_appt_any_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_any_date
 drop if rheum_appt_date==. & rheum_appt_any_date!=. & csdmard_date!=. & (csdmard_date + 60)<rheum_appt_any_date //drop if first csDMARD more than 60 days before first captured rheum appt that did not have first attendance tag
 
-/* Remove this for purposes of ehrQL comparison
+/*
 tab biologic if rheum_appt_date!=. & biologic_date!=. & biologic_date<rheum_appt_date 
 tab biologic if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date 
 drop if rheum_appt_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_date //drop if first biologic more than 60 days before first rheum_appt_date
 tab biologic if rheum_appt_date==. & rheum_appt_any_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_any_date
 drop if rheum_appt_date==. & rheum_appt_any_date!=. & biologic_date!=. & (biologic_date + 60)<rheum_appt_any_date //drop if first biologic more than 60 days before first captured rheum appt that did not have first attendance tag
+*/
 
 *Generate diagnosis date===============================================================*/
 
@@ -843,7 +823,15 @@ bys eia_diagnosis: tab appt_year, missing
 *Define appointments and referrals======================================*/
 
 **Proportion of patients with at least 6 or 12 months of GP registration after rheum appt (i.e. diagnosis date)
+rename has_6m_follow_up has_6m_follow_up_s 
+gen has_6m_follow_up=1 if has_6m_follow_up_s=="T"
+recode has_6m_follow_up .=0
+drop has_6m_follow_up_s
 tab has_6m_follow_up
+rename has_12m_follow_up has_12m_follow_up_s 
+gen has_12m_follow_up=1 if has_12m_follow_up_s=="T"
+recode has_12m_follow_up .=0
+drop has_12m_follow_up_s
 tab has_12m_follow_up 
 tab mo_year_diagn has_6m_follow_up
 tab mo_year_diagn has_12m_follow_up
@@ -854,11 +842,13 @@ recode has_6m_post_appt .=0
 lab var has_6m_post_appt "GP/rheum/registration 6m+"
 lab define has_6m_post_appt 0 "No" 1 "Yes", modify
 lab val has_6m_post_appt has_6m_post_appt
+tab has_6m_post_appt
 gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365) & has_12m_follow_up==1 & last_gp_prerheum==1
 recode has_12m_post_appt .=0
 lab var has_12m_post_appt "GP/rheum/registration 12m+"
 lab define has_12m_post_appt 0 "No" 1 "Yes", modify
 lab val has_12m_post_appt has_12m_post_appt
+tab has_12m_post_appt
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 12 months before EIA code appeared in GP record; data only April 2019 onwards
@@ -886,14 +876,18 @@ bys appt_year: tabstat rheum_appt_count, stat (n mean sd p50 p25 p75)
 
 **Check medium used for rheumatology appointment
 tab rheum_appt_medium, missing
-recode rheum_appt_medium 3=2 //recode telemedicine=telephone
-replace rheum_appt_medium=10 if rheum_appt_medium>2 & rheum_appt_medium!=.
-recode rheum_appt_medium .=.u
-lab define rheum_appt_medium 1 "Face-to-face" 2 "Telephone" 10 "Other" .u "Missing", modify
-lab val rheum_appt_medium rheum_appt_medium
-lab var rheum_appt_medium "Rheumatology consultation medium"
-tab rheum_appt_medium if has_12m_post_appt==1, missing
-bys appt_year: tab rheum_appt_medium if has_12m_post_appt==1, missing
+**Amend once above known
+/*
+gen rheum_appt_medium_clean = rheum_appt_medium if rheum_appt_medium >0 & rheum_appt_medium<100
+recode rheum_appt_medium_clean 3=2 //recode telemedicine=telephone
+replace rheum_appt_medium_clean=10 if rheum_appt_medium_clean>2 & rheum_appt_medium_clean!=.
+recode rheum_appt_medium_clean .=.u
+lab define rheum_appt_medium_clean 1 "Face-to-face" 2 "Telephone" 10 "Other" .u "Missing", modify
+lab val rheum_appt_medium_clean rheum_appt_medium_clean
+lab var rheum_appt_medium_clean "Rheumatology consultation medium"
+tab rheum_appt_medium_clean if has_12m_post_appt==1, missing
+bys appt_year: tab rheum_appt_medium_clean if has_12m_post_appt==1, missing
+*/
 
 **Rheumatology referrals (Nb. low capture of coded rheumatology referrals at present, therefore last GP appt used as proxy of referral date currently - see below)
 tab referral_rheum_prerheum //last rheum referral in the 2 years before rheumatology outpatient (requires rheum appt to have been present)
@@ -1051,15 +1045,19 @@ tabstat time_rheum3_eia_code, stats (n mean p50 p25 p75)
 gen time_to_csdmard=(csdmard_date-rheum_appt_date) if csdmard==1 & rheum_appt_date!=. & (csdmard_date<=rheum_appt_date+180)
 tabstat time_to_csdmard if ra_code==1, stats (n mean p50 p25 p75)
 
+/*
 **Time to first csDMARD script for RA patients (including high cost MTX prescriptions)
 gen time_to_csdmard_hcd=(csdmard_hcd_date-rheum_appt_date) if csdmard_hcd==1 & rheum_appt_date!=. & (csdmard_hcd_date<=rheum_appt_date+180)
 tabstat time_to_csdmard_hcd if ra_code==1, stats (n mean p50 p25 p75) 
+*/
 
 **Time to first csDMARD script for PsA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if psa_code==1, stats (n mean p50 p25 p75)
 
+/*
 **Time to first csDMARD script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_csdmard_hcd if psa_code==1, stats (n mean p50 p25 p75) 
+*/
 
 **Time to first csDMARD script for axSpA patients (not including high cost MTX prescriptions)
 tabstat time_to_csdmard if anksp_code==1, stats (n mean p50 p25 p75)
@@ -1108,6 +1106,7 @@ lab val csdmard_6m csdmard_6m
 lab var csdmard_6m "csDMARD in primary care within 6 months" 
 tab csdmard_6m, missing 
 
+/*
 **csDMARD time categories (including high cost MTX prescriptions)
 gen csdmard_hcd_time=1 if time_to_csdmard_hcd<=90 & time_to_csdmard_hcd!=. 
 replace csdmard_hcd_time=2 if time_to_csdmard_hcd>90 & time_to_csdmard_hcd<=180 & time_to_csdmard_hcd!=.
@@ -1119,6 +1118,7 @@ tab csdmard_hcd_time if ra_code==1, missing
 tab csdmard_hcd_time if psa_code==1, missing
 tab csdmard_hcd_time if anksp_code==1, missing 
 tab csdmard_hcd_time if undiff_code==1, missing
+*/
 
 **What was first csDMARD in GP record (not including high cost MTX prescriptions) - removed leflunomide (for OpenSAFELY report) due to small counts at more granular time periods
 gen first_csD=""
@@ -1135,6 +1135,7 @@ tab first_csDMARD if psa_code==1 //for PsA patients
 tab first_csDMARD if anksp_code==1 //for axSpA patients
 tab first_csDMARD if undiff_code==1 //for Undiff IA patients
 
+/*
 **What was first csDMARD in GP record (including high cost MTX prescriptions)
 gen first_csD_hcd=""
 foreach var of varlist hydroxychloroquine_date methotrexate_date methotrexate_inj_date methotrexate_hcd_date sulfasalazine_date {
@@ -1146,22 +1147,27 @@ tab first_csDMARD_hcd if ra_code==1 //for RA patients
 tab first_csDMARD_hcd if psa_code==1 //for PsA patients
 tab first_csDMARD_hcd if anksp_code==1 //for axSpA patients
 tab first_csDMARD_hcd if undiff_code==1 //for Undiff IA patients
+*/
  
 **Methotrexate use (not including high cost MTX prescriptions)
 gen mtx=1 if methotrexate==1 | methotrexate_inj==1
 recode mtx .=0 
 
+/*
 **Methotrexate use (including high cost MTX prescriptions)
 gen mtx_hcd=1 if methotrexate==1 | methotrexate_inj==1 | methotrexate_hcd==1
 recode mtx_hcd .=0 
+*/
 
 **Date of first methotrexate script (not including high cost MTX prescriptions)
 gen mtx_date=min(methotrexate_date, methotrexate_inj_date)
 format %td mtx_date
 
+/*
 **Date of first methotrexate script (including high cost MTX prescriptions)
 gen mtx_hcd_date=min(methotrexate_date, methotrexate_inj_date, methotrexate_hcd_date)
 format %td mtx_hcd_date
+*/
 
 **Methotrexate use (not including high cost MTX prescriptions)
 tab mtx if ra_code==1 //for RA patients; Nb. this is just a check; need time-to-MTX instead (below)
@@ -1174,6 +1180,7 @@ tab mtx if undiff_code==1 //for undiff IA patients
 tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx if undiff_code==1 & (mtx_date<=rheum_appt_date+365) //with 12-month limit
 
+/*
 **Methotrexate use (including high cost MTX prescriptions)
 tab mtx_hcd if ra_code==1 //for RA patients
 tab mtx_hcd if ra_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
@@ -1184,6 +1191,7 @@ tab mtx_hcd if psa_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month
 tab mtx_hcd if undiff_code==1 //for undiff IA patients
 tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+180) //with 6-month limit
 tab mtx_hcd if undiff_code==1 & (mtx_hcd_date<=rheum_appt_date+365) //with 12-month limit
+*/
 
 **Check if medication issued >once
 gen mtx_shared=1 if mtx==1 & (methotrexate_count>1 | methotrexate_inj_count>1)
@@ -1208,15 +1216,19 @@ tab mtx_issue
 gen time_to_mtx=(mtx_date-rheum_appt_date) if mtx==1 & rheum_appt_date!=. & (mtx_date<=rheum_appt_date+180)
 tabstat time_to_mtx if ra_code==1, stats (n mean p50 p25 p75)
 
+/*
 **Time to first methotrexate script for RA patients (including high cost MTX prescriptions)
 gen time_to_mtx_hcd=(mtx_hcd_date-rheum_appt_date) if mtx_hcd==1 & rheum_appt_date!=. & (mtx_hcd_date<=rheum_appt_date+180)
 tabstat time_to_mtx_hcd if ra_code==1, stats (n mean p50 p25 p75)
+*/
 
 **Time to first methotrexate script for PsA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if psa_code==1, stats (n mean p50 p25 p75)
 
+/*
 **Time to first methotrexate script for PsA patients (including high cost MTX prescriptions)
 tabstat time_to_mtx_hcd if psa_code==1, stats (n mean p50 p25 p75)
+*/
 
 **Time to first methotrexate script for Undiff IA patients (not including high cost MTX prescriptions)
 tabstat time_to_mtx if undiff_code==1, stats (n mean p50 p25 p75)
@@ -1232,6 +1244,7 @@ tab mtx_time if ra_code==1, missing
 tab mtx_time if psa_code==1, missing
 tab mtx_time if undiff_code==1, missing 
 
+/*
 **Methotrexate time categories for RA patients (including high-cost MTX)
 gen mtx_hcd_time=1 if time_to_mtx_hcd<=90 & time_to_mtx_hcd!=. 
 replace mtx_hcd_time=2 if time_to_mtx_hcd>90 & time_to_mtx_hcd<=180 & time_to_mtx_hcd!=.
@@ -1242,6 +1255,7 @@ lab var mtx_hcd_time "Methotrexate in primary care"
 tab mtx_hcd_time if ra_code==1, missing 
 tab mtx_hcd_time if psa_code==1, missing
 tab mtx_hcd_time if undiff_code==1, missing 
+*/
 
 **Sulfasalazine use
 gen ssz=1 if sulfasalazine==1
@@ -1396,6 +1410,6 @@ tab biologic_time
 bys diagnosis_6m: tab biologic_time
 */
 
-save "$projectdir/output/data/file_eia_all", replace
+save "$projectdir/output/data/file_eia_all_ehrQL", replace
 
 log close

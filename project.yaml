@@ -1,16 +1,30 @@
 version: '3.0'
 
 expectations:
-  population_size: 400000
+  population_size: 1000
 
 actions:
+             
+  generate_dataset:
+    run: ehrql:v0 generate-dataset analysis/dataset_definition.py --output output/dataset.csv
+    outputs:
+      highly_sensitive:
+        cohort: output/dataset.csv 
+
+  create_cohorts_ehrQL:
+    run: stata-mp:latest analysis/000_define_covariates_ehrQL.do
+    needs: [generate_dataset]
+    outputs:
+      highly_sensitive:
+        log1: logs/cleaning_dataset_ehrQL.log 
+        data1: output/data/file_eia_all_ehrQL.dta
 
   generate_study_population_allpts:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_allpts
     outputs:
       highly_sensitive:
         cohort: output/input_allpts.csv
-                  
+     
   generate_study_population:
     run: cohortextractor:latest generate_cohort --study-definition study_definition
     outputs:

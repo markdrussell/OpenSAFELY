@@ -4,7 +4,7 @@ from codelists import *
 
 year_preceding = "2018-04-01"
 start_date = "2019-04-01"
-end_date = "today"
+end_date = "2023-04-01"
 
 # Date of first EIA code in primary care record
 def first_code_in_period(dx_codelist):
