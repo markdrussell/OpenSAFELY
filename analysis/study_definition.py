@@ -1,10 +1,10 @@
 from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv, combine_codelists, filter_codes_by_category
 
-from codelists import *
+from codelists_ce import *
 
 year_preceding = "2018-04-01"
 start_date = "2019-04-01"
-end_date = "today"
+end_date = "2023-04-01"
 
 # Date of first EIA code in primary care record
 def first_code_in_period(dx_codelist):
@@ -82,11 +82,11 @@ def medication_dates(var_name, med_codelist_file, high_cost, return_count):
         with_med_func=patients.with_high_cost_drugs
         high_cost=True
     else:
-        if ("hydroxychloroquine" in med_codelist_file):
-            column_name="snomed_id"
-        else:
-            column_name="dmd_id"
-        med_codelist=codelist_from_csv(med_codelist_file + ".csv", system="snomed", column=column_name)
+        # if ("hydroxychloroquine" in med_codelist_file):
+        #     column_name="code"
+        # else:
+        #     column_name="dmd_id"
+        med_codelist=codelist_from_csv(med_codelist_file + ".csv", system="snomed", column="code")
         with_med_func=patients.with_these_medications
         high_cost=False
     
