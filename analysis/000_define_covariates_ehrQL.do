@@ -29,7 +29,7 @@ global logdir "$projectdir/logs"
 
 **Open a log file
 cap log closeF
-log using "$logdir/cleaning_dataset_ehr.log", replace
+log using "$logdir/cleaning_dataset_ehrQL.log", replace
 
 di "$projectdir"
 di "$logdir"
