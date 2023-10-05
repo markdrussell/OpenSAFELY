@@ -854,11 +854,13 @@ recode has_6m_post_appt .=0
 lab var has_6m_post_appt "GP/rheum/registration 6m+"
 lab define has_6m_post_appt 0 "No" 1 "Yes", modify
 lab val has_6m_post_appt has_6m_post_appt
+tab has_6m_post_appt
 gen has_12m_post_appt=1 if rheum_appt_date!=. & rheum_appt_date<(date("$end_date", "DMY")-365) & has_12m_follow_up==1 & last_gp_prerheum==1
 recode has_12m_post_appt .=0
 lab var has_12m_post_appt "GP/rheum/registration 12m+"
 lab define has_12m_post_appt 0 "No" 1 "Yes", modify
 lab val has_12m_post_appt has_12m_post_appt
+tab has_12m_post_appt
 
 **Rheumatology appt 
 tab rheum_appt, missing //proportion of patients with a rheum outpatient date in the 12 months before EIA code appeared in GP record; data only April 2019 onwards
