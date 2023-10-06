@@ -9,7 +9,7 @@ end_date = "2023-10-01"
 
 dataset = Dataset()
 
-dataset.configure_dummy_data(population_size=500000)
+dataset.configure_dummy_data(population_size=700000)
 
 # First EIA code in primary care record
 def first_code_in_period(dx_codelist):

@@ -281,7 +281,8 @@ restore
 
 //for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
-*Last GP to rheum appt performance by region, Apr 2023 to Apr 2024==========================================================================*/
+/*
+*Last GP to rheum appt performance by region, Apr 2023 to Apr 2024==========================================================================*
 
 preserve
 keep if appt_year==5
@@ -300,6 +301,7 @@ graph export "$projectdir/output/figures/regional_qs2_bar_GP_2023.svg", replace
 restore
 
 //for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
+*/
 
 /*GP referral performance by region, merged===========================================================================*/
 
@@ -479,7 +481,8 @@ restore
 
 //for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
-*csDMARD shared care performance by region prescriptions, Apr 2023 to Apr 2024==========================================================================*/
+/*
+*csDMARD shared care performance by region prescriptions, Apr 2023 to Apr 2024==========================================================================*
 
 preserve
 keep if appt_year==5
@@ -498,6 +501,7 @@ graph export "$projectdir/output/figures/regional_csdmard_bar_2023.svg", replace
 restore
 
 //for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
+*/
 
 *csDMARD shared care performance by region prescriptions, merged==========================================================================*/
 
