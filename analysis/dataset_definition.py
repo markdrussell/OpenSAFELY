@@ -255,38 +255,38 @@ cohort_extractor_appointment_statuses = [
 ## Last GP consultation in the 2 years before rheumatology outpatient appt
 dataset.last_gp_prerheum_date = appointments.where(
         (appointments.status.is_in(cohort_extractor_appointment_statuses)) &
-        (appointments.booked_date >= (dataset.rheum_appt_date - years(2))) &
-        (appointments.booked_date <= dataset.rheum_appt_date)
+        (appointments.start_date >= (dataset.rheum_appt_date - years(2))) &
+        (appointments.start_date <= dataset.rheum_appt_date)
     ).sort_by(
-        appointments.booked_date
-    ).last_for_patient().booked_date
+        appointments.start_date
+    ).last_for_patient().start_date
 
 ## Last GP consultation in the 2 years before EIA code
 dataset.last_gp_precode_date = appointments.where(
         (appointments.status.is_in(cohort_extractor_appointment_statuses)) &
-        (appointments.booked_date >= (dataset.eia_code_date - years(2))) &
-        (appointments.booked_date <= dataset.eia_code_date)
+        (appointments.start_date >= (dataset.eia_code_date - years(2))) &
+        (appointments.start_date <= dataset.eia_code_date)
     ).sort_by(
-        appointments.booked_date
-    ).last_for_patient().booked_date
+        appointments.start_date
+    ).last_for_patient().start_date
 
 ## Last GP consultation in the 2 years before rheum ref pre-appt
 dataset.last_gp_refrheum_date = appointments.where(
         (appointments.status.is_in(cohort_extractor_appointment_statuses)) &
-        (appointments.booked_date >= (dataset.referral_rheum_prerheum - years(2))) &
-        (appointments.booked_date <= dataset.referral_rheum_prerheum)
+        (appointments.start_date >= (dataset.referral_rheum_prerheum - years(2))) &
+        (appointments.start_date <= dataset.referral_rheum_prerheum)
     ).sort_by(
-        appointments.booked_date
-    ).last_for_patient().booked_date
+        appointments.start_date
+    ).last_for_patient().start_date
 
 ## Last GP consultation in the 2 years before rheum ref pre-code
 dataset.last_gp_refcode_date = appointments.where(
         (appointments.status.is_in(cohort_extractor_appointment_statuses)) &
-        (appointments.booked_date >= (dataset.referral_rheum_precode - years(2))) &
-        (appointments.booked_date <= dataset.referral_rheum_precode)
+        (appointments.start_date >= (dataset.referral_rheum_precode - years(2))) &
+        (appointments.start_date <= dataset.referral_rheum_precode)
     ).sort_by(
-        appointments.booked_date
-    ).last_for_patient().booked_date
+        appointments.start_date
+    ).last_for_patient().start_date
 
 # Follow-up registration (6m/12m after rheumatology appointment)
 dataset.has_6m_follow_up = practice_registrations.where(
@@ -314,8 +314,6 @@ dataset.leflunomide_date = medication_dates_dmd(codelists.leflunomide_codes).dat
 dataset.methotrexate_date = medication_dates_dmd(codelists.methotrexate_codes).date
 dataset.methotrexate_inj_date = medication_dates_dmd(codelists.methotrexate_inj_codes).date
 dataset.sulfasalazine_date = medication_dates_dmd(codelists.sulfasalazine_codes).date
-
-## Check this one works properly, as uses snomed system
 dataset.hydroxychloroquine_date = medication_dates_dmd(codelists.hydroxychloroquine_codes).date
 
 ## Count of prescriptions issued before end date - could merge with above if don't change date range
@@ -332,16 +330,13 @@ dataset.leflunomide_count = get_medcounts_for_dates(codelists.leflunomide_codes)
 dataset.methotrexate_count = get_medcounts_for_dates(codelists.methotrexate_codes)
 dataset.methotrexate_inj_count = get_medcounts_for_dates(codelists.methotrexate_inj_codes)
 dataset.sulfasalazine_count = get_medcounts_for_dates(codelists.sulfasalazine_codes)
-
-## Check this one works properly, as uses snomed system
 dataset.hydroxychloroquine_count = get_medcounts_for_dates(codelists.hydroxychloroquine_codes)
 
 ## Will also need a high_cost_drugs function (MM-YY)
 
 # Define population
 dataset.define_population(
-    # Change below to this ultimately ((dataset.eia_code_date >= start_date) & (dataset.eia_code_date < end_date)) &
-    (dataset.has_eia_code) &
+    ((dataset.eia_code_date >= start_date) & (dataset.eia_code_date < end_date)) &
     ((dataset.age >= 18) & (dataset.age <= 110)) &
     (dataset.has_follow_up) &
     ((dataset.sex == "male") | (dataset.sex == "female"))
