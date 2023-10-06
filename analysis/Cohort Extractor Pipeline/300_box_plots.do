@@ -34,7 +34,7 @@ log using "$logdir/box_plots.log", replace
 adopath + "$projectdir/analysis/extra_ados"
 
 **Use cleaned data from previous step
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 set scheme plotplainblind
 
@@ -281,31 +281,11 @@ restore
 
 //for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
 
-*Last GP to rheum appt performance by region, Apr 2023 to Apr 2024==========================================================================*/
-
-preserve
-keep if appt_year==5
-gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
-recode qs2_0 .=0 if time_gp_rheum_appt!=.
-gen qs2_1 =1 if time_gp_rheum_appt>21 & time_gp_rheum_appt<=42 & time_gp_rheum_appt!=.
-recode qs2_1 .=0 if time_gp_rheum_appt!=.
-gen qs2_2 = 1 if time_gp_rheum_appt>42 & time_gp_rheum_appt!=.
-recode qs2_2 .=0 if time_gp_rheum_appt!=.
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) qs2_0 (mean) qs2_1 (mean) qs2_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 weeks" 2 "Within 6 weeks" 3 "More than 6 weeks")) title("Time from referral to rheumatology assessment, Apr 2023 to Apr 2024") name(regional_qs2_bar_GP, replace)
-graph export "$projectdir/output/figures/regional_qs2_bar_GP_2023.svg", replace
-restore
-
-//for output checking tables for boxplot - see output/tables/referral_byregion_rounded.csv
-
 /*GP referral performance by region, merged===========================================================================*/
 
 preserve
-keep if appt_year==1 | appt_year==2 | appt_year==3 | appt_year==4 | appt_year==5
-lab define appt_year 1 "Year 1" 2 "Year 2" 3 "Year 3" 4 "Year 4" 5 "Year 5", modify
+keep if appt_year==1 | appt_year==2 | appt_year==3 | appt_year==4
+lab define appt_year 1 "Year 1" 2 "Year 2" 3 "Year 3" 4 "Year 4", modify
 lab val appt_year appt_year
 
 gen qs2_0 =1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=.
@@ -479,31 +459,11 @@ restore
 
 //for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
 
-*csDMARD shared care performance by region prescriptions, Apr 2023 to Apr 2024==========================================================================*/
-
-preserve
-keep if appt_year==5
-gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.
-recode csdmard_0 .=0
-gen csdmard_1 =1 if time_to_csdmard>90 & time_to_csdmard<=180 & time_to_csdmard!=.
-recode csdmard_1 .=0
-gen csdmard_2 = 1 if time_to_csdmard>180 | time_to_csdmard==.
-recode csdmard_2 .=0 
-
-expand=2, gen(copy)
-replace nuts_region = 0 if copy==1  
-
-graph hbar (mean) csdmard_0 (mean) csdmard_1 (mean) csdmard_2, over(nuts_region, relabel(1 "National")) stack ytitle(Proportion of patients) ytitle(, size(small)) ylabel(0.0 "0" 0.2 "0.2" 0.4 "0.4" 0.6 "0.6" 0.8 "0.8" 1.0 "1.0") legend(order(1 "Within 3 months" 2 "Within 6 months" 3 "None within 6 months")) title("Time to first csDMARD in primary care, Apr 2023 to Apr 2024") name(regional_csdmard_bar, replace)
-graph export "$projectdir/output/figures/regional_csdmard_bar_2023.svg", replace
-restore
-
-//for output checking table for boxplot - see output/tables/drug_byyearandregion_rounded.csv
-
 *csDMARD shared care performance by region prescriptions, merged==========================================================================*/
 
 preserve
-keep if appt_year==1 | appt_year==2 | appt_year==3 | appt_year==4 | appt_year==5
-lab define appt_year 1 "Year 1" 2 "Year 2" 3 "Year 3" 4 "Year 4" 5 "Year 5", modify
+keep if appt_year==1 | appt_year==2 | appt_year==3 | appt_year==4
+lab define appt_year 1 "Year 1" 2 "Year 2" 3 "Year 3" 4 "Year 4", modify
 lab val appt_year appt_year
 
 gen csdmard_0 =1 if time_to_csdmard<=90 & time_to_csdmard!=.

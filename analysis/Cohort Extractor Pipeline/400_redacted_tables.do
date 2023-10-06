@@ -39,14 +39,15 @@ set scheme plotplainblind
 **Set index dates ===========================================================*/
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
-global end_date = "01/10/2023"
+global appt_date = "01/04/2021"
+global end_date = "01/04/2023"
 
 *Descriptive statistics======================================================================*/
 
 **Baseline table for all EIA patients
 clear *
 save "$projectdir/output/data/table_1_rounded_all.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 foreach var of varlist has_12m_post_appt has_6m_post_appt last_gp_prerheum_to21 last_gp_prerheum_to6m rheum_appt_to21 rheum_appt_to6m rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
@@ -92,7 +93,7 @@ use "$projectdir/output/data/table_1_rounded_all.dta", clear
 export excel "$projectdir/output/tables/table_1_rounded_bydiag.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **Baseline table for EIA subdiagnoses - tagged to above excel
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 local index=0
 levelsof eia_diag, local(levels)
@@ -123,7 +124,7 @@ foreach i of local levels {
 	}
 	di `index'
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 foreach var of varlist has_12m_post_appt has_6m_post_appt last_gp_prerheum_to21 last_gp_prerheum_to6m rheum_appt_to21 rheum_appt_to6m rheum_appt ckd chronic_liver_disease chronic_resp_disease cancer stroke chronic_cardiac_disease diabcatm hypertension smoke bmicat imd ethnicity male agegroup {
 	preserve
@@ -175,7 +176,7 @@ export excel "$projectdir/output/tables/table_1_rounded_bydiag.xls", sheet("Over
 **Table of mean outputs - full study period
 clear *
 save "$projectdir/output/data/table_mean_bydiag_rounded.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 foreach var of varlist rheum_appt_count age {
 	preserve
@@ -248,7 +249,7 @@ export excel "$projectdir/output/tables/table_mean_bydiag_rounded.xls", replace 
 **Table of median/IQR outputs - full study period
 clear *
 save "$projectdir/output/data/table_median_bydiag_rounded.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 foreach var of varlist time_gp_rheum_appt time_rheum_eia_code {
 	preserve
@@ -299,10 +300,10 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded.xls", replac
 **Table of median/IQR outputs - limited to those with 6m follow-up and rheum/GP appt
 clear *
 save "$projectdir/output/data/table_median_bydiag_rounded_to21.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist time_to_csdmard time_gp_rheum_appt time_rheum_eia_code {
 	preserve
@@ -350,16 +351,15 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", r
 
 **Table of median/IQR outputs by appt year - limited to those with 6m follow-up and rheum/GP appt - tagged to above excel
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 local index=0
 levelsof appt_year, local(levels)
@@ -390,16 +390,15 @@ di `index'
 	}
 	di `index'
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 keep if appt_year==`i'
 
@@ -449,10 +448,10 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21.xls", s
 **Table of median/IQR outputs - for OpenSAFELY Report (3 monthly periods) - limited to those with 6m follow-up and rheum/GP appt
 clear *
 save "$projectdir/output/data/table_median_bydiag_rounded_to21_report.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist time_gp_rheum_appt {
 	preserve
@@ -496,10 +495,10 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.
 
 **Table of median/IQR outputs by appt year - for OpenSAFELY Report - limited to those with 6m follow-up and rheum/GP appt - tagged to above excel
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023 
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022 
 
 local index=0
 levelsof appt_3m, local(levels)
@@ -525,12 +524,6 @@ di `index'
 	else if `index'==28 {
 	    local col = "AE"
 	}	
-	else if `index'==30 {
-	    local col = "AG"
-	}	
-	else if `index'==32 {
-	    local col = "AI"
-	}	
 	di "`col'"
 	if `index'==0 {
 		local `index++'
@@ -544,10 +537,10 @@ di `index'
 	}
 	di `index'
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if appt_3m==`i'
 
 foreach var of varlist time_gp_rheum_appt {
@@ -588,10 +581,10 @@ export excel "$projectdir/output/tables/table_median_bydiag_rounded_to21_report.
 **ITSA outputs for appt delays - 6m+ only
 clear *
 save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode gp_appt_3w 2=0
 lab var gp_appt_3w "Rheum appt within 3 weeks"
@@ -658,10 +651,10 @@ export excel "$projectdir/output/tables/ITSA_tables_appt_delay_rounded.xls", rep
 **ITSA outputs for csDMARDs - 6m+ only
 clear *
 save "$projectdir/output/data/ITSA_tables_rounded.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_6m {
@@ -724,10 +717,10 @@ export excel "$projectdir/output/tables/ITSA_tables_csdmard_delay_rounded.xls", 
 **csDMARD table for all EIA patients
 clear *
 save "$projectdir/output/data/drug_byyearanddisease_all.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_22 csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -765,10 +758,10 @@ use "$projectdir/output/data/drug_byyearanddisease_all.dta", clear
 export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **Baseline table for EIA subdiagnoses - tagged to above excel
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 local index=0
@@ -798,10 +791,10 @@ foreach i of local levels {
 	}
 	di `index'
 	
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
 foreach var of varlist csdmard_time_22 csdmard_time_21 csdmard_time_20 csdmard_time_19 hcq_time ssz_time mtx_time csdmard_time {
@@ -843,10 +836,10 @@ export excel "$projectdir/output/tables/drug_byyearanddisease_rounded.xls", shee
 **First csDMARD table for all EIA patients (removed leflunomide for OpenSAFELY report due to small counts with more granular time periods)
 clear *
 save "$projectdir/output/data/first_csdmard.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -882,10 +875,10 @@ use "$projectdir/output/data/first_csdmard.dta", clear
 export excel "$projectdir/output/tables/first_csdmard_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **First csDMARD table for EIA subdiagnoses - tagged to above excel
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -893,7 +886,6 @@ recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 local index=0
 levelsof appt_year, local(levels)
@@ -921,10 +913,10 @@ di `index'
 	}
 	di `index'
 	
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -932,7 +924,6 @@ recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 foreach var of varlist first_csDMARD {
 	preserve
@@ -973,10 +964,10 @@ export excel "$projectdir/output/tables/first_csdmard_rounded.xls", sheet("Overa
 **First csDMARD table for all EIA patients - version used for report (removed leflunomide due to small counts with more granular time periods)
 clear *
 save "$projectdir/output/data/first_csdmard_report.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1012,10 +1003,10 @@ use "$projectdir/output/data/first_csdmard_report.dta", clear
 export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **First csDMARD table for EIA subdiagnoses - tagged to above excel
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1039,12 +1030,6 @@ di `index'
 	}
 	else if `index'==27 {
 	    local col = "AD"
-	}
-	else if `index'==29 {
-	    local col = "AF"
-	}
-	else if `index'==31 {
-	    local col = "AH"
 	}	
 	di "`col'"
 	if `index'==0 {
@@ -1058,10 +1043,10 @@ di `index'
 	}
 	di `index'
 
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if first_csDMARD==""
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1104,10 +1089,10 @@ export excel "$projectdir/output/tables/first_csdmard_rounded_report.xls", sheet
 **Boxplot outputs - csDMARD standards, all regions
 clear *
 save "$projectdir/output/data/drug_byyearandregion_rounded_all.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1155,10 +1140,10 @@ use "$projectdir/output/data/drug_byyearandregion_rounded_all.dta", clear
 export excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **Boxplot outputs - csDMARD outputs by region
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1203,10 +1188,10 @@ foreach i of local levels {
 	}
 	di `index'	
 	
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 keep if ra_code==1 | psa_code==1 | undiff_code==1
 
@@ -1260,10 +1245,10 @@ export excel "$projectdir/output/tables/drug_byyearandregion_rounded.xls", sheet
 **Boxplot outputs - referral standards, all regions
 clear *
 save "$projectdir/output/data/referral_byregion_rounded_all.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_22 gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1310,10 +1295,10 @@ use "$projectdir/output/data/referral_byregion_rounded_all.dta", clear
 export excel "$projectdir/output/tables/referral_byregion_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **Boxplot outputs - referral standards, by regions - tagged to above excel
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 local index=0
@@ -1356,10 +1341,10 @@ foreach i of local levels {
 		local `index++'
 	}
 	di `index'	
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 drop if region_nospace=="Not known"
 
 foreach var of varlist gp_appt_cat_22 gp_appt_cat_21 gp_appt_cat_20 gp_appt_cat_19 gp_appt_cat {
@@ -1412,10 +1397,10 @@ export excel "$projectdir/output/tables/referral_byregion_rounded.xls", sheet("O
 **Rheumatology appointment consultation medium for all years
 clear *
 save "$projectdir/output/data/consultation_medium.dta", replace emptyok
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 foreach var of varlist rheum_appt_medium {
 	preserve
@@ -1449,16 +1434,15 @@ use "$projectdir/output/data/consultation_medium.dta", clear
 export excel "$projectdir/output/tables/consultation_medium_rounded.xls", replace sheet("Overall") keepcellfmt firstrow(variables)
 
 **Rheumatology appointment consultation medium table by year
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 local index=0
 levelsof appt_year, local(levels)
@@ -1486,16 +1470,15 @@ di `index'
 	}
 	di `index'
 	
-use "$projectdir/output/data/file_eia_all_ehrQL.dta", clear
+use "$projectdir/output/data/file_eia_all.dta", clear
 
 keep if has_6m_post_appt==1
-drop if appt_3m>16 | appt_3m==. //up to March 2023
+drop if appt_3m>14 | appt_3m==. //up to Sept 2022
 
 recode appt_year 1=2019
 recode appt_year 2=2020
 recode appt_year 3=2021
 recode appt_year 4=2022
-recode appt_year 5=2023
 
 foreach var of varlist rheum_appt_medium {
 	preserve

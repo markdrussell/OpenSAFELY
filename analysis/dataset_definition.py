@@ -5,9 +5,11 @@ import codelists_ehrQL as codelists
 
 # Dates for study
 start_date = "2019-04-01"
-end_date = "2023-04-01"
+end_date = "2023-10-01"
 
 dataset = Dataset()
+
+dataset.configure_dummy_data(population_size=500000)
 
 # First EIA code in primary care record
 def first_code_in_period(dx_codelist):
@@ -18,7 +20,6 @@ def first_code_in_period(dx_codelist):
     ).first_for_patient()
 
 ## Combined diagnoses
-dataset.has_eia_code = first_code_in_period(codelists.eia_diagnosis_codes).exists_for_patient()
 dataset.eia_code_date = first_code_in_period(codelists.eia_diagnosis_codes).date
 dataset.eia_code_snomed = first_code_in_period(codelists.eia_diagnosis_codes).snomedct_code
 
@@ -110,7 +111,6 @@ def last_test_in_period(dx_codelist):
         clinical_events.date
     ).last_for_patient()
 
-## Doesn't seem to be picking up many in dummy data
 dataset.hba1c_mmol_per_mol=last_test_in_period(codelists.hba1c_new_codes).numeric_value
 dataset.hba1c_mmol_per_mol_date=last_test_in_period(codelists.hba1c_new_codes).date
 
