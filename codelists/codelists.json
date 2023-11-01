@@ -81,8 +81,8 @@
     "opensafely-dmards.csv": {
       "id": "opensafely/dmards/2020-06-23",
       "url": "https://codelists.opensafely.org/codelist/opensafely/dmards/2020-06-23/",
-      "downloaded_at": "2023-10-02 20:21:54.537763Z",
-      "sha": "a751c8398e31cf3655b0f5f90a0149e7a85ffab3"
+      "downloaded_at": "2023-11-01 16:13:44.578200Z",
+      "sha": "09a4564ee84a8409363101e9ac222bbc8a837863"
     },
     "opensafely-ethnicity.csv": {
       "id": "opensafely/ethnicity/2020-04-27",
@@ -237,8 +237,8 @@
     "opensafely-hydroxychloroquine.csv": {
       "id": "opensafely/hydroxychloroquine/4c53b277",
       "url": "https://codelists.opensafely.org/codelist/opensafely/hydroxychloroquine/4c53b277/",
-      "downloaded_at": "2023-10-02 20:22:04.465165Z",
-      "sha": "71b196ed0ee314fbd4d63dfac6f75792617053d6"
+      "downloaded_at": "2023-11-01 16:13:49.631108Z",
+      "sha": "85a6241095522da80e181f2a61dc72b1b4681c31"
     },
     "opensafely-leflunomide-dmd.csv": {
       "id": "opensafely/leflunomide-dmd/1765d120",
@@ -261,8 +261,8 @@
     "opensafely-sulfasalazine-oral-dmd.csv": {
       "id": "opensafely/sulfasalazine-oral-dmd/1a189116",
       "url": "https://codelists.opensafely.org/codelist/opensafely/sulfasalazine-oral-dmd/1a189116/",
-      "downloaded_at": "2023-10-02 20:22:06.262431Z",
-      "sha": "16aa8795ed60fdffbce992c6d89f7d8045adff80"
+      "downloaded_at": "2023-11-01 16:13:50.496607Z",
+      "sha": "8b3c35f6e33a40167a48d2bd25a7a6695fd3138b"
     }
   }
 }
