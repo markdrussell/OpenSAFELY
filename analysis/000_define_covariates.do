@@ -44,7 +44,7 @@ adopath + "$projectdir/analysis/extra_ados"
 global year_preceding = "01/04/2018"
 global start_date = "01/04/2019"
 global appt_date = "01/04/2021"
-global end_date = "01/04/2023"
+global end_date = "01/10/2023"
 
 **Rename variables (some are too long for Stata to handle) =======================================*/
 rename chronic_respiratory_disease chronic_resp_disease
@@ -759,7 +759,9 @@ replace diagnosis_3m=13 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01j
 replace diagnosis_3m=14 if diagnosis_date>=td(01jul2022) & diagnosis_date<td(01oct2022)
 replace diagnosis_3m=15 if diagnosis_date>=td(01oct2022) & diagnosis_date<td(01jan2023)
 replace diagnosis_3m=16 if diagnosis_date>=td(01jan2023) & diagnosis_date<td(01apr2023)
-lab define diagnosis_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022" 15 "Oct 2022-Dec 2022" 16 "Jan 2023-Mar 2023" , modify
+replace diagnosis_3m=17 if diagnosis_date>=td(01apr2023) & diagnosis_date<td(01jul2023)
+replace diagnosis_3m=18 if diagnosis_date>=td(01jul2023) & diagnosis_date<td(01oct2023)
+lab define diagnosis_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022" 15 "Oct 2022-Dec 2022" 16 "Jan 2023-Mar 2023" 17 "Apr 2023-Jun 2023" 18 "Jul 2023-Sep 2023", modify
 lab val diagnosis_3m diagnosis_3m
 lab var diagnosis_3m "Time period for diagnosis"
 tab diagnosis_3m, missing
@@ -774,7 +776,8 @@ replace diagnosis_6m=5 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01oc
 replace diagnosis_6m=6 if diagnosis_date>=td(01oct2021) & diagnosis_date<td(01apr2022)
 replace diagnosis_6m=7 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01oct2022)
 replace diagnosis_6m=8 if diagnosis_date>=td(01oct2022) & diagnosis_date<td(01apr2023)
-lab define diagnosis_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023", modify
+replace diagnosis_6m=9 if diagnosis_date>=td(01apr2023) & diagnosis_date<td(01oct2023)
+lab define diagnosis_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023" 9 "Apr 2023-Oct 2023", modify
 lab val diagnosis_6m diagnosis_6m
 lab var diagnosis_6m "Time period for diagnosis"
 tab diagnosis_6m, missing
@@ -785,7 +788,8 @@ gen diagnosis_year=1 if diagnosis_date>=td(01apr2019) & diagnosis_date<td(01apr2
 replace diagnosis_year=2 if diagnosis_date>=td(01apr2020) & diagnosis_date<td(01apr2021)
 replace diagnosis_year=3 if diagnosis_date>=td(01apr2021) & diagnosis_date<td(01apr2022)
 replace diagnosis_year=4 if diagnosis_date>=td(01apr2022) & diagnosis_date<td(01apr2023)
-lab define diagnosis_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023", modify
+replace diagnosis_year=5 if diagnosis_date>=td(01apr2023) & diagnosis_date<td(01apr2024)
+lab define diagnosis_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023"  5 "Apr 2023-Apr 2024", modify
 lab val diagnosis_year diagnosis_year
 lab var diagnosis_year "Year of diagnosis"
 tab diagnosis_year, missing
@@ -808,7 +812,9 @@ replace appt_3m=13 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01jul2
 replace appt_3m=14 if rheum_appt_date>=td(01jul2022) & rheum_appt_date<td(01oct2022)
 replace appt_3m=15 if rheum_appt_date>=td(01oct2022) & rheum_appt_date<td(01jan2023)
 replace appt_3m=16 if rheum_appt_date>=td(01jan2023) & rheum_appt_date<td(01apr2023)
-lab define appt_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022" 15 "Oct 2022-Dec 2022" 16 "Jan 2023-Mar 2023" , modify
+replace appt_3m=17 if rheum_appt_date>=td(01apr2023) & rheum_appt_date<td(01jul2023)
+replace appt_3m=18 if rheum_appt_date>=td(01jul2023) & rheum_appt_date<td(01oct2023)
+lab define appt_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022" 15 "Oct 2022-Dec 2022" 16 "Jan 2023-Mar 2023" 17 "Apr 2023-Jun 2023" 18 "Jul 2023-Sep 2023", modify
 lab val appt_3m appt_3m
 lab var appt_3m "Time period for first rheumatology appt"
 tab appt_3m, missing
@@ -823,7 +829,8 @@ replace appt_6m=5 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01oct20
 replace appt_6m=6 if rheum_appt_date>=td(01oct2021) & rheum_appt_date<td(01apr2022)
 replace appt_6m=7 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01oct2022)
 replace appt_6m=8 if rheum_appt_date>=td(01oct2022) & rheum_appt_date<td(01apr2023)
-lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023", modify
+replace appt_6m=9 if rheum_appt_date>=td(01apr2023) & rheum_appt_date<td(01oct2023)
+lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023" 9 "Apr 2023-Oct 2023", modify
 lab val appt_6m appt_6m
 lab var appt_6m "Time period for first rheumatology appt"
 tab appt_6m, missing
@@ -834,7 +841,8 @@ gen appt_year=1 if rheum_appt_date>=td(01apr2019) & rheum_appt_date<td(01apr2020
 replace appt_year=2 if rheum_appt_date>=td(01apr2020) & rheum_appt_date<td(01apr2021)
 replace appt_year=3 if rheum_appt_date>=td(01apr2021) & rheum_appt_date<td(01apr2022)
 replace appt_year=4 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01apr2023)
-lab define appt_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023", modify
+replace appt_year=5 if rheum_appt_date>=td(01apr2023) & rheum_appt_date<td(01apr2024)
+lab define appt_year 1 "Apr 2019-Apr 2020" 2 "Apr 2020-Apr 2021" 3 "Apr 2021-Apr 2022" 4 "Apr 2022-Apr 2023" 5 "Apr 2023-Apr 2024", modify
 lab val appt_year appt_year
 lab var appt_year "Year of first rheumatology appt"
 tab appt_year, missing
@@ -979,6 +987,7 @@ gen gp_appt_cat_19=gp_appt_cat if appt_year==1
 gen gp_appt_cat_20=gp_appt_cat if appt_year==2
 gen gp_appt_cat_21=gp_appt_cat if appt_year==3
 gen gp_appt_cat_22=gp_appt_cat if appt_year==4
+gen gp_appt_cat_23=gp_appt_cat if appt_year==5
 lab define gp_appt_cat_19 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_19 gp_appt_cat_19
 lab var gp_appt_cat_19 "Time to rheumatology assessment, Apr 2019-2020"
@@ -991,6 +1000,9 @@ lab var gp_appt_cat_21 "Time to rheumatology assessment, Apr 2021-2022"
 lab define gp_appt_cat_22 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
 lab val gp_appt_cat_22 gp_appt_cat_22
 lab var gp_appt_cat_22 "Time to rheumatology assessment, Apr 2022-2023"
+lab define gp_appt_cat_23 1 "Within 3 weeks" 2 "Between 3-6 weeks" 3 "More than 6 weeks", modify
+lab val gp_appt_cat_23 gp_appt_cat_23
+lab var gp_appt_cat_23 "Time to rheumatology assessment, Apr 2023-2024"
 
 gen gp_appt_3w=1 if time_gp_rheum_appt<=21 & time_gp_rheum_appt!=. 
 replace gp_appt_3w=2 if time_gp_rheum_appt>21 & time_gp_rheum_appt!=.
@@ -1089,6 +1101,8 @@ gen csdmard_time_21=csdmard_time if appt_year==3
 recode csdmard_time_21 .=4
 gen csdmard_time_22=csdmard_time if appt_year==4
 recode csdmard_time_22 .=4
+gen csdmard_time_23=csdmard_time if appt_year==5
+recode csdmard_time_23 .=4
 lab define csdmard_time_19 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2019", modify
 lab val csdmard_time_19 csdmard_time_19
 lab var csdmard_time_19 "csDMARD in primary care, Apr 2019-2020" 
@@ -1101,6 +1115,9 @@ lab var csdmard_time_21 "csDMARD in primary care, Apr 2021-2022"
 lab define csdmard_time_22 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2022", modify
 lab val csdmard_time_22 csdmard_time_22
 lab var csdmard_time_22 "csDMARD in primary care, Apr 2022-2023" 
+lab define csdmard_time_23 1 "Within 3 months" 2 "3-6 months" 3 "No prescription within 6 months" 4 "Outside 2022", modify
+lab val csdmard_time_23 csdmard_time_23
+lab var csdmard_time_23 "csDMARD in primary care, Apr 2023-2024" 
 
 **csDMARD time categories - binary 6 months
 gen csdmard_6m=1 if time_to_csdmard<=180 & time_to_csdmard!=. 

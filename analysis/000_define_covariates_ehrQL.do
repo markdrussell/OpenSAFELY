@@ -719,7 +719,7 @@ replace diagnosis_3m=14 if diagnosis_date>=td(01jul2022) & diagnosis_date<td(01o
 replace diagnosis_3m=15 if diagnosis_date>=td(01oct2022) & diagnosis_date<td(01jan2023)
 replace diagnosis_3m=16 if diagnosis_date>=td(01jan2023) & diagnosis_date<td(01apr2023)
 replace diagnosis_3m=17 if diagnosis_date>=td(01apr2023) & diagnosis_date<td(01jul2023)
-replace diagnosis_3m=18 if diagnosis_date>=td(01apr2023) & diagnosis_date<td(01jul2023)
+replace diagnosis_3m=18 if diagnosis_date>=td(01jul2023) & diagnosis_date<td(01oct2023)
 lab define diagnosis_3m 1 "Apr 2019-Jun 2019" 2 "Jul 2019-Sep 2019" 3 "Oct 2019-Dec 2019" 4 "Jan 2020-Mar 2020" 5 "Apr 2020-Jun 2020" 6 "Jul 2020-Sep 2020" 7 "Oct 2020-Dec 2020" 8 "Jan 2021-Mar 2021" 9 "Apr 2021-Jun 2021" 10 "Jul 2021-Sep 2021" 11 "Oct 2021-Dec 2021" 12 "Jan 2022-Mar 2022" 13 "Apr 2022-Jun 2022" 14 "Jul 2022-Sep 2022" 15 "Oct 2022-Dec 2022" 16 "Jan 2023-Mar 2023" 17 "Apr 2023-Jun 2023" 18 "Jul 2023-Sep 2023", modify
 lab val diagnosis_3m diagnosis_3m
 lab var diagnosis_3m "Time period for diagnosis"
@@ -789,7 +789,7 @@ replace appt_6m=6 if rheum_appt_date>=td(01oct2021) & rheum_appt_date<td(01apr20
 replace appt_6m=7 if rheum_appt_date>=td(01apr2022) & rheum_appt_date<td(01oct2022)
 replace appt_6m=8 if rheum_appt_date>=td(01oct2022) & rheum_appt_date<td(01apr2023)
 replace appt_6m=9 if rheum_appt_date>=td(01apr2023) & rheum_appt_date<td(01oct2023)
-lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023", modify
+lab define appt_6m 1 "Apr 2019-Oct 2019" 2 "Oct 2019-Apr 2020" 3 "Apr 2020-Oct 2020" 4 "Oct 2020-Apr 2021" 5 "Apr 2021-Oct 2021" 6 "Oct 2021-Apr 2022" 7 "Apr 2022-Oct 2022" 8 "Oct 2022-Apr 2023" 9 "Apr 2023-Oct 2023", modify
 lab val appt_6m appt_6m
 lab var appt_6m "Time period for first rheumatology appt"
 tab appt_6m, missing
