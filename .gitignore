@@ -1,5 +1,6 @@
 *~
 *.log
+/logs/*
 *.smcl
 */input.csv
 __pycache__

@@ -70,7 +70,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by year (baseline population 17,683,500)
+**Generate incidences by year
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/17683500)*10000)
 }
@@ -90,7 +90,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by year (baseline female population 8,866,535)
+**Generate incidences by year
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/8866535)*10000)
 }
@@ -110,7 +110,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by year (baseline male population 8,816,965)
+**Generate incidences by year
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/8816965)*10000)
 }
@@ -129,7 +129,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by month (baseline population 17,683,500)
+**Generate incidences by month
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/17683500)*10000)
 }
@@ -153,7 +153,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by month (baseline female population 8,866,535)
+**Generate incidences by month
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/8866535)*10000)
 }
@@ -177,7 +177,7 @@ foreach var of varlist *_diag {
 	gen `var'_round=round(`var', 5)
 	drop `var'
 }
-**Generate incidences by month (baseline male population 8,816,965)
+**Generate incidences by month
 foreach var of varlist *_diag_round {
 	gen incidence_`var'=((`var'/8816965)*10000)
 }
