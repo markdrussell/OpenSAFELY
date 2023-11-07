@@ -1,5 +1,5 @@
 from ehrql import Dataset, days, months, years, case, when
-from ehrql.tables.beta.tpp import patients, medications, practice_registrations, clinical_events, addresses, ons_deaths, appointments, opa
+from ehrql.tables.beta.tpp import patients, medications, practice_registrations, clinical_events, addresses, ons_deaths, appointments, opa, wl_clockstops
 from datetime import date
 import codelists_ehrQL as codelists
 
@@ -213,6 +213,15 @@ dataset.rheum_appt3_date = opa.where(
         opa.appointment_date
     ).first_for_patient().appointment_date
 
+## Date of first rheum appointment in the 2 years before EIA code and up to 1 year after (without first attendance option selected)
+dataset.rheum_appt4_date = opa.where(
+        (opa.appointment_date >= (dataset.eia_code_date - years(2))) &
+        (opa.appointment_date <= dataset.eia_code_date + years(1)) &
+        (opa.treatment_function_code == "410")
+    ).sort_by(
+        opa.appointment_date
+    ).first_for_patient().appointment_date
+
 # Rheumatology referrals
 ## Last referral in the 2 years before rheumatology outpatient
 dataset.referral_rheum_prerheum = clinical_events.where(
@@ -333,6 +342,32 @@ dataset.sulfasalazine_count = get_medcounts_for_dates(codelists.sulfasalazine_co
 dataset.hydroxychloroquine_count = get_medcounts_for_dates(codelists.hydroxychloroquine_codes)
 
 ## Will also need a high_cost_drugs function (MM-YY)
+
+# RTT dates -  all completed referral-to-treatment (RTT) pathways with a "clock stop" date between May 2021 and May 2022
+
+## Search for first rheumatology RTT between 1 year before and 60 days after EIA code date
+# rtt = wl_clockstops.where(
+#         (wl_clockstops.referral_to_treatment_period_start_date >= (dataset.eia_code_date - years(1))) & 
+#         (wl_clockstops.referral_to_treatment_period_start_date <= (dataset.eia_code_date + days(60))) &
+#         (wl_clockstops.activity_treatment_function_code.is_in(["410"]))
+#     ).sort_by(
+#         wl_clockstops.referral_to_treatment_period_start_date,
+#     ).first_for_patient()
+
+## Also consider need for these limits if we only need start date - exclude rows with missing dates/dates outside study period/end date before start date
+# clockstops = wl_clockstops.where(
+#         wl_clockstops.referral_to_treatment_period_end_date.is_on_or_between("2021-05-01", "2022-05-01")
+#         & wl_clockstops.referral_to_treatment_period_start_date.is_on_or_before(wl_clockstops.referral_to_treatment_period_end_date)
+#         & wl_clockstops.week_ending_date.is_on_or_between("2021-05-01", "2022-05-01")
+#         & wl_clockstops.waiting_list_type.is_in(["IRTT","ORTT","PTLO","PTLI","PLTI","RTTO","RTTI","PTL0","PTL1"])
+#     )
+
+# dataset.rtt_start_date = rtt.referral_to_treatment_period_start_date
+# dataset.rtt_ref_rec_date = rtt.referral_request_received_date
+# dataset.rtt_end_date = rtt.referral_to_treatment_period_end_date
+# dataset.wait_time = (dataset.rtt_end_date - dataset.rtt_start_date).days
+
+## And RTT open pathways - snapshot May 2022
 
 # Define population
 dataset.define_population(
