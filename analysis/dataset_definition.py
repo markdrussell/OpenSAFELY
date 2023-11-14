@@ -77,7 +77,7 @@ dataset.stp = ordered_regs.practice_stp
 
 # Death
 dataset.died_date=patients.date_of_death
-dataset.died_date_ons=ons_deaths.sort_by(ons_deaths.date).last_for_patient().date
+dataset.died_date_ons = ons_deaths.date
 
 # Date of comorbidities (first match before EIA code)
 def first_comorbidity_in_period(dx_codelist):
